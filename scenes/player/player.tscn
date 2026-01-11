@@ -1,4 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://ciyc0yamaacqw"]
+[gd_scene load_steps=5 format=3 uid="uid://ciyc0yamaacqw"]
+
+[ext_resource type="Texture2D" uid="uid://c6sl4kh8hjab5" path="res://assets/sprites/player-placeholder.png" id="1_8afob"]
+[ext_resource type="Script" uid="uid://c5l22pvevgh2q" path="res://scripts/player.gd" id="1_dovo2"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_x7p2l"]
 animations = [{
@@ -7,7 +10,10 @@ animations = [{
 "name": &"hurt",
 "speed": 5.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_8afob")
+}],
 "loop": true,
 "name": &"idle",
 "speed": 5.0
@@ -37,15 +43,24 @@ animations = [{
 radius = 8.0
 height = 32.0
 
-[node name="Player" type="Node2D"]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("sprite_reference", "collider_reference")]
+collision_layer = 2
+collision_mask = 13
+script = ExtResource("1_dovo2")
+sprite_reference = NodePath("Sprite")
+collider_reference = NodePath("Collider")
+spawn_pos = Vector2(320, 250)
+move_speed = 150.0
+max_move_speed = 800.0
+move_acceleration = 3000.0
+move_friction = 2000.0
+jump_velocity = 300.0
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_x7p2l")
 animation = &"idle"
 
-[node name="Collider" type="Area2D" parent="."]
-
-[node name="Capsule" type="CollisionShape2D" parent="Collider"]
+[node name="Collider" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_8afob")
 
 [node name="SFX" type="Node2D" parent="."]

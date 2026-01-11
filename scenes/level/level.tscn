@@ -1,10 +1,12 @@
-[gd_scene load_steps=4 format=3 uid="uid://cfl62gijxtptm"]
+[gd_scene load_steps=6 format=3 uid="uid://cfl62gijxtptm"]
 
+[ext_resource type="Texture2D" uid="uid://mjlc0lr5hj87" path="res://assets/background/background-placeholder.png" id="1_i166f"]
 [ext_resource type="PackedScene" uid="uid://ciyc0yamaacqw" path="res://scenes/player/player.tscn" id="1_nbgty"]
 [ext_resource type="PackedScene" uid="uid://5u0rjw4fxv62" path="res://scenes/tree/tree.tscn" id="2_i166f"]
+[ext_resource type="Texture2D" uid="uid://dus1ny0bfg7qf" path="res://assets/sprites/nine-patch-placeholder.png" id="2_qkmgm"]
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_nbgty"]
-size = Vector2(640, 720)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hnne4"]
+size = Vector2(640, 32)
 
 [node name="Level" type="Node2D"]
 
@@ -18,14 +20,42 @@ offset_top = -360.0
 offset_right = 640.0
 offset_bottom = 360.0
 grow_vertical = 2
-texture = SubResource("PlaceholderTexture2D_nbgty")
+texture = ExtResource("1_i166f")
 stretch_mode = 4
+
+[node name="Tree" parent="." instance=ExtResource("2_i166f")]
 
 [node name="Environment" type="Node2D" parent="."]
 
-[node name="Player" parent="." instance=ExtResource("1_nbgty")]
+[node name="GroundPlane" type="StaticBody2D" parent="Environment"]
+position = Vector2(320, 320)
+collision_mask = 6
 
-[node name="Tree" parent="." instance=ExtResource("2_i166f")]
+[node name="Collision" type="CollisionShape2D" parent="Environment/GroundPlane"]
+shape = SubResource("RectangleShape2D_hnne4")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Environment/GroundPlane"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -319.0
+offset_top = -16.0
+offset_right = 321.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_qkmgm")
+region_rect = Rect2(0, 0, 48, 48)
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+metadata/_edit_use_anchors_ = true
+
+[node name="Player" parent="." instance=ExtResource("1_nbgty")]
+position = Vector2(320, 280)
 
 [node name="Camera" type="Camera2D" parent="."]
 anchor_mode = 0
