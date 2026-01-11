@@ -1,3 +1,18 @@
-[gd_scene format=3 uid="uid://cfl62gijxtptm"]
+[gd_scene load_steps=3 format=3 uid="uid://cfl62gijxtptm"]
 
-[node name="Node2D" type="Node2D"]
+[ext_resource type="PackedScene" uid="uid://ciyc0yamaacqw" path="res://scenes/player/player.tscn" id="1_nbgty"]
+[ext_resource type="PackedScene" uid="uid://5u0rjw4fxv62" path="res://scenes/tree/tree.tscn" id="2_i166f"]
+
+[node name="Level" type="Node2D"]
+
+[node name="Background" type="Node2D" parent="."]
+
+[node name="Environment" type="Node2D" parent="."]
+
+[node name="Player" parent="." instance=ExtResource("1_nbgty")]
+
+[node name="Tree" parent="." instance=ExtResource("2_i166f")]
+
+[node name="Camera" type="Camera2D" parent="."]
+anchor_mode = 0
+position_smoothing_enabled = true
