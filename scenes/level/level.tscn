@@ -1,11 +1,25 @@
-[gd_scene load_steps=3 format=3 uid="uid://cfl62gijxtptm"]
+[gd_scene load_steps=4 format=3 uid="uid://cfl62gijxtptm"]
 
 [ext_resource type="PackedScene" uid="uid://ciyc0yamaacqw" path="res://scenes/player/player.tscn" id="1_nbgty"]
 [ext_resource type="PackedScene" uid="uid://5u0rjw4fxv62" path="res://scenes/tree/tree.tscn" id="2_i166f"]
 
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_nbgty"]
+size = Vector2(640, 720)
+
 [node name="Level" type="Node2D"]
 
 [node name="Background" type="Node2D" parent="."]
+
+[node name="TextureRect" type="TextureRect" parent="Background"]
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -360.0
+offset_right = 640.0
+offset_bottom = 360.0
+grow_vertical = 2
+texture = SubResource("PlaceholderTexture2D_nbgty")
+stretch_mode = 4
 
 [node name="Environment" type="Node2D" parent="."]
 

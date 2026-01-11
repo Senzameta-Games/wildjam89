@@ -1,3 +1,51 @@
-[gd_scene format=3 uid="uid://cotswcby4pyh4"]
+[gd_scene load_steps=3 format=3 uid="uid://cotswcby4pyh4"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_883im"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"stomped",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4a83h"]
 
 [node name="Enemy" type="Node2D"]
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_883im")
+animation = &"stomped"
+
+[node name="Collider" type="Area2D" parent="."]
+
+[node name="Box" type="CollisionShape2D" parent="Collider"]
+shape = SubResource("RectangleShape2D_4a83h")
+
+[node name="SFX" type="Node2D" parent="."]
+
+[node name="Idle" type="AudioStreamPlayer2D" parent="SFX"]
+
+[node name="Step" type="AudioStreamPlayer2D" parent="SFX"]
+
+[node name="Attack" type="AudioStreamPlayer2D" parent="SFX"]
+
+[node name="Stomped" type="AudioStreamPlayer2D" parent="SFX"]
+
+[node name="VFX" type="Node2D" parent="."]
+
+[node name="StompedParticles" type="GPUParticles2D" parent="VFX"]

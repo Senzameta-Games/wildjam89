@@ -1,3 +1,75 @@
-[gd_scene format=3 uid="uid://ciyc0yamaacqw"]
+[gd_scene load_steps=3 format=3 uid="uid://ciyc0yamaacqw"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_x7p2l"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"hurt",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"interact",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"run",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"stomp",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8afob"]
+radius = 8.0
+height = 32.0
 
 [node name="Player" type="Node2D"]
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_x7p2l")
+animation = &"idle"
+
+[node name="Collider" type="Area2D" parent="."]
+
+[node name="Capsule" type="CollisionShape2D" parent="Collider"]
+shape = SubResource("CapsuleShape2D_8afob")
+
+[node name="SFX" type="Node2D" parent="."]
+
+[node name="Step" type="AudioStreamPlayer2D" parent="SFX"]
+
+[node name="Jump" type="AudioStreamPlayer2D" parent="SFX"]
+
+[node name="Land" type="AudioStreamPlayer2D" parent="SFX"]
+
+[node name="StompRise" type="AudioStreamPlayer2D" parent="SFX"]
+
+[node name="StompFall" type="AudioStreamPlayer2D" parent="SFX"]
+
+[node name="StompImpact" type="AudioStreamPlayer2D" parent="SFX"]
+
+[node name="Hurt" type="AudioStreamPlayer2D" parent="SFX"]
+
+[node name="Heal" type="AudioStreamPlayer2D" parent="SFX"]
+
+[node name="VFX" type="Node2D" parent="."]
+
+[node name="RunParticles" type="GPUParticles2D" parent="VFX"]
+
+[node name="StompParticles" type="GPUParticles2D" parent="VFX"]
+
+[node name="MotionFollowParticles" type="GPUParticles2D" parent="VFX"]
