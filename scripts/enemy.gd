@@ -4,6 +4,10 @@ extends CharacterBody2D
 const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
 
+var current_target: Node2D = null
+
+func _ready() -> void:
+	aggro_player()
 
 func _physics_process(delta: float) -> void:
 	# Add the gravity.
@@ -21,16 +25,29 @@ func _physics_process(delta: float) -> void:
 		#velocity.x = direction * SPEED
 	#else:
 		#velocity.x = move_toward(velocity.x, 0, SPEED)
-
+	move_towards_target(delta)
 	move_and_slide()
 
+func aggro_player() -> void:
+	current_target = get_tree().get_first_node_in_group("player")
 
+func move_towards_target(delta: float) -> void:
+	var dir_x = sign(current_target.global_position.x - global_position.x)
+	velocity.x = dir_x * (SPEED / 3)
 
 func _on_hitbox_body_entered(body: Node2D) -> void:
 	#print(body.name)
 	
-	# Seems there is some weird behavior in which the newly instantiated Enemy
-	# is initially called CharacterBody2D until it becomes Enemy, hence why I'm
-	# checking for both in here
-	if (body != self) and ('CharacterBody2D' in body.name || 'Enemy' in body.name):
-		queue_free()
+	if (body != self) and body.is_in_group("player"):
+		var state_machine = body.find_child("StateMachine")
+		if state_machine and state_machine.current_state.name == "Stomp":
+			if body.has_method("bounce"):
+				body.bounce()
+			die()
+		#else:
+			#if body.has_method("hurt"):
+				#body.hurt() <- if we go the route of having the player recoil from damage.
+
+func die() -> void:
+	# other things that happen before the enemy fully dies
+	queue_free()

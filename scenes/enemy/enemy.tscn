@@ -36,7 +36,9 @@ size = Vector2(16, 15)
 radius = 2.0
 height = 16.0
 
-[node name="Enemy" type="CharacterBody2D"]
+[node name="Enemy" type="CharacterBody2D" groups=["enemy"]]
+collision_layer = 4
+collision_mask = 9
 script = ExtResource("1_a3pup")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
@@ -48,6 +50,8 @@ position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_4a83h")
 
 [node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 position = Vector2(0, -6)

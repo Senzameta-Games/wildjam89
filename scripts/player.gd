@@ -66,6 +66,10 @@ func jump() -> void:
 func stomp() -> void:
 	velocity.y = stomp_velocity
 	just_stomped.emit()
+
+func bounce() -> void:
+	velocity.y = -jump_velocity
+	move_and_slide()
 	
 func interact() -> void:
 	just_interacted.emit()

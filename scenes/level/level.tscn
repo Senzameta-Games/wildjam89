@@ -65,5 +65,9 @@ anchor_mode = 0
 position_smoothing_enabled = true
 
 [node name="EnemySpawner" parent="." instance=ExtResource("5_vpf64")]
-position = Vector2(24, 272)
+position = Vector2(21, 272)
+enemy_scene = ExtResource("6_wcngd")
+
+[node name="EnemySpawner2" parent="." instance=ExtResource("5_vpf64")]
+position = Vector2(621, 272)
 enemy_scene = ExtResource("6_wcngd")
