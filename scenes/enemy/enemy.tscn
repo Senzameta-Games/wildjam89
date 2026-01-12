@@ -1,7 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://cotswcby4pyh4"]
+[gd_scene load_steps=8 format=3 uid="uid://cotswcby4pyh4"]
 
 [ext_resource type="Texture2D" uid="uid://cyc4nlvhuom8d" path="res://assets/sprites/enemy-placeholder.png" id="1_4a83h"]
 [ext_resource type="Script" uid="uid://dbk12nfu4jv2s" path="res://scripts/enemy.gd" id="1_a3pup"]
+[ext_resource type="AudioStream" uid="uid://bafoqtti38b0" path="res://assets/sounds/placeholder/bop.mp3" id="3_tjssy"]
+[ext_resource type="AudioStream" uid="uid://dohtb600f0oca" path="res://assets/sounds/placeholder/bip.mp3" id="4_gl05p"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_883im"]
 animations = [{
@@ -60,6 +62,9 @@ shape = SubResource("CapsuleShape2D_a3pup")
 
 [node name="SFX" type="Node2D" parent="."]
 
+[node name="Spawned" type="AudioStreamPlayer2D" parent="SFX"]
+stream = ExtResource("3_tjssy")
+
 [node name="Idle" type="AudioStreamPlayer2D" parent="SFX"]
 
 [node name="Step" type="AudioStreamPlayer2D" parent="SFX"]
@@ -67,6 +72,7 @@ shape = SubResource("CapsuleShape2D_a3pup")
 [node name="Attack" type="AudioStreamPlayer2D" parent="SFX"]
 
 [node name="Stomped" type="AudioStreamPlayer2D" parent="SFX"]
+stream = ExtResource("4_gl05p")
 
 [node name="VFX" type="Node2D" parent="."]
 

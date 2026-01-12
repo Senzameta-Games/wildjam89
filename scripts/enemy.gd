@@ -7,6 +7,7 @@ const JUMP_VELOCITY = -400.0
 var current_target: Node2D = null
 
 func _ready() -> void:
+	$SFX/Spawned.play()
 	aggro_player()
 
 func _physics_process(delta: float) -> void:
@@ -50,4 +51,5 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 
 func die() -> void:
 	# other things that happen before the enemy fully dies
+	$SFX/Stomped.play()
 	queue_free()

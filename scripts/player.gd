@@ -6,6 +6,7 @@ class_name Player
 @export var sprite_reference: AnimatedSprite2D
 @export var collider_reference: CollisionShape2D
 @export var spawn_pos: Vector2
+@export var sfx: Node
 var gravity = World.gravity # World.gd is an autoload
 
 @export_category("Gameplay")
@@ -62,13 +63,16 @@ func move(dir: float, delta: float) -> void:
 func jump() -> void:
 	velocity.y = -jump_velocity
 	just_jumped.emit()
+	$SFX/Jump.play()
 
 func stomp() -> void:
 	velocity.y = stomp_velocity
+	$SFX/StompFall.play()
 	just_stomped.emit()
 
 func bounce() -> void:
 	velocity.y = -jump_velocity
+	$SFX/StompImpact.play()
 	move_and_slide()
 	
 func interact() -> void:
