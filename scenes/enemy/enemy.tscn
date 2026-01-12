@@ -30,15 +30,13 @@ animations = [{
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4a83h"]
 
-[node name="Enemy" type="Node2D"]
+[node name="Enemy" type="CharacterBody2D"]
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_883im")
 animation = &"idle"
 
-[node name="Collider" type="Area2D" parent="."]
-
-[node name="Box" type="CollisionShape2D" parent="Collider"]
+[node name="Collider" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_4a83h")
 
 [node name="SFX" type="Node2D" parent="."]

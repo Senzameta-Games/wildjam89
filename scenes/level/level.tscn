@@ -1,9 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://cfl62gijxtptm"]
+[gd_scene load_steps=8 format=3 uid="uid://cfl62gijxtptm"]
 
 [ext_resource type="Texture2D" uid="uid://mjlc0lr5hj87" path="res://assets/background/background-placeholder.png" id="1_i166f"]
 [ext_resource type="PackedScene" uid="uid://ciyc0yamaacqw" path="res://scenes/player/player.tscn" id="1_nbgty"]
 [ext_resource type="PackedScene" uid="uid://5u0rjw4fxv62" path="res://scenes/tree/tree.tscn" id="2_i166f"]
 [ext_resource type="Texture2D" uid="uid://dus1ny0bfg7qf" path="res://assets/sprites/nine-patch-placeholder.png" id="2_qkmgm"]
+[ext_resource type="PackedScene" uid="uid://c0xm7i1eahpti" path="res://scenes/enemy/enemy_spawner.tscn" id="5_vpf64"]
+[ext_resource type="PackedScene" uid="uid://cotswcby4pyh4" path="res://scenes/enemy/enemy.tscn" id="6_wcngd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hnne4"]
 size = Vector2(640, 32)
@@ -55,8 +57,12 @@ patch_margin_bottom = 16
 metadata/_edit_use_anchors_ = true
 
 [node name="Player" parent="." instance=ExtResource("1_nbgty")]
-position = Vector2(320, 280)
+spawn_pos = Vector2(320, 285)
 
 [node name="Camera" type="Camera2D" parent="."]
 anchor_mode = 0
 position_smoothing_enabled = true
+
+[node name="EnemySpawner" parent="." instance=ExtResource("5_vpf64")]
+position = Vector2(24, 272)
+enemy_scene = ExtResource("6_wcngd")

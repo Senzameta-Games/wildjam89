@@ -1,7 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://ciyc0yamaacqw"]
+[gd_scene load_steps=9 format=3 uid="uid://ciyc0yamaacqw"]
 
 [ext_resource type="Texture2D" uid="uid://c6sl4kh8hjab5" path="res://assets/sprites/player-placeholder.png" id="1_8afob"]
 [ext_resource type="Script" uid="uid://c5l22pvevgh2q" path="res://scripts/player.gd" id="1_dovo2"]
+[ext_resource type="Script" uid="uid://b5r0p46rp1jyn" path="res://state-management/state_machine.gd" id="3_lvxji"]
+[ext_resource type="Script" uid="uid://qe4qdle3ommv" path="res://state-management/player/ground_state.gd" id="4_0owmy"]
+[ext_resource type="Script" uid="uid://d20ybqwmw2vw0" path="res://state-management/player/air_state.gd" id="5_qek5x"]
+[ext_resource type="Script" uid="uid://l1m1x8x7eh0" path="res://state-management/player/stomp_state.gd" id="6_5gtgg"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_x7p2l"]
 animations = [{
@@ -55,6 +59,7 @@ max_move_speed = 800.0
 move_acceleration = 3000.0
 move_friction = 2000.0
 jump_velocity = 300.0
+stomp_velocity = 500.0
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_x7p2l")
@@ -62,6 +67,24 @@ animation = &"idle"
 
 [node name="Collider" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_8afob")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("3_lvxji")
+initial_state = NodePath("Ground")
+debug_transitions = true
+metadata/_custom_type_script = "uid://b5r0p46rp1jyn"
+
+[node name="Ground" type="Node" parent="StateMachine"]
+script = ExtResource("4_0owmy")
+metadata/_custom_type_script = "uid://bjaxay0j51t5j"
+
+[node name="Air" type="Node" parent="StateMachine"]
+script = ExtResource("5_qek5x")
+metadata/_custom_type_script = "uid://bjaxay0j51t5j"
+
+[node name="Stomp" type="Node" parent="StateMachine"]
+script = ExtResource("6_5gtgg")
+metadata/_custom_type_script = "uid://bjaxay0j51t5j"
 
 [node name="SFX" type="Node2D" parent="."]
 
