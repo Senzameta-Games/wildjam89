@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://cotswcby4pyh4" path="res://scenes/enemy/enemy.tscn" id="6_wcngd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hnne4"]
-size = Vector2(640, 32)
+size = Vector2(640, 120)
 
 [node name="Level" type="Node2D"]
 
@@ -34,6 +34,7 @@ position = Vector2(320, 320)
 collision_mask = 6
 
 [node name="Collision" type="CollisionShape2D" parent="Environment/GroundPlane"]
+position = Vector2(0, 45)
 shape = SubResource("RectangleShape2D_hnne4")
 
 [node name="NinePatchRect" type="NinePatchRect" parent="Environment/GroundPlane"]
@@ -42,10 +43,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -319.0
-offset_top = -16.0
-offset_right = 321.0
-offset_bottom = 16.0
+offset_left = -360.0
+offset_top = -15.0
+offset_right = 360.0
+offset_bottom = 105.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_qkmgm")
