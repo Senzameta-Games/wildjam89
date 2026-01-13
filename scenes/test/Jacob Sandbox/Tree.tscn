@@ -1,0 +1,19 @@
+[gd_scene load_steps=6 format=3 uid="uid://cj75ljmlbgdux"]
+
+[ext_resource type="Script" uid="uid://ckh42debhjmot" path="res://scenes/test/Jacob Sandbox/tree.gd" id="1_2jrw6"]
+[ext_resource type="Texture2D" uid="uid://hu4tag3386m8" path="res://scenes/test/Jacob Sandbox/tempSprite/TreeTrunk/placeholder_tree_trunk2.png" id="2_mu5hy"]
+[ext_resource type="Texture2D" uid="uid://bhcwmk2isjaui" path="res://scenes/test/Jacob Sandbox/tempSprite/TreeTrunk/placeholder_tree_trunk.png" id="3_b3ayr"]
+[ext_resource type="Texture2D" uid="uid://b6dyvwjcvtkge" path="res://scenes/test/Jacob Sandbox/tempSprite/TreeTrunk/placeholder_tree_base.png" id="4_mu5hy"]
+[ext_resource type="Texture2D" uid="uid://dnvdufg7snku5" path="res://scenes/test/Jacob Sandbox/tempSprite/TreeTrunk/placeholder_tree_top.png" id="5_b3ayr"]
+
+[node name="TreeScene" type="Node2D"]
+
+[node name="Tree" type="Node2D" parent="."]
+script = ExtResource("1_2jrw6")
+trunk_textures = Array[Texture2D]([ExtResource("2_mu5hy"), ExtResource("3_b3ayr")])
+tree_base_texture = ExtResource("4_mu5hy")
+tree_top_texture = ExtResource("5_b3ayr")
+
+[node name="TreeTrunk" type="Node2D" parent="Tree"]
+
+[node name="TreeBranches" type="Node2D" parent="Tree"]
