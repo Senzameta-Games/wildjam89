@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://bh4ejmp1bgt7e"]
+
+[ext_resource type="Script" uid="uid://ceq0j37ymagqk" path="res://scripts/flower.gd" id="1_fpl8p"]
+[ext_resource type="Texture2D" uid="uid://gls62utdk8d5" path="res://assets/sprites/flower-placeholder.png" id="1_n74sc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fpl8p"]
+size = Vector2(16, 4.5)
+
+[node name="Flower" type="Node2D" groups=["flower"]]
+script = ExtResource("1_fpl8p")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_n74sc")
+
+[node name="Area" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+
+[node name="Collider" type="CollisionShape2D" parent="Area"]
+position = Vector2(0, -2.25)
+shape = SubResource("RectangleShape2D_fpl8p")
