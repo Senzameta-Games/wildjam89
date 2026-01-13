@@ -2,9 +2,8 @@ extends State
 class_name GroundState
 
 func enter() -> void:
-	# TODO Landing feedback
 	player.velocity.y = 0
-	player.just_landed.emit()
+	player.land()
 
 func exit() -> void:
 	pass

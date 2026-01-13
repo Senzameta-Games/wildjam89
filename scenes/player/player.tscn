@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://ciyc0yamaacqw"]
+[gd_scene load_steps=33 format=3 uid="uid://ciyc0yamaacqw"]
 
 [ext_resource type="Texture2D" uid="uid://c6sl4kh8hjab5" path="res://assets/sprites/player-placeholder.png" id="1_8afob"]
 [ext_resource type="Script" uid="uid://c5l22pvevgh2q" path="res://scripts/player.gd" id="1_dovo2"]
@@ -6,9 +6,26 @@
 [ext_resource type="Script" uid="uid://qe4qdle3ommv" path="res://state-management/player/ground_state.gd" id="4_0owmy"]
 [ext_resource type="Script" uid="uid://d20ybqwmw2vw0" path="res://state-management/player/air_state.gd" id="5_qek5x"]
 [ext_resource type="Script" uid="uid://l1m1x8x7eh0" path="res://state-management/player/stomp_state.gd" id="6_5gtgg"]
-[ext_resource type="AudioStream" uid="uid://bafoqtti38b0" path="res://assets/sounds/placeholder/bop.mp3" id="7_5gtgg"]
-[ext_resource type="AudioStream" uid="uid://dohtb600f0oca" path="res://assets/sounds/placeholder/bip.mp3" id="8_h17s1"]
-[ext_resource type="AudioStream" uid="uid://ddnhglwxf6khu" path="res://assets/sounds/placeholder/bob.mp3" id="9_je7p5"]
+[ext_resource type="AudioStream" uid="uid://dpe3513hku8ai" path="res://assets/sounds/player/jumps/Jumps1.wav" id="7_kvlxm"]
+[ext_resource type="AudioStream" uid="uid://dcas2yugdkgq2" path="res://assets/sounds/player/jumps/Jumps2.wav" id="8_uf5tr"]
+[ext_resource type="AudioStream" uid="uid://kaudeicbv6eu" path="res://assets/sounds/player/jumps/Jumps3.wav" id="9_lgqa7"]
+[ext_resource type="AudioStream" uid="uid://dj1bbfy77o2gb" path="res://assets/sounds/player/jumps/Jumps4.wav" id="10_8ydkj"]
+[ext_resource type="AudioStream" uid="uid://durhvdbxid4yo" path="res://assets/sounds/player/jumps/Jumps5.wav" id="11_3j4b4"]
+[ext_resource type="AudioStream" uid="uid://hhw75fvd40ip" path="res://assets/sounds/player/stompFalls/StompFall1.wav" id="12_3j4b4"]
+[ext_resource type="AudioStream" uid="uid://y61qkkngxbav" path="res://assets/sounds/player/landing/Landing1.wav" id="12_6cv16"]
+[ext_resource type="AudioStream" uid="uid://dswlhst3wi5sr" path="res://assets/sounds/player/landing/Landing2.wav" id="13_j4nxn"]
+[ext_resource type="AudioStream" uid="uid://b8kwf8gqmhuef" path="res://assets/sounds/player/stompFalls/StompFall2.wav" id="13_yj68g"]
+[ext_resource type="AudioStream" uid="uid://bph2casqrgc8p" path="res://assets/sounds/player/landing/Landing3.wav" id="14_28m0y"]
+[ext_resource type="AudioStream" uid="uid://ujap67aclq7e" path="res://assets/sounds/player/stompFalls/StompFall3.wav" id="14_ioxgp"]
+[ext_resource type="AudioStream" uid="uid://bnt65uf6ny8lu" path="res://assets/sounds/player/stompFalls/StompFall4.wav" id="15_cnsyf"]
+[ext_resource type="AudioStream" uid="uid://bm8p5upv8ehu1" path="res://assets/sounds/player/landing/Landing4.wav" id="15_uniwh"]
+[ext_resource type="AudioStream" uid="uid://hexx3ranhgmv" path="res://assets/sounds/player/stompFalls/StompFall5.wav" id="16_007i1"]
+[ext_resource type="AudioStream" uid="uid://c7eh87musambh" path="res://assets/sounds/player/landing/Landing5.wav" id="16_iqsei"]
+[ext_resource type="AudioStream" uid="uid://ndmtsv5tbl8g" path="res://assets/sounds/player/stomps/Stomps1.wav" id="17_3j4b4"]
+[ext_resource type="AudioStream" uid="uid://2ys7l2n03t1t" path="res://assets/sounds/player/stomps/Stomps2.wav" id="18_yj68g"]
+[ext_resource type="AudioStream" uid="uid://2gutsa1rmegu" path="res://assets/sounds/player/stomps/Stomps3.wav" id="19_ioxgp"]
+[ext_resource type="AudioStream" uid="uid://dry31p0fhbmwi" path="res://assets/sounds/player/stomps/Stomps4.wav" id="20_cnsyf"]
+[ext_resource type="AudioStream" uid="uid://bjo4rilrd1018" path="res://assets/sounds/player/stomps/Stomps5.wav" id="21_007i1"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_x7p2l"]
 animations = [{
@@ -50,9 +67,41 @@ animations = [{
 radius = 8.0
 height = 32.0
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_j4nxn"]
+streams_count = 5
+stream_0/stream = ExtResource("7_kvlxm")
+stream_1/stream = ExtResource("8_uf5tr")
+stream_2/stream = ExtResource("9_lgqa7")
+stream_3/stream = ExtResource("10_8ydkj")
+stream_4/stream = ExtResource("11_3j4b4")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_tffgl"]
+streams_count = 5
+stream_0/stream = ExtResource("12_6cv16")
+stream_1/stream = ExtResource("13_j4nxn")
+stream_2/stream = ExtResource("14_28m0y")
+stream_3/stream = ExtResource("15_uniwh")
+stream_4/stream = ExtResource("16_iqsei")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_28m0y"]
+streams_count = 5
+stream_0/stream = ExtResource("12_3j4b4")
+stream_1/stream = ExtResource("13_yj68g")
+stream_2/stream = ExtResource("14_ioxgp")
+stream_3/stream = ExtResource("15_cnsyf")
+stream_4/stream = ExtResource("16_007i1")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_6cv16"]
+streams_count = 5
+stream_0/stream = ExtResource("17_3j4b4")
+stream_1/stream = ExtResource("18_yj68g")
+stream_2/stream = ExtResource("19_ioxgp")
+stream_3/stream = ExtResource("20_cnsyf")
+stream_4/stream = ExtResource("21_007i1")
+
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("sprite_reference", "collider_reference", "sfx") groups=["player"]]
 collision_layer = 2
-collision_mask = 9
+collision_mask = 25
 script = ExtResource("1_dovo2")
 sprite_reference = NodePath("Sprite")
 collider_reference = NodePath("Collider")
@@ -75,7 +124,6 @@ shape = SubResource("CapsuleShape2D_8afob")
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("3_lvxji")
 initial_state = NodePath("Ground")
-debug_transitions = true
 metadata/_custom_type_script = "uid://b5r0p46rp1jyn"
 
 [node name="Ground" type="Node" parent="StateMachine"]
@@ -95,15 +143,19 @@ metadata/_custom_type_script = "uid://bjaxay0j51t5j"
 [node name="Step" type="AudioStreamPlayer2D" parent="SFX"]
 
 [node name="Jump" type="AudioStreamPlayer2D" parent="SFX"]
-stream = ExtResource("7_5gtgg")
+stream = SubResource("AudioStreamRandomizer_j4nxn")
+volume_db = -8.0
 
 [node name="Land" type="AudioStreamPlayer2D" parent="SFX"]
+stream = SubResource("AudioStreamRandomizer_tffgl")
+pitch_scale = 2.0
 
 [node name="StompFall" type="AudioStreamPlayer2D" parent="SFX"]
-stream = ExtResource("8_h17s1")
+stream = SubResource("AudioStreamRandomizer_28m0y")
+pitch_scale = 1.5
 
 [node name="StompImpact" type="AudioStreamPlayer2D" parent="SFX"]
-stream = ExtResource("9_je7p5")
+stream = SubResource("AudioStreamRandomizer_6cv16")
 
 [node name="Hurt" type="AudioStreamPlayer2D" parent="SFX"]
 

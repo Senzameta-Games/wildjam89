@@ -7,7 +7,7 @@ class_name Player
 @export var collider_reference: CollisionShape2D
 @export var spawn_pos: Vector2
 @export var sfx: Node
-var gravity = World.gravity # World.gd is an autoload
+var gravity = Game.gravity # Game.gd is an autoload
 
 @export_category("Gameplay")
 var can_interact: bool
@@ -72,7 +72,6 @@ func stomp() -> void:
 
 func bounce() -> void:
 	velocity.y = -jump_velocity
-	$SFX/StompImpact.play()
 	move_and_slide()
 	
 func interact() -> void:
@@ -87,6 +86,9 @@ func hurt() -> void:
 func die() -> void:
 	just_died.emit()
 	queue_free()
+
+func land() -> void:
+	$SFX/Land.play()
 
 func _on_entered_interact_area():
 	entered_interact_area.emit()
