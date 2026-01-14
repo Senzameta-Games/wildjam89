@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://bpdggf0ahipqg" path="res://scripts/ui/seed_counter.gd" id="2_0wfyh"]
 [ext_resource type="FontFile" uid="uid://bxn105qovmxyq" path="res://assets/fonts/Ruler 9.ttf" id="3_jyhfs"]
 [ext_resource type="Texture2D" uid="uid://dqta47h0mylg7" path="res://assets/sprites/seed-placeholder.png" id="3_sugp2"]
-[ext_resource type="PackedScene" path="res://scenes/ui/pause_menu.tscn" id="5_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://cnedgj3aevipi" path="res://scenes/ui/pause_menu.tscn" id="5_tbgi4"]
 
 [node name="Main" type="Node2D"]
 

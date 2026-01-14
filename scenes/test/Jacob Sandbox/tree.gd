@@ -1,4 +1,5 @@
 extends Node2D
+class_name SeedTree
 
 signal growth_started()
 signal growth_completed()
@@ -12,14 +13,22 @@ signal growth_completed()
 var tree_height: int = 0
 var is_growing: bool = false
 
-func _on_grow_tree_signal(amount: int, _current_height: int):
+
+#remove when we wire it up to player/seeds
+func _input(event):
+	if event.is_action_pressed("DebugTree"):
+		grow_tree()
+
+func grow_tree(amount: int = 1):
 	if not is_growing:
 		tree_height += amount
 		_grow_new_section()
 
 func _grow_new_section():
+
 	is_growing = true
 	growth_started.emit()
+	print("tree growing")
 	
 	# Create and place new sprite
 	var new_section = Sprite2D.new()
@@ -33,13 +42,21 @@ func _grow_new_section():
 	_animate_growth()
 
 func _animate_growth():
+	
+	if not tree_trunk:
+		print("ERROR: tree_trunk is null - cannot animate!")
+		is_growing = false
+		growth_completed.emit()
+		return
+	
 	var step_size = 2
 	var total_steps = trunk_section_height / step_size
 	var step_delay = growth_duration / total_steps
 	
-	#  step animation
+	
+	# Step animation
 	for i in range(total_steps):
-		tree_trunk.position.y -= step_size
+		tree_trunk.position.y -= step_size  # This is likely line 54!
 		await get_tree().create_timer(step_delay).timeout
 	
 	# Overshoot/Bounce effect
@@ -52,3 +69,5 @@ func _animate_growth():
 	await tween.finished
 	is_growing = false
 	growth_completed.emit()
+	print("tree done growing")
+	

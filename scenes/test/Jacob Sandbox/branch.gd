@@ -4,12 +4,11 @@ extends Node2D
 @export var branch_length: int = 24
 @export var grow_duration: float = 0.4
 
-@onready var tree_node = get_node("../Tree")
-@onready var growth_manager = get_node("../GrowthManager")
+@onready var tree_node: SeedTree = get_node("../Tree")
 @onready var branches_node = get_node("../TreeBranches")
 
 var growth_count: int = 0
-var branch_height: int = 1
+var branch_height: int = 0
 
 func _ready():
 	if tree_node:
@@ -17,14 +16,14 @@ func _ready():
 
 func _on_growth_completed():
 	growth_count += 1
-	# Create a branch every 2 growth cycles
+	# Create a branch every growth cycle
 	if growth_count % 1 == 0:
 		_spawn_branch_at_next_height()
 
 func _spawn_branch_at_next_height():
-	if branch_height >= growth_manager.tree_height:
+	if branch_height >= tree_node.tree_height:
 		return
-	
+		
 	var side = -1 if randf() < 0.5 else 1
 	var branch_y = tree_node.global_position.y - (branch_height * tree_node.trunk_section_height)
 	var branch_x = tree_node.global_position.x + (side * 32)
@@ -47,7 +46,7 @@ func _create_branch(global_pos: Vector2, side: int):
 	var parent = branches_node if branches_node else get_parent()
 	parent.add_child(branch)
 	branch.global_position = global_pos
-
+	
 	# Setup One-Way Collision
 	var collision = CollisionShape2D.new()
 	var shape = RectangleShape2D.new()
