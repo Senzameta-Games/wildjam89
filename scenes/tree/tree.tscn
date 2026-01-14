@@ -14,8 +14,6 @@ size = Vector2(16, 16)
 [node name="Tree" type="Node2D"]
 
 [node name="Shop" type="Node2D" parent="."]
-process_mode = 4
-visible = false
 script = ExtResource("1_mbf7r")
 
 [node name="Button" type="Node2D" parent="Shop"]

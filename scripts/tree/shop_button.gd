@@ -56,8 +56,8 @@ func _input(event: InputEvent) -> void:
 func make_purchase() -> void:
 	if Game.total_seeds >= seed_cost:
 		Game.add_seeds(-seed_cost)
-		Game.start_selection_phase(player_on_button.global_position)
 		print("purchase accepted")
+		# Game.grow_tree_signal_name_I_forgor.emit()
 		# audio feedback
 	else:
 		print("get more seeds")
