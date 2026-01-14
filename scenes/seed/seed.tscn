@@ -37,6 +37,7 @@ stream_4/stream = ExtResource("7_ntb4p")
 [node name="Seed" type="Node2D"]
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_rl07t")
 animation = &"collected"
 

@@ -17,6 +17,8 @@ var player_on_button: Node2D = null
 @onready var detect_area: Area2D = $Area
 @onready var btn_depth: float = 16.0
 
+signal shop_interacted
+
 func _ready():
 	buy_prompt.visible = false
 
@@ -56,7 +58,7 @@ func _input(event: InputEvent) -> void:
 func make_purchase() -> void:
 	if Game.total_seeds >= seed_cost:
 		Game.add_seeds(-seed_cost)
-		Game.start_selection_phase(player_on_button.global_position)
+		shop_interacted.emit()
 		print("purchase accepted")
 		# audio feedback
 	else:

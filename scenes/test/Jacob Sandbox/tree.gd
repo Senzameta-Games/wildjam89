@@ -13,12 +13,6 @@ signal growth_completed()
 var tree_height: int = 0
 var is_growing: bool = false
 
-
-#remove when we wire it up to player/seeds
-func _input(event):
-	if event.is_action_pressed("DebugTree"):
-		grow_tree()
-
 func grow_tree(amount: int = 1):
 	if not is_growing:
 		tree_height += amount
@@ -71,3 +65,7 @@ func _animate_growth():
 	growth_completed.emit()
 	print("tree done growing")
 	
+
+
+func _on_shop_interacted():
+	grow_tree()

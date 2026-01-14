@@ -7,6 +7,7 @@
 size = Vector2(16, 4.5)
 
 [node name="Flower" type="Node2D" groups=["flower"]]
+texture_filter = 1
 script = ExtResource("1_fpl8p")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

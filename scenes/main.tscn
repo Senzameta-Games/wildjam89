@@ -12,15 +12,6 @@
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="Label" type="Label" parent="CanvasLayer"]
-offset_left = 213.0
-offset_top = 12.0
-offset_right = 455.0
-offset_bottom = 28.0
-theme_override_fonts/font = ExtResource("3_jyhfs")
-text = "debug: Press P to make tree go up"
-horizontal_alignment = 2
-
 [node name="Seeds" type="HBoxContainer" parent="CanvasLayer"]
 offset_left = 592.0
 offset_top = 10.0
