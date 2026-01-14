@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dmf6xq0hdnbpo"]
+
+[ext_resource type="PackedScene" uid="uid://cj75ljmlbgdux" path="res://scenes/test/Jacob Sandbox/Tree.tscn" id="1_lsfbm"]
+
+[node name="TestingArea" type="Node2D"]
+
+[node name="TreeScene" parent="." instance=ExtResource("1_lsfbm")]
+position = Vector2(278, 240)

@@ -5,7 +5,7 @@ func enter():
 	player.stomp()
 	# play stomp animation
 	# play stomp sound fx
-	pass
+	player.set_collision_mask_value(6, false)
 
 func physics_update(delta: float) -> void:
 	player.apply_gravity(delta)
@@ -17,3 +17,6 @@ func physics_update(delta: float) -> void:
 		
 	if player.velocity.y < 0:
 		transition_requested.emit(self, AirState)
+		
+func exit():
+	player.set_collision_mask_value(6, true)
