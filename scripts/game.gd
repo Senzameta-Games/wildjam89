@@ -40,3 +40,8 @@ func plant_flower(at_position: Vector2) -> void:
 	flower.global_position = spawn_pos
 	
 	flower_columns[grid_index] = stack_count + 1
+
+func reset_game_state() -> void:
+	total_seeds = 0
+	flower_columns.clear()
+	seeds_changed.emit(total_seeds)
