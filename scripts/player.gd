@@ -27,6 +27,7 @@ var is_dead: bool
 @export var air_drag: float
 var is_moving: bool
 var is_midair: bool
+var is_stomping: bool
 @export var jump_velocity: float
 @export var stomp_velocity: float
 
@@ -45,6 +46,15 @@ signal just_landed
 signal just_stomped
 signal just_interacted
 
+# making sfx references props of player to be accessed in states
+@onready var sfx_jump: AudioStreamPlayer2D = $SFX/Jump
+@onready var sfx_step: AudioStreamPlayer2D = $SFX/Step
+@onready var sfx_land: AudioStreamPlayer2D = $SFX/Land
+@onready var sfx_stompfall: AudioStreamPlayer2D = $SFX/StompFall
+@onready var sfx_stompimpact: AudioStreamPlayer2D = $SFX/StompImpact
+@onready var sfx_hurt: AudioStreamPlayer2D = $SFX/Hurt
+@onready var sfx_heal: AudioStreamPlayer2D = $SFX/Heal
+
 func _ready() -> void:
 	self.position = spawn_pos
 	just_spawned.emit()
@@ -54,32 +64,18 @@ func apply_gravity(delta) -> void:
 		velocity.y += gravity * delta
 		
 func move(dir: float, delta: float) -> void:
-	if dir != 0:
+	if dir:
 		velocity.x = move_toward(velocity.x, dir * move_speed, move_acceleration * delta)
-		is_moving = true
-		if is_midair == false:
-			player_sprite.play("run")
-	
-		if dir == 1:
-			player_sprite.flip_h = false
-		elif dir == -1:
-			player_sprite.flip_h = true
-
 	else:
 		velocity.x = move_toward(velocity.x, 0, move_friction * delta)
-		is_moving = false
-		player_sprite.play("idle")
 
 func jump() -> void:
 	velocity.y = -jump_velocity
-	player_sprite.play("jump")
 	just_jumped.emit()
-	is_midair = true
-	$SFX/Jump.play()
+
 
 func stomp() -> void:
 	velocity.y = stomp_velocity
-	$SFX/StompFall.play()
 	just_stomped.emit()
 
 func bounce() -> void:
@@ -99,11 +95,6 @@ func die() -> void:
 	just_died.emit()
 	queue_free()
 
-func land() -> void:
-	$SFX/Land.play()
-	is_midair = false
-	just_landed.emit()
-
 func _on_entered_interact_area():
 	entered_interact_area.emit()
 	can_interact = true
@@ -111,3 +102,7 @@ func _on_entered_interact_area():
 func _on_exited_interact_area():
 	exited_interact_area.emit()
 	can_interact = false
+
+func update_facing_dir(dir: float) -> void:
+	if dir != 0:
+		player_sprite.flip_h = dir < 0

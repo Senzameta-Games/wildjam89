@@ -3,8 +3,8 @@ class_name StompState
 
 func enter():
 	player.stomp()
-	# play stomp animation
-	# play stomp sound fx
+	# TODO player.player_sprite.player("stomp")
+	player.sfx_stompfall.play()
 	player.set_collision_mask_value(6, false)
 
 func physics_update(delta: float) -> void:
@@ -14,7 +14,7 @@ func physics_update(delta: float) -> void:
 	if player.is_on_floor():
 		transition_requested.emit(self, GroundState)
 		return
-		
+
 	if player.velocity.y < 0:
 		transition_requested.emit(self, AirState)
 		
