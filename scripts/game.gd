@@ -12,6 +12,10 @@ func add_seeds(amount: int) -> void:
 	total_seeds += amount
 	seeds_changed.emit(total_seeds)
 	print("Seeds collected: ", total_seeds)
+	# Track for achievements
+	if Achievements:
+		for i in range(amount):
+			Achievements.on_seed_collected()
 	
 #==================================================================================================#
 
@@ -40,8 +44,14 @@ func plant_flower(at_position: Vector2) -> void:
 	flower.global_position = spawn_pos
 	
 	flower_columns[grid_index] = stack_count + 1
+	# Track for achievements
+	if Achievements:
+		Achievements.on_flower_planted()
 
 func reset_game_state() -> void:
 	total_seeds = 0
 	flower_columns.clear()
 	seeds_changed.emit(total_seeds)
+	# Reset achievements for new run
+	if Achievements:
+		Achievements.reset_achievements()
