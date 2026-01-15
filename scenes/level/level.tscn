@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://ciyc0yamaacqw" path="res://scenes/player/player.tscn" id="1_nbgty"]
 [ext_resource type="Script" uid="uid://f1ao7nyts6na" path="res://scripts/level.gd" id="1_wcngd"]
-[ext_resource type="Texture2D" uid="uid://dus1ny0bfg7qf" path="res://assets/sprites/nine-patch-placeholder.png" id="2_qkmgm"]
+[ext_resource type="Texture2D" uid="uid://b8pencausntbo" path="res://assets/sprites/ground/ground9patch.png" id="2_tf2q7"]
 [ext_resource type="Texture2D" uid="uid://h616werb16j0" path="res://scenes/test/Jacob Sandbox/tempSprite/placeholder_bg.png" id="2_wcngd"]
 [ext_resource type="PackedScene" uid="uid://c0xm7i1eahpti" path="res://scenes/enemy/enemy_spawner.tscn" id="5_vpf64"]
 [ext_resource type="PackedScene" uid="uid://c8yn67wshcpor" path="res://scenes/enemy/fast-weak.tscn" id="5_xv074"]
@@ -43,12 +43,14 @@ offset_right = 360.0
 offset_bottom = 105.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("2_qkmgm")
-region_rect = Rect2(0, 0, 48, 48)
-patch_margin_left = 16
-patch_margin_top = 16
-patch_margin_right = 16
-patch_margin_bottom = 16
+texture = ExtResource("2_tf2q7")
+region_rect = Rect2(0, 0, 18, 18)
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
 metadata/_edit_use_anchors_ = true
 
 [node name="LeftWall" type="StaticBody2D" parent="Environment"]
