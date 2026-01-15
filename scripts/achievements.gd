@@ -8,7 +8,7 @@ signal achievement_unlocked(achievement_data: AchievementData)
 var unlocked_achievements: Dictionary = {}  # achievement_id -> AchievementData
 
 # Trackers for different achievement types (reset each run)
-var total_seeds_collected: int = 0
+# Note: Was tracking total_seeds, but realized we're doing it already at Game.total_seeds (no need to duplicate)
 var total_enemies_stomped: int = 0
 var total_flowers_planted: int = 0
 var recent_stomps: Array[float] = []  # Timestamps of recent stomps for multi-stomp tracking
@@ -86,7 +86,7 @@ func check_achievement(achievement_id: String) -> bool:
 func check_condition(achievement: AchievementData) -> bool:
 	match achievement.condition_type:
 		AchievementData.ConditionType.SEED_COUNT:
-			return total_seeds_collected >= achievement.threshold
+			return Game.total_seeds >= achievement.threshold
 		
 		AchievementData.ConditionType.ENEMIES_STOMPED:
 			return total_enemies_stomped >= achievement.threshold
@@ -123,7 +123,7 @@ func check_and_unlock_achievement(achievement_id: String) -> void:
 
 # Public methods to track game events
 func on_seed_collected() -> void:
-	total_seeds_collected += 1
+	# Seeds are tracked in Game.total_seeds, just check achievements
 	check_all_achievements()
 
 func on_enemy_stomped() -> void:
@@ -145,7 +145,7 @@ func check_all_achievements() -> void:
 # Reset achievements for a new run
 func reset_achievements() -> void:
 	unlocked_achievements.clear()
-	total_seeds_collected = 0
+	# Note: Game.total_seeds is reset in Game.reset_game_state()
 	total_enemies_stomped = 0
 	total_flowers_planted = 0
 	recent_stomps.clear()
