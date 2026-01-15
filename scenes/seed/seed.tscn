@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://3mhjgr2g4y7j"]
 
-[ext_resource type="Texture2D" uid="uid://dqta47h0mylg7" path="res://assets/sprites/seed-placeholder.png" id="1_6qx45"]
+[ext_resource type="Texture2D" uid="uid://evljh2213602" path="res://assets/sprites/seed/seedblack.png" id="1_ause0"]
 [ext_resource type="AudioStream" uid="uid://k6ivgxey1k1" path="res://assets/sounds/enemy/seedget/seedget1.wav" id="3_tjbah"]
 [ext_resource type="AudioStream" uid="uid://dfmboaurpmnna" path="res://assets/sounds/enemy/seedget/seedget2.wav" id="4_duic0"]
 [ext_resource type="AudioStream" uid="uid://cq5lnyoa7kgnb" path="res://assets/sounds/enemy/seedget/seedget3.wav" id="5_8cmsn"]
@@ -11,7 +11,7 @@
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_6qx45")
+"texture": ExtResource("1_ause0")
 }],
 "loop": true,
 "name": &"appear",
@@ -19,7 +19,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_6qx45")
+"texture": ExtResource("1_ause0")
 }],
 "loop": true,
 "name": &"collected",
@@ -39,7 +39,7 @@ stream_4/stream = ExtResource("7_ntb4p")
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_rl07t")
-animation = &"collected"
+animation = &"appear"
 
 [node name="SFX" type="Node2D" parent="."]
 

@@ -1,6 +1,7 @@
-[gd_scene load_steps=44 format=3 uid="uid://ciyc0yamaacqw"]
+[gd_scene load_steps=45 format=3 uid="uid://ciyc0yamaacqw"]
 
 [ext_resource type="Script" uid="uid://c5l22pvevgh2q" path="res://scripts/player.gd" id="1_dovo2"]
+[ext_resource type="Texture2D" uid="uid://da78vrp648vjw" path="res://assets/sprites/player/idle/raccoonmcidle.png" id="2_5q8fn"]
 [ext_resource type="Texture2D" uid="uid://05erp0sjg3p8" path="res://assets/sprites/player/jump/raccoonmcjump1.png" id="2_8qxvo"]
 [ext_resource type="Texture2D" uid="uid://br4i7btqjbwgi" path="res://assets/sprites/player/jump/raccoonmcjump2.png" id="3_5q8fn"]
 [ext_resource type="Script" uid="uid://b5r0p46rp1jyn" path="res://state-management/state_machine.gd" id="3_lvxji"]
@@ -45,7 +46,10 @@ animations = [{
 "name": &"hurt",
 "speed": 5.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_5q8fn")
+}],
 "loop": true,
 "name": &"idle",
 "speed": 8.0
