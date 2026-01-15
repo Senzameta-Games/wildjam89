@@ -1,0 +1,67 @@
+[gd_scene load_steps=4 format=3 uid="uid://cthmqlxttnl0a"]
+
+[ext_resource type="Script" uid="uid://dgqvmqq2x3ug2" path="res://scripts/ui/achievement_toast.gd" id="1_toast"]
+[ext_resource type="FontFile" uid="uid://bxn105qovmxyq" path="res://assets/fonts/Ruler 9.ttf" id="2_font"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
+bg_color = Color(0.1, 0.1, 0.15, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+anti_aliasing = false
+
+[node name="AchievementToast" type="Control"]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 200.0
+offset_bottom = 60.0
+scale = Vector2(0.75, 0.75)
+script = ExtResource("1_toast")
+metadata/_edit_group_ = true
+
+[node name="Background" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bg")
+
+[node name="Container" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="Text" type="VBoxContainer" parent="Container"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Title" type="Label" parent="Container/Text"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 16
+text = "Achievement Unlocked!"
+horizontal_alignment = 1
+
+[node name="Description" type="Label" parent="Container/Text"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 14
+text = "Description here"
+horizontal_alignment = 1
+autowrap_mode = 2
