@@ -2,8 +2,16 @@ extends State
 class_name AirState
 
 func enter() -> void:
-	# if as a result of a jump, jump animation
-	# if as a result of falling, fall animation
+	#if Player # has a sprite node:
+			#var sprite: AnimatedSprite2D = # that sprite node
+			#
+		#if velocity.y < 0:
+			#sprite.play("jump")
+	#else:
+		##if velocity.y > 0:
+			##sprite.play("falling")
+		#pass
+		#
 	pass
 
 func physics_update(delta: float) -> void:

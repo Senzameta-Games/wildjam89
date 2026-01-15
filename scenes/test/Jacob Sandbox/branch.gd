@@ -5,7 +5,6 @@ extends Node2D
 @export var grow_duration: float = 0.4
 
 @onready var tree_node: SeedTree = get_node("../Tree")
-@onready var branches_node = get_node("../TreeBranches")
 
 var growth_count: int = 0
 var branch_height: int = 0
@@ -43,8 +42,7 @@ func _create_branch(global_pos: Vector2, side: int):
 	branch.set_collision_layer_value(6, true)
 	
 	# Add to scene tree before setting local position
-	var parent = branches_node if branches_node else get_parent()
-	parent.add_child(branch)
+	add_child(branch)
 	branch.global_position = global_pos
 	
 	# Setup One-Way Collision

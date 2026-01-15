@@ -1,18 +1,29 @@
-[gd_scene load_steps=33 format=3 uid="uid://ciyc0yamaacqw"]
+[gd_scene load_steps=44 format=3 uid="uid://ciyc0yamaacqw"]
 
-[ext_resource type="Texture2D" uid="uid://c6sl4kh8hjab5" path="res://assets/sprites/player-placeholder.png" id="1_8afob"]
 [ext_resource type="Script" uid="uid://c5l22pvevgh2q" path="res://scripts/player.gd" id="1_dovo2"]
+[ext_resource type="Texture2D" uid="uid://05erp0sjg3p8" path="res://assets/sprites/player/jump/raccoonmcjump1.png" id="2_8qxvo"]
+[ext_resource type="Texture2D" uid="uid://br4i7btqjbwgi" path="res://assets/sprites/player/jump/raccoonmcjump2.png" id="3_5q8fn"]
 [ext_resource type="Script" uid="uid://b5r0p46rp1jyn" path="res://state-management/state_machine.gd" id="3_lvxji"]
 [ext_resource type="Script" uid="uid://qe4qdle3ommv" path="res://state-management/player/ground_state.gd" id="4_0owmy"]
+[ext_resource type="Texture2D" uid="uid://xdf2j43t3rrl" path="res://assets/sprites/player/jump/raccoonmcjump3.png" id="4_wva7c"]
+[ext_resource type="Texture2D" uid="uid://dtq03e6rsxqcv" path="res://assets/sprites/player/jump/raccoonmcjump4.png" id="5_7obkq"]
 [ext_resource type="Script" uid="uid://d20ybqwmw2vw0" path="res://state-management/player/air_state.gd" id="5_qek5x"]
 [ext_resource type="Script" uid="uid://l1m1x8x7eh0" path="res://state-management/player/stomp_state.gd" id="6_5gtgg"]
+[ext_resource type="Texture2D" uid="uid://cj4gds3y24trx" path="res://assets/sprites/player/jump/raccoonmcjump5.png" id="6_vo27k"]
+[ext_resource type="Texture2D" uid="uid://byad4qrowfy1y" path="res://assets/sprites/player/jump/raccoonmcjump6.png" id="7_genst"]
 [ext_resource type="AudioStream" uid="uid://dpe3513hku8ai" path="res://assets/sounds/player/jumps/Jumps1.wav" id="7_kvlxm"]
+[ext_resource type="Texture2D" uid="uid://4nk1qeq46k5" path="res://assets/sprites/player/run/raccoonmc1.png" id="8_niom3"]
 [ext_resource type="AudioStream" uid="uid://dcas2yugdkgq2" path="res://assets/sounds/player/jumps/Jumps2.wav" id="8_uf5tr"]
 [ext_resource type="AudioStream" uid="uid://kaudeicbv6eu" path="res://assets/sounds/player/jumps/Jumps3.wav" id="9_lgqa7"]
+[ext_resource type="Texture2D" uid="uid://03yn3uqg88r4" path="res://assets/sprites/player/run/raccoonmc2.png" id="9_ttakn"]
 [ext_resource type="AudioStream" uid="uid://dj1bbfy77o2gb" path="res://assets/sounds/player/jumps/Jumps4.wav" id="10_8ydkj"]
+[ext_resource type="Texture2D" uid="uid://gyujfp3jpbuu" path="res://assets/sprites/player/run/raccoonmc3.png" id="10_rw8a5"]
 [ext_resource type="AudioStream" uid="uid://durhvdbxid4yo" path="res://assets/sounds/player/jumps/Jumps5.wav" id="11_3j4b4"]
+[ext_resource type="Texture2D" uid="uid://drn5ik71jtt6k" path="res://assets/sprites/player/run/raccoonmc4.png" id="11_iwuka"]
 [ext_resource type="AudioStream" uid="uid://hhw75fvd40ip" path="res://assets/sounds/player/stompFalls/StompFall1.wav" id="12_3j4b4"]
 [ext_resource type="AudioStream" uid="uid://y61qkkngxbav" path="res://assets/sounds/player/landing/Landing1.wav" id="12_6cv16"]
+[ext_resource type="Texture2D" uid="uid://cnpm820kaohbw" path="res://assets/sprites/player/run/raccoonmc5.png" id="12_hyqqp"]
+[ext_resource type="Texture2D" uid="uid://l85dlxpj5lno" path="res://assets/sprites/player/run/raccoonmc6.png" id="13_ds1xl"]
 [ext_resource type="AudioStream" uid="uid://dswlhst3wi5sr" path="res://assets/sounds/player/landing/Landing2.wav" id="13_j4nxn"]
 [ext_resource type="AudioStream" uid="uid://b8kwf8gqmhuef" path="res://assets/sounds/player/stompFalls/StompFall2.wav" id="13_yj68g"]
 [ext_resource type="AudioStream" uid="uid://bph2casqrgc8p" path="res://assets/sounds/player/landing/Landing3.wav" id="14_28m0y"]
@@ -34,28 +45,61 @@ animations = [{
 "name": &"hurt",
 "speed": 5.0
 }, {
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("1_8afob")
-}],
+"frames": [],
 "loop": true,
 "name": &"idle",
-"speed": 5.0
+"speed": 8.0
 }, {
 "frames": [],
 "loop": true,
 "name": &"interact",
 "speed": 5.0
 }, {
-"frames": [],
-"loop": true,
-"name": &"jump",
-"speed": 5.0
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_8qxvo")
 }, {
-"frames": [],
+"duration": 1.0,
+"texture": ExtResource("3_5q8fn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_wva7c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_7obkq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_vo27k")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_genst")
+}],
+"loop": false,
+"name": &"jump",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_niom3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_ttakn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_rw8a5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_iwuka")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_hyqqp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_ds1xl")
+}],
 "loop": true,
 "name": &"run",
-"speed": 5.0
+"speed": 8.0
 }, {
 "frames": [],
 "loop": true,
@@ -99,12 +143,12 @@ stream_2/stream = ExtResource("19_ioxgp")
 stream_3/stream = ExtResource("20_cnsyf")
 stream_4/stream = ExtResource("21_007i1")
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("sprite_reference", "collider_reference", "sfx") groups=["player"]]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("player_sprite", "player_collider", "sfx") groups=["player"]]
 collision_layer = 2
 collision_mask = 25
 script = ExtResource("1_dovo2")
-sprite_reference = NodePath("Sprite")
-collider_reference = NodePath("Collider")
+player_sprite = NodePath("Sprite")
+player_collider = NodePath("Collider")
 spawn_pos = Vector2(320, 250)
 sfx = NodePath("SFX")
 move_speed = 150.0
@@ -115,8 +159,9 @@ jump_velocity = 300.0
 stomp_velocity = 300.0
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(-8, 0)
 sprite_frames = SubResource("SpriteFrames_x7p2l")
-animation = &"idle"
+animation = &"jump"
 
 [node name="Collider" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_8afob")

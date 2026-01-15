@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://03yn3uqg88r4"
-path="res://.godot/imported/raccoonmc2.png-478c78b8f8ec98d66b5538dc035a7878.ctex"
+uid="uid://byad4qrowfy1y"
+path="res://.godot/imported/raccoonmcjump6.png-d8b74b26ec794344a2188c404373a58c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/player/raccoonmc2.png"
-dest_files=["res://.godot/imported/raccoonmc2.png-478c78b8f8ec98d66b5538dc035a7878.ctex"]
+source_file="res://assets/sprites/player/jump/raccoonmcjump6.png"
+dest_files=["res://.godot/imported/raccoonmcjump6.png-d8b74b26ec794344a2188c404373a58c.ctex"]
 
 [params]
 

@@ -4,6 +4,7 @@ class_name GroundState
 func enter() -> void:
 	player.velocity.y = 0
 	player.land()
+	#player_sprite.play("idle")
 
 func exit() -> void:
 	pass

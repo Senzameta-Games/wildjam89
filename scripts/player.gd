@@ -3,8 +3,8 @@ class_name Player
 
 # ------------------- variables --------------------- #
 @export_category("References")
-@export var sprite_reference: AnimatedSprite2D
-@export var collider_reference: CollisionShape2D
+@export var player_sprite: AnimatedSprite2D
+@export var player_collider: CollisionShape2D
 @export var spawn_pos: Vector2
 @export var sfx: Node
 var gravity = Game.gravity # Game.gd is an autoload
@@ -56,12 +56,21 @@ func move(dir: float, delta: float) -> void:
 	if dir != 0:
 		velocity.x = move_toward(velocity.x, dir * move_speed, move_acceleration * delta)
 		is_moving = true
+		player_sprite.play("run")
+	
+		if dir == 1:
+			player_sprite.flip_h = false
+		elif dir == -1:
+			player_sprite.flip_h = true
+
 	else:
 		velocity.x = move_toward(velocity.x, 0, move_friction * delta)
 		is_moving = false
+		player_sprite.play("idle")
 
 func jump() -> void:
 	velocity.y = -jump_velocity
+	player_sprite.play("jump")
 	just_jumped.emit()
 	$SFX/Jump.play()
 
