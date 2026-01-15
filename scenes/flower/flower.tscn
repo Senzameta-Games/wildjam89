@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://bh4ejmp1bgt7e"]
+[gd_scene load_steps=6 format=3 uid="uid://bh4ejmp1bgt7e"]
 
 [ext_resource type="Script" uid="uid://ceq0j37ymagqk" path="res://scripts/flower.gd" id="1_fpl8p"]
+[ext_resource type="Texture2D" uid="uid://bnrlv6xwr6dd8" path="res://assets/sprites/flower/flowerblue.png" id="2_e21ui"]
 [ext_resource type="Texture2D" uid="uid://b6aq64kifulkl" path="res://assets/sprites/flower/flowergreen.png" id="2_fpl8p"]
+[ext_resource type="Texture2D" uid="uid://gucr12hgnqie" path="res://assets/sprites/flower/flowerred.png" id="4_lbl2d"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fpl8p"]
 size = Vector2(16, 4.5)
@@ -9,8 +11,9 @@ size = Vector2(16, 4.5)
 [node name="Flower" type="Node2D" groups=["flower"]]
 texture_filter = 1
 script = ExtResource("1_fpl8p")
+flower_variants = Array[Texture2D]([ExtResource("2_e21ui"), ExtResource("2_fpl8p"), ExtResource("4_lbl2d")])
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("2_fpl8p")
 
 [node name="Area" type="Area2D" parent="."]

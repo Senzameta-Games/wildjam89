@@ -1,7 +1,9 @@
 extends Node2D
 class_name Flower
 
+@export var flower_variants: Array[Texture2D] = []
+
+@onready var sprite: Sprite2D = $Sprite
+
 func _ready() -> void:
-	if randf() > 0.5:
-		scale.x = -scale.x
-		
+	sprite.texture = flower_variants.pick_random()
