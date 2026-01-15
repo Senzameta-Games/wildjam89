@@ -80,5 +80,8 @@ func drop_seed() -> void:
 	tween.tween_property(dropped_seed, "modulate:a", 0.0, 1.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
 	seed_dropped.emit()
 	enemy_defeated.emit()
+	# Track for achievements
+	if Achievements:
+		Achievements.on_enemy_stomped()
 	tween.tween_callback(queue_free)
 	
