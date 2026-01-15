@@ -3,13 +3,13 @@
 [ext_resource type="Texture2D" uid="uid://ctrx51g81r1v0" path="res://assets/sprites/treebutton_placeholder.png" id="1_cuvwl"]
 [ext_resource type="Script" uid="uid://dps82nj04mquw" path="res://scripts/tree/shop_button.gd" id="1_mbf7r"]
 [ext_resource type="FontFile" uid="uid://bxn105qovmxyq" path="res://assets/fonts/Ruler 9.ttf" id="3_4ol1s"]
-[ext_resource type="Texture2D" uid="uid://dqta47h0mylg7" path="res://assets/sprites/seed-placeholder.png" id="4_ttu04"]
 [ext_resource type="Script" uid="uid://ckh42debhjmot" path="res://scenes/test/Jacob Sandbox/tree.gd" id="5_bm6y3"]
 [ext_resource type="Texture2D" uid="uid://hu4tag3386m8" path="res://scenes/test/Jacob Sandbox/tempSprite/TreeTrunk/placeholder_tree_trunk2.png" id="6_hs8qy"]
 [ext_resource type="Texture2D" uid="uid://bhcwmk2isjaui" path="res://scenes/test/Jacob Sandbox/tempSprite/TreeTrunk/placeholder_tree_trunk.png" id="7_undyc"]
 [ext_resource type="Texture2D" uid="uid://dnvdufg7snku5" path="res://scenes/test/Jacob Sandbox/tempSprite/TreeTrunk/placeholder_tree_top.png" id="8_d4o0i"]
 [ext_resource type="Texture2D" uid="uid://b6dyvwjcvtkge" path="res://scenes/test/Jacob Sandbox/tempSprite/TreeTrunk/placeholder_tree_base.png" id="9_6wwch"]
-[ext_resource type="Script" path="res://scenes/test/Jacob Sandbox/branch.gd" id="10_kui63"]
+[ext_resource type="Script" uid="uid://dqhidt2u20g47" path="res://scenes/test/Jacob Sandbox/branch.gd" id="10_kui63"]
+[ext_resource type="Texture2D" uid="uid://evljh2213602" path="res://assets/sprites/seed/seedblack.png" id="11_bm6y3"]
 [ext_resource type="Texture2D" uid="uid://m42u63q28p4x" path="res://scenes/test/Jacob Sandbox/tempSprite/TreeBranch/tree_branch.png" id="11_bynld"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r4rvj"]
@@ -111,7 +111,7 @@ text = "Spend 000"
 
 [node name="SeedIcon" type="TextureRect" parent="Shop/BuyPromptContainer"]
 layout_mode = 2
-texture = ExtResource("4_ttu04")
+texture = ExtResource("11_bm6y3")
 stretch_mode = 3
 
 [connection signal="shop_interacted" from="Shop" to="Tree" method="_on_shop_interacted"]
