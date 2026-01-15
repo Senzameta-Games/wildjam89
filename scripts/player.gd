@@ -26,6 +26,7 @@ var is_dead: bool
 @export var move_friction: float
 @export var air_drag: float
 var is_moving: bool
+var is_midair: bool
 @export var jump_velocity: float
 @export var stomp_velocity: float
 
@@ -56,7 +57,8 @@ func move(dir: float, delta: float) -> void:
 	if dir != 0:
 		velocity.x = move_toward(velocity.x, dir * move_speed, move_acceleration * delta)
 		is_moving = true
-		player_sprite.play("run")
+		if is_midair == false:
+			player_sprite.play("run")
 	
 		if dir == 1:
 			player_sprite.flip_h = false
@@ -72,6 +74,7 @@ func jump() -> void:
 	velocity.y = -jump_velocity
 	player_sprite.play("jump")
 	just_jumped.emit()
+	is_midair = true
 	$SFX/Jump.play()
 
 func stomp() -> void:
@@ -98,6 +101,8 @@ func die() -> void:
 
 func land() -> void:
 	$SFX/Land.play()
+	is_midair = false
+	just_landed.emit()
 
 func _on_entered_interact_area():
 	entered_interact_area.emit()

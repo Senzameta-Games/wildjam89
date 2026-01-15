@@ -1,7 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://cotswcby4pyh4"]
+[gd_scene load_steps=14 format=3 uid="uid://cotswcby4pyh4"]
 
-[ext_resource type="Texture2D" uid="uid://cyc4nlvhuom8d" path="res://assets/sprites/enemy-placeholder.png" id="1_4a83h"]
 [ext_resource type="Script" uid="uid://dbk12nfu4jv2s" path="res://scripts/enemy.gd" id="1_a3pup"]
+[ext_resource type="Texture2D" uid="uid://c8jgl3dlvyan7" path="res://assets/sprites/snail/16snale1.png" id="2_4efjx"]
+[ext_resource type="Texture2D" uid="uid://cvqsjcea8yj6x" path="res://assets/sprites/snail/16snale2.png" id="3_hvxgb"]
 [ext_resource type="AudioStream" uid="uid://be8hwxiqbufhk" path="res://assets/sounds/enemy/squash/squash1.wav" id="4_4efjx"]
 [ext_resource type="PackedScene" uid="uid://3mhjgr2g4y7j" path="res://scenes/seed/seed.tscn" id="5_gl05p"]
 [ext_resource type="AudioStream" uid="uid://bmibw7o0mgv5h" path="res://assets/sounds/enemy/squash/squash2.wav" id="5_hvxgb"]
@@ -18,7 +19,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_4a83h")
+"texture": ExtResource("2_4efjx")
 }],
 "loop": true,
 "name": &"idle",
@@ -29,7 +30,13 @@ animations = [{
 "name": &"stomped",
 "speed": 5.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_4efjx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_hvxgb")
+}],
 "loop": true,
 "name": &"walk",
 "speed": 5.0
