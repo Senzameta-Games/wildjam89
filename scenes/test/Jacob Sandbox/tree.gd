@@ -15,6 +15,8 @@ signal tree_healed(amount: float)
 
 @onready var tree_trunk = $TreeTrunk
 @onready var tree_top = $TreeTrunk/TreeTop
+@onready var hit_collider = $TreeHitBox/TreeCollider
+
 var target_sections: int = 0
 var current_sections: int = 0
 
