@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://ciyc0yamaacqw"]
+[gd_scene load_steps=53 format=3 uid="uid://ciyc0yamaacqw"]
 
 [ext_resource type="Script" uid="uid://c5l22pvevgh2q" path="res://scripts/player.gd" id="1_dovo2"]
 [ext_resource type="Texture2D" uid="uid://da78vrp648vjw" path="res://assets/sprites/player/idle/raccoonmcidle.png" id="2_5q8fn"]
@@ -36,8 +36,15 @@
 [ext_resource type="AudioStream" uid="uid://ndmtsv5tbl8g" path="res://assets/sounds/player/stomps/Stomps1.wav" id="17_3j4b4"]
 [ext_resource type="AudioStream" uid="uid://2ys7l2n03t1t" path="res://assets/sounds/player/stomps/Stomps2.wav" id="18_yj68g"]
 [ext_resource type="AudioStream" uid="uid://2gutsa1rmegu" path="res://assets/sounds/player/stomps/Stomps3.wav" id="19_ioxgp"]
+[ext_resource type="AudioStream" uid="uid://bsj5boqtcul8w" path="res://assets/sounds/player/steps/step1.wav" id="19_rw8a5"]
 [ext_resource type="AudioStream" uid="uid://dry31p0fhbmwi" path="res://assets/sounds/player/stomps/Stomps4.wav" id="20_cnsyf"]
+[ext_resource type="AudioStream" uid="uid://xosyjfgyyild" path="res://assets/sounds/player/steps/step2.wav" id="20_iwuka"]
 [ext_resource type="AudioStream" uid="uid://bjo4rilrd1018" path="res://assets/sounds/player/stomps/Stomps5.wav" id="21_007i1"]
+[ext_resource type="AudioStream" uid="uid://cq3tjb722p4no" path="res://assets/sounds/player/steps/step3.wav" id="21_hyqqp"]
+[ext_resource type="AudioStream" uid="uid://dxtnifor7bhjc" path="res://assets/sounds/player/steps/step4.wav" id="22_ds1xl"]
+[ext_resource type="AudioStream" uid="uid://djo1nnjiot4bm" path="res://assets/sounds/player/steps/step5.wav" id="23_1u1sw"]
+[ext_resource type="AudioStream" uid="uid://rqcmumfohdyr" path="res://assets/sounds/player/steps/step6.wav" id="24_2t3bg"]
+[ext_resource type="AudioStream" uid="uid://dp8psugfpsh3x" path="res://assets/sounds/player/steps/step7.wav" id="25_jrbya"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_x7p2l"]
 animations = [{
@@ -115,6 +122,16 @@ animations = [{
 radius = 8.0
 height = 32.0
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_ahqnk"]
+streams_count = 7
+stream_0/stream = ExtResource("19_rw8a5")
+stream_1/stream = ExtResource("20_iwuka")
+stream_2/stream = ExtResource("21_hyqqp")
+stream_3/stream = ExtResource("22_ds1xl")
+stream_4/stream = ExtResource("23_1u1sw")
+stream_5/stream = ExtResource("24_2t3bg")
+stream_6/stream = ExtResource("25_jrbya")
+
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_j4nxn"]
 streams_count = 5
 stream_0/stream = ExtResource("7_kvlxm")
@@ -149,7 +166,7 @@ stream_4/stream = ExtResource("21_007i1")
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("player_sprite", "player_collider", "sfx") groups=["player"]]
 collision_layer = 2
-collision_mask = 25
+collision_mask = 89
 script = ExtResource("1_dovo2")
 player_sprite = NodePath("Sprite")
 player_collider = NodePath("Collider")
@@ -173,6 +190,7 @@ shape = SubResource("CapsuleShape2D_8afob")
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("3_lvxji")
 initial_state = NodePath("Ground")
+debug_transitions = true
 metadata/_custom_type_script = "uid://b5r0p46rp1jyn"
 
 [node name="Ground" type="Node" parent="StateMachine"]
@@ -190,6 +208,7 @@ metadata/_custom_type_script = "uid://bjaxay0j51t5j"
 [node name="SFX" type="Node2D" parent="."]
 
 [node name="Step" type="AudioStreamPlayer2D" parent="SFX"]
+stream = SubResource("AudioStreamRandomizer_ahqnk")
 
 [node name="Jump" type="AudioStreamPlayer2D" parent="SFX"]
 stream = SubResource("AudioStreamRandomizer_j4nxn")

@@ -5,6 +5,7 @@ func enter():
 	player.stomp()
 	# TODO player.player_sprite.player("stomp")
 	player.sfx_stompfall.play()
+	player.is_stomping = true
 	player.set_collision_mask_value(6, false)
 
 func physics_update(delta: float) -> void:

@@ -1,6 +1,5 @@
-[gd_scene load_steps=15 format=3 uid="uid://5u0rjw4fxv62"]
+[gd_scene load_steps=13 format=3 uid="uid://5u0rjw4fxv62"]
 
-[ext_resource type="Texture2D" uid="uid://ctrx51g81r1v0" path="res://assets/sprites/treebutton_placeholder.png" id="1_cuvwl"]
 [ext_resource type="Script" uid="uid://dps82nj04mquw" path="res://scripts/tree/shop_button.gd" id="1_mbf7r"]
 [ext_resource type="FontFile" uid="uid://bxn105qovmxyq" path="res://assets/fonts/Ruler 9.ttf" id="3_4ol1s"]
 [ext_resource type="Script" uid="uid://ckh42debhjmot" path="res://scenes/test/Jacob Sandbox/tree.gd" id="5_bm6y3"]
@@ -14,11 +13,8 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r4rvj"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_4ol1s"]
-size = Vector2(16, 16)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mbf7r"]
-size = Vector2(16, 16)
+size = Vector2(44, 31)
 
 [node name="Tree" type="Node2D"]
 
@@ -53,38 +49,32 @@ branch_sprite = ExtResource("11_bynld")
 [node name="Shop" type="Node2D" parent="."]
 script = ExtResource("1_mbf7r")
 
-[node name="Button" type="Node2D" parent="Shop"]
+[node name="StaticBody2D" type="StaticBody2D" parent="Shop"]
+collision_layer = 128
+collision_mask = 4
 
-[node name="Sprite" type="Sprite2D" parent="Shop/Button"]
-position = Vector2(0, 8)
-texture = ExtResource("1_cuvwl")
-offset = Vector2(0, -8)
-
-[node name="StaticBody" type="StaticBody2D" parent="Shop/Button"]
-collision_layer = 16
-collision_mask = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Shop/Button/StaticBody"]
-shape = SubResource("RectangleShape2D_4ol1s")
+[node name="Collider" type="CollisionShape2D" parent="Shop/StaticBody2D"]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_mbf7r")
 
 [node name="Area" type="Area2D" parent="Shop"]
 collision_layer = 16
 collision_mask = 2
 
 [node name="Collider" type="CollisionShape2D" parent="Shop/Area"]
-position = Vector2(0, -4)
+position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_mbf7r")
 
 [node name="BuyPromptContainer" type="HBoxContainer" parent="Shop"]
+top_level = true
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = 8.5
-offset_top = -40.0
-offset_right = 105.5
-offset_bottom = -24.0
+offset_left = -48.5
+offset_top = -16.0
+offset_right = 48.5
 grow_horizontal = 2
 grow_vertical = 0
 

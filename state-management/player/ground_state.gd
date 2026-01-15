@@ -1,8 +1,13 @@
 extends State
 class_name GroundState
 
+@export var step_interval: float = 0.4
+var step_timer: float = 0.0
+
 func enter() -> void:
 	player.velocity.y = 0
+	
+	step_timer = 0.0
 	
 	if player.is_stomping:
 		stomp_feedback()
@@ -10,9 +15,10 @@ func enter() -> void:
 		land_feedback()
 
 func stomp_feedback():
-	player.sfx_stomp_impact.play()
 	player.player_sprite.play("idle")
-	player.is_stomping = false
+	player.sfx_land.play()
+	get_tree().call_group("camera", "apply_shake", Vector2(0, 8), 12.0)
+	
 
 func land_feedback():
 	player.sfx_land.play()
@@ -22,11 +28,19 @@ func physics_update(delta: float) -> void:
 	# inputs
 	var dir = Input.get_axis("move_left", "move_right")
 	
+	# let stomp finish
+	if player.is_stomping:
+		player.is_stomping = false
 	# feedback
 	if dir != 0:
 		player.player_sprite.play("run")
+		step_timer -= delta
+		if step_timer <= 0:
+			player.sfx_step.play()
+			step_timer = step_interval
 	else:
 		player.player_sprite.play("idle")
+		step_timer = 0.0
 	
 	# functions
 	player.apply_gravity(delta)

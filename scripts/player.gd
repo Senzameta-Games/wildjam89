@@ -76,10 +76,17 @@ func jump() -> void:
 
 func stomp() -> void:
 	velocity.y = stomp_velocity
+	is_stomping = true
 	just_stomped.emit()
 
 func bounce() -> void:
 	velocity.y = -jump_velocity
+	
+	if is_stomping:
+		sfx_stompimpact.play()
+		is_stomping = false
+		get_tree().call_group("camera", "apply_shake", Vector2(1, 32), 4.0)
+	
 	move_and_slide()
 	
 func interact() -> void:
