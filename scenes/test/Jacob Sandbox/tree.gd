@@ -1,71 +1,104 @@
 extends Node2D
 class_name SeedTree
 
-signal growth_started()
 signal growth_completed()
+signal tree_died()
+signal tree_damaged(amount: float)
+signal tree_healed(amount: float)
 
-@export var trunk_textures: Array[Texture2D] = []
-@export var trunk_section_height: int = 32
-@export var growth_duration: float = 0.5
+# Settings
+@export var trunk_textures: Array[Texture2D] = []  # Your trunk section sprites
+@export var trunk_section_height: int = 16
+@export var tree_progress: float = 10.0
+@export var base_grow_amount: float = 2.0
+@export var max_sections: int = 20
 
 @onready var tree_trunk = $TreeTrunk
+@onready var tree_top = $TreeTrunk/TreeTop
+var target_sections: int = 0
+var current_sections: int = 0
 
-var tree_height: int = 0
-var is_growing: bool = false
+func _ready():
+	_update_target_sections()
+	_build_trunk_immediate()
 
-func grow_tree(amount: int = 1):
-	if not is_growing:
-		tree_height += amount
-		_grow_new_section()
-
-func _grow_new_section():
-
-	is_growing = true
-	growth_started.emit()
-	print("tree growing")
+func _process(delta):
+	# Passive growth
+	add_progress(base_grow_amount * delta)
 	
-	# Create and place new sprite
-	var new_section = Sprite2D.new()
-	if not trunk_textures.is_empty():
-		new_section.texture = trunk_textures.pick_random()
-	
-	new_section.position.y = tree_height * trunk_section_height
-	tree_trunk.add_child(new_section)
-	tree_trunk.move_child(new_section, 0)
-	
-	_animate_growth()
+	# Update trunk if needed
+	_update_trunk_visual()
 
-func _animate_growth():
+
+func heal_tree(amount: float):
+	print("Incoming Heal: ", amount)
+	add_progress(amount)
+
+func damage_tree(amount: float):
+	print("Incoming Damage: ", amount)
+	subtract_progress(amount)
+
+func add_progress(amount: float):
+	tree_progress = clampf(tree_progress + amount, 0.0, 100.0)
+	_update_target_sections()
 	
-	if not tree_trunk:
-		print("ERROR: tree_trunk is null - cannot animate!")
-		is_growing = false
+	if tree_progress >= 100.0:
 		growth_completed.emit()
-		return
+
+func subtract_progress(amount: float):
+	tree_progress = clampf(tree_progress - amount, 0.0, 100.0)
+	_update_target_sections()
 	
-	var step_size = 2
-	var total_steps = trunk_section_height / step_size
-	var step_delay = growth_duration / total_steps
+	if tree_progress <= 0.0:
+		tree_died.emit()
+
+func _update_target_sections():
+	target_sections = int((tree_progress / 100.0) * max_sections)
+
+func _update_trunk_visual():
+	if current_sections != target_sections:
+		current_sections = target_sections
+		_rebuild_trunk()
+
+func _rebuild_trunk():
+	# Clear old sections
+	for child in tree_trunk.get_children():
+		if child.name == "TreeTop":
+			continue
+		child.queue_free()
+	
+	# Add new sections
+	for i in range(current_sections):
+		var section = Sprite2D.new()
+		if trunk_textures.size() > 0:
+			section.texture = trunk_textures.pick_random()
+		section.position.y = (i + 1) * trunk_section_height
+		tree_trunk.add_child(section)
+	
+	tree_trunk.position.y = -current_sections * trunk_section_height
+	tree_top.position.y = 0
+
+func _build_trunk_immediate():
+	current_sections = target_sections
+	_rebuild_trunk()
 	
 	
-	# Step animation
-	for i in range(total_steps):
-		tree_trunk.position.y -= step_size  # This is likely line 54!
-		await get_tree().create_timer(step_delay).timeout
-	
-	# Overshoot/Bounce effect
-	var target_y = tree_trunk.position.y
-	var tween = create_tween().set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
-	
-	tween.tween_property(tree_trunk, "position:y", target_y - 4, 0.18)
-	tween.tween_property(tree_trunk, "position:y", target_y, 0.12)
-	
-	await tween.finished
-	is_growing = false
-	growth_completed.emit()
-	print("tree done growing")
-	
+func get_progress_percentage() -> float:
+	return tree_progress
+
+func set_progress(new_progress: float):
+	tree_progress = clampf(new_progress, 0.0, 100.0)
+	_update_target_sections()
 
 
-func _on_shop_interacted():
-	grow_tree()
+func _unhandled_input(event: InputEvent):
+	# DEBUG: Press 'P' to Grow
+	if event.is_action_pressed("DebugTreeGrow"):
+		heal_tree(10)
+		# We add enough to cross a whole number (e.g., 10%)
+		print("Manually Growing: ", tree_progress, "%")
+
+	# DEBUG: Press 'O' to Hurt
+	if event.is_action_pressed("DebugTreeHurt"):
+		damage_tree(10)
+		print("Manually Hurting: ", tree_progress, "%")

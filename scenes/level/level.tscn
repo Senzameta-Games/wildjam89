@@ -1,9 +1,9 @@
 [gd_scene load_steps=10 format=3 uid="uid://cfl62gijxtptm"]
 
-[ext_resource type="Texture2D" uid="uid://mjlc0lr5hj87" path="res://assets/background/background-placeholder.png" id="1_i166f"]
 [ext_resource type="PackedScene" uid="uid://ciyc0yamaacqw" path="res://scenes/player/player.tscn" id="1_nbgty"]
 [ext_resource type="Script" uid="uid://f1ao7nyts6na" path="res://scripts/level.gd" id="1_wcngd"]
 [ext_resource type="Texture2D" uid="uid://dus1ny0bfg7qf" path="res://assets/sprites/nine-patch-placeholder.png" id="2_qkmgm"]
+[ext_resource type="Texture2D" uid="uid://h616werb16j0" path="res://scenes/test/Jacob Sandbox/tempSprite/placeholder_bg.png" id="2_wcngd"]
 [ext_resource type="PackedScene" uid="uid://c0xm7i1eahpti" path="res://scenes/enemy/enemy_spawner.tscn" id="5_vpf64"]
 [ext_resource type="PackedScene" uid="uid://cotswcby4pyh4" path="res://scenes/enemy/enemy.tscn" id="6_wcngd"]
 [ext_resource type="PackedScene" uid="uid://5u0rjw4fxv62" path="res://scenes/tree/tree.tscn" id="7_wcngd"]
@@ -23,11 +23,10 @@ script = ExtResource("1_wcngd")
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_top = -360.0
 offset_right = 640.0
-offset_bottom = 360.0
+offset_bottom = 720.0
 grow_vertical = 2
-texture = ExtResource("1_i166f")
+texture = ExtResource("2_wcngd")
 stretch_mode = 4
 
 [node name="Environment" type="Node2D" parent="."]
