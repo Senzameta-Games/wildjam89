@@ -1,8 +1,9 @@
-[gd_scene load_steps=13 format=3 uid="uid://5u0rjw4fxv62"]
+[gd_scene load_steps=14 format=3 uid="uid://5u0rjw4fxv62"]
 
 [ext_resource type="Script" uid="uid://dps82nj04mquw" path="res://scripts/tree/shop_button.gd" id="1_mbf7r"]
 [ext_resource type="FontFile" uid="uid://bxn105qovmxyq" path="res://assets/fonts/Ruler 9.ttf" id="3_4ol1s"]
 [ext_resource type="Script" uid="uid://ckh42debhjmot" path="res://scenes/test/Jacob Sandbox/tree.gd" id="5_bm6y3"]
+[ext_resource type="AudioStream" uid="uid://b50xpqmiuv013" path="res://assets/sounds/tree/treegrow2.wav" id="6_bm6y3"]
 [ext_resource type="Texture2D" uid="uid://hu4tag3386m8" path="res://scenes/test/Jacob Sandbox/tempSprite/TreeTrunk/placeholder_tree_trunk2.png" id="6_hs8qy"]
 [ext_resource type="Texture2D" uid="uid://bhcwmk2isjaui" path="res://scenes/test/Jacob Sandbox/tempSprite/TreeTrunk/placeholder_tree_trunk.png" id="7_undyc"]
 [ext_resource type="Texture2D" uid="uid://dnvdufg7snku5" path="res://scenes/test/Jacob Sandbox/tempSprite/TreeTrunk/placeholder_tree_top.png" id="8_d4o0i"]
@@ -40,6 +41,16 @@ z_index = 10
 
 [node name="Sprite2D" type="Sprite2D" parent="Tree/TreeBase"]
 texture = ExtResource("9_6wwch")
+
+[node name="SFX" type="Node2D" parent="Tree"]
+
+[node name="Grow" type="AudioStreamPlayer2D" parent="Tree/SFX"]
+stream = ExtResource("6_bm6y3")
+volume_db = -28.0
+pitch_scale = 0.5
+autoplay = true
+
+[node name="Decay" type="AudioStreamPlayer2D" parent="Tree/SFX"]
 
 [node name="BranchManager" type="Node2D" parent="."]
 visibility_layer = 2

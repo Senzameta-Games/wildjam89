@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://d3dve68x6yncr"]
+[gd_scene load_steps=2 format=3 uid="uid://kti6pw1y8020"]
 
-[ext_resource type="Script" uid="uid://todki6oqsm5m" path="res://scripts/ui/achievement_manager.gd" id="1_manager"]
+[ext_resource type="Script" path="res://scripts/ui/achievement_manager.gd" id="1_manager"]
 
 [node name="AchievementManager" type="Control"]
 layout_mode = 3

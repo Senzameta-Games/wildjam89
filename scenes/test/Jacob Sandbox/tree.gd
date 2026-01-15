@@ -1,16 +1,17 @@
 extends Node2D
 class_name SeedTree
 
-signal growth_completed()
-signal tree_died()
+signal growth_completed
+signal tree_died
 signal tree_damaged(amount: float)
 signal tree_healed(amount: float)
+signal new_section_added
 
 # Settings
-@export var trunk_textures: Array[Texture2D] = []  # Your trunk section sprites
+@export var trunk_textures: Array[Texture2D] = []
 @export var trunk_section_height: int = 16
 @export var tree_progress: float = 10.0
-@export var base_grow_amount: float = 2.0
+@export var base_grow_amount: float = 0.5
 @export var max_sections: int = 20
 
 @onready var tree_trunk = $TreeTrunk
@@ -74,6 +75,7 @@ func _rebuild_trunk():
 			section.texture = trunk_textures.pick_random()
 		section.position.y = (i + 1) * trunk_section_height
 		tree_trunk.add_child(section)
+		new_section_added.emit()
 	
 	tree_trunk.position.y = -current_sections * trunk_section_height
 	tree_top.position.y = 0
@@ -102,3 +104,6 @@ func _unhandled_input(event: InputEvent):
 	if event.is_action_pressed("DebugTreeHurt"):
 		damage_tree(10)
 		print("Manually Hurting: ", tree_progress, "%")
+
+func _on_shop_interacted():
+	add_progress(5.0)
