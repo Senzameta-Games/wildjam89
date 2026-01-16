@@ -43,6 +43,7 @@ func blow_up() -> void:
 	set_physics_process(false)
 	rotation = 0
 	bomb_sprite.play("blow up")
+	get_tree().call_group("camera", "apply_shake", Vector2(8, 8), 1.0)
 	await bomb_sprite.animation_finished
 	queue_free()
 	# TODO: blow up sound

@@ -98,7 +98,7 @@ bomb = ExtResource("18_7bnwr")
 buffer = 10.0
 throw_arc = -300.0
 speed = 80.0
-seed_value = 3
+seed_value = 5
 
 [node name="Sprite" parent="." index="0"]
 position = Vector2(0, 7)
@@ -109,8 +109,3 @@ flip_h = true
 collision_mask = 19
 
 [node name="ThrowTimer" type="Timer" parent="." index="6"]
-
-[node name="Bomb" parent="." index="7" instance=ExtResource("18_7bnwr")]
-speed = 200.0
-damage = 10
-blast_radius = 10.0

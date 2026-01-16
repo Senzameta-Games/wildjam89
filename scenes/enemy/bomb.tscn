@@ -64,7 +64,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bvjtt"]
-size = Vector2(12, 12)
+size = Vector2(6, 6)
 
 [node name="Bomb" type="Area2D" node_paths=PackedStringArray("bomb_sprite")]
 collision_layer = 4

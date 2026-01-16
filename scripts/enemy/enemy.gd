@@ -73,17 +73,58 @@ func squash_and_hide() -> void:
 	$SFX/Squash.play()
 
 func drop_seed() -> void:
-	dropped_seed.visible = true
-	var tween = create_tween()
-	tween.tween_property(dropped_seed, "position:y", -48.0, 0.48).as_relative().set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
-	tween.tween_callback(func(): $Seed/SFX/Appear.play())
-	tween.tween_property(dropped_seed, "modulate:a", 0.0, 1.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
+	# hide the source node
+	dropped_seed.visible = false
+	
+	# emit signals so logic/achievements count right away
 	seed_dropped.emit()
 	enemy_defeated.emit()
-	# Track for achievements
 	if Achievements:
 		Achievements.on_enemy_stomped()
-	tween.tween_callback(queue_free)
+	
+	# tie interval to seed value (normalizes seed animation duration)
+	var interval = remap(float(seed_value), 1.0, 10.0, 0.2, 0.1)
+	interval = clampf(interval, 0.05, 0.2)
+	
+	# loop through seed value and spawn a sprite
+	for i in range(seed_value):
+		_spawn_visual_seed()
+		
+		# wait a short interval before firing another
+		if i < seed_value - 1:
+			await get_tree().create_timer(interval).timeout
+	
+	# wait for all the animation to end then die
+	await get_tree().create_timer(1.7).timeout
+	queue_free()
+
+func _spawn_visual_seed() -> void:
+	# instantiate a copy of the source node
+	var new_seed = dropped_seed.duplicate()
+	add_child(new_seed)
+	
+	# reset state
+	new_seed.position = Vector2.ZERO 
+	new_seed.visible = true
+	
+	# animation
+	var tween = create_tween()
+	var fuzzy_end_point = randf_range(-36.0, -60.0)
+	tween.tween_property(new_seed, "position:y", fuzzy_end_point, 0.5).as_relative().set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
+	var spin_tween = create_tween()
+	
+	# spin on loop
+	spin_tween.set_loops(1) 
+	spin_tween.tween_property(new_seed, "scale:x", -1.0, 0.1).set_trans(Tween.TRANS_SINE)
+	spin_tween.tween_property(new_seed, "scale:x", 1.0, 0.1).set_trans(Tween.TRANS_SINE)
+	
+	# find and play sound
+	var sfx = new_seed.get_node_or_null("SFX/Appear")
+	if sfx:
+		tween.tween_callback(sfx.play)
+	tween.tween_property(new_seed, "modulate:a", 0.0, 1.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
+	# clean up
+	tween.tween_callback(new_seed.queue_free)
 
 func sacrifice() -> void:
 	set_physics_process(false)

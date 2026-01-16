@@ -53,6 +53,11 @@ func prepare_bomb() -> void:
 	# form bomb
 	if bomb and not stomped:
 		var bomb_visual = bomb.instantiate()
+		
+		# bomb triggers screenshake early without this
+		bomb_visual.monitoring = false
+		bomb_visual.monitorable = false
+		
 		add_child(bomb_visual)
 		#print("temp bomb has been instantiated")
 		

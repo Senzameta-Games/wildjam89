@@ -1,38 +1,40 @@
-[gd_scene load_steps=7 format=3 uid="uid://cne6nr2xqlc0h"]
+[gd_scene load_steps=6 format=3 uid="uid://cne6nr2xqlc0h"]
 
 [ext_resource type="PackedScene" uid="uid://cfl62gijxtptm" path="res://scenes/level/level.tscn" id="1_o5qli"]
-[ext_resource type="Script" uid="uid://bpdggf0ahipqg" path="res://scripts/ui/seed_counter.gd" id="2_0wfyh"]
-[ext_resource type="FontFile" uid="uid://bxn105qovmxyq" path="res://assets/fonts/Ruler 9.ttf" id="3_jyhfs"]
-[ext_resource type="Texture2D" uid="uid://evljh2213602" path="res://assets/sprites/seed/seedblack.png" id="4_tbgi4"]
+[ext_resource type="Texture2D" uid="uid://rhhxxlmy3ntp" path="res://assets/filter/frame.png" id="4_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://cnedgj3aevipi" path="res://scenes/ui/pause_menu.tscn" id="5_tbgi4"]
-[ext_resource type="PackedScene" uid="uid://kti6pw1y8020" path="res://scenes/ui/achievement_manager.tscn" id="6_ach"]
+[ext_resource type="Shader" uid="uid://cuixajlsoukt" path="res://scenes/crt.gdshader" id="7_o6xl0"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tipki"]
+shader = ExtResource("7_o6xl0")
+shader_parameter/blur_radius = 1.0000000475
+shader_parameter/blur_intensity = 0.150000007125
+shader_parameter/aberration_amount = 0.350000016625
+shader_parameter/curvature = 15.0
+shader_parameter/corner_cutoff = 0.50000002375
+shader_parameter/noise_strength = 0.050000002375
+shader_parameter/noise_speed = 0.10000000475
 
 [node name="Main" type="Node2D"]
 
 [node name="Level" parent="." instance=ExtResource("1_o5qli")]
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="Seeds" type="HBoxContainer" parent="CanvasLayer"]
-offset_left = 592.0
-offset_top = 10.0
-offset_right = 629.0
-offset_bottom = 26.0
-size_flags_horizontal = 0
-theme_override_constants/separation = 8
-script = ExtResource("2_0wfyh")
-
-[node name="seed_count" type="Label" parent="CanvasLayer/Seeds"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("3_jyhfs")
-text = "000"
-horizontal_alignment = 2
-
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Seeds"]
-layout_mode = 2
-texture = ExtResource("4_tbgi4")
-stretch_mode = 3
-
-[node name="AchievementManager" parent="CanvasLayer" instance=ExtResource("6_ach")]
-
 [node name="PauseMenu" parent="." instance=ExtResource("5_tbgi4")]
+
+[node name="CRT" type="CanvasLayer" parent="."]
+layer = 100
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="CRT"]
+material = SubResource("ShaderMaterial_tipki")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TextureRect" type="TextureRect" parent="CRT"]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("4_jyhfs")

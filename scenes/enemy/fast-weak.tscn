@@ -59,6 +59,7 @@ animations = [{
 [node name="Worm" instance=ExtResource("1_hrymj")]
 spawn_cost = 1
 speed = 200.0
+seed_value = 2
 
 [node name="Sprite" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_mxuh0")
