@@ -1,40 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://cne6nr2xqlc0h"]
+[gd_scene load_steps=3 format=3 uid="uid://cne6nr2xqlc0h"]
 
 [ext_resource type="PackedScene" uid="uid://cfl62gijxtptm" path="res://scenes/level/level.tscn" id="1_o5qli"]
-[ext_resource type="Texture2D" uid="uid://rhhxxlmy3ntp" path="res://assets/filter/frame.png" id="4_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://cnedgj3aevipi" path="res://scenes/ui/pause_menu.tscn" id="5_tbgi4"]
-[ext_resource type="Shader" uid="uid://cuixajlsoukt" path="res://scenes/crt.gdshader" id="7_o6xl0"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_tipki"]
-shader = ExtResource("7_o6xl0")
-shader_parameter/blur_radius = 1.0000000475
-shader_parameter/blur_intensity = 0.150000007125
-shader_parameter/aberration_amount = 0.350000016625
-shader_parameter/curvature = 15.0
-shader_parameter/corner_cutoff = 0.50000002375
-shader_parameter/noise_strength = 0.050000002375
-shader_parameter/noise_speed = 0.10000000475
 
 [node name="Main" type="Node2D"]
 
 [node name="Level" parent="." instance=ExtResource("1_o5qli")]
 
 [node name="PauseMenu" parent="." instance=ExtResource("5_tbgi4")]
-
-[node name="CRT" type="CanvasLayer" parent="."]
-layer = 100
-visible = false
-
-[node name="ColorRect" type="ColorRect" parent="CRT"]
-material = SubResource("ShaderMaterial_tipki")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
-[node name="TextureRect" type="TextureRect" parent="CRT"]
-offset_right = 40.0
-offset_bottom = 40.0
-texture = ExtResource("4_jyhfs")

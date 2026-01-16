@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dlcly68nrcw1w"
-path="res://.godot/imported/leaf1.png-28b58de2f8d94a5111307da599ccfa03.ctex"
+uid="uid://bt1fbn74i3bj8"
+path="res://.godot/imported/placeholder_tree_trunk.png-2b0efdc1d3dc57aa00599b6f7e0201ed.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://scenes/test/JacobSandbox/tempLeaves/leaf1.png"
-dest_files=["res://.godot/imported/leaf1.png-28b58de2f8d94a5111307da599ccfa03.ctex"]
+source_file="res://assets/sprites/tree/tempSprite/TreeTrunk/placeholder_tree_trunk.png"
+dest_files=["res://.godot/imported/placeholder_tree_trunk.png-2b0efdc1d3dc57aa00599b6f7e0201ed.ctex"]
 
 [params]
 
