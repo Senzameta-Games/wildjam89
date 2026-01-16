@@ -1,18 +1,26 @@
-[gd_scene load_steps=14 format=3 uid="uid://5u0rjw4fxv62"]
+[gd_scene load_steps=17 format=3 uid="uid://5u0rjw4fxv62"]
 
 [ext_resource type="Script" uid="uid://dps82nj04mquw" path="res://scripts/tree/shop_button.gd" id="1_mbf7r"]
 [ext_resource type="FontFile" uid="uid://bxn105qovmxyq" path="res://assets/fonts/Ruler 9.ttf" id="3_4ol1s"]
-[ext_resource type="Script" uid="uid://ckh42debhjmot" path="res://scenes/test/Jacob Sandbox/tree.gd" id="5_bm6y3"]
+[ext_resource type="Script" uid="uid://ckh42debhjmot" path="res://scenes/test/JacobSandbox/tree.gd" id="5_bm6y3"]
 [ext_resource type="AudioStream" uid="uid://b50xpqmiuv013" path="res://assets/sounds/tree/treegrow2.wav" id="6_bm6y3"]
-[ext_resource type="Texture2D" uid="uid://hu4tag3386m8" path="res://scenes/test/Jacob Sandbox/tempSprite/TreeTrunk/placeholder_tree_trunk2.png" id="6_hs8qy"]
-[ext_resource type="Texture2D" uid="uid://bhcwmk2isjaui" path="res://scenes/test/Jacob Sandbox/tempSprite/TreeTrunk/placeholder_tree_trunk.png" id="7_undyc"]
-[ext_resource type="Texture2D" uid="uid://dnvdufg7snku5" path="res://scenes/test/Jacob Sandbox/tempSprite/TreeTrunk/placeholder_tree_top.png" id="8_d4o0i"]
-[ext_resource type="Texture2D" uid="uid://b6dyvwjcvtkge" path="res://scenes/test/Jacob Sandbox/tempSprite/TreeTrunk/placeholder_tree_base.png" id="9_6wwch"]
-[ext_resource type="Script" uid="uid://dqhidt2u20g47" path="res://scenes/test/Jacob Sandbox/branch.gd" id="10_kui63"]
+[ext_resource type="Texture2D" uid="uid://hu4tag3386m8" path="res://scenes/test/JacobSandbox/tempSprite/TreeTrunk/placeholder_tree_trunk2.png" id="6_hs8qy"]
+[ext_resource type="Texture2D" uid="uid://bhcwmk2isjaui" path="res://scenes/test/JacobSandbox/tempSprite/TreeTrunk/placeholder_tree_trunk.png" id="7_undyc"]
+[ext_resource type="Texture2D" uid="uid://dnvdufg7snku5" path="res://scenes/test/JacobSandbox/tempSprite/TreeTrunk/placeholder_tree_top.png" id="8_d4o0i"]
+[ext_resource type="Texture2D" uid="uid://b6dyvwjcvtkge" path="res://scenes/test/JacobSandbox/tempSprite/TreeTrunk/placeholder_tree_base.png" id="9_6wwch"]
+[ext_resource type="Script" uid="uid://dqhidt2u20g47" path="res://scenes/test/JacobSandbox/branch.gd" id="10_kui63"]
 [ext_resource type="Texture2D" uid="uid://evljh2213602" path="res://assets/sprites/seed/seedblack.png" id="11_bm6y3"]
-[ext_resource type="Texture2D" uid="uid://m42u63q28p4x" path="res://scenes/test/Jacob Sandbox/tempSprite/TreeBranch/tree_branch.png" id="11_bynld"]
+[ext_resource type="Texture2D" uid="uid://m42u63q28p4x" path="res://scenes/test/JacobSandbox/tempSprite/TreeBranch/tree_branch.png" id="11_bynld"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r4rvj"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_bm6y3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hs8qy"]
+size = Vector2(30, 29)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bm6y3"]
+size = Vector2(36, 50)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mbf7r"]
 size = Vector2(44, 31)
@@ -39,6 +47,23 @@ texture = ExtResource("8_d4o0i")
 [node name="TreeBase" type="Node2D" parent="Tree"]
 z_index = 10
 
+[node name="StumpCollision" type="StaticBody2D" parent="Tree/TreeBase"]
+collision_layer = 64
+collision_mask = 0
+physics_material_override = SubResource("PhysicsMaterial_bm6y3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Tree/TreeBase/StumpCollision"]
+position = Vector2(0.5, -0.5)
+shape = SubResource("RectangleShape2D_hs8qy")
+
+[node name="TreeHitbox" type="Area2D" parent="Tree/TreeBase"]
+collision_layer = 4
+collision_mask = 4
+
+[node name="TreeCollider" type="CollisionShape2D" parent="Tree/TreeBase/TreeHitbox"]
+position = Vector2(0.5, -0.5)
+shape = SubResource("RectangleShape2D_bm6y3")
+
 [node name="Sprite2D" type="Sprite2D" parent="Tree/TreeBase"]
 texture = ExtResource("9_6wwch")
 
@@ -61,12 +86,15 @@ branch_sprite = ExtResource("11_bynld")
 script = ExtResource("1_mbf7r")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="Shop"]
+visible = false
 collision_layer = 128
 collision_mask = 4
 
 [node name="Collider" type="CollisionShape2D" parent="Shop/StaticBody2D"]
+visible = false
 position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_mbf7r")
+disabled = true
 
 [node name="Area" type="Area2D" parent="Shop"]
 collision_layer = 16
@@ -88,6 +116,7 @@ offset_top = -16.0
 offset_right = 48.5
 grow_horizontal = 2
 grow_vertical = 0
+metadata/_edit_use_anchors_ = true
 
 [node name="Input" type="Label" parent="Shop/BuyPromptContainer"]
 layout_mode = 2

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bhcwmk2isjaui"
-path="res://.godot/imported/placeholder_tree_trunk.png-609c1b801194d6432aa5bf8cec5fef23.ctex"
+uid="uid://dnvdufg7snku5"
+path="res://.godot/imported/placeholder_tree_top.png-29b7cc00d4c008fde9c4b2cdf8b769b3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://scenes/test/Jacob Sandbox/tempSprite/TreeTrunk/placeholder_tree_trunk.png"
-dest_files=["res://.godot/imported/placeholder_tree_trunk.png-609c1b801194d6432aa5bf8cec5fef23.ctex"]
+source_file="res://scenes/test/JacobSandbox/tempSprite/TreeTrunk/placeholder_tree_top.png"
+dest_files=["res://.godot/imported/placeholder_tree_top.png-29b7cc00d4c008fde9c4b2cdf8b769b3.ctex"]
 
 [params]
 

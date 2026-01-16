@@ -16,7 +16,7 @@ signal new_section_added
 
 @onready var tree_trunk = $TreeTrunk
 @onready var tree_top = $TreeTrunk/TreeTop
-@onready var hit_collider = $TreeHitBox/TreeCollider
+@onready var tree_collider = $TreeBase/TreeHitbox/TreeCollider
 
 var target_sections: int = 0
 var current_sections: int = 0
@@ -24,6 +24,8 @@ var current_sections: int = 0
 func _ready():
 	_update_target_sections()
 	_build_trunk_immediate()
+	$TreeBase/TreeHitbox.area_entered.connect(_on_tree_hitbox_area_entered)
+
 
 func _process(delta):
 	# Passive growth
@@ -64,21 +66,39 @@ func _update_trunk_visual():
 		_rebuild_trunk()
 
 func _rebuild_trunk():
-	# Clear old sections
+	# 1. CLEAR OLD SECTIONS (Keep the essential nodes alive)
 	for child in tree_trunk.get_children():
-		if child.name == "TreeTop":
+		# We must check the names carefully so we don't delete our Hitbox or Top
+		if child.name == "TreeTop" or child.name == "TreeHitbox":
 			continue
 		child.queue_free()
 	
-	# Add new sections
+	# 2. ADD NEW SECTIONS
 	for i in range(current_sections):
 		var section = Sprite2D.new()
 		if trunk_textures.size() > 0:
 			section.texture = trunk_textures.pick_random()
+		
+		# Position logs from bottom to top
 		section.position.y = (i + 1) * trunk_section_height
 		tree_trunk.add_child(section)
 		new_section_added.emit()
 	
+	# 3. UPDATE COLLIDER (The "Perfect Fit" Logic)
+	if tree_collider and tree_collider.shape is RectangleShape2D:
+		var total_height = current_sections * trunk_section_height
+		var shape = tree_collider.shape as RectangleShape2D
+		
+		# Set the box size to exactly the tree's height
+		# Using a width of 32, but you can adjust as needed
+		shape.size = Vector2(32, total_height)
+		
+		# Move the collider UP by half its height. 
+		# This offsets Godot's center-scaling so the bottom stays at y=0.
+		tree_collider.position.y = -(total_height / 2.0) + 10
+
+	# 4. REPOSITION ENTIRE TRUNK CONTAINER
+	# This keeps the base of the tree at the SeedTree's global position
 	tree_trunk.position.y = -current_sections * trunk_section_height
 	tree_top.position.y = 0
 
@@ -109,3 +129,10 @@ func _unhandled_input(event: InputEvent):
 
 func _on_shop_interacted():
 	add_progress(5.0)
+
+
+func _on_tree_hitbox_area_entered(area: Area2D):
+	if area.get_parent() is Enemy:
+		print("enemy collision!")
+		subtract_progress(5)
+		
