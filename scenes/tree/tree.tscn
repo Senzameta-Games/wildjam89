@@ -1,20 +1,19 @@
-[gd_scene load_steps=23 format=3 uid="uid://5u0rjw4fxv62"]
+[gd_scene load_steps=19 format=3 uid="uid://5u0rjw4fxv62"]
 
 [ext_resource type="Script" uid="uid://dps82nj04mquw" path="res://scripts/tree/shop_button.gd" id="1_mbf7r"]
 [ext_resource type="FontFile" uid="uid://bxn105qovmxyq" path="res://assets/fonts/Ruler 9.ttf" id="3_4ol1s"]
 [ext_resource type="Script" uid="uid://ckh42debhjmot" path="res://scripts/tree/tree.gd" id="5_bm6y3"]
 [ext_resource type="AudioStream" uid="uid://b50xpqmiuv013" path="res://assets/sounds/tree/treegrow2.wav" id="6_bm6y3"]
 [ext_resource type="Texture2D" uid="uid://dibs1k6dnl1i7" path="res://assets/sprites/tree/tempSprite/TreeTrunk/placeholder_tree_trunk2.png" id="6_hs8qy"]
-[ext_resource type="Texture2D" uid="uid://b0tldl4i5ow7m" path="res://assets/sprites/tree/tempSprite/TreeTrunk/placeholder_tree_trunk5.png" id="6_r4rvj"]
 [ext_resource type="Texture2D" uid="uid://bt1fbn74i3bj8" path="res://assets/sprites/tree/tempSprite/TreeTrunk/placeholder_tree_trunk.png" id="7_undyc"]
 [ext_resource type="Texture2D" uid="uid://cd30gg1b7amlm" path="res://assets/sprites/tree/tempSprite/TreeTrunk/placeholder_tree_top.png" id="8_d4o0i"]
+[ext_resource type="Texture2D" uid="uid://ba66rst8x2xx8" path="res://assets/sprites/tree/tempSprite/TreeTrunk/placeholder_tree_base.png" id="9_6wwch"]
 [ext_resource type="Texture2D" uid="uid://c3vywuqtddxdj" path="res://assets/sprites/tree/tempLeaves/leaf1.png" id="9_d4o0i"]
 [ext_resource type="Texture2D" uid="uid://co5ws8k3x0pfd" path="res://assets/sprites/tree/tempLeaves/leaf2.png" id="10_6wwch"]
 [ext_resource type="Script" uid="uid://dqhidt2u20g47" path="res://scripts/tree/branch.gd" id="10_kui63"]
 [ext_resource type="Texture2D" uid="uid://evljh2213602" path="res://assets/sprites/seed/seedblack.png" id="11_bm6y3"]
 [ext_resource type="Texture2D" uid="uid://dme5qpb1j3tsi" path="res://assets/sprites/tree/tempSprite/TreeBranch/tree_branch.png" id="11_bynld"]
 [ext_resource type="Texture2D" uid="uid://be58d6ebquamy" path="res://assets/sprites/tree/tempLeaves/leaf3.png" id="11_kui63"]
-[ext_resource type="Texture2D" uid="uid://gul6txs6ilod" path="res://assets/sprites/tree/tempSprite/TreeTrunk/tree_basevbg.png" id="11_r4rvj"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r4rvj"]
 
@@ -36,16 +35,17 @@ expand_margin_left = 1.0
 [node name="Tree" type="Node2D"]
 visibility_layer = 2
 script = ExtResource("5_bm6y3")
-trunk_textures = Array[Texture2D]([ExtResource("6_hs8qy"), ExtResource("7_undyc"), ExtResource("6_hs8qy"), ExtResource("4_6wwch"), ExtResource("7_undyc"), ExtResource("6_hs8qy"), ExtResource("4_6wwch"), ExtResource("5_bynld"), ExtResource("6_r4rvj"), ExtResource("7_undyc")])
+trunk_textures = Array[Texture2D]([ExtResource("6_hs8qy"), ExtResource("7_undyc")])
+trunk_section_height = null
 base_grow_amount = 0.2
-leaf_textures = Array[Texture2D]([ExtResource("9_d4o0i"), ExtResource("10_6wwch"), ExtResource("11_kui63")])
+max_sections = null
 
 [node name="TreeTrunk" type="Node2D" parent="."]
 
 [node name="TreeTop" type="Area2D" parent="TreeTrunk"]
 z_index = 10
 collision_layer = 16
-collision_mask = 2
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="TreeTrunk/TreeTop"]
 shape = SubResource("RectangleShape2D_r4rvj")
@@ -65,13 +65,8 @@ collision_mask = 4
 position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_bm6y3")
 
-[node name="TreeBase" type="Sprite2D" parent="TreeBase"]
-z_index = 1
-texture = ExtResource("5_d4o0i")
-
-[node name="BG" type="Sprite2D" parent="."]
-position = Vector2(0, -9.59)
-texture = ExtResource("11_r4rvj")
+[node name="Sprite2D" type="Sprite2D" parent="TreeBase"]
+texture = ExtResource("9_6wwch")
 
 [node name="SFX" type="Node2D" parent="."]
 
