@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dps82nj04mquw" path="res://scripts/tree/shop_button.gd" id="1_mbf7r"]
 [ext_resource type="FontFile" uid="uid://bxn105qovmxyq" path="res://assets/fonts/Ruler 9.ttf" id="3_4ol1s"]
-[ext_resource type="Script" uid="uid://ckh42debhjmot" path="res://scenes/test/JacobSandbox/tree.gd" id="5_bm6y3"]
+[ext_resource type="Script" uid="uid://ckh42debhjmot" path="res://scripts/tree/tree.gd" id="5_bm6y3"]
 [ext_resource type="AudioStream" uid="uid://b50xpqmiuv013" path="res://assets/sounds/tree/treegrow2.wav" id="6_bm6y3"]
 [ext_resource type="Texture2D" uid="uid://hu4tag3386m8" path="res://scenes/test/JacobSandbox/tempSprite/TreeTrunk/placeholder_tree_trunk2.png" id="6_hs8qy"]
 [ext_resource type="Texture2D" uid="uid://bhcwmk2isjaui" path="res://scenes/test/JacobSandbox/tempSprite/TreeTrunk/placeholder_tree_trunk.png" id="7_undyc"]
@@ -10,7 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://b6dyvwjcvtkge" path="res://scenes/test/JacobSandbox/tempSprite/TreeTrunk/placeholder_tree_base.png" id="9_6wwch"]
 [ext_resource type="Texture2D" uid="uid://dlcly68nrcw1w" path="res://scenes/test/JacobSandbox/tempLeaves/leaf1.png" id="9_d4o0i"]
 [ext_resource type="Texture2D" uid="uid://bdtyf5snsomso" path="res://scenes/test/JacobSandbox/tempLeaves/leaf2.png" id="10_6wwch"]
-[ext_resource type="Script" uid="uid://dqhidt2u20g47" path="res://scenes/test/JacobSandbox/branch.gd" id="10_kui63"]
+[ext_resource type="Script" uid="uid://dqhidt2u20g47" path="res://scripts/tree/branch.gd" id="10_kui63"]
 [ext_resource type="Texture2D" uid="uid://evljh2213602" path="res://assets/sprites/seed/seedblack.png" id="11_bm6y3"]
 [ext_resource type="Texture2D" uid="uid://m42u63q28p4x" path="res://scenes/test/JacobSandbox/tempSprite/TreeBranch/tree_branch.png" id="11_bynld"]
 [ext_resource type="Texture2D" uid="uid://dcqaducpbqqgm" path="res://scenes/test/JacobSandbox/tempLeaves/leaf3.png" id="11_kui63"]
@@ -20,10 +20,10 @@
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_bm6y3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hs8qy"]
-size = Vector2(30, 29)
+size = Vector2(36, 29)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bm6y3"]
-size = Vector2(36, 50)
+size = Vector2(46, 50)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mbf7r"]
 size = Vector2(44, 31)
@@ -39,6 +39,8 @@ trunk_textures = Array[Texture2D]([ExtResource("6_hs8qy"), ExtResource("7_undyc"
 
 [node name="TreeTop" type="Area2D" parent="Tree/TreeTrunk"]
 z_index = 10
+collision_layer = 16
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Tree/TreeTrunk/TreeTop"]
 shape = SubResource("RectangleShape2D_r4rvj")
@@ -51,20 +53,20 @@ texture = ExtResource("8_d4o0i")
 z_index = 10
 
 [node name="StumpCollision" type="StaticBody2D" parent="Tree/TreeBase"]
-collision_layer = 64
-collision_mask = 0
+collision_layer = 16
+collision_mask = 4
 physics_material_override = SubResource("PhysicsMaterial_bm6y3")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Tree/TreeBase/StumpCollision"]
-position = Vector2(0.5, -0.5)
+position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_hs8qy")
 
 [node name="TreeHitbox" type="Area2D" parent="Tree/TreeBase"]
-collision_layer = 4
+collision_layer = 16
 collision_mask = 4
 
 [node name="TreeCollider" type="CollisionShape2D" parent="Tree/TreeBase/TreeHitbox"]
-position = Vector2(0.5, -0.5)
+position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_bm6y3")
 
 [node name="Sprite2D" type="Sprite2D" parent="Tree/TreeBase"]
@@ -88,17 +90,6 @@ leaf_sprites = Array[Texture2D]([ExtResource("9_d4o0i"), ExtResource("10_6wwch")
 
 [node name="Shop" type="Node2D" parent="."]
 script = ExtResource("1_mbf7r")
-
-[node name="StaticBody2D" type="StaticBody2D" parent="Shop"]
-visible = false
-collision_layer = 128
-collision_mask = 4
-
-[node name="Collider" type="CollisionShape2D" parent="Shop/StaticBody2D"]
-visible = false
-position = Vector2(0, -0.5)
-shape = SubResource("RectangleShape2D_mbf7r")
-disabled = true
 
 [node name="Area" type="Area2D" parent="Shop"]
 collision_layer = 16

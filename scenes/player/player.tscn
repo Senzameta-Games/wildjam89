@@ -166,7 +166,7 @@ stream_4/stream = ExtResource("21_007i1")
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("player_sprite", "player_collider", "sfx") groups=["player"]]
 collision_layer = 2
-collision_mask = 89
+collision_mask = 105
 script = ExtResource("1_dovo2")
 player_sprite = NodePath("Sprite")
 player_collider = NodePath("Collider")
