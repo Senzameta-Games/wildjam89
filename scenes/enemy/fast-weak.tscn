@@ -56,8 +56,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Enemy" instance=ExtResource("1_hrymj")]
-position = Vector2(0, 2)
+[node name="Worm" instance=ExtResource("1_hrymj")]
 spawn_cost = 1
 speed = 250.0
 

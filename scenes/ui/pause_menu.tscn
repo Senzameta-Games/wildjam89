@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cnedgj3aevipi"]
+[gd_scene load_steps=3 format=3 uid="uid://cnedgj3aevipi"]
 
 [ext_resource type="Script" uid="uid://cs8kl71k81swx" path="res://scripts/ui/pause_menu.gd" id="1_6tw0m"]
+[ext_resource type="FontFile" uid="uid://bxn105qovmxyq" path="res://assets/fonts/Ruler 9.ttf" id="2_0lmf7"]
 
 [node name="PauseMenu" type="CanvasLayer"]
 process_mode = 3
@@ -20,6 +21,7 @@ offset_top = 60.0
 offset_right = 50.0
 offset_bottom = 110.0
 grow_horizontal = 2
+theme_override_fonts/font = ExtResource("2_0lmf7")
 text = "Resume"
 
 [node name="RestartButton" type="Button" parent="."]
@@ -34,6 +36,7 @@ offset_right = 50.0
 offset_bottom = -5.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_0lmf7")
 text = "Restart"
 
 [node name="ExitButton" type="Button" parent="."]
@@ -48,6 +51,7 @@ offset_right = 50.0
 offset_bottom = -120.0
 grow_horizontal = 2
 grow_vertical = 0
+theme_override_fonts/font = ExtResource("2_0lmf7")
 text = "Exit"
 
 [connection signal="pressed" from="ResumeButton" to="." method="_on_resume_button_pressed"]

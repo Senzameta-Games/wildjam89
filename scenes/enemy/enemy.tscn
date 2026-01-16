@@ -1,6 +1,6 @@
 [gd_scene load_steps=14 format=3 uid="uid://cotswcby4pyh4"]
 
-[ext_resource type="Script" uid="uid://dbk12nfu4jv2s" path="res://scripts/enemy.gd" id="1_a3pup"]
+[ext_resource type="Script" uid="uid://dbk12nfu4jv2s" path="res://scripts/enemy/enemy.gd" id="1_a3pup"]
 [ext_resource type="Texture2D" uid="uid://c8jgl3dlvyan7" path="res://assets/sprites/snail/16snale1.png" id="2_4efjx"]
 [ext_resource type="Texture2D" uid="uid://cvqsjcea8yj6x" path="res://assets/sprites/snail/16snale2.png" id="3_hvxgb"]
 [ext_resource type="AudioStream" uid="uid://be8hwxiqbufhk" path="res://assets/sounds/enemy/squash/squash1.wav" id="4_4efjx"]
