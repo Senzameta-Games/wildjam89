@@ -83,7 +83,7 @@ func jump() -> void:
 
 func stomp() -> void:
 	velocity.y = stomp_velocity
-	velocity.x = 0.7 * velocity.x
+	velocity.x = 0.69 * velocity.x
 	is_stomping = true
 	just_stomped.emit()
 
