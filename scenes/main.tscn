@@ -5,7 +5,7 @@
 [ext_resource type="FontFile" uid="uid://bxn105qovmxyq" path="res://assets/fonts/Ruler 9.ttf" id="3_jyhfs"]
 [ext_resource type="Texture2D" uid="uid://evljh2213602" path="res://assets/sprites/seed/seedblack.png" id="4_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://cnedgj3aevipi" path="res://scenes/ui/pause_menu.tscn" id="5_tbgi4"]
-[ext_resource type="PackedScene" uid="uid://d3dve68x6yncr" path="res://scenes/ui/achievement_manager.tscn" id="6_ach"]
+[ext_resource type="PackedScene" uid="uid://kti6pw1y8020" path="res://scenes/ui/achievement_manager.tscn" id="6_ach"]
 
 [node name="Main" type="Node2D"]
 
