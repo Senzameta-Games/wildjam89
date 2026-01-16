@@ -41,7 +41,6 @@ func _process(delta):
 	
 	# Update trunk if needed
 	_update_trunk_visual()
-	_update_leaf_visual()
 
 func heal_tree(amount: float):
 	print("Incoming Heal: ", amount)
@@ -54,8 +53,6 @@ func hurt(amount: float):
 func add_progress(amount: float):
 	tree_progress = clampf(tree_progress + amount, 0.0, 100.0)
 	_update_target_sections()
-	_update_leaf_tier_target()
-	
 	
 	if tree_progress >= 100.0:
 		growth_completed.emit()
@@ -63,23 +60,12 @@ func add_progress(amount: float):
 func subtract_progress(amount: float):
 	tree_progress = clampf(tree_progress - amount, 0.0, 100.0)
 	_update_target_sections()
-	_update_leaf_tier_target()
-
 	
 	if tree_progress <= 0.0:
 		tree_died.emit()
 
 func _update_target_sections():
 	target_sections = int((tree_progress / 100.0) * max_sections)
-	
-func _update_leaf_tier_target():
-	leaf_tier_target = int(tree_progress / 10.0)
-
-
-func _update_leaf_visual():
-	if leaf_tier_current != leaf_tier_target:
-		leaf_tier_current = leaf_tier_target
-		_rebuild_leaves()
 
 func _update_trunk_visual():
 	if current_sections != target_sections:
@@ -121,14 +107,14 @@ func _rebuild_trunk():
 		if child.name == "TreeTop" or child.name == "TreeHitbox":
 			continue
 		child.queue_free()
-
+	
+	# 2. ADD NEW SECTIONS
 	for i in range(current_sections):
 		var section = Sprite2D.new()
 		if trunk_textures.size() > 0:
 			section.texture = trunk_textures.pick_random()
 		
 		# Position logs from bottom to top
-		section.z_index = (10)
 		section.position.y = (i + 1) * trunk_section_height
 		tree_trunk.add_child(section)
 		new_section_added.emit()
