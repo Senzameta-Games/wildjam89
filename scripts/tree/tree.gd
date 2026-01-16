@@ -18,8 +18,18 @@ signal new_section_added
 @onready var tree_top = $TreeTrunk/TreeTop
 @onready var tree_collider = $TreeBase/TreeHitbox/TreeCollider
 
+#just leaf things  
+var leaf_tier_target: int = 0
+var leaf_tier_current: int = 0
+@export var leaf_textures: Array[Texture2D] = []
+@export var leaf_spread_x: float = 12.0
+@export var leaf_spread_y: float = 6.0
+
+
 var target_sections: int = 0
 var current_sections: int = 0
+
+
 
 func _ready():
 	_update_target_sections()
@@ -61,6 +71,34 @@ func _update_trunk_visual():
 	if current_sections != target_sections:
 		current_sections = target_sections
 		_rebuild_trunk()
+
+
+func _rebuild_leaves():
+	for child in tree_top.get_children():
+		child.queue_free()
+
+#spread variables - how spread out are we at the start / how much do we mult each tier
+	var leaves_per_tier: int = 10
+	var leaf_count: int = (leaves_per_tier * leaf_tier_current)
+	var initial_spread_x: float = 12.0
+	var initial_spread_y: float = 6.0
+	var spread_x_per_tier: float = 2.0
+	var spread_y_per_tier: float = 2.0
+	var spread_x: float = initial_spread_x + leaf_tier_current * spread_x_per_tier
+	var spread_y: float = initial_spread_y + leaf_tier_current * spread_y_per_tier
+
+	
+	for i in range(leaf_count):
+		var leaf = Sprite2D.new()
+		tree_top.add_child(leaf)
+		leaf.position = Vector2(
+			randf_range(-spread_x, spread_x),
+			randf_range(-spread_y, spread_y)
+		)
+		leaf.z_index = 3
+		if leaf_textures.size() > 0:
+			leaf.texture = leaf_textures.pick_random()
+			
 
 func _rebuild_trunk():
 	# 1. CLEAR OLD SECTIONS (Keep the essential nodes alive)
