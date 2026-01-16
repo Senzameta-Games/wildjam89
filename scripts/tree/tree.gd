@@ -33,6 +33,7 @@ var current_sections: int = 0
 
 func _ready():
 	_update_target_sections()
+	_update_leaf_tier_target()
 	_build_trunk_immediate()
 	
 func _process(delta):
@@ -41,6 +42,8 @@ func _process(delta):
 	
 	# Update trunk if needed
 	_update_trunk_visual()
+	# Update leaves if needed
+	_update_leaf_visual()
 
 func heal_tree(amount: float):
 	print("Incoming Heal: ", amount)
@@ -53,6 +56,7 @@ func hurt(amount: float):
 func add_progress(amount: float):
 	tree_progress = clampf(tree_progress + amount, 0.0, 100.0)
 	_update_target_sections()
+	_update_leaf_tier_target()
 	
 	if tree_progress >= 100.0:
 		growth_completed.emit()
@@ -60,12 +64,21 @@ func add_progress(amount: float):
 func subtract_progress(amount: float):
 	tree_progress = clampf(tree_progress - amount, 0.0, 100.0)
 	_update_target_sections()
+	_update_leaf_tier_target()
 	
 	if tree_progress <= 0.0:
 		tree_died.emit()
 
 func _update_target_sections():
 	target_sections = int((tree_progress / 100.0) * max_sections)
+
+func _update_leaf_tier_target():
+	leaf_tier_target = int(tree_progress / 10.0)
+
+func _update_leaf_visual():
+	if leaf_tier_current != leaf_tier_target:
+		leaf_tier_current = leaf_tier_target
+		_rebuild_leaves()
 
 func _update_trunk_visual():
 	if current_sections != target_sections:
@@ -148,6 +161,7 @@ func get_progress_percentage() -> float:
 func set_progress(new_progress: float):
 	tree_progress = clampf(new_progress, 0.0, 100.0)
 	_update_target_sections()
+	_update_leaf_tier_target()
 
 func _unhandled_input(event: InputEvent):
 	# DEBUG: Press 'P' to Grow
