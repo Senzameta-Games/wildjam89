@@ -9,7 +9,7 @@ extends Node2D
 @export var grow_duration: float = 0.4
 
 # Navigation: Finding the Tree node
-@onready var tree_node: SeedTree = get_node("../Tree")
+@onready var tree_node: SeedTree = owner
 
 # The "Registry": A list to keep track of every branch object created
 var active_branches: Array[Node2D] = []
