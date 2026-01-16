@@ -128,6 +128,7 @@ func _on_shop_interacted():
 
 func _on_tree_hitbox_area_entered(area: Area2D):
 	if area.get_parent() is Enemy:
-		print("enemy collision!")
 		area.get_parent().sacrifice()
+		subtract_progress(5)
+	elif area.get_parent() is Bomb:
 		subtract_progress(5)

@@ -26,16 +26,16 @@ func _physics_process(delta: float) -> void:
 func _on_body_entered(body: Node2D) -> void:
 	if exploded:
 		return
-		
-	if body:	
-		if body.has_method("hurt"):
-			body.hurt()
-		blow_up()
-		#print("bomb hit something with method hurt() and blew up")
-		
-	elif body.is_in_group("level"):
-		blow_up()
-		#print("bomb hit level and blew up")
+	if body:
+		print(str(body))
+		if body.is_in_group("player"):
+			body.hurt(1)
+			blow_up()
+			#print("bomb hit something with method hurt() and blew up")
+			
+		elif body.is_in_group("level"):
+			blow_up()
+			#print("bomb hit level and blew up")
 
 func blow_up() -> void:
 	exploded = true
@@ -46,3 +46,11 @@ func blow_up() -> void:
 	await bomb_sprite.animation_finished
 	queue_free()
 	# TODO: blow up sound
+
+
+func _on_area_entered(area):
+	if area:
+		print(str(area))
+		if area.is_in_group("tree"):
+			area.owner.hurt(5)
+			blow_up()

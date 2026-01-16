@@ -103,7 +103,7 @@ func interact() -> void:
 func collect_seeds() -> void:
 	pass
 
-func hurt() -> void:
+func hurt(amount: float) -> void:
 	just_hurt.emit()
 
 func die() -> void:
