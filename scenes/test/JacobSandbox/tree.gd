@@ -95,7 +95,7 @@ func _rebuild_trunk():
 		
 		# Move the collider UP by half its height. 
 		# This offsets Godot's center-scaling so the bottom stays at y=0.
-		tree_collider.position.y = -(total_height / 2.0) + 10
+		tree_collider.position.y = -(total_height / 2.0) + 10 #added + 10 here to catch snails
 
 	# 4. REPOSITION ENTIRE TRUNK CONTAINER
 	# This keeps the base of the tree at the SeedTree's global position

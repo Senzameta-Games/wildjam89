@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://5u0rjw4fxv62"]
+[gd_scene load_steps=20 format=3 uid="uid://5u0rjw4fxv62"]
 
 [ext_resource type="Script" uid="uid://dps82nj04mquw" path="res://scripts/tree/shop_button.gd" id="1_mbf7r"]
 [ext_resource type="FontFile" uid="uid://bxn105qovmxyq" path="res://assets/fonts/Ruler 9.ttf" id="3_4ol1s"]
@@ -8,9 +8,12 @@
 [ext_resource type="Texture2D" uid="uid://bhcwmk2isjaui" path="res://scenes/test/JacobSandbox/tempSprite/TreeTrunk/placeholder_tree_trunk.png" id="7_undyc"]
 [ext_resource type="Texture2D" uid="uid://dnvdufg7snku5" path="res://scenes/test/JacobSandbox/tempSprite/TreeTrunk/placeholder_tree_top.png" id="8_d4o0i"]
 [ext_resource type="Texture2D" uid="uid://b6dyvwjcvtkge" path="res://scenes/test/JacobSandbox/tempSprite/TreeTrunk/placeholder_tree_base.png" id="9_6wwch"]
+[ext_resource type="Texture2D" uid="uid://dlcly68nrcw1w" path="res://scenes/test/JacobSandbox/tempLeaves/leaf1.png" id="9_d4o0i"]
+[ext_resource type="Texture2D" uid="uid://bdtyf5snsomso" path="res://scenes/test/JacobSandbox/tempLeaves/leaf2.png" id="10_6wwch"]
 [ext_resource type="Script" uid="uid://dqhidt2u20g47" path="res://scenes/test/JacobSandbox/branch.gd" id="10_kui63"]
 [ext_resource type="Texture2D" uid="uid://evljh2213602" path="res://assets/sprites/seed/seedblack.png" id="11_bm6y3"]
 [ext_resource type="Texture2D" uid="uid://m42u63q28p4x" path="res://scenes/test/JacobSandbox/tempSprite/TreeBranch/tree_branch.png" id="11_bynld"]
+[ext_resource type="Texture2D" uid="uid://dcqaducpbqqgm" path="res://scenes/test/JacobSandbox/tempLeaves/leaf3.png" id="11_kui63"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r4rvj"]
 
@@ -31,6 +34,8 @@ size = Vector2(44, 31)
 visibility_layer = 2
 script = ExtResource("5_bm6y3")
 trunk_textures = Array[Texture2D]([ExtResource("6_hs8qy"), ExtResource("7_undyc")])
+tree_progress = 1.0
+base_grow_amount = 5.0
 
 [node name="TreeTrunk" type="Node2D" parent="Tree"]
 
@@ -81,6 +86,7 @@ autoplay = true
 visibility_layer = 2
 script = ExtResource("10_kui63")
 branch_sprite = ExtResource("11_bynld")
+leaf_sprites = Array[Texture2D]([ExtResource("9_d4o0i"), ExtResource("10_6wwch"), ExtResource("11_kui63")])
 
 [node name="Shop" type="Node2D" parent="."]
 script = ExtResource("1_mbf7r")
