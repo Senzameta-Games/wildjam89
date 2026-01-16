@@ -1,15 +1,15 @@
 [gd_scene load_steps=53 format=3 uid="uid://ciyc0yamaacqw"]
 
-[ext_resource type="Script" uid="uid://c5l22pvevgh2q" path="res://scripts/player.gd" id="1_dovo2"]
+[ext_resource type="Script" uid="uid://c5l22pvevgh2q" path="res://scripts/player/player.gd" id="1_dovo2"]
 [ext_resource type="Texture2D" uid="uid://da78vrp648vjw" path="res://assets/sprites/player/idle/raccoonmcidle.png" id="2_5q8fn"]
 [ext_resource type="Texture2D" uid="uid://05erp0sjg3p8" path="res://assets/sprites/player/jump/raccoonmcjump1.png" id="2_8qxvo"]
 [ext_resource type="Texture2D" uid="uid://br4i7btqjbwgi" path="res://assets/sprites/player/jump/raccoonmcjump2.png" id="3_5q8fn"]
-[ext_resource type="Script" uid="uid://b5r0p46rp1jyn" path="res://state-management/state_machine.gd" id="3_lvxji"]
-[ext_resource type="Script" uid="uid://qe4qdle3ommv" path="res://state-management/player/ground_state.gd" id="4_0owmy"]
+[ext_resource type="Script" uid="uid://b5r0p46rp1jyn" path="res://state/state_machine.gd" id="3_lvxji"]
+[ext_resource type="Script" uid="uid://qe4qdle3ommv" path="res://state/player/ground_state.gd" id="4_0owmy"]
 [ext_resource type="Texture2D" uid="uid://xdf2j43t3rrl" path="res://assets/sprites/player/jump/raccoonmcjump3.png" id="4_wva7c"]
 [ext_resource type="Texture2D" uid="uid://dtq03e6rsxqcv" path="res://assets/sprites/player/jump/raccoonmcjump4.png" id="5_7obkq"]
-[ext_resource type="Script" uid="uid://d20ybqwmw2vw0" path="res://state-management/player/air_state.gd" id="5_qek5x"]
-[ext_resource type="Script" uid="uid://l1m1x8x7eh0" path="res://state-management/player/stomp_state.gd" id="6_5gtgg"]
+[ext_resource type="Script" uid="uid://d20ybqwmw2vw0" path="res://state/player/air_state.gd" id="5_qek5x"]
+[ext_resource type="Script" uid="uid://l1m1x8x7eh0" path="res://state/player/stomp_state.gd" id="6_5gtgg"]
 [ext_resource type="Texture2D" uid="uid://cj4gds3y24trx" path="res://assets/sprites/player/jump/raccoonmcjump5.png" id="6_vo27k"]
 [ext_resource type="Texture2D" uid="uid://byad4qrowfy1y" path="res://assets/sprites/player/jump/raccoonmcjump6.png" id="7_genst"]
 [ext_resource type="AudioStream" uid="uid://dpe3513hku8ai" path="res://assets/sounds/player/jumps/Jumps1.wav" id="7_kvlxm"]
@@ -176,6 +176,7 @@ move_speed = 150.0
 max_move_speed = 800.0
 move_acceleration = 3000.0
 move_friction = 2000.0
+air_drag = 500.0
 jump_velocity = 300.0
 stomp_velocity = 300.0
 
@@ -190,7 +191,6 @@ shape = SubResource("CapsuleShape2D_8afob")
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("3_lvxji")
 initial_state = NodePath("Ground")
-debug_transitions = true
 metadata/_custom_type_script = "uid://b5r0p46rp1jyn"
 
 [node name="Ground" type="Node" parent="StateMachine"]

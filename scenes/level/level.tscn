@@ -1,15 +1,16 @@
-[gd_scene load_steps=13 format=3 uid="uid://cfl62gijxtptm"]
+[gd_scene load_steps=14 format=3 uid="uid://cfl62gijxtptm"]
 
 [ext_resource type="PackedScene" uid="uid://ciyc0yamaacqw" path="res://scenes/player/player.tscn" id="1_nbgty"]
-[ext_resource type="Script" uid="uid://f1ao7nyts6na" path="res://scripts/level.gd" id="1_wcngd"]
+[ext_resource type="Script" uid="uid://f1ao7nyts6na" path="res://scripts/level/level.gd" id="1_wcngd"]
 [ext_resource type="Texture2D" uid="uid://b8pencausntbo" path="res://assets/sprites/ground/ground9patch.png" id="2_tf2q7"]
 [ext_resource type="Texture2D" uid="uid://h616werb16j0" path="res://scenes/test/JacobSandbox/tempSprite/placeholder_bg.png" id="2_wcngd"]
 [ext_resource type="PackedScene" uid="uid://c0xm7i1eahpti" path="res://scenes/enemy/enemy_spawner.tscn" id="5_vpf64"]
 [ext_resource type="PackedScene" uid="uid://c8yn67wshcpor" path="res://scenes/enemy/fast-weak.tscn" id="5_xv074"]
+[ext_resource type="PackedScene" uid="uid://c8ag4374ivpgq" path="res://scenes/enemy/bomb-thrower.tscn" id="6_pe1ox"]
 [ext_resource type="PackedScene" uid="uid://clg6borink2ye" path="res://scenes/enemy/slow-strong.tscn" id="6_sytrn"]
 [ext_resource type="PackedScene" uid="uid://bgfe0hn24uhk1" path="res://scenes/goal/goal.tscn" id="7_tf2q7"]
 [ext_resource type="PackedScene" uid="uid://5u0rjw4fxv62" path="res://scenes/tree/tree.tscn" id="7_wcngd"]
-[ext_resource type="Script" uid="uid://wj3def6gl0vr" path="res://scripts/camera.gd" id="9_sytrn"]
+[ext_resource type="Script" uid="uid://wj3def6gl0vr" path="res://scripts/game/camera.gd" id="9_sytrn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hnne4"]
 size = Vector2(640, 120)
@@ -20,14 +21,14 @@ size = Vector2(38, 664)
 [node name="Level" type="Node2D"]
 script = ExtResource("1_wcngd")
 
-[node name="Environment" type="Node2D" parent="."]
+[node name="Environment" type="Node2D" parent="." groups=["level"]]
 top_level = true
 
-[node name="GroundPlane" type="StaticBody2D" parent="Environment"]
+[node name="GroundPlane" type="StaticBody2D" parent="Environment" groups=["level"]]
 position = Vector2(320, 320)
 collision_mask = 6
 
-[node name="Collision" type="CollisionShape2D" parent="Environment/GroundPlane"]
+[node name="Collision" type="CollisionShape2D" parent="Environment/GroundPlane" groups=["level"]]
 position = Vector2(0, 45)
 shape = SubResource("RectangleShape2D_hnne4")
 
@@ -77,11 +78,11 @@ shape = SubResource("RectangleShape2D_vpf64")
 
 [node name="EnemySpawner" parent="." instance=ExtResource("5_vpf64")]
 position = Vector2(21, 272)
-enemies = Array[PackedScene]([ExtResource("5_xv074"), ExtResource("6_sytrn")])
+enemies = Array[PackedScene]([ExtResource("5_xv074"), ExtResource("6_sytrn"), ExtResource("6_pe1ox")])
 
 [node name="EnemySpawner2" parent="." instance=ExtResource("5_vpf64")]
 position = Vector2(621, 272)
-enemies = Array[PackedScene]([ExtResource("5_xv074"), ExtResource("6_sytrn")])
+enemies = Array[PackedScene]([ExtResource("5_xv074"), ExtResource("6_sytrn"), ExtResource("6_pe1ox")])
 
 [node name="Tree" parent="." groups=["tree"] instance=ExtResource("7_wcngd")]
 position = Vector2(320, 288)

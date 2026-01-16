@@ -36,13 +36,12 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Enemy" instance=ExtResource("1_dlq7n")]
+[node name="Snail" instance=ExtResource("1_dlq7n")]
 spawn_cost = 3
 speed = 60.0
 seed_value = 3
 
 [node name="Sprite" parent="." index="0"]
-scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_wenqv")
 
 [node name="Collider" parent="." index="1"]

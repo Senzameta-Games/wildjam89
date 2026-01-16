@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bgfe0hn24uhk1"]
 
-[ext_resource type="Script" uid="uid://bijmufn21tx5t" path="res://scripts/goal.gd" id="1_r84s2"]
-[ext_resource type="Texture2D" uid="uid://gls62utdk8d5" path="res://assets/sprites/flower-placeholder.png" id="2_0ivff"]
+[ext_resource type="Script" uid="uid://bijmufn21tx5t" path="res://scripts/level/goal.gd" id="1_r84s2"]
+[ext_resource type="Texture2D" uid="uid://gls62utdk8d5" path="res://assets/sprites/placeholder/flower-placeholder.png" id="2_0ivff"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ruxej"]
 size = Vector2(18, 13)
