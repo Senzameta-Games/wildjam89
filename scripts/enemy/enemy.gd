@@ -84,4 +84,9 @@ func drop_seed() -> void:
 	if Achievements:
 		Achievements.on_enemy_stomped()
 	tween.tween_callback(queue_free)
+
+func sacrifice() -> void:
+	set_physics_process(false)
+	$Collider.set_deferred("disabled", true)
+	queue_free()
 	

@@ -11,7 +11,7 @@ signal new_section_added
 @export var trunk_textures: Array[Texture2D] = []
 @export var trunk_section_height: int = 16
 @export var tree_progress: float = 10.0
-@export var base_grow_amount: float = 0.5
+@export var base_grow_amount: float = 0.1
 @export var max_sections: int = 20
 
 @onready var tree_trunk = $TreeTrunk
@@ -34,12 +34,11 @@ func _process(delta):
 	# Update trunk if needed
 	_update_trunk_visual()
 
-
 func heal_tree(amount: float):
 	print("Incoming Heal: ", amount)
 	add_progress(amount)
 
-func damage_tree(amount: float):
+func hurt(amount: float):
 	print("Incoming Damage: ", amount)
 	subtract_progress(amount)
 
@@ -114,7 +113,6 @@ func set_progress(new_progress: float):
 	tree_progress = clampf(new_progress, 0.0, 100.0)
 	_update_target_sections()
 
-
 func _unhandled_input(event: InputEvent):
 	# DEBUG: Press 'P' to Grow
 	if event.is_action_pressed("DebugTreeGrow"):
@@ -124,15 +122,15 @@ func _unhandled_input(event: InputEvent):
 
 	# DEBUG: Press 'O' to Hurt
 	if event.is_action_pressed("DebugTreeHurt"):
-		damage_tree(10)
+		hurt(10)
 		print("Manually Hurting: ", tree_progress, "%")
 
 func _on_shop_interacted():
 	add_progress(5.0)
 
-
 func _on_tree_hitbox_area_entered(area: Area2D):
 	if area.get_parent() is Enemy:
 		print("enemy collision!")
 		subtract_progress(5)
-		
+		area.get_parent().sacrifice()
+	

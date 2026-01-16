@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://ciyc0yamaacqw" path="res://scenes/player/player.tscn" id="1_nbgty"]
 [ext_resource type="Script" uid="uid://f1ao7nyts6na" path="res://scripts/level/level.gd" id="1_wcngd"]
 [ext_resource type="Texture2D" uid="uid://b8pencausntbo" path="res://assets/sprites/ground/ground9patch.png" id="2_tf2q7"]
-[ext_resource type="Texture2D" uid="uid://h616werb16j0" path="res://scenes/test/JacobSandbox/tempSprite/placeholder_bg.png" id="2_wcngd"]
+[ext_resource type="Texture2D" uid="uid://d05qhkshp4746" path="res://assets/background/placeholder_bg.png" id="2_wcngd"]
 [ext_resource type="PackedScene" uid="uid://c0xm7i1eahpti" path="res://scenes/enemy/enemy_spawner.tscn" id="5_vpf64"]
 [ext_resource type="PackedScene" uid="uid://c8yn67wshcpor" path="res://scenes/enemy/fast-weak.tscn" id="5_xv074"]
 [ext_resource type="PackedScene" uid="uid://c8ag4374ivpgq" path="res://scenes/enemy/bomb-thrower.tscn" id="6_pe1ox"]

@@ -2,25 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://h616werb16j0"
-<<<<<<<< HEAD:scenes/test/JacobSandbox/tempSprite/placeholder_bg.png.import
-path="res://.godot/imported/placeholder_bg.png-4f53a558d0f3d59f1a639a48cbe8192d.ctex"
-========
+uid="uid://d05qhkshp4746"
 path="res://.godot/imported/placeholder_bg.png-6181a6d524f82b6b2eb7465bd11ba5ca.ctex"
->>>>>>>> origin/day-6-v1-beetle:assets/background/placeholder_bg.png.import
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-<<<<<<<< HEAD:scenes/test/JacobSandbox/tempSprite/placeholder_bg.png.import
-source_file="res://scenes/test/JacobSandbox/tempSprite/placeholder_bg.png"
-dest_files=["res://.godot/imported/placeholder_bg.png-4f53a558d0f3d59f1a639a48cbe8192d.ctex"]
-========
 source_file="res://assets/background/placeholder_bg.png"
 dest_files=["res://.godot/imported/placeholder_bg.png-6181a6d524f82b6b2eb7465bd11ba5ca.ctex"]
->>>>>>>> origin/day-6-v1-beetle:assets/background/placeholder_bg.png.import
 
 [params]
 
