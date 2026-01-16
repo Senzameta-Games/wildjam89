@@ -98,8 +98,8 @@ func _rebuild_leaves():
 	var leaf_count: int = (leaves_per_tier * leaf_tier_current)
 	var initial_spread_x: float = 12.0
 	var initial_spread_y: float = 6.0
-	var spread_x_per_tier: float = 3.0
-	var spread_y_per_tier: float = 3.0
+	var spread_x_per_tier: float = 2.0
+	var spread_y_per_tier: float = 2.0
 	var spread_x: float = initial_spread_x + leaf_tier_current * spread_x_per_tier
 	var spread_y: float = initial_spread_y + leaf_tier_current * spread_y_per_tier
 
