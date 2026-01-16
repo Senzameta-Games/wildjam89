@@ -24,9 +24,7 @@ var current_sections: int = 0
 func _ready():
 	_update_target_sections()
 	_build_trunk_immediate()
-	$TreeBase/TreeHitbox.area_entered.connect(_on_tree_hitbox_area_entered)
-
-
+	
 func _process(delta):
 	# Passive growth
 	add_progress(base_grow_amount * delta)
@@ -87,11 +85,12 @@ func _rebuild_trunk():
 	if tree_collider and tree_collider.shape is RectangleShape2D:
 		var total_height = current_sections * trunk_section_height
 		var shape = tree_collider.shape as RectangleShape2D
-		
+		var min_buffer: float = 10.0
 		# Set the box size to exactly the tree's height
 		# Using a width of 32, but you can adjust as needed
 		shape.size = Vector2(32, total_height)
-		
+		if shape.size.y == 0.0:
+			total_height += min_buffer
 		# Move the collider UP by half its height. 
 		# This offsets Godot's center-scaling so the bottom stays at y=0.
 		tree_collider.position.y = -(total_height / 2.0) + 10 #added + 10 here to catch snails
@@ -104,7 +103,6 @@ func _rebuild_trunk():
 func _build_trunk_immediate():
 	current_sections = target_sections
 	_rebuild_trunk()
-	
 	
 func get_progress_percentage() -> float:
 	return tree_progress
@@ -131,6 +129,5 @@ func _on_shop_interacted():
 func _on_tree_hitbox_area_entered(area: Area2D):
 	if area.get_parent() is Enemy:
 		print("enemy collision!")
-		subtract_progress(5)
 		area.get_parent().sacrifice()
-	
+		subtract_progress(5)

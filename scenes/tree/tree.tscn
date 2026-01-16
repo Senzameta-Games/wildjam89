@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://5u0rjw4fxv62"]
+[gd_scene load_steps=18 format=3 uid="uid://5u0rjw4fxv62"]
 
 [ext_resource type="Script" uid="uid://dps82nj04mquw" path="res://scripts/tree/shop_button.gd" id="1_mbf7r"]
 [ext_resource type="FontFile" uid="uid://bxn105qovmxyq" path="res://assets/fonts/Ruler 9.ttf" id="3_4ol1s"]
@@ -16,11 +16,6 @@
 [ext_resource type="Texture2D" uid="uid://dcqaducpbqqgm" path="res://scenes/test/JacobSandbox/tempLeaves/leaf3.png" id="11_kui63"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r4rvj"]
-
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_bm6y3"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_hs8qy"]
-size = Vector2(36, 29)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bm6y3"]
 size = Vector2(46, 50)
@@ -51,15 +46,6 @@ texture = ExtResource("8_d4o0i")
 
 [node name="TreeBase" type="Node2D" parent="Tree"]
 z_index = 10
-
-[node name="StumpCollision" type="StaticBody2D" parent="Tree/TreeBase"]
-collision_layer = 16
-collision_mask = 4
-physics_material_override = SubResource("PhysicsMaterial_bm6y3")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Tree/TreeBase/StumpCollision"]
-position = Vector2(0, -0.5)
-shape = SubResource("RectangleShape2D_hs8qy")
 
 [node name="TreeHitbox" type="Area2D" parent="Tree/TreeBase"]
 collision_layer = 16
@@ -138,6 +124,7 @@ layout_mode = 2
 texture = ExtResource("11_bm6y3")
 stretch_mode = 3
 
+[connection signal="area_entered" from="Tree/TreeBase/TreeHitbox" to="Tree" method="_on_tree_hitbox_area_entered"]
 [connection signal="shop_interacted" from="Shop" to="Tree" method="_on_shop_interacted"]
 [connection signal="body_entered" from="Shop/Area" to="Shop" method="_on_area_body_entered"]
 [connection signal="body_exited" from="Shop/Area" to="Shop" method="_on_area_body_exited"]

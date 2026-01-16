@@ -31,11 +31,11 @@ func _on_body_entered(body: Node2D) -> void:
 		if body.has_method("hurt"):
 			body.hurt()
 		blow_up()
-		print("bomb hit something with method hurt() and blew up")
+		#print("bomb hit something with method hurt() and blew up")
 		
 	elif body.is_in_group("level"):
 		blow_up()
-		print("bomb hit level and blew up")
+		#print("bomb hit level and blew up")
 
 func blow_up() -> void:
 	exploded = true

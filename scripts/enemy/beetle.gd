@@ -75,8 +75,6 @@ func prepare_bomb() -> void:
 		# throw when tween ends
 		tween.tween_callback(func(): throw_bomb(bomb_visual))
 		#print("temp bomb has moved to beetle hands")
-	else:
-		print("no bomb scene in inspector")
 
 func throw_bomb(temp_bomb: Node2D) -> void:
 	#print("getting ready to throw bomb")
