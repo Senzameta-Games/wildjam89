@@ -18,11 +18,6 @@ signal new_section_added
 @onready var tree_top = $TreeTrunk/TreeTop
 @onready var tree_collider = $TreeBase/TreeHitbox/TreeCollider
 
-
-
-var target_sections: int = 0
-var current_sections: int = 0
-
 #just leaf things  
 var leaf_tier_target: int = 0
 var leaf_tier_current: int = 0
@@ -30,6 +25,9 @@ var leaf_tier_current: int = 0
 @export var leaf_spread_x: float = 12.0
 @export var leaf_spread_y: float = 6.0
 
+
+var target_sections: int = 0
+var current_sections: int = 0
 
 
 
