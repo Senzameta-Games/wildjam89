@@ -1,0 +1,67 @@
+[gd_scene load_steps=7 format=3 uid="uid://bne58sbwdhc4l"]
+
+[ext_resource type="FontFile" uid="uid://bxn105qovmxyq" path="res://assets/fonts/Ruler 9.ttf" id="1_70u55"]
+[ext_resource type="Script" uid="uid://d2sahw4p6ovrj" path="res://scripts/ui/stage_clear.gd" id="1_ueeji"]
+[ext_resource type="FontFile" uid="uid://cycbiy0d7iv67" path="res://assets/fonts/Tiny5-Regular.ttf" id="2_qibs1"]
+[ext_resource type="Texture2D" uid="uid://ctrx51g81r1v0" path="res://assets/sprites/placeholder/treebutton_placeholder.png" id="3_ueeji"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_oh052"]
+font = ExtResource("1_70u55")
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_7cqm2"]
+font = ExtResource("2_qibs1")
+
+[node name="StageClear" type="CanvasLayer"]
+script = ExtResource("1_ueeji")
+placeholder_icon = ExtResource("3_ueeji")
+
+[node name="Content" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Scrim" type="ColorRect" parent="Content"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.7058824)
+
+[node name="StageClearContainer" type="VBoxContainer" parent="Content"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -92.0
+offset_top = -49.0
+offset_right = 92.0
+offset_bottom = 49.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+
+[node name="StageClear" type="Label" parent="Content/StageClearContainer"]
+layout_mode = 2
+text = "Stage Clear!"
+label_settings = SubResource("LabelSettings_oh052")
+horizontal_alignment = 1
+
+[node name="YouGotTheThing" type="Label" parent="Content/StageClearContainer"]
+layout_mode = 2
+text = "You got the [reward name]!"
+label_settings = SubResource("LabelSettings_7cqm2")
+horizontal_alignment = 1
+
+[node name="RewardIcon" type="TextureRect" parent="Content/StageClearContainer"]
+layout_mode = 2
+texture = ExtResource("3_ueeji")
+stretch_mode = 3

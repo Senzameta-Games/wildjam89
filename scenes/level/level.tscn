@@ -1,7 +1,8 @@
-[gd_scene load_steps=22 format=3 uid="uid://cfl62gijxtptm"]
+[gd_scene load_steps=24 format=3 uid="uid://cfl62gijxtptm"]
 
 [ext_resource type="PackedScene" uid="uid://ciyc0yamaacqw" path="res://scenes/player/player.tscn" id="1_nbgty"]
 [ext_resource type="Script" uid="uid://f1ao7nyts6na" path="res://scripts/level/level.gd" id="1_wcngd"]
+[ext_resource type="PackedScene" uid="uid://7m1le3g13pdd" path="res://scenes/level/next_level_button.tscn" id="2_ss4b2"]
 [ext_resource type="Texture2D" uid="uid://b8pencausntbo" path="res://assets/sprites/ground/ground9patch.png" id="2_tf2q7"]
 [ext_resource type="Texture2D" uid="uid://d05qhkshp4746" path="res://assets/background/placeholder_bg.png" id="2_wcngd"]
 [ext_resource type="PackedScene" uid="uid://c0xm7i1eahpti" path="res://scenes/enemy/enemy_spawner.tscn" id="5_vpf64"]
@@ -16,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://evljh2213602" path="res://assets/sprites/seed/seedblack.png" id="14_ivku7"]
 [ext_resource type="PackedScene" uid="uid://kti6pw1y8020" path="res://scenes/ui/achievement_manager.tscn" id="15_ss4b2"]
 [ext_resource type="Script" path="res://scripts/tree/tree_progress_bar.gd" id="15_x4oov"]
+[ext_resource type="PackedScene" uid="uid://bne58sbwdhc4l" path="res://scenes/ui/stage_clear.tscn" id="17_ivku7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hnne4"]
 size = Vector2(640, 120)
@@ -53,6 +55,7 @@ corner_detail = 2
 
 [node name="Level" type="Node2D"]
 script = ExtResource("1_wcngd")
+next_level_btn_scn = ExtResource("2_ss4b2")
 
 [node name="Environment" type="Node2D" parent="." groups=["level"]]
 top_level = true
@@ -197,3 +200,6 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_ivku7")
 show_percentage = false
 
 [node name="AchievementManager" parent="UI" instance=ExtResource("15_ss4b2")]
+
+[node name="StageClear" parent="." instance=ExtResource("17_ivku7")]
+visible = false

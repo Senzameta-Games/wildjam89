@@ -2,9 +2,14 @@ extends Node2D
 class_name EnemySpawner
 
 @export var enemies: Array[PackedScene]
+@export var timer_interval: float = 5.0
+
+@onready var timer: Timer = $Timer
 
 func _ready() -> void:
-	$Timer.timeout.connect(_on_timer_done)
+	add_to_group("spawner")
+	timer.wait_time = timer_interval
+	timer.timeout.connect(_on_timer_done)
 
 func _on_timer_done() -> void:
 	if enemies.is_empty():

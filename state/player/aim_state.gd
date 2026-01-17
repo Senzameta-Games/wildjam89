@@ -14,15 +14,10 @@ func enter() -> void:
 	# store position on entering
 	aim_pos = player.position
 	aim_timer = 0.0
-	
 	# hold in air briefly
 	player.velocity *= velocity_preserved
-	
-	# check for unlock
-	if player.slow_aim:
-		player.set_time_scale(0.4)
-		time_slowed = true
-	
+	player.set_time_scale(0.4)
+	time_slowed = true
 	# show visuals
 	fall_feedback()
 	player.aim_visual.visible = true

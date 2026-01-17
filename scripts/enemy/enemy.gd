@@ -18,6 +18,7 @@ signal enemy_defeated
 @onready var dropped_seed: Node = $Seed
 @onready var stomped: bool = false
 
+@onready var die_sfx: AudioStreamPlayer2D = $SFX/Die
 @onready var enemy_sprite: AnimatedSprite2D = $Sprite
 
 
@@ -69,7 +70,7 @@ func die() -> void:
 	set_physics_process(false)
 	$Collider.set_deferred("disabled", true)
 	stomped = true
-	$SFX/Die.play()
+	die_sfx.play()
 	squash_and_hide()
 	drop_seed()
 	Game.plant_flower(global_position)

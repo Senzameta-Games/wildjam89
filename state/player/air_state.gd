@@ -30,7 +30,7 @@ func physics_update(delta: float) -> void:
 		coyote_timer = 0.0
 		return
 	
-	if Input.is_action_pressed("aim") and player.aim_cooldown <= 0 and player.can_aim:
+	if Input.is_action_pressed("aim") and player.aim_cooldown <= 0 and Game.has_ability("aim_stomp"):
 		transition_requested.emit(self, AimState)
 		return
 	

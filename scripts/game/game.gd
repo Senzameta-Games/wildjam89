@@ -2,11 +2,60 @@ extends Node
 
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 
+signal game_over_called
+signal ability_unlocked(ability_name: String)
+
+var current_stage: int = 1
+var unlocked_abilities: Dictionary = {
+	"aim_stomp": false,
+	"double_jump": false,
+	"acorns": false,
+	"big_stomps": false,
+	"pesticide": false,
+}
+
+func start_new_run() -> void:
+	current_stage = 1
+	total_seeds = 0
+	_reset_abilities()
+
+func next_stage() -> void:
+	current_stage += 1
+	get_tree().reload_current_scene()
+
+func get_stage_params() -> Dictionary:
+	var difficulty_mult = 1.0 + ((current_stage - 1) * 0.1)
+	
+	return{
+		"spawn_interval": 3.0 / difficulty_mult,
+		"enemy_damage": 5.0 * difficulty_mult,
+		"ability_reward": _get_ability_reward(current_stage)
+	}
+
+func unlock_ability(ability_key: String) -> void:
+	if ability_key in unlocked_abilities:
+		unlocked_abilities[ability_key] = true
+		ability_unlocked.emit(ability_key)
+
+func has_ability(ability_key: String) -> bool:
+	return unlocked_abilities.get(ability_key, false)
+
+func _get_ability_reward(stage: int) -> String:
+	match stage:
+		1: return "aim_stomp"
+		2: return "acorns"
+		3: return "double_jump"
+		4: return "pesticide"
+		5: return "big_stomps"
+		_: return ""
+
+func _reset_abilities():
+	for key in unlocked_abilities:
+		unlocked_abilities[key] = false
+
 #==================================================================================================#
 
 signal seeds_changed(current_total: int)
-signal game_over_called
-
 var total_seeds: int = 0
 
 func add_seeds(amount: int) -> void:
