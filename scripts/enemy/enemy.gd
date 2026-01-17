@@ -124,7 +124,10 @@ func _spawn_visual_seed() -> void:
 	# animation
 	var tween = create_tween()
 	var fuzzy_end_point = randf_range(-36.0, -60.0)
-	tween.tween_property(new_seed, "position:y", fuzzy_end_point, 0.5).as_relative().set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
+	tween.tween_property(new_seed, "position:y", fuzzy_end_point, 0.4).as_relative().set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
+	#wrote this expression to send the seed sto player instead of up if we think that's interesting
+	tween.tween_property(new_seed, "global_position", get_tree().get_nodes_in_group("player")[0].global_position, 0.5).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
+	
 	var spin_tween = create_tween()
 	
 	# spin on loop
