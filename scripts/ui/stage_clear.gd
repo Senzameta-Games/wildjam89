@@ -11,7 +11,8 @@ var ability_names: Dictionary = {
 	"double_jump": "Feather",
 	"acorns": "Acorn Bomb",
 	"pesticide": "Bug Zapper",
-	"big_stomps": "Big Boots"
+	"big_stomps": "Big Boots",
+	"tree_shield": "Tree Shield"
 }
 
 @export var ability_icons: Dictionary = {}
@@ -23,13 +24,17 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
 func show_screen(reward_key: String) -> void:
-	if reward_key == "":
-		reward_label.text = "You win"
+	if reward_key == "GameClear":
+		title_label.text = ""
+		reward_label.text = ""
+		reward_icon.visible = false
+	elif reward_key == "":
+		reward_label.text = ""
 		reward_icon.visible = false
 		title_label.text = ""
 	else:
 		var display_name = ability_names.get(reward_key, "Placeholder ability")
-		reward_label.text = "You got the %s!" % display_name
+		reward_label.text = "You could use the %s for something..." % display_name
 		reward_icon.visible = true
 		
 		if ability_icons.has(reward_key):

@@ -96,7 +96,7 @@ animations = [{
 "speed": 8.0
 }]
 
-[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_i7c7w"]
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_55jmu"]
 streams_count = 6
 stream_0/stream = ExtResource("19_55jmu")
 stream_1/stream = ExtResource("20_oe4y5")
@@ -118,6 +118,8 @@ seed_value = 5
 [node name="Sprite" parent="." index="0"]
 position = Vector2(0, 7)
 sprite_frames = SubResource("SpriteFrames_ibpym")
+animation = &"attack"
+frame_progress = 0.59725094
 flip_h = true
 
 [node name="Collider" parent="." index="1"]
@@ -127,7 +129,7 @@ position = Vector2(-0.5, 4)
 position = Vector2(0, 2)
 collision_mask = 19
 
-[node name="Die" type="AudioStreamPlayer2D" parent="SFX" index="5"]
-stream = SubResource("AudioStreamRandomizer_i7c7w")
+[node name="Die" parent="SFX" index="5"]
+stream = SubResource("AudioStreamRandomizer_55jmu")
 
 [node name="ThrowTimer" type="Timer" parent="." index="6"]

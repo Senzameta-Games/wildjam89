@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://1gjxpiy4bcfl"]
+
+[ext_resource type="PackedScene" uid="uid://bgfe0hn24uhk1" path="res://scenes/goal/goal.tscn" id="1_c5jm3"]
+[ext_resource type="Texture2D" uid="uid://d238xmmjguwum" path="res://assets/sprites/items/bigstomps/boot.png" id="2_u17dm"]
+
+[node name="GoalSpawn" instance=ExtResource("1_c5jm3")]
+
+[node name="Sprite" parent="." index="0"]
+texture = ExtResource("2_u17dm")

@@ -10,6 +10,8 @@ class_name Beetle
 @onready var throw_timer: Timer = $ThrowTimer
 @onready var fuzzy_hold_dist = randf_range((hold_dist * 0.7), (hold_dist * 1.2))
 
+@onready var beetle_sprite: AnimatedSprite2D = $Sprite
+
 var about_to_throw: bool = false
 var can_throw: bool = true
 
@@ -43,12 +45,18 @@ func move_towards_target() -> void:
 
 func _on_timer_timeout() -> void:
 	if not about_to_throw and current_target:
+		beetle_sprite.play("attack")
 		prepare_bomb()
+		await beetle_sprite.animation_finished
 
 func prepare_bomb() -> void:
 	about_to_throw = true
 	velocity.x = 0.0
 	#print("preparing to bomb")
+	
+	var throw_delay = 6.0 / 8.0
+	
+	
 	
 	# form bomb
 	if bomb and not stomped:
@@ -78,7 +86,7 @@ func prepare_bomb() -> void:
 		tween.tween_property(bomb_visual, "position", offset_to_hands, 0.2)
 		
 		# throw when tween ends
-		tween.tween_callback(func(): throw_bomb(bomb_visual))
+		tween.tween_callback(func(): throw_bomb(bomb_visual)).set_delay(throw_delay)
 		#print("temp bomb has moved to beetle hands")
 
 func throw_bomb(temp_bomb: Node2D) -> void:
@@ -101,4 +109,4 @@ func throw_bomb(temp_bomb: Node2D) -> void:
 		# yeet
 		real_bomb.setup(throw_dir, throw_arc)
 		#print("passing control off to bomb")
-	about_to_throw = false
+	

@@ -47,7 +47,14 @@ func _get_ability_reward(stage: int) -> String:
 		3: return "double_jump"
 		4: return "pesticide"
 		5: return "big_stomps"
+		6: return "tree_shield"
 		_: return ""
+
+func check_win_con() -> bool:
+	for key in unlocked_abilities:
+		if unlocked_abilities[key] == false:
+			return false
+	return true
 
 func _reset_abilities():
 	for key in unlocked_abilities:

@@ -4,19 +4,21 @@
 [ext_resource type="Texture2D" uid="uid://gls62utdk8d5" path="res://assets/sprites/placeholder/flower-placeholder.png" id="2_0ivff"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ruxej"]
-size = Vector2(18, 13)
+size = Vector2(8, 9)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0jila"]
 radius = 2.0
 height = 18.0
 
-[node name="Goal" type="Node2D"]
+[node name="GoalSpawn" type="Marker2D"]
 script = ExtResource("1_r84s2")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("2_0ivff")
 
 [node name="Area" type="Area2D" parent="."]
+collision_layer = 64
+collision_mask = 2
 
 [node name="Collider" type="CollisionShape2D" parent="Area"]
 position = Vector2(0, 0.5)

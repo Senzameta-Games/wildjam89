@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://cfl62gijxtptm"]
+[gd_scene load_steps=25 format=3 uid="uid://cfl62gijxtptm"]
 
 [ext_resource type="PackedScene" uid="uid://ciyc0yamaacqw" path="res://scenes/player/player.tscn" id="1_nbgty"]
 [ext_resource type="Script" uid="uid://f1ao7nyts6na" path="res://scripts/level/level.gd" id="1_wcngd"]
@@ -18,6 +18,7 @@
 [ext_resource type="PackedScene" uid="uid://kti6pw1y8020" path="res://scenes/ui/achievement_manager.tscn" id="15_ss4b2"]
 [ext_resource type="Script" path="res://scripts/tree/tree_progress_bar.gd" id="15_x4oov"]
 [ext_resource type="PackedScene" uid="uid://bne58sbwdhc4l" path="res://scenes/ui/stage_clear.tscn" id="17_ivku7"]
+[ext_resource type="Script" uid="uid://b7x7dtjh3m4hu" path="res://scripts/ui/ability_row.gd" id="18_qjqsm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hnne4"]
 size = Vector2(640, 120)
@@ -113,11 +114,11 @@ collision_mask = 6
 [node name="Collision" type="CollisionShape2D" parent="Environment/Ceiling"]
 shape = SubResource("RectangleShape2D_vpf64")
 
-[node name="EnemySpawner" parent="." instance=ExtResource("5_vpf64")]
+[node name="EnemySpawner" parent="." groups=["spawner"] instance=ExtResource("5_vpf64")]
 position = Vector2(5, 272)
 enemies = Array[PackedScene]([ExtResource("5_xv074"), ExtResource("6_sytrn"), ExtResource("6_pe1ox")])
 
-[node name="EnemySpawner2" parent="." instance=ExtResource("5_vpf64")]
+[node name="EnemySpawner2" parent="." groups=["spawner"] instance=ExtResource("5_vpf64")]
 position = Vector2(637, 272)
 enemies = Array[PackedScene]([ExtResource("5_xv074"), ExtResource("6_sytrn"), ExtResource("6_pe1ox")])
 
@@ -200,6 +201,14 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_ivku7")
 show_percentage = false
 
 [node name="AchievementManager" parent="UI" instance=ExtResource("15_ss4b2")]
+
+[node name="Abilities" type="HBoxContainer" parent="UI"]
+offset_left = 370.0
+offset_top = 315.0
+offset_right = 570.0
+offset_bottom = 355.0
+theme_override_constants/separation = 8
+script = ExtResource("18_qjqsm")
 
 [node name="StageClear" parent="." instance=ExtResource("17_ivku7")]
 visible = false

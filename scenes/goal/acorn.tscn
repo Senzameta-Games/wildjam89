@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://ejec3wcvrpwc"]
+
+[ext_resource type="PackedScene" uid="uid://bgfe0hn24uhk1" path="res://scenes/goal/goal.tscn" id="1_nkdkp"]
+[ext_resource type="Texture2D" uid="uid://b5qkp4ycqnerd" path="res://assets/sprites/items/acorns/acorn.png" id="2_72fwy"]
+
+[node name="GoalSpawn" instance=ExtResource("1_nkdkp")]
+
+[node name="Sprite" parent="." index="0"]
+texture = ExtResource("2_72fwy")

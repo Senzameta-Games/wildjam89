@@ -51,13 +51,13 @@ theme_override_constants/separation = 16
 
 [node name="StageClear" type="Label" parent="Content/StageClearContainer"]
 layout_mode = 2
-text = "Stage Clear!"
+text = "NEW GEAR SCAVENGED"
 label_settings = SubResource("LabelSettings_oh052")
 horizontal_alignment = 1
 
 [node name="YouGotTheThing" type="Label" parent="Content/StageClearContainer"]
 layout_mode = 2
-text = "You got the [reward name]!"
+text = "You could use the [reward name] for something..."
 label_settings = SubResource("LabelSettings_7cqm2")
 horizontal_alignment = 1
 
