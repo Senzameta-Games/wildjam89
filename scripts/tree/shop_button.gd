@@ -3,7 +3,7 @@ extends Node2D
 @onready var buy_prompt: Container = $BuyPromptContainer
 @onready var buy_prompt_label: Label = $BuyPromptContainer/BuyPrompt
 @onready var seed_cost_label: Label = $BuyPromptContainer/SeedCost
-@onready var seed_cost: int = 5
+@onready var seed_cost: int = 10
 @onready var detect_area: Area2D = $Area
 
 signal shop_interacted

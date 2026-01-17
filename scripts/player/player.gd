@@ -38,6 +38,7 @@ var is_stomping: bool
 @export var stomp_velocity: float
 var aim_cooldown: float
 var can_aim: bool
+var jumps_available: int = 0
 
 @export_group("Abilities")
 @export var slow_aim: bool = false
@@ -99,6 +100,7 @@ func move(dir: float, delta: float) -> void:
 
 func jump() -> void:
 	velocity.y = -jump_velocity
+	jumps_available -= 1
 	just_jumped.emit()
 
 

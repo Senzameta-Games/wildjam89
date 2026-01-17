@@ -48,6 +48,9 @@ func _on_timer_timeout() -> void:
 		beetle_sprite.play("attack")
 		prepare_bomb()
 		await beetle_sprite.animation_finished
+		
+		about_to_throw = false
+		beetle_sprite.play("idle")
 
 func prepare_bomb() -> void:
 	about_to_throw = true
@@ -73,7 +76,7 @@ func prepare_bomb() -> void:
 		bomb_visual.process_mode = Node.PROCESS_MODE_DISABLED
 		
 		# initialize the bomb's position
-		bomb_visual.position = Vector2(0, -10)
+		bomb_visual.position = Vector2(2 * (1 if enemy_sprite.flip_h else - 8), -2.0)
 		
 		# sprite feedback
 		var bomb_sprite = bomb_visual.get_node("Sprite")
@@ -82,7 +85,7 @@ func prepare_bomb() -> void:
 		
 		# move to beetle hands
 		var tween = create_tween()
-		var offset_to_hands = Vector2(2 * (1 if enemy_sprite.flip_h else -1), -15.0)
+		var offset_to_hands = Vector2(2 * (1 if enemy_sprite.flip_h else - 1), -12.0)
 		tween.tween_property(bomb_visual, "position", offset_to_hands, 0.2)
 		
 		# throw when tween ends

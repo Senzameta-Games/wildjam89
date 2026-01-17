@@ -63,6 +63,7 @@ func _process(delta):
 func heal_tree(amount: float):
 	print("Incoming Heal: ", amount)
 	add_progress(amount)
+	
 
 func hurt(amount: float):
 	print("Incoming Damage: ", amount)
@@ -237,7 +238,8 @@ func _unhandled_input(event: InputEvent):
 
 func _on_shop_interacted():
 	impulse_grow_sfx.play()
-	add_progress(5.0)
+	add_progress(1.0)
+	tree_healed.emit(1.0)
 	
 
 func _on_tree_hitbox_area_entered(area: Area2D):

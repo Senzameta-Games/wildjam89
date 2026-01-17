@@ -38,7 +38,7 @@ stream_5/stream = ExtResource("15_xwrx4")
 stream_6/stream = ExtResource("16_0uf4c")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mbf7r"]
-size = Vector2(44, 31)
+size = Vector2(58, 31)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d4o0i"]
 bg_color = Color(1, 1, 1, 1)
@@ -117,6 +117,7 @@ shape = SubResource("RectangleShape2D_mbf7r")
 
 [node name="BuyPromptContainer" type="HBoxContainer" parent="Shop"]
 top_level = true
+z_index = 100
 anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0

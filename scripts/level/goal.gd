@@ -18,4 +18,3 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 			await sfx_collect.finished
 
 		queue_free()
-	

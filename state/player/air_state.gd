@@ -14,6 +14,7 @@ func enter() -> void:
 	else:
 		fall_feedback()
 		coyote_timer = coyote_time
+		player.jumps_available -= 1
 	
 func physics_update(delta: float) -> void:
 	var dir = Input.get_axis("move_left", "move_right")
@@ -28,6 +29,10 @@ func physics_update(delta: float) -> void:
 		player.jump()
 		jump_feedback()
 		coyote_timer = 0.0
+		return
+	elif Input.is_action_just_pressed("jump") and player.jumps_available > 0:
+		player.jump()
+		jump_feedback()
 		return
 	
 	if Input.is_action_pressed("aim") and player.aim_cooldown <= 0 and Game.has_ability("aim_stomp"):

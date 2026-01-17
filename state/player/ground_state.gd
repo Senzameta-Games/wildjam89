@@ -8,7 +8,7 @@ func enter() -> void:
 	player.aim_cooldown = 0.0
 	player.can_aim = false
 	player.velocity.y = 0
-	
+	player.jumps_available = 2 if Game.has_ability("double_jump") else 1
 	step_timer = 0.0
 	
 	if player.is_stomping:

@@ -17,6 +17,7 @@ signal enemy_defeated
 
 @onready var dropped_seed: Node = $Seed
 @onready var stomped: bool = false
+@onready var is_dying: bool = false
 
 @onready var die_sfx: AudioStreamPlayer2D = $SFX/Die
 @onready var enemy_sprite: AnimatedSprite2D = $Sprite
@@ -67,6 +68,9 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 			body.hurt(global_position)
 
 func die() -> void:
+	if is_dying: return
+	is_dying = true
+	remove_from_group("enemy")
 	set_physics_process(false)
 	$Collider.set_deferred("disabled", true)
 	stomped = true

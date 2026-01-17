@@ -112,3 +112,22 @@ func reset_game_state() -> void:
 	# Reset achievements for new run
 	if Achievements:
 		Achievements.reset_achievements()
+		
+func _unhandled_input(event):
+	if not OS.has_feature("editor"): return
+	
+	if event:
+		if Input.is_action_just_pressed("stopwatch_get"):
+			unlock_ability("aim_stomp")
+		
+		if Input.is_action_just_pressed("acorn_get"):
+			unlock_ability("acorns")
+		
+		if Input.is_action_just_pressed("feather_get"):
+			unlock_ability("double_jump")
+		
+		if Input.is_action_just_pressed("zapper_get"):
+			unlock_ability("pesticide")
+		
+		if Input.is_action_just_pressed("bigboots_get"):
+			unlock_ability("big_stomps")

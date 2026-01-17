@@ -61,7 +61,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("12_h08d2")
 }],
-"loop": true,
+"loop": false,
 "name": &"attack",
 "speed": 8.0
 }, {
@@ -119,7 +119,8 @@ seed_value = 5
 position = Vector2(0, 7)
 sprite_frames = SubResource("SpriteFrames_ibpym")
 animation = &"attack"
-frame_progress = 0.59725094
+frame = 10
+frame_progress = 1.0
 flip_h = true
 
 [node name="Collider" parent="." index="1"]
