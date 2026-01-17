@@ -1,9 +1,14 @@
-[gd_scene load_steps=7 format=3 uid="uid://bne58sbwdhc4l"]
+[gd_scene load_steps=14 format=3 uid="uid://bne58sbwdhc4l"]
 
 [ext_resource type="FontFile" uid="uid://bxn105qovmxyq" path="res://assets/fonts/Ruler 9.ttf" id="1_70u55"]
 [ext_resource type="Script" uid="uid://d2sahw4p6ovrj" path="res://scripts/ui/stage_clear.gd" id="1_ueeji"]
+[ext_resource type="Texture2D" uid="uid://2jlluw0iil3t" path="res://assets/sprites/items/aimstomp/stopwatch.png" id="2_jwkcq"]
 [ext_resource type="FontFile" uid="uid://cycbiy0d7iv67" path="res://assets/fonts/Tiny5-Regular.ttf" id="2_qibs1"]
+[ext_resource type="Texture2D" uid="uid://c4m88c6a3ep6t" path="res://assets/sprites/items/doublejump/feather.png" id="3_bxd5g"]
 [ext_resource type="Texture2D" uid="uid://ctrx51g81r1v0" path="res://assets/sprites/placeholder/treebutton_placeholder.png" id="3_ueeji"]
+[ext_resource type="Texture2D" uid="uid://b5qkp4ycqnerd" path="res://assets/sprites/items/acorns/acorn.png" id="4_2psdg"]
+[ext_resource type="Texture2D" uid="uid://d07t3ds35gotx" path="res://assets/sprites/items/pesticide/pesticide.png" id="5_2yu7h"]
+[ext_resource type="Texture2D" uid="uid://d238xmmjguwum" path="res://assets/sprites/items/bigstomps/boot.png" id="6_dqujr"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_oh052"]
 font = ExtResource("1_70u55")
@@ -12,8 +17,21 @@ font_size = 32
 [sub_resource type="LabelSettings" id="LabelSettings_7cqm2"]
 font = ExtResource("2_qibs1")
 
+[sub_resource type="LabelSettings" id="LabelSettings_jwkcq"]
+font = ExtResource("1_70u55")
+
+[sub_resource type="LabelSettings" id="LabelSettings_bxd5g"]
+font = ExtResource("2_qibs1")
+
 [node name="StageClear" type="CanvasLayer"]
 script = ExtResource("1_ueeji")
+ability_icons = {
+"acorns": ExtResource("4_2psdg"),
+"aim_stomp": ExtResource("2_jwkcq"),
+"big_stomps": ExtResource("6_dqujr"),
+"double_jump": ExtResource("3_bxd5g"),
+"pesticide": ExtResource("5_2yu7h")
+}
 placeholder_icon = ExtResource("3_ueeji")
 
 [node name="Content" type="Control" parent="."]
@@ -61,7 +79,34 @@ text = "You could use the [reward name] for something..."
 label_settings = SubResource("LabelSettings_7cqm2")
 horizontal_alignment = 1
 
-[node name="RewardIcon" type="TextureRect" parent="Content/StageClearContainer"]
+[node name="Ability" type="HBoxContainer" parent="Content/StageClearContainer"]
+layout_mode = 2
+theme_override_constants/separation = 24
+alignment = 1
+
+[node name="Margin" type="MarginContainer" parent="Content/StageClearContainer/Ability"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="RewardIcon" type="TextureRect" parent="Content/StageClearContainer/Ability/Margin"]
 layout_mode = 2
 texture = ExtResource("3_ueeji")
 stretch_mode = 3
+
+[node name="Labels" type="VBoxContainer" parent="Content/StageClearContainer/Ability"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="ItemName" type="Label" parent="Content/StageClearContainer/Ability/Labels"]
+layout_mode = 2
+text = "Item Name"
+label_settings = SubResource("LabelSettings_jwkcq")
+
+[node name="ItemDesc" type="Label" parent="Content/StageClearContainer/Ability/Labels"]
+layout_mode = 2
+text = "This is what it does and how to use it"
+label_settings = SubResource("LabelSettings_bxd5g")

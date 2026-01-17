@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://3mhjgr2g4y7j"]
+[gd_scene load_steps=10 format=3 uid="uid://3mhjgr2g4y7j"]
 
 [ext_resource type="Texture2D" uid="uid://evljh2213602" path="res://assets/sprites/seed/seedblack.png" id="1_ause0"]
+[ext_resource type="Texture2D" uid="uid://bqy7jvtn34w8s" path="res://assets/sprites/seed/seedchonk.png" id="1_tjbah"]
 [ext_resource type="AudioStream" uid="uid://k6ivgxey1k1" path="res://assets/sounds/enemy/seedget/seedget1.wav" id="3_tjbah"]
 [ext_resource type="AudioStream" uid="uid://dfmboaurpmnna" path="res://assets/sounds/enemy/seedget/seedget2.wav" id="4_duic0"]
 [ext_resource type="AudioStream" uid="uid://cq5lnyoa7kgnb" path="res://assets/sounds/enemy/seedget/seedget3.wav" id="5_8cmsn"]
@@ -11,7 +12,7 @@
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_ause0")
+"texture": ExtResource("1_tjbah")
 }],
 "loop": true,
 "name": &"appear",

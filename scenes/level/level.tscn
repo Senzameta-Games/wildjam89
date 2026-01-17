@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://cfl62gijxtptm"]
+[gd_scene load_steps=32 format=3 uid="uid://cfl62gijxtptm"]
 
 [ext_resource type="PackedScene" uid="uid://ciyc0yamaacqw" path="res://scenes/player/player.tscn" id="1_nbgty"]
 [ext_resource type="Script" uid="uid://f1ao7nyts6na" path="res://scripts/level/level.gd" id="1_wcngd"]
@@ -14,11 +14,18 @@
 [ext_resource type="Script" uid="uid://wj3def6gl0vr" path="res://scripts/game/camera.gd" id="9_sytrn"]
 [ext_resource type="Script" uid="uid://bpdggf0ahipqg" path="res://scripts/ui/seed_counter.gd" id="12_vrc4q"]
 [ext_resource type="FontFile" uid="uid://bxn105qovmxyq" path="res://assets/fonts/Ruler 9.ttf" id="13_x4oov"]
-[ext_resource type="Texture2D" uid="uid://evljh2213602" path="res://assets/sprites/seed/seedblack.png" id="14_ivku7"]
+[ext_resource type="Texture2D" uid="uid://bqy7jvtn34w8s" path="res://assets/sprites/seed/seedchonk.png" id="15_b3up8"]
 [ext_resource type="PackedScene" uid="uid://kti6pw1y8020" path="res://scenes/ui/achievement_manager.tscn" id="15_ss4b2"]
 [ext_resource type="Script" path="res://scripts/tree/tree_progress_bar.gd" id="15_x4oov"]
 [ext_resource type="PackedScene" uid="uid://bne58sbwdhc4l" path="res://scenes/ui/stage_clear.tscn" id="17_ivku7"]
 [ext_resource type="Script" uid="uid://b7x7dtjh3m4hu" path="res://scripts/ui/ability_row.gd" id="18_qjqsm"]
+[ext_resource type="Texture2D" uid="uid://b5qkp4ycqnerd" path="res://assets/sprites/items/acorns/acorn.png" id="19_b3up8"]
+[ext_resource type="Texture2D" uid="uid://2jlluw0iil3t" path="res://assets/sprites/items/aimstomp/stopwatch.png" id="20_cqqhe"]
+[ext_resource type="Texture2D" uid="uid://c4m88c6a3ep6t" path="res://assets/sprites/items/doublejump/feather.png" id="21_yoh1m"]
+[ext_resource type="Texture2D" uid="uid://d07t3ds35gotx" path="res://assets/sprites/items/pesticide/pesticide.png" id="22_u5w0m"]
+[ext_resource type="Texture2D" uid="uid://d238xmmjguwum" path="res://assets/sprites/items/bigstomps/boot.png" id="23_fhw5o"]
+[ext_resource type="PackedScene" uid="uid://dpxb8hcxh5heh" path="res://scenes/ui/game_clear.tscn" id="25_cqqhe"]
+[ext_resource type="Script" uid="uid://d1sl3reli2sg5" path="res://scripts/ui/game_clear.gd" id="26_yoh1m"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hnne4"]
 size = Vector2(640, 120)
@@ -161,7 +168,7 @@ offset_top = 328.0
 offset_right = 629.0
 offset_bottom = 344.0
 size_flags_horizontal = 0
-theme_override_constants/separation = 8
+theme_override_constants/separation = 4
 script = ExtResource("12_vrc4q")
 
 [node name="seed_count" type="Label" parent="UI/Seeds"]
@@ -172,7 +179,7 @@ horizontal_alignment = 2
 
 [node name="TextureRect" type="TextureRect" parent="UI/Seeds"]
 layout_mode = 2
-texture = ExtResource("14_ivku7")
+texture = ExtResource("15_b3up8")
 stretch_mode = 3
 
 [node name="TreeProgress" type="VBoxContainer" parent="UI"]
@@ -203,12 +210,25 @@ show_percentage = false
 [node name="AchievementManager" parent="UI" instance=ExtResource("15_ss4b2")]
 
 [node name="Abilities" type="HBoxContainer" parent="UI"]
-offset_left = 370.0
+z_index = 100
+texture_filter = 1
+offset_left = 403.0
 offset_top = 315.0
-offset_right = 570.0
+offset_right = 577.0
 offset_bottom = 355.0
-theme_override_constants/separation = 8
+theme_override_constants/separation = 2
 script = ExtResource("18_qjqsm")
+ability_icons = {
+"acorns": ExtResource("19_b3up8"),
+"aim_stomp": ExtResource("20_cqqhe"),
+"big_stomps": ExtResource("23_fhw5o"),
+"double_jump": ExtResource("21_yoh1m"),
+"pesticide": ExtResource("22_u5w0m")
+}
 
 [node name="StageClear" parent="." instance=ExtResource("17_ivku7")]
 visible = false
+
+[node name="GameClear" parent="." instance=ExtResource("25_cqqhe")]
+visible = false
+script = ExtResource("26_yoh1m")

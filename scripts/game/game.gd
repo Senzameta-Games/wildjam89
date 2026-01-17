@@ -1,5 +1,7 @@
 extends Node
 
+const FINAL_STAGE: int = 7
+
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 signal game_over_called
@@ -21,7 +23,14 @@ func start_new_run() -> void:
 
 func next_stage() -> void:
 	current_stage += 1
+	stage_reset()
 	get_tree().reload_current_scene()
+	
+func stage_reset() -> void:
+	total_seeds = 0
+	flower_columns.clear()
+	total_flowers = 0
+	seeds_changed.emit(total_seeds)
 
 func get_stage_params() -> Dictionary:
 	var difficulty_mult = 1.0 + ((current_stage - 1) * 0.1)
@@ -78,10 +87,13 @@ func add_seeds(amount: int) -> void:
 
 const GRID_SIZE: int = 16
 const FLOWER_HEIGHT: int = 16
+const FLOWER_GROWTH_BONUS: float = 0.05
 
 var flower_scene: PackedScene = preload("res://scenes/flower/flower.tscn")
 
 var flower_columns: Dictionary = {}
+
+var total_flowers: int = 0
 
 func _ready() -> void:
 	flower_columns.clear()
@@ -101,13 +113,20 @@ func plant_flower(at_position: Vector2) -> void:
 	flower.global_position = spawn_pos
 	
 	flower_columns[grid_index] = stack_count + 1
+	total_flowers += 1
 	# Track for achievements
 	if Achievements:
 		Achievements.on_flower_planted()
 
+func get_flower_bonus() -> float:
+	return float(total_flowers) * FLOWER_GROWTH_BONUS
+
+
+
 func reset_game_state() -> void:
 	total_seeds = 0
 	flower_columns.clear()
+	total_flowers = 0
 	seeds_changed.emit(total_seeds)
 	# Reset achievements for new run
 	if Achievements:

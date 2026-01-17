@@ -6,6 +6,7 @@ const ZAPPER_SCRIPT = preload("res://scripts/player/zapper.gd")
 @onready var tree: SeedTree = $Tree
 @onready var goal_spawn: Marker2D = $Goal
 @onready var stage_clear_scn = $StageClear
+@onready var game_clear_scn = $GameClear
 
 @export var next_level_btn_scn: PackedScene
 
@@ -29,6 +30,10 @@ func _ready():
 		if spawner is EnemySpawner:
 			spawner.timer_interval = params.spawn_interval
 	
+	if tree:
+		tree.damage_per_hit = params["enemy_damage"]
+		print("Stage ", Game.current_stage, " Damage: ", tree.damage_per_hit)
+	
 	if goal_scenes.has(ability_key):
 		var goal_to_spawn = goal_scenes[ability_key]
 		active_goal = goal_to_spawn.instantiate()
@@ -42,7 +47,11 @@ func _ready():
 		if goal_spawn.has_node("Area"):
 			goal_spawn.get_node("Area").queue_free()
 		goal_spawn.visible = false
-
+	else: # on the last stage, use the default goal (final)
+		goal_spawn.visible = true
+		if not goal_spawn.goal_reached.is_connected(_on_stage_win):
+			goal_spawn.goal_reached.connect(_on_stage_win)
+			
 	tree.tree_healed.connect(_on_tree_fed)
 	tree.growth_completed.connect(_on_tree_grown)
 
@@ -85,7 +94,7 @@ func _on_stage_win() -> void:
 	if reward != "":
 		Game.unlock_ability(reward)
 	
-	if Game.check_win_con():
+	if Game.current_stage >= Game.FINAL_STAGE:
 		_game_clear()
 	else:
 		stage_clear_scn.show_screen(reward)
@@ -98,6 +107,7 @@ func _purgatory_state() -> void:
 	get_tree().call_group("spawner", "set_process", false)
 	get_tree().call_group("spawner", "set_physics_process", false)
 	get_tree().call_group("enemy", "sacrifice")
+	get_tree().call_group("flower", "reset")
 	
 	if next_level_btn_scn:
 		var btn = next_level_btn_scn.instantiate()
@@ -105,10 +115,5 @@ func _purgatory_state() -> void:
 		call_deferred("add_child", btn)
 		
 func _game_clear() -> void:
-	stage_clear_scn.show_screen("GameClear")
+	game_clear_scn.show_screen("GameClear")
 	
-	var title = stage_clear_scn.get_node("Content/StageClearContainer/StageClear")
-	title.text = "ALL GEAR SCAVENGED"
-	
-	var subtitle = stage_clear_scn.get_node("Content/StageClearContainer/YouGotTheThing")
-	subtitle.text = "The trees marvel at the ingenuity of the raccoon"

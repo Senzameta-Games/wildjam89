@@ -165,3 +165,4 @@ func _animate_branch_in(branch: Node2D):
 	branch.scale = Vector2.ZERO
 	var tween = create_tween().set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	tween.tween_property(branch, "scale", Vector2.ONE, grow_duration)
+	owner.impulse_grow_sfx.play()
