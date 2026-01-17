@@ -19,7 +19,7 @@ var sudden_death: bool = false
 @onready var tree_trunk = $TreeTrunk
 @onready var tree_top = $TreeTrunk/TreeTop
 @onready var tree_collider = $TreeBase/TreeHitbox/TreeCollider
-@onready var impulse_grow_sfx = $SFX/ImpulseGrow
+@onready var impulse_grow_sfx: AudioStreamPlayer2D = $SFX/ImpulseGrow
 
 #just leaf things  
 var leaf_tier_target: int = 0
@@ -32,11 +32,14 @@ var target_sections: int = 0
 var current_sections: int = 0
 var growing_section: Sprite2D
 
+var damage_per_hit: float = 5.0
+
 
 func _ready():
 	_update_target_sections()
 	_update_leaf_tier_target()
 	_build_trunk_immediate()
+	impulse_grow_sfx.volume_db = -24.0
 
 	growing_section = Sprite2D.new()
 	growing_section.name = "GrowingSection"
@@ -45,10 +48,12 @@ func _ready():
 	tree_trunk.add_child(growing_section)
 
 	
-func _process(delta):
+func _process(delta: float) -> void:
 	# Passive growth
+	var passive_bonus = Game.get_flower_bonus()
+	var total_growth_speed = base_grow_amount + passive_bonus
 	if not sudden_death:
-		add_progress(base_grow_amount * delta)
+		add_progress(total_growth_speed * delta)
 	
 	# Update trunk if needed
 	_update_trunk_visual()
@@ -237,14 +242,17 @@ func _unhandled_input(event: InputEvent):
 		print("Manually Hurting: ", tree_progress, "%")
 
 func _on_shop_interacted():
+	impulse_grow_sfx.volume_db = -12.0
 	impulse_grow_sfx.play()
 	add_progress(1.0)
 	tree_healed.emit(1.0)
+	await impulse_grow_sfx.finished
+	impulse_grow_sfx.volume_db = -24.0
 	
 
 func _on_tree_hitbox_area_entered(area: Area2D):
 	if area.get_parent() is Enemy:
 		area.get_parent().sacrifice()
-		hurt(5)
+		hurt(damage_per_hit)
 	elif area.get_parent() is Bomb:
-		hurt(5)
+		hurt(damage_per_hit * 1.2)

@@ -71,6 +71,8 @@ signal just_interacted
 @onready var aim_raycast: RayCast2D = $AimRay
 @onready var aim_visual: ColorRect = $AimVisual
 
+@onready var big_stomp_zone: Area2D = $BigStompZone
+
 func _ready() -> void:
 	self.position = spawn_pos
 	just_spawned.emit()
@@ -110,17 +112,40 @@ func stomp() -> void:
 	is_stomping = true
 	just_stomped.emit()
 
-func bounce() -> void:
+func do_big_stomp() -> void:
+	get_tree().call_group("camera", "apply_shake", Vector2(8, 64), 2.0)
+	sfx_land.volume_db = 0.0
+	sfx_land.pitch_scale = 0.8
+	sfx_land.play()
 	
+	await get_tree().physics_frame
+	await get_tree().physics_frame
+	
+	if big_stomp_zone:
+		var bodies = big_stomp_zone.get_overlapping_bodies()
+		for body in bodies:
+			if body.is_in_group("enemy") and body.has_method("die"):
+				if body != self:
+					body.die()
+
+func bounce() -> void:
 	sfx_stompimpact.play()
+	aim_cooldown = 0.5
 	if is_stomping:
 		velocity.y = -jump_velocity * 1.1
 		is_stomping = false
 		get_tree().call_group("camera", "apply_shake", Vector2(1, 32), 4.0)
-		aim_cooldown = 0.3
+		await hit_stop(0.1)
+		
 	else: velocity.y = -jump_velocity * 0.7
 	
 	move_and_slide()
+
+func hit_stop(duration: float) -> void:
+	var old_scale = Engine.time_scale
+	Engine.time_scale = 0.01
+	await get_tree().create_timer(duration, true, false, true).timeout
+	Engine.time_scale = old_scale
 	
 func interact() -> void:
 	just_interacted.emit()

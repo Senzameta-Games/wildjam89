@@ -7,3 +7,7 @@ class_name Flower
 
 func _ready() -> void:
 	sprite.texture = flower_variants.pick_random()
+
+func reset() -> void:
+	Game.total_flowers = max(0, Game.total_flowers -1)
+	queue_free()

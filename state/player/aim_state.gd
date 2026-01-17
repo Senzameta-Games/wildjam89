@@ -16,7 +16,7 @@ func enter() -> void:
 	aim_timer = 0.0
 	# hold in air briefly
 	player.velocity *= velocity_preserved
-	player.set_time_scale(0.4)
+	player.set_time_scale(0.2)
 	time_slowed = true
 	# show visuals
 	fall_feedback()
@@ -57,12 +57,12 @@ func physics_update(delta: float) -> void:
 	player.move_and_slide()
 	player.update_facing_dir(dir)
 	
+	if Input.is_action_just_pressed("stomp"):
+		transition_requested.emit(self, StompState)
+	
 	if Input.is_action_just_released("aim"):
 		transition_requested.emit(self, AirState)
 		return
-	
-	if Input.is_action_just_pressed("stomp"):
-		transition_requested.emit(self, StompState)
 	
 	if player.is_on_floor():
 		transition_requested.emit(self, GroundState)

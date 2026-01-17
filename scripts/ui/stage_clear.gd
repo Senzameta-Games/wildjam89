@@ -4,7 +4,9 @@ extends CanvasLayer
 @onready var container = $Content/StageClearContainer
 @onready var title_label = $Content/StageClearContainer/StageClear
 @onready var reward_label = $Content/StageClearContainer/YouGotTheThing
-@onready var reward_icon = $Content/StageClearContainer/RewardIcon
+@onready var reward_icon = $Content/StageClearContainer/Ability/Margin/RewardIcon
+@onready var item_name = $Content/StageClearContainer/Ability/Labels/ItemName
+@onready var item_desc = $Content/StageClearContainer/Ability/Labels/ItemDesc
 
 var ability_names: Dictionary = {
 	"aim_stomp": "Stopwatch",
@@ -56,3 +58,11 @@ func hide_screen() -> void:
 	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 	tween.tween_property(content, "modulate:a", 0.0, 0.5)
 	tween.tween_callback(func(): visible = false)
+
+func _on_restart_button_pressed():
+	Game.reset_game_state()
+	get_tree().paused = false
+	get_tree().reload_current_scene()
+
+func _on_exit_button_pressed():
+	get_tree().quit()
