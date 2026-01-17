@@ -55,6 +55,8 @@ func physics_update(delta: float) -> void:
 func jump_feedback():
 	player.player_sprite.play("jump")
 	player.sfx_jump.play()
+	if Game.has_ability("double_jump") and player.jumps_available == 1:
+		player.sfx_dash.play()
 	# other jumping feedback here
 
 func fall_feedback():

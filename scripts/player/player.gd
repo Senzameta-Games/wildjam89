@@ -67,6 +67,7 @@ signal just_interacted
 @onready var sfx_stompimpact: AudioStreamPlayer2D = $SFX/StompImpact
 @onready var sfx_hurt: AudioStreamPlayer2D = $SFX/Hurt
 @onready var sfx_heal: AudioStreamPlayer2D = $SFX/Heal
+@onready var sfx_dash: AudioStreamPlayer2D = $SFX/Dash
 
 @onready var aim_raycast: RayCast2D = $AimRay
 @onready var aim_visual: ColorRect = $AimVisual
@@ -117,6 +118,7 @@ func do_big_stomp() -> void:
 	sfx_land.volume_db = 0.0
 	sfx_land.pitch_scale = 0.8
 	sfx_land.play()
+	
 	
 	await get_tree().physics_frame
 	await get_tree().physics_frame

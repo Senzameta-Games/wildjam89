@@ -112,6 +112,7 @@ shape = SubResource("CapsuleShape2D_a3pup")
 
 [node name="Squash" type="AudioStreamPlayer2D" parent="SFX"]
 stream = SubResource("AudioStreamRandomizer_so3kp")
+volume_db = -8.0
 
 [node name="Die" type="AudioStreamPlayer2D" parent="SFX"]
 stream = SubResource("AudioStreamRandomizer_wk82e")

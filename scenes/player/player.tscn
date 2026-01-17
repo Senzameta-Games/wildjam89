@@ -1,4 +1,4 @@
-[gd_scene load_steps=78 format=3 uid="uid://ciyc0yamaacqw"]
+[gd_scene load_steps=84 format=3 uid="uid://ciyc0yamaacqw"]
 
 [ext_resource type="Script" uid="uid://c5l22pvevgh2q" path="res://scripts/player/player.gd" id="1_dovo2"]
 [ext_resource type="Texture2D" uid="uid://da78vrp648vjw" path="res://assets/sprites/player/idle/raccoonmcidle.png" id="2_5q8fn"]
@@ -53,11 +53,11 @@
 [ext_resource type="AudioStream" uid="uid://btlowwi871lt5" path="res://assets/sounds/player/jumps/jumpshort2.wav" id="39_8lfxt"]
 [ext_resource type="AudioStream" uid="uid://cidfk24bk5bn1" path="res://assets/sounds/player/jumps/jumpshort3.wav" id="40_lclul"]
 [ext_resource type="Shader" uid="uid://c4ibaqhwwsbf6" path="res://assets/shaders/aim_ray.gdshader" id="46_iwuka"]
-[ext_resource type="AudioStream" uid="uid://rtvn3cv221aw" path="res://assets/sounds/player/stompFalls/stompfall1.wav" id="46_w8qe1"]
-[ext_resource type="AudioStream" uid="uid://d1fbcy6q5v7hl" path="res://assets/sounds/player/stompFalls/stompfall2.wav" id="47_hdvrm"]
-[ext_resource type="AudioStream" uid="uid://bkcs8mrqtwysn" path="res://assets/sounds/player/stompFalls/stompfall3.wav" id="48_5xbmr"]
-[ext_resource type="AudioStream" uid="uid://ftbjhqjvfh17" path="res://assets/sounds/player/stompFalls/stompfall4.wav" id="49_hir57"]
-[ext_resource type="AudioStream" uid="uid://dctjfeoyd4tgg" path="res://assets/sounds/player/stompFalls/stompfall5.wav" id="50_7072n"]
+[ext_resource type="AudioStream" uid="uid://rtvn3cv221aw" path="res://assets/sounds/player/stompFalls/StompFall1.wav" id="46_w8qe1"]
+[ext_resource type="AudioStream" uid="uid://d1fbcy6q5v7hl" path="res://assets/sounds/player/stompFalls/StompFall2.wav" id="47_hdvrm"]
+[ext_resource type="AudioStream" uid="uid://bkcs8mrqtwysn" path="res://assets/sounds/player/stompFalls/StompFall3.wav" id="48_5xbmr"]
+[ext_resource type="AudioStream" uid="uid://ftbjhqjvfh17" path="res://assets/sounds/player/stompFalls/StompFall4.wav" id="49_hir57"]
+[ext_resource type="AudioStream" uid="uid://dctjfeoyd4tgg" path="res://assets/sounds/player/stompFalls/StompFall5.wav" id="50_7072n"]
 [ext_resource type="AudioStream" uid="uid://vhcukf3u5iq6" path="res://assets/sounds/player/stompFalls/stompfall6.wav" id="51_gmu8b"]
 [ext_resource type="AudioStream" uid="uid://djls4e2ld3xkb" path="res://assets/sounds/player/stompFalls/stompfall7.wav" id="52_a38bk"]
 [ext_resource type="AudioStream" uid="uid://dfgrx3nuauws2" path="res://assets/sounds/player/stompFalls/stompfall8.wav" id="53_3chqh"]
@@ -67,6 +67,11 @@
 [ext_resource type="AudioStream" uid="uid://d2gth2samukec" path="res://assets/sounds/player/hurt/playerhurt4.wav" id="64_lclul"]
 [ext_resource type="AudioStream" uid="uid://bysyjn8wjgxqg" path="res://assets/sounds/player/hurt/playerhurt5.wav" id="65_ej2d6"]
 [ext_resource type="AudioStream" uid="uid://ceq0lu10i08t5" path="res://assets/sounds/player/hurt/playerhurt6.wav" id="66_fvjb1"]
+[ext_resource type="AudioStream" uid="uid://dypcqnrye5igg" path="res://assets/sounds/player/dash/playerdash1.wav" id="67_fvjb1"]
+[ext_resource type="AudioStream" uid="uid://bl7nyfxeqqw1g" path="res://assets/sounds/player/dash/playerdash2.wav" id="68_bysbl"]
+[ext_resource type="AudioStream" uid="uid://bxp11hlnt1kch" path="res://assets/sounds/player/dash/playerdash3.wav" id="69_2wy34"]
+[ext_resource type="AudioStream" uid="uid://b3vf6p8b1ifej" path="res://assets/sounds/player/dash/playerdash4.wav" id="70_ymths"]
+[ext_resource type="AudioStream" uid="uid://crgo8jfbur0vb" path="res://assets/sounds/player/dash/playerdash5.wav" id="71_3p0jd"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_x7p2l"]
 animations = [{
@@ -208,6 +213,14 @@ stream_3/stream = ExtResource("64_lclul")
 stream_4/stream = ExtResource("65_ej2d6")
 stream_5/stream = ExtResource("66_fvjb1")
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_7nf13"]
+streams_count = 5
+stream_0/stream = ExtResource("67_fvjb1")
+stream_1/stream = ExtResource("68_bysbl")
+stream_2/stream = ExtResource("69_2wy34")
+stream_3/stream = ExtResource("70_ymths")
+stream_4/stream = ExtResource("71_3p0jd")
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hyqqp"]
 shader = ExtResource("46_iwuka")
 shader_parameter/beam_color = Color(1, 1, 1, 0.5)
@@ -286,11 +299,16 @@ pitch_scale = 1.5
 
 [node name="StompImpact" type="AudioStreamPlayer2D" parent="SFX"]
 stream = SubResource("AudioStreamRandomizer_6cv16")
+volume_db = -4.0
 
 [node name="Hurt" type="AudioStreamPlayer2D" parent="SFX"]
 stream = SubResource("AudioStreamRandomizer_bysbl")
 
 [node name="Heal" type="AudioStreamPlayer2D" parent="SFX"]
+
+[node name="Dash" type="AudioStreamPlayer2D" parent="SFX"]
+stream = SubResource("AudioStreamRandomizer_7nf13")
+volume_db = -8.0
 
 [node name="VFX" type="Node2D" parent="."]
 

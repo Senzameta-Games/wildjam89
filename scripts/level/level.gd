@@ -7,7 +7,8 @@ const ZAPPER_SCRIPT = preload("res://scripts/player/zapper.gd")
 @onready var goal_spawn: Marker2D = $Goal
 @onready var stage_clear_scn = $StageClear
 @onready var game_clear_scn = $GameClear
-
+@onready var music: AudioStreamPlayer2D = $Music
+@onready var zap_sfx: AudioStreamPlayer2D = $Tree/SFX/Zap
 @export var next_level_btn_scn: PackedScene
 
 var goal_scenes: Dictionary = {
@@ -79,10 +80,12 @@ func _trigger_zap():
 	zap.set_script(ZAPPER_SCRIPT)
 	add_child(zap)
 	zap.zap(target.global_position)
+	zap_sfx.play()
 	
 	# then die
 	if target.has_method("die"):
 		target.die()
+	
 
 func _on_tree_grown() -> void:
 	print("Tree max growth")
