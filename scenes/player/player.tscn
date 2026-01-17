@@ -2,31 +2,31 @@
 
 [ext_resource type="Script" uid="uid://c5l22pvevgh2q" path="res://scripts/player/player.gd" id="1_dovo2"]
 [ext_resource type="Texture2D" uid="uid://da78vrp648vjw" path="res://assets/sprites/player/idle/raccoonmcidle.png" id="2_5q8fn"]
-[ext_resource type="Texture2D" uid="uid://05erp0sjg3p8" path="res://assets/sprites/player/jump/raccoonmcjump1.png" id="2_8qxvo"]
-[ext_resource type="Texture2D" uid="uid://br4i7btqjbwgi" path="res://assets/sprites/player/jump/raccoonmcjump2.png" id="3_5q8fn"]
+[ext_resource type="Texture2D" uid="uid://bd73n0bhblawn" path="res://assets/sprites/player/jump/raccoonmcjumpwhiteoutline1.png" id="3_fvjb1"]
 [ext_resource type="Script" uid="uid://b5r0p46rp1jyn" path="res://state/state_machine.gd" id="3_lvxji"]
 [ext_resource type="Script" uid="uid://qe4qdle3ommv" path="res://state/player/ground_state.gd" id="4_0owmy"]
-[ext_resource type="Texture2D" uid="uid://xdf2j43t3rrl" path="res://assets/sprites/player/jump/raccoonmcjump3.png" id="4_wva7c"]
-[ext_resource type="Texture2D" uid="uid://dtq03e6rsxqcv" path="res://assets/sprites/player/jump/raccoonmcjump4.png" id="5_7obkq"]
+[ext_resource type="Texture2D" uid="uid://byopr04360wjw" path="res://assets/sprites/player/jump/raccoonmcjumpwhiteoutline2.png" id="4_bysbl"]
+[ext_resource type="Texture2D" uid="uid://du2nea86m2dhp" path="res://assets/sprites/player/jump/raccoonmcjumpwhiteoutline3.png" id="5_2wy34"]
 [ext_resource type="Script" uid="uid://d20ybqwmw2vw0" path="res://state/player/air_state.gd" id="5_qek5x"]
 [ext_resource type="Script" uid="uid://l1m1x8x7eh0" path="res://state/player/stomp_state.gd" id="6_5gtgg"]
-[ext_resource type="Texture2D" uid="uid://cj4gds3y24trx" path="res://assets/sprites/player/jump/raccoonmcjump5.png" id="6_vo27k"]
-[ext_resource type="Texture2D" uid="uid://byad4qrowfy1y" path="res://assets/sprites/player/jump/raccoonmcjump6.png" id="7_genst"]
-[ext_resource type="Texture2D" uid="uid://4nk1qeq46k5" path="res://assets/sprites/player/run/raccoonmc1.png" id="8_niom3"]
-[ext_resource type="Texture2D" uid="uid://03yn3uqg88r4" path="res://assets/sprites/player/run/raccoonmc2.png" id="9_ttakn"]
-[ext_resource type="Texture2D" uid="uid://gyujfp3jpbuu" path="res://assets/sprites/player/run/raccoonmc3.png" id="10_rw8a5"]
-[ext_resource type="Texture2D" uid="uid://drn5ik71jtt6k" path="res://assets/sprites/player/run/raccoonmc4.png" id="11_iwuka"]
+[ext_resource type="Texture2D" uid="uid://un06as4dnbo6" path="res://assets/sprites/player/jump/raccoonmcjumpwhiteoutline4.png" id="6_ymths"]
+[ext_resource type="Texture2D" uid="uid://d231rp82hfljc" path="res://assets/sprites/player/jump/raccoonmcjumpwhiteoutline5.png" id="7_3p0jd"]
+[ext_resource type="Texture2D" uid="uid://b5h15keid5j2d" path="res://assets/sprites/player/jump/raccoonmcjumpwhiteoutline6.png" id="8_7nf13"]
+[ext_resource type="Texture2D" uid="uid://bje0aki8d7xys" path="res://assets/sprites/player/run/raccoonmcrunwhiteoutline1.png" id="9_fvjb1"]
+[ext_resource type="Texture2D" uid="uid://w84g3qu7ryng" path="res://assets/sprites/player/run/raccoonmcrunwhiteoutline2.png" id="10_bysbl"]
+[ext_resource type="Texture2D" uid="uid://mjmmeprqut2f" path="res://assets/sprites/player/run/raccoonmcrunwhiteoutline3.png" id="11_2wy34"]
 [ext_resource type="AudioStream" uid="uid://y61qkkngxbav" path="res://assets/sounds/player/landing/Landing1.wav" id="12_6cv16"]
-[ext_resource type="Texture2D" uid="uid://cnpm820kaohbw" path="res://assets/sprites/player/run/raccoonmc5.png" id="12_hyqqp"]
-[ext_resource type="Texture2D" uid="uid://l85dlxpj5lno" path="res://assets/sprites/player/run/raccoonmc6.png" id="13_ds1xl"]
+[ext_resource type="Texture2D" uid="uid://diywj0paoc187" path="res://assets/sprites/player/run/raccoonmcrunwhiteoutline4.png" id="12_ymths"]
+[ext_resource type="Texture2D" uid="uid://bg5gy7aa1vsos" path="res://assets/sprites/player/run/raccoonmcrunwhiteoutline5.png" id="13_3p0jd"]
 [ext_resource type="AudioStream" uid="uid://dswlhst3wi5sr" path="res://assets/sounds/player/landing/Landing2.wav" id="13_j4nxn"]
+[ext_resource type="Texture2D" uid="uid://deucjmpl1ifl5" path="res://assets/sprites/player/run/raccoonmcrunwhiteoutline6.png" id="14_7nf13"]
 [ext_resource type="AudioStream" uid="uid://bph2casqrgc8p" path="res://assets/sounds/player/landing/Landing3.wav" id="14_28m0y"]
 [ext_resource type="AudioStream" uid="uid://bm8p5upv8ehu1" path="res://assets/sounds/player/landing/Landing4.wav" id="15_uniwh"]
 [ext_resource type="AudioStream" uid="uid://c7eh87musambh" path="res://assets/sounds/player/landing/Landing5.wav" id="16_iqsei"]
 [ext_resource type="AudioStream" uid="uid://ndmtsv5tbl8g" path="res://assets/sounds/player/stomps/Stomps1.wav" id="17_3j4b4"]
 [ext_resource type="Script" uid="uid://c4wllcl5wr1bu" path="res://state/player/aim_state.gd" id="18_hdvrm"]
 [ext_resource type="AudioStream" uid="uid://2ys7l2n03t1t" path="res://assets/sounds/player/stomps/Stomps2.wav" id="18_yj68g"]
-[ext_resource type="Script" path="res://state/player/hurt_state.gd" id="19_5xbmr"]
+[ext_resource type="Script" uid="uid://bxufy135dhqq" path="res://state/player/hurt_state.gd" id="19_5xbmr"]
 [ext_resource type="AudioStream" uid="uid://2gutsa1rmegu" path="res://assets/sounds/player/stomps/Stomps3.wav" id="19_ioxgp"]
 [ext_resource type="AudioStream" uid="uid://bsj5boqtcul8w" path="res://assets/sounds/player/steps/step1.wav" id="19_rw8a5"]
 [ext_resource type="AudioStream" uid="uid://dry31p0fhbmwi" path="res://assets/sounds/player/stomps/Stomps4.wav" id="20_cnsyf"]
@@ -53,11 +53,11 @@
 [ext_resource type="AudioStream" uid="uid://btlowwi871lt5" path="res://assets/sounds/player/jumps/jumpshort2.wav" id="39_8lfxt"]
 [ext_resource type="AudioStream" uid="uid://cidfk24bk5bn1" path="res://assets/sounds/player/jumps/jumpshort3.wav" id="40_lclul"]
 [ext_resource type="Shader" uid="uid://c4ibaqhwwsbf6" path="res://assets/shaders/aim_ray.gdshader" id="46_iwuka"]
-[ext_resource type="AudioStream" uid="uid://rtvn3cv221aw" path="res://assets/sounds/player/stompFalls/StompFall1.wav" id="46_w8qe1"]
-[ext_resource type="AudioStream" uid="uid://d1fbcy6q5v7hl" path="res://assets/sounds/player/stompFalls/StompFall2.wav" id="47_hdvrm"]
-[ext_resource type="AudioStream" uid="uid://bkcs8mrqtwysn" path="res://assets/sounds/player/stompFalls/StompFall3.wav" id="48_5xbmr"]
-[ext_resource type="AudioStream" uid="uid://ftbjhqjvfh17" path="res://assets/sounds/player/stompFalls/StompFall4.wav" id="49_hir57"]
-[ext_resource type="AudioStream" uid="uid://dctjfeoyd4tgg" path="res://assets/sounds/player/stompFalls/StompFall5.wav" id="50_7072n"]
+[ext_resource type="AudioStream" uid="uid://rtvn3cv221aw" path="res://assets/sounds/player/stompFalls/stompfall1.wav" id="46_w8qe1"]
+[ext_resource type="AudioStream" uid="uid://d1fbcy6q5v7hl" path="res://assets/sounds/player/stompFalls/stompfall2.wav" id="47_hdvrm"]
+[ext_resource type="AudioStream" uid="uid://bkcs8mrqtwysn" path="res://assets/sounds/player/stompFalls/stompfall3.wav" id="48_5xbmr"]
+[ext_resource type="AudioStream" uid="uid://ftbjhqjvfh17" path="res://assets/sounds/player/stompFalls/stompfall4.wav" id="49_hir57"]
+[ext_resource type="AudioStream" uid="uid://dctjfeoyd4tgg" path="res://assets/sounds/player/stompFalls/stompfall5.wav" id="50_7072n"]
 [ext_resource type="AudioStream" uid="uid://vhcukf3u5iq6" path="res://assets/sounds/player/stompFalls/stompfall6.wav" id="51_gmu8b"]
 [ext_resource type="AudioStream" uid="uid://djls4e2ld3xkb" path="res://assets/sounds/player/stompFalls/stompfall7.wav" id="52_a38bk"]
 [ext_resource type="AudioStream" uid="uid://dfgrx3nuauws2" path="res://assets/sounds/player/stompFalls/stompfall8.wav" id="53_3chqh"]
@@ -95,22 +95,22 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("2_8qxvo")
+"texture": ExtResource("3_fvjb1")
 }, {
 "duration": 1.0,
-"texture": ExtResource("3_5q8fn")
+"texture": ExtResource("4_bysbl")
 }, {
 "duration": 1.0,
-"texture": ExtResource("4_wva7c")
+"texture": ExtResource("5_2wy34")
 }, {
 "duration": 1.0,
-"texture": ExtResource("5_7obkq")
+"texture": ExtResource("6_ymths")
 }, {
 "duration": 1.0,
-"texture": ExtResource("6_vo27k")
+"texture": ExtResource("7_3p0jd")
 }, {
 "duration": 1.0,
-"texture": ExtResource("7_genst")
+"texture": ExtResource("8_7nf13")
 }],
 "loop": true,
 "name": &"jump",
@@ -118,22 +118,22 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("8_niom3")
+"texture": ExtResource("9_fvjb1")
 }, {
 "duration": 1.0,
-"texture": ExtResource("9_ttakn")
+"texture": ExtResource("10_bysbl")
 }, {
 "duration": 1.0,
-"texture": ExtResource("10_rw8a5")
+"texture": ExtResource("11_2wy34")
 }, {
 "duration": 1.0,
-"texture": ExtResource("11_iwuka")
+"texture": ExtResource("12_ymths")
 }, {
 "duration": 1.0,
-"texture": ExtResource("12_hyqqp")
+"texture": ExtResource("13_3p0jd")
 }, {
 "duration": 1.0,
-"texture": ExtResource("13_ds1xl")
+"texture": ExtResource("14_7nf13")
 }],
 "loop": true,
 "name": &"run",
@@ -146,7 +146,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fvjb1"]
-size = Vector2(32, 32)
+size = Vector2(18, 32)
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_ahqnk"]
 streams_count = 7
