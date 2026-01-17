@@ -145,9 +145,8 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8afob"]
-radius = 17.0
-height = 34.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fvjb1"]
+size = Vector2(32, 32)
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_ahqnk"]
 streams_count = 7
@@ -252,7 +251,8 @@ sprite_frames = SubResource("SpriteFrames_x7p2l")
 animation = &"jump"
 
 [node name="Collider" type="CollisionShape2D" parent="."]
-shape = SubResource("CapsuleShape2D_8afob")
+position = Vector2(-3, 0)
+shape = SubResource("RectangleShape2D_fvjb1")
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("3_lvxji")
