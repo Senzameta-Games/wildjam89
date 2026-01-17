@@ -50,17 +50,26 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 	#print(body.name)
 	if stomped:
 		return
-		
+	
 	if (body != self) and body.is_in_group("player"):
-		if body.get("is_stomping"): 
+		var is_above = body.global_position.y < (global_position.y -8.0)
+		var is_falling = body.velocity.y > 0
+		
+		if body.get("is_stomping") and is_above and is_falling: 
 			if body.has_method("bounce"):
 				body.bounce()
 			die()
+		elif is_above and is_falling:
+			if body.has_method("bounce"):
+				body.bounce()
+		else:
+			body.hurt(global_position)
 
 func die() -> void:
 	set_physics_process(false)
 	$Collider.set_deferred("disabled", true)
 	stomped = true
+	$SFX/Die.play()
 	squash_and_hide()
 	drop_seed()
 	Game.plant_flower(global_position)

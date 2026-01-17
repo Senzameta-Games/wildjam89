@@ -15,7 +15,7 @@
 [ext_resource type="FontFile" uid="uid://bxn105qovmxyq" path="res://assets/fonts/Ruler 9.ttf" id="13_x4oov"]
 [ext_resource type="Texture2D" uid="uid://evljh2213602" path="res://assets/sprites/seed/seedblack.png" id="14_ivku7"]
 [ext_resource type="PackedScene" uid="uid://kti6pw1y8020" path="res://scenes/ui/achievement_manager.tscn" id="15_ss4b2"]
-[ext_resource type="Script" uid="uid://dx4m7j17iilpw" path="res://scripts/tree/tree_progress_bar.gd" id="15_x4oov"]
+[ext_resource type="Script" path="res://scripts/tree/tree_progress_bar.gd" id="15_x4oov"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hnne4"]
 size = Vector2(640, 120)
@@ -56,6 +56,7 @@ script = ExtResource("1_wcngd")
 
 [node name="Environment" type="Node2D" parent="." groups=["level"]]
 top_level = true
+z_index = 10
 
 [node name="GroundPlane" type="StaticBody2D" parent="Environment" groups=["level"]]
 position = Vector2(320, 320)
@@ -119,8 +120,6 @@ enemies = Array[PackedScene]([ExtResource("5_xv074"), ExtResource("6_sytrn"), Ex
 
 [node name="Tree" parent="." groups=["tree"] instance=ExtResource("7_wcngd")]
 position = Vector2(320, 288)
-trunk_section_height = 16
-max_sections = 20
 
 [node name="Goal" parent="." instance=ExtResource("7_tf2q7")]
 position = Vector2(360, 40)

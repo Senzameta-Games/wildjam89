@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c8yn67wshcpor"]
+[gd_scene load_steps=18 format=3 uid="uid://c8yn67wshcpor"]
 
 [ext_resource type="PackedScene" uid="uid://cotswcby4pyh4" path="res://scenes/enemy/enemy.tscn" id="1_hrymj"]
 [ext_resource type="Texture2D" uid="uid://djots553lwyxp" path="res://assets/sprites/worm/worm6.png" id="2_2sabi"]
@@ -8,6 +8,12 @@
 [ext_resource type="Texture2D" uid="uid://4nquhp8fixwa" path="res://assets/sprites/worm/worm4.png" id="6_dd6au"]
 [ext_resource type="Texture2D" uid="uid://b2w4w6vy1yaby" path="res://assets/sprites/worm/worm5.png" id="7_y8yk7"]
 [ext_resource type="Texture2D" uid="uid://blqalq7mo4wjg" path="res://assets/sprites/worm/worm7.png" id="8_5ikso"]
+[ext_resource type="AudioStream" uid="uid://due0i8t76plt8" path="res://assets/sounds/enemy/worm/wormdie1.wav" id="9_5ikso"]
+[ext_resource type="AudioStream" uid="uid://gofahe3jg6u6" path="res://assets/sounds/enemy/worm/wormdie2.wav" id="10_mxuh0"]
+[ext_resource type="AudioStream" uid="uid://djtjalahytuta" path="res://assets/sounds/enemy/worm/wormdie3.wav" id="11_aet5f"]
+[ext_resource type="AudioStream" uid="uid://i0v6dq30mwuc" path="res://assets/sounds/enemy/worm/wormdie4.wav" id="12_0utau"]
+[ext_resource type="AudioStream" uid="uid://dwcb3xj8hjk2f" path="res://assets/sounds/enemy/worm/wormdie5.wav" id="13_gih8v"]
+[ext_resource type="AudioStream" uid="uid://dql8rhye4bhga" path="res://assets/sounds/enemy/worm/wormdie6.wav" id="14_grp04"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_mxuh0"]
 animations = [{
@@ -56,6 +62,18 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2sabi"]
+size = Vector2(6, 3)
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_yice5"]
+streams_count = 6
+stream_0/stream = ExtResource("9_5ikso")
+stream_1/stream = ExtResource("10_mxuh0")
+stream_2/stream = ExtResource("11_aet5f")
+stream_3/stream = ExtResource("12_0utau")
+stream_4/stream = ExtResource("13_gih8v")
+stream_5/stream = ExtResource("14_grp04")
+
 [node name="Worm" instance=ExtResource("1_hrymj")]
 spawn_cost = 1
 speed = 200.0
@@ -66,4 +84,11 @@ sprite_frames = SubResource("SpriteFrames_mxuh0")
 animation = &"walk"
 
 [node name="Collider" parent="." index="1"]
-position = Vector2(0, -1.5)
+position = Vector2(0, 2.5)
+shape = SubResource("RectangleShape2D_2sabi")
+
+[node name="Hitbox" parent="." index="2"]
+position = Vector2(0, -2)
+
+[node name="Die" parent="SFX" index="5"]
+stream = SubResource("AudioStreamRandomizer_yice5")

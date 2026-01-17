@@ -3,6 +3,7 @@ class_name AchievementToast
 
 @onready var title: Label = $Container/Text/Title
 @onready var description: Label = $Container/Text/Description
+@onready var toast_sfx: AudioStreamPlayer2D = $SFX/AchievementGet
 
 var tween: Tween
 
@@ -32,6 +33,8 @@ func animate_in() -> void:
 	tween.tween_property(self, "offset_left", 10.0, 0.5).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	# Fade in
 	tween.tween_property(self, "modulate:a", 1.0, 0.3).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	# play sound
+	toast_sfx.play()
 	
 	# Wait, then animate out
 	await get_tree().create_timer(3.0).timeout

@@ -5,6 +5,8 @@ class_name GroundState
 var step_timer: float = 0.0
 
 func enter() -> void:
+	player.aim_cooldown = 0.0
+	player.can_aim = false
 	player.velocity.y = 0
 	
 	step_timer = 0.0

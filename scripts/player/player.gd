@@ -18,6 +18,12 @@ var delta_health: int
 var is_alive: bool
 var is_low_health: bool
 var is_dead: bool
+@export var seeds_lost: int = 1
+var last_damage_pos: Vector2 = Vector2.ZERO
+@export_category("Aim Visuals")
+@export var aim_max_height: float = 360.0
+@export var aim_min_width: float = 0.2
+@export var aim_max_width: float = 1.0
 
 @export_group("Movement")
 @export var move_speed: float
@@ -30,6 +36,12 @@ var is_midair: bool
 var is_stomping: bool
 @export var jump_velocity: float
 @export var stomp_velocity: float
+var aim_cooldown: float
+var can_aim: bool
+
+@export_group("Abilities")
+@export var slow_aim: bool = false
+@export var double_jump: bool = false
 
 # Signals
 # General
@@ -55,9 +67,18 @@ signal just_interacted
 @onready var sfx_hurt: AudioStreamPlayer2D = $SFX/Hurt
 @onready var sfx_heal: AudioStreamPlayer2D = $SFX/Heal
 
+@onready var aim_raycast: RayCast2D = $AimRay
+@onready var aim_visual: ColorRect = $AimVisual
+
 func _ready() -> void:
 	self.position = spawn_pos
 	just_spawned.emit()
+
+func _physics_process(delta: float) -> void:
+	if aim_visual.visible:
+		update_aim_visual()
+	if aim_cooldown > 0:
+		aim_cooldown -= delta
 
 func apply_gravity(delta) -> void:
 	if not is_on_floor():
@@ -88,27 +109,32 @@ func stomp() -> void:
 	just_stomped.emit()
 
 func bounce() -> void:
-	velocity.y = -jump_velocity
 	
+	sfx_stompimpact.play()
 	if is_stomping:
-		sfx_stompimpact.play()
+		velocity.y = -jump_velocity * 1.1
 		is_stomping = false
 		get_tree().call_group("camera", "apply_shake", Vector2(1, 32), 4.0)
+		aim_cooldown = 0.3
+	else: velocity.y = -jump_velocity * 0.7
 	
 	move_and_slide()
 	
 func interact() -> void:
 	just_interacted.emit()
 
-func collect_seeds() -> void:
-	pass
-
-func hurt(amount: float) -> void:
+func hurt(damage_source_pos: Vector2) -> void:
 	just_hurt.emit()
+	lose_seeds(seeds_lost)
+	var sm = $StateMachine
+	var sm_current = sm.current_state
+	if sm_current:
+		sm_current.transition_requested.emit(sm_current, HurtState)
 
-func die() -> void:
-	just_died.emit()
-	queue_free()
+func lose_seeds(amount: int) -> void:
+	if Game.total_seeds > 0:
+		var actual_loss = min(amount, Game.total_seeds)
+		Game.add_seeds(-actual_loss)
 
 func _on_entered_interact_area():
 	entered_interact_area.emit()
@@ -129,3 +155,20 @@ func update_facing_dir(dir: float) -> void:
 		# face left
 		player_sprite.flip_h = true
 		player_sprite.position.x = -default_sprite_offset
+
+func update_aim_visual() -> void:
+	var target_y: float = 360.0
+	var current_dist: float
+	
+	if aim_raycast.is_colliding():
+		var collision = aim_raycast.get_collision_point()
+		target_y = to_local(collision).y
+		current_dist = abs(target_y)
+	
+	aim_visual.size.y = target_y
+	var dist_factor = clampf(current_dist / aim_max_height, 0.0, 1.0)
+	var new_width = lerp(aim_max_width, aim_min_width, dist_factor)
+	(aim_visual.material as ShaderMaterial).set_shader_parameter("width_scale", new_width)
+
+func set_time_scale(target_scale: float) -> void:
+	Engine.time_scale = target_scale

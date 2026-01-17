@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cotswcby4pyh4"]
+[gd_scene load_steps=21 format=3 uid="uid://cotswcby4pyh4"]
 
 [ext_resource type="Script" uid="uid://dbk12nfu4jv2s" path="res://scripts/enemy/enemy.gd" id="1_a3pup"]
 [ext_resource type="Texture2D" uid="uid://c8jgl3dlvyan7" path="res://assets/sprites/snail/16snale1.png" id="2_4efjx"]
@@ -9,6 +9,12 @@
 [ext_resource type="AudioStream" uid="uid://cnrpn1017ouq" path="res://assets/sounds/enemy/squash/squash3.wav" id="6_peoo5"]
 [ext_resource type="AudioStream" uid="uid://bs4tuf6q3qjp0" path="res://assets/sounds/enemy/squash/squash4.wav" id="7_2f3il"]
 [ext_resource type="AudioStream" uid="uid://0v7itmyiepv1" path="res://assets/sounds/enemy/squash/squash5.wav" id="8_dtxhd"]
+[ext_resource type="AudioStream" uid="uid://ctjate5yf8t3u" path="res://assets/sounds/enemy/snail/snaildie1.wav" id="9_5woo5"]
+[ext_resource type="AudioStream" uid="uid://ds7tevskh6bth" path="res://assets/sounds/enemy/snail/snaildie2.wav" id="10_pb0yv"]
+[ext_resource type="AudioStream" uid="uid://ft5g6jpwasrr" path="res://assets/sounds/enemy/snail/snaildie3.wav" id="11_prup0"]
+[ext_resource type="AudioStream" uid="uid://cnkhlbive3kv4" path="res://assets/sounds/enemy/snail/snaildie4.wav" id="12_dxjon"]
+[ext_resource type="AudioStream" uid="uid://6s0yf0oxxsuc" path="res://assets/sounds/enemy/snail/snaildie5.wav" id="13_f5q6l"]
+[ext_resource type="AudioStream" uid="uid://c7xcvo6roh7n7" path="res://assets/sounds/enemy/snail/snaildie6.wav" id="14_8ed2q"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_883im"]
 animations = [{
@@ -43,11 +49,11 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4a83h"]
-size = Vector2(18, 13)
+size = Vector2(9, 6)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_a3pup"]
 radius = 2.0
-height = 18.0
+height = 14.0
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_so3kp"]
 streams_count = 5
@@ -56,6 +62,15 @@ stream_1/stream = ExtResource("5_hvxgb")
 stream_2/stream = ExtResource("6_peoo5")
 stream_3/stream = ExtResource("7_2f3il")
 stream_4/stream = ExtResource("8_dtxhd")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_wk82e"]
+streams_count = 6
+stream_0/stream = ExtResource("9_5woo5")
+stream_1/stream = ExtResource("10_pb0yv")
+stream_2/stream = ExtResource("11_prup0")
+stream_3/stream = ExtResource("12_dxjon")
+stream_4/stream = ExtResource("13_f5q6l")
+stream_5/stream = ExtResource("14_8ed2q")
 
 [node name="Enemy" type="CharacterBody2D" groups=["enemy"]]
 visibility_layer = 2
@@ -72,12 +87,13 @@ animation = &"idle"
 offset = Vector2(0, -8)
 
 [node name="Collider" type="CollisionShape2D" parent="."]
-position = Vector2(0, 0.5)
+position = Vector2(0, 5)
 shape = SubResource("RectangleShape2D_4a83h")
 
 [node name="Hitbox" type="Area2D" parent="."]
+position = Vector2(0, 8)
 collision_layer = 4
-collision_mask = 3
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 position = Vector2(0, -6)
@@ -96,6 +112,9 @@ shape = SubResource("CapsuleShape2D_a3pup")
 
 [node name="Squash" type="AudioStreamPlayer2D" parent="SFX"]
 stream = SubResource("AudioStreamRandomizer_so3kp")
+
+[node name="Die" type="AudioStreamPlayer2D" parent="SFX"]
+stream = SubResource("AudioStreamRandomizer_wk82e")
 
 [node name="VFX" type="Node2D" parent="."]
 

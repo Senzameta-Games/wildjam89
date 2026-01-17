@@ -7,7 +7,7 @@ var coyote_timer: float = 0.0
 func enter() -> void:
 	if player.is_stomping:
 		player.is_stomping = false
-		
+	
 	if player.velocity.y < 0:
 		jump_feedback()
 		coyote_timer = 0.0
@@ -18,6 +18,9 @@ func enter() -> void:
 func physics_update(delta: float) -> void:
 	var dir = Input.get_axis("move_left", "move_right")
 	
+	if player.position.y <= 260.0:
+		player.can_aim = true
+	
 	if coyote_timer > 0:
 		coyote_timer -= delta
 	
@@ -25,6 +28,10 @@ func physics_update(delta: float) -> void:
 		player.jump()
 		jump_feedback()
 		coyote_timer = 0.0
+		return
+	
+	if Input.is_action_pressed("aim") and player.aim_cooldown <= 0 and player.can_aim:
+		transition_requested.emit(self, AimState)
 		return
 	
 	if Input.is_action_just_pressed("stomp"):
@@ -46,5 +53,5 @@ func jump_feedback():
 	# other jumping feedback here
 
 func fall_feedback():
-	player.player_sprite.frame = 5
+	player.player_sprite.play("jump", 0.5, true)
 	# other falling feedback here

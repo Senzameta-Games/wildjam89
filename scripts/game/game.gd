@@ -5,6 +5,7 @@ var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 #==================================================================================================#
 
 signal seeds_changed(current_total: int)
+signal game_over_called
 
 var total_seeds: int = 0
 

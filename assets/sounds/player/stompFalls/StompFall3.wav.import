@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://ujap67aclq7e"
-path="res://.godot/imported/StompFall3.wav-211394f79d26b65f1c1ef0a1b0e0a076.sample"
+uid="uid://bkcs8mrqtwysn"
+path="res://.godot/imported/stompfall3.wav-12349d0523a9b856533eeb80f3175310.sample"
 
 [deps]
 
-source_file="res://assets/sounds/player/stompFalls/StompFall3.wav"
-dest_files=["res://.godot/imported/StompFall3.wav-211394f79d26b65f1c1ef0a1b0e0a076.sample"]
+source_file="res://assets/sounds/player/stompFalls/stompfall3.wav"
+dest_files=["res://.godot/imported/stompfall3.wav-12349d0523a9b856533eeb80f3175310.sample"]
 
 [params]
 

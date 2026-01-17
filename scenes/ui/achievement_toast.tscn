@@ -1,8 +1,12 @@
-[gd_scene load_steps=5 format=3 uid="uid://co5g3cl5tgu61"]
+[gd_scene load_steps=10 format=3 uid="uid://co5g3cl5tgu61"]
 
-[ext_resource type="Script" path="res://scripts/ui/achievement_toast.gd" id="1_toast"]
+[ext_resource type="Script" uid="uid://dgqvmqq2x3ug2" path="res://scripts/ui/achievement_toast.gd" id="1_toast"]
 [ext_resource type="FontFile" uid="uid://bxn105qovmxyq" path="res://assets/fonts/Ruler 9.ttf" id="2_font"]
 [ext_resource type="FontFile" uid="uid://cycbiy0d7iv67" path="res://assets/fonts/Tiny5-Regular.ttf" id="3_ovpbc"]
+[ext_resource type="AudioStream" uid="uid://cfg22kkik8aof" path="res://assets/sounds/ui/AchievementGet.wav" id="4_ccy6t"]
+[ext_resource type="AudioStream" uid="uid://c54xfxl6qe2kq" path="res://assets/sounds/ui/AchievementGet2.wav" id="5_6wtkr"]
+[ext_resource type="AudioStream" uid="uid://cnmx77it3b7ye" path="res://assets/sounds/ui/AchievementGet3.wav" id="6_rlm8d"]
+[ext_resource type="AudioStream" uid="uid://bhctssa1xstce" path="res://assets/sounds/ui/AchievementGet4.wav" id="7_nne23"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
 bg_color = Color(0, 0, 0, 0.9490196)
@@ -17,6 +21,13 @@ corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 corner_detail = 2
 anti_aliasing = false
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_sir7g"]
+streams_count = 4
+stream_0/stream = ExtResource("4_ccy6t")
+stream_1/stream = ExtResource("5_6wtkr")
+stream_2/stream = ExtResource("6_rlm8d")
+stream_3/stream = ExtResource("7_nne23")
 
 [node name="AchievementToast" type="Control"]
 custom_minimum_size = Vector2(200, 60)
@@ -68,3 +79,9 @@ theme_override_font_sizes/font_size = 8
 text = "Description here"
 horizontal_alignment = 1
 autowrap_mode = 2
+
+[node name="SFX" type="Node2D" parent="."]
+
+[node name="AchievementGet" type="AudioStreamPlayer2D" parent="SFX"]
+stream = SubResource("AudioStreamRandomizer_sir7g")
+volume_db = -12.0

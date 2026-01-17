@@ -7,6 +7,8 @@ signal tree_damaged(amount: float)
 signal tree_healed(amount: float)
 signal new_section_added
 
+var sudden_death: bool = false
+
 # Settings
 @export var trunk_textures: Array[Texture2D] = []
 @export var trunk_section_height: int = 16
@@ -17,6 +19,7 @@ signal new_section_added
 @onready var tree_trunk = $TreeTrunk
 @onready var tree_top = $TreeTrunk/TreeTop
 @onready var tree_collider = $TreeBase/TreeHitbox/TreeCollider
+@onready var impulse_grow_sfx = $SFX/ImpulseGrow
 
 #just leaf things  
 var leaf_tier_target: int = 0
@@ -25,11 +28,8 @@ var leaf_tier_current: int = 0
 @export var leaf_spread_x: float = 12.0
 @export var leaf_spread_y: float = 6.0
 
-
 var target_sections: int = 0
 var current_sections: int = 0
-
-
 
 func _ready():
 	_update_target_sections()
@@ -38,7 +38,8 @@ func _ready():
 	
 func _process(delta):
 	# Passive growth
-	add_progress(base_grow_amount * delta)
+	if not sudden_death:
+		add_progress(base_grow_amount * delta)
 	
 	# Update trunk if needed
 	_update_trunk_visual()
@@ -51,10 +52,19 @@ func heal_tree(amount: float):
 
 func hurt(amount: float):
 	print("Incoming Damage: ", amount)
+	if sudden_death:
+		Game.game_over_called.emit()
+		tree_died.emit()
+		return
 	subtract_progress(amount)
 
 func add_progress(amount: float):
 	tree_progress = clampf(tree_progress + amount, 0.0, 100.0)
+	
+	if sudden_death and tree_progress > 0.0:
+		sudden_death = false
+		print("sudden death: ", str(sudden_death))
+
 	_update_target_sections()
 	_update_leaf_tier_target()
 	
@@ -62,6 +72,13 @@ func add_progress(amount: float):
 		growth_completed.emit()
 
 func subtract_progress(amount: float):
+	var progress_delta = tree_progress - amount
+	if progress_delta <= 0.0:
+		tree_progress = 0.0
+		if not sudden_death:
+			sudden_death = true
+			print("sudden death: ", str(sudden_death))
+	else: tree_progress = progress_delta
 	tree_progress = clampf(tree_progress - amount, 0.0, 100.0)
 	_update_target_sections()
 	_update_leaf_tier_target()
@@ -176,11 +193,13 @@ func _unhandled_input(event: InputEvent):
 		print("Manually Hurting: ", tree_progress, "%")
 
 func _on_shop_interacted():
+	impulse_grow_sfx.play()
 	add_progress(5.0)
+	
 
 func _on_tree_hitbox_area_entered(area: Area2D):
 	if area.get_parent() is Enemy:
 		area.get_parent().sacrifice()
-		subtract_progress(5)
+		hurt(5)
 	elif area.get_parent() is Bomb:
-		subtract_progress(5)
+		hurt(5)
