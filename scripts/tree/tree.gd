@@ -30,11 +30,20 @@ var leaf_tier_current: int = 0
 
 var target_sections: int = 0
 var current_sections: int = 0
+var growing_section: Sprite2D
+
 
 func _ready():
 	_update_target_sections()
 	_update_leaf_tier_target()
 	_build_trunk_immediate()
+
+	growing_section = Sprite2D.new()
+	growing_section.name = "GrowingSection"
+	if trunk_textures.size() > 0:
+		growing_section.texture = trunk_textures.pick_random()
+	tree_trunk.add_child(growing_section)
+
 	
 func _process(delta):
 	# Passive growth
@@ -45,6 +54,11 @@ func _process(delta):
 	_update_trunk_visual()
 	# Update leaves if needed
 	_update_leaf_visual()
+
+	#grow the tree frame by frame
+	growing_section.scale.y = _get_fractional_growth()
+	tree_top.position.y = -trunk_section_height * _get_fractional_growth()
+
 
 func heal_tree(amount: float):
 	print("Incoming Heal: ", amount)
@@ -70,6 +84,12 @@ func add_progress(amount: float):
 	
 	if tree_progress >= 100.0:
 		growth_completed.emit()
+
+func _get_fractional_growth() -> float:
+	var full_value = (tree_progress / 100.0) * max_sections
+	var whole_part = int(full_value)
+	var fractional_part = full_value - whole_part
+	return fractional_part
 
 func subtract_progress(amount: float):
 	var progress_delta = tree_progress - amount
@@ -130,26 +150,51 @@ func _rebuild_leaves():
 			leaf.texture = leaf_textures.pick_random()
 			
 
+
+func _add_trunk_section_at_root():
+	for child in tree_trunk.get_children():
+		if child == tree_top:
+			continue
+		child.position.y -= trunk_section_height
+
+	var section = Sprite2D.new()
+	section.position = Vector2.ZERO
+	
+	if trunk_textures.size() > 0:
+		section.texture = trunk_textures.pick_random()
+
+	tree_trunk.add_child(section)
+
+#lerp effect for texture that i made that i did not end up using
+#func _animate_section_in(section: Sprite2D):
+	#var final_y = section.position.y  
+	#section.position.y = final_y + trunk_section_height
+	#
+	#var tween = create_tween()
+	#tween.set_trans(Tween.TRANS_QUAD)
+	#tween.set_ease(Tween.EASE_OUT)
+	#tween.tween_property(section, "position:y", final_y, 0.3)
+
+
+
 func _rebuild_trunk():
 	# 1. CLEAR OLD SECTIONS (Keep the essential nodes alive)
 	for child in tree_trunk.get_children():
 		# We must check the names carefully so we don't delete our Hitbox or Top
-		if child.name == "TreeTop" or child.name == "TreeHitbox":
+		if child.name == "TreeTop" or child.name == "TreeHitbox" or child.name == "GrowingSection":
 			continue
 		child.queue_free()
 	
-	# 2. ADD NEW SECTIONS
 	for i in range(current_sections):
 		var section = Sprite2D.new()
 		if trunk_textures.size() > 0:
 			section.texture = trunk_textures.pick_random()
 		
-		# Position logs from bottom to top
 		section.position.y = (i + 1) * trunk_section_height
 		tree_trunk.add_child(section)
+		#_animate_section_in(section)
 		new_section_added.emit()
 	
-	# 3. UPDATE COLLIDER (The "Perfect Fit" Logic)
 	if tree_collider and tree_collider.shape is RectangleShape2D:
 		var total_height = current_sections * trunk_section_height
 		var shape = tree_collider.shape as RectangleShape2D
@@ -163,8 +208,6 @@ func _rebuild_trunk():
 		# This offsets Godot's center-scaling so the bottom stays at y=0.
 		tree_collider.position.y = -(total_height / 2.0) + 10 #added + 10 here to catch snails
 
-	# 4. REPOSITION ENTIRE TRUNK CONTAINER
-	# This keeps the base of the tree at the SeedTree's global position
 	tree_trunk.position.y = -current_sections * trunk_section_height
 	tree_top.position.y = 0
 
