@@ -1,15 +1,17 @@
-[gd_scene load_steps=31 format=3 uid="uid://5u0rjw4fxv62"]
+[gd_scene load_steps=33 format=3 uid="uid://5u0rjw4fxv62"]
 
 [ext_resource type="Script" uid="uid://dps82nj04mquw" path="res://scripts/tree/shop_button.gd" id="1_mbf7r"]
+[ext_resource type="Texture2D" uid="uid://b8ichhlia4jkk" path="res://assets/sprites/tree/Trunk/treetile01.png" id="2_xwrx4"]
+[ext_resource type="Texture2D" uid="uid://b1emgf33clctd" path="res://assets/sprites/tree/Trunk/treetile02.png" id="3_0uf4c"]
 [ext_resource type="FontFile" uid="uid://bxn105qovmxyq" path="res://assets/fonts/Ruler 9.ttf" id="3_4ol1s"]
+[ext_resource type="Texture2D" uid="uid://b6cndi4cq2uau" path="res://assets/sprites/tree/Trunk/treetile03.png" id="4_urhbk"]
 [ext_resource type="Script" uid="uid://ckh42debhjmot" path="res://scripts/tree/tree.gd" id="5_bm6y3"]
-[ext_resource type="Texture2D" uid="uid://ccg546x47187m" path="res://assets/sprites/tree/tempSprite/TreeTrunk/tree_basev2.png" id="5_d4o0i"]
+[ext_resource type="Texture2D" uid="uid://bhatgaalsj0c" path="res://assets/sprites/tree/Trunk/treetile04.png" id="5_polbh"]
 [ext_resource type="AudioStream" uid="uid://b50xpqmiuv013" path="res://assets/sounds/tree/treegrow2.wav" id="6_bm6y3"]
-[ext_resource type="Texture2D" uid="uid://fbcig4i25qll" path="res://assets/sprites/tree/tempSprite/TreeTrunk/placeholder_tree_trunk2.png" id="6_hs8qy"]
-[ext_resource type="Texture2D" uid="uid://tchur0m8c38i" path="res://assets/sprites/tree/tempSprite/TreeTrunk/placeholder_tree_trunk.png" id="7_undyc"]
 [ext_resource type="Texture2D" uid="uid://yt8rouylgkov" path="res://assets/sprites/tree/tempSprite/TreeTrunk/placeholder_tree_top.png" id="8_d4o0i"]
 [ext_resource type="Texture2D" uid="uid://c3vywuqtddxdj" path="res://assets/sprites/tree/tempLeaves/leaf1.png" id="9_d4o0i"]
 [ext_resource type="Texture2D" uid="uid://co5ws8k3x0pfd" path="res://assets/sprites/tree/tempLeaves/leaf2.png" id="10_6wwch"]
+[ext_resource type="Texture2D" uid="uid://ci3qntsrvfh28" path="res://assets/sprites/tree/Trunk/treebase.png" id="10_8y5qr"]
 [ext_resource type="Script" uid="uid://dqhidt2u20g47" path="res://scripts/tree/branch.gd" id="10_kui63"]
 [ext_resource type="AudioStream" uid="uid://c4pgvg4aoawmy" path="res://assets/sounds/tree/treegrowSlap1.wav" id="10_pwldy"]
 [ext_resource type="AudioStream" uid="uid://bmhddxahbs3wf" path="res://assets/sounds/tree/treegrowSlap2.wav" id="11_3uies"]
@@ -61,7 +63,7 @@ expand_margin_left = 1.0
 [node name="Tree" type="Node2D"]
 visibility_layer = 2
 script = ExtResource("5_bm6y3")
-trunk_textures = Array[Texture2D]([ExtResource("6_hs8qy"), ExtResource("7_undyc")])
+trunk_textures = Array[Texture2D]([ExtResource("2_xwrx4"), ExtResource("3_0uf4c"), ExtResource("4_urhbk"), ExtResource("5_polbh")])
 base_grow_amount = 0.2
 leaf_textures = Array[Texture2D]([ExtResource("9_d4o0i"), ExtResource("10_6wwch"), ExtResource("11_kui63")])
 
@@ -91,7 +93,8 @@ position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_bm6y3")
 
 [node name="Sprite2D" type="Sprite2D" parent="TreeBase"]
-texture = ExtResource("5_d4o0i")
+position = Vector2(0, 4)
+texture = ExtResource("10_8y5qr")
 
 [node name="SFX" type="Node2D" parent="."]
 

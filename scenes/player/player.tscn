@@ -26,7 +26,7 @@
 [ext_resource type="AudioStream" uid="uid://ndmtsv5tbl8g" path="res://assets/sounds/player/stomps/Stomps1.wav" id="17_3j4b4"]
 [ext_resource type="Script" uid="uid://c4wllcl5wr1bu" path="res://state/player/aim_state.gd" id="18_hdvrm"]
 [ext_resource type="AudioStream" uid="uid://2ys7l2n03t1t" path="res://assets/sounds/player/stomps/Stomps2.wav" id="18_yj68g"]
-[ext_resource type="Script" uid="uid://bxufy135dhqq" path="res://state/player/hurt_state.gd" id="19_5xbmr"]
+[ext_resource type="Script" path="res://state/player/hurt_state.gd" id="19_5xbmr"]
 [ext_resource type="AudioStream" uid="uid://2gutsa1rmegu" path="res://assets/sounds/player/stomps/Stomps3.wav" id="19_ioxgp"]
 [ext_resource type="AudioStream" uid="uid://bsj5boqtcul8w" path="res://assets/sounds/player/steps/step1.wav" id="19_rw8a5"]
 [ext_resource type="AudioStream" uid="uid://dry31p0fhbmwi" path="res://assets/sounds/player/stomps/Stomps4.wav" id="20_cnsyf"]
@@ -146,8 +146,8 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8afob"]
-radius = 8.0
-height = 32.0
+radius = 17.0
+height = 34.0
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_ahqnk"]
 streams_count = 7
