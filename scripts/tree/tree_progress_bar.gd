@@ -59,8 +59,8 @@ func _change_state(new_state: int) -> void:
 		State.NORMAL:
 			pass
 			
-		State.LOW_HEALTH:
-			_start_low_health_fx()
+		#State.LOW_HEALTH:
+			#_start_low_health_fx()
 			
 		State.SUDDEN_DEATH:
 			_start_sudden_death_fx()
@@ -74,22 +74,22 @@ func _reset_colors() -> void:
 		var sb = progress_bar.get_theme_stylebox("background") as StyleBoxFlat
 		if sb: sb.bg_color = default_bg_color
 
-func _start_low_health_fx() -> void:
-	if progress_bar.has_theme_stylebox("fill"):
-		var sb = progress_bar.get_theme_stylebox("fill") as StyleBoxFlat
-		if sb:
-			tween = create_tween().set_loops()
-			tween.tween_property(sb, "bg_color", Color.RED, 0.0)
-			tween.tween_property(sb, "bg_color", default_fill_color, 0.63)
-
-	_play_alarm_sequence(1.0)
+#func _start_low_health_fx() -> void:
+	#if progress_bar.has_theme_stylebox("fill"):
+		#var sb = progress_bar.get_theme_stylebox("fill") as StyleBoxFlat
+		#if sb:
+			#tween = create_tween().set_loops()
+			#tween.tween_property(sb, "bg_color", Color.RED, 0.0)
+			#tween.tween_property(sb, "bg_color", default_fill_color, 0.63)
+#
+	#_play_alarm_sequence(1.0)
 
 func _start_sudden_death_fx() -> void:
 	if progress_bar.has_theme_stylebox("background"):
 		var sb = progress_bar.get_theme_stylebox("background") as StyleBoxFlat
 		if sb:
 			tween = create_tween().set_loops()
-			tween.tween_property(sb, "bg_color", Color(0.8, 0, 0), 0)
+			tween.tween_property(sb, "bg_color", Color(0.2, 0, 0), 0)
 			tween.tween_property(sb, "bg_color", default_bg_color, 0.63)
 	_play_alarm_sequence(1.5)
 
@@ -97,6 +97,7 @@ func _play_alarm_sequence(pitch: float) -> void:
 	if not alert_sfx: return
 	
 	audio_player.stream = alert_sfx
+	audio_player.volume_db = -12.0
 	audio_player.pitch_scale = pitch
 	for i in range(3):
 		audio_player.play()
