@@ -25,6 +25,8 @@ var last_damage_pos: Vector2 = Vector2.ZERO
 @export var aim_max_height: float = 360.0
 @export var aim_min_width: float = 0.2
 @export var aim_max_width: float = 1.0
+@export var sprite_offset_right: float = -4.0
+@export var sprite_offset_left: float = 0.0
 
 @export_group("Movement")
 @export var move_speed: float
@@ -36,6 +38,11 @@ var is_moving: bool
 var is_midair: bool
 var is_stomping: bool
 var bounce_recovering: bool = false
+var pending_bounce: bool = false
+var is_in_hit_stop: bool = false
+# NEW: Track if we need to skip gravity this frame
+var _skip_gravity_once: bool = false
+
 @export var jump_velocity: float
 @export var stomp_velocity: float
 var aim_cooldown: float
@@ -83,6 +90,11 @@ func _physics_process(delta: float) -> void:
 		aim_cooldown -= delta
 
 func apply_gravity(delta) -> void:
+	# Skip gravity for one frame after bounce to preserve bounce velocity
+	if _skip_gravity_once:
+		_skip_gravity_once = false
+		return
+	
 	if not is_on_floor():
 		velocity.y += gravity * delta
 		
@@ -99,40 +111,58 @@ func move(dir: float, delta: float) -> void:
 		else:
 			velocity.x = move_toward(velocity.x, 0, air_drag * delta)
 
-func jump() -> void:
+func jump(is_double_jump: bool = false) -> void:
 	velocity.y = -jump_velocity
+	
+	if is_double_jump:
+		velocity.y *= 1.1
+		var facing = -1.0 if player_sprite.flip_h else 1.0
+		velocity.x += facing * 40.0
+	
 	jumps_available -= 1
 	just_jumped.emit()
 
 
 func stomp() -> void:
 	velocity.y = stomp_velocity
-	velocity.x = 0.69 * velocity.x
+	velocity.x = 0.74 * velocity.x
 	is_stomping = true
 	just_stomped.emit()
 
 func bounce() -> void:
+	if pending_bounce: 
+		return
+	pending_bounce = true
+	_perform_bounce()
+
+func _perform_bounce() -> void:
+	
 	sfx_stompimpact.play()
 	aim_cooldown = 0.5
+	
 	if is_stomping:
 		velocity.y = -jump_velocity * 1.1
 		is_stomping = false
 		bounce_recovering = true
-		# Play stomp animation from recovery frames
-		player_sprite.play("stomp")
-		player_sprite.frame = 2
-		await hit_stop(0.1)
-		get_tree().call_group("camera", "apply_shake", Vector2(0.1, 4), 2.0)
-		await player_sprite.animation_finished
-	else: velocity.y = -jump_velocity * 0.7
+		
+		get_tree().call_group("camera", "apply_shake", Vector2(1, 32), 4.0)
+		hit_stop(0.1)
+	else:
+		velocity.y = -jump_velocity * 0.7
 	
-	move_and_slide()
+	get_tree().create_timer(0.1).timeout.connect(func(): pending_bounce = false)
 
 func hit_stop(duration: float) -> void:
+	if is_in_hit_stop: return
+	is_in_hit_stop = true
+	
 	var old_scale = Engine.time_scale
 	Engine.time_scale = 0.01
+
 	await get_tree().create_timer(duration, true, false, true).timeout
+	
 	Engine.time_scale = old_scale
+	is_in_hit_stop = false
 	
 func interact() -> void:
 	just_interacted.emit()
@@ -167,16 +197,14 @@ func _on_exited_interact_area():
 	can_interact = false
 
 func update_facing_dir(dir: float) -> void:
-	var default_sprite_offset: float = -8.0
-	
 	if dir > 0:
-		# face right
+		# Face Right
 		player_sprite.flip_h = false
-		player_sprite.position.x = default_sprite_offset
+		player_sprite.position.x = sprite_offset_right
 	elif dir < 0:
-		# face left
+		# Face Left
 		player_sprite.flip_h = true
-		player_sprite.position.x = -default_sprite_offset
+		player_sprite.position.x = sprite_offset_left
 
 func update_aim_visual() -> void:
 	var target_y: float = 360.0
@@ -186,6 +214,9 @@ func update_aim_visual() -> void:
 		var collision = aim_raycast.get_collision_point()
 		target_y = to_local(collision).y
 		current_dist = abs(target_y)
+	else:
+		# Fallback if no collision (aiming at sky/nothing)
+		current_dist = aim_max_height
 	
 	aim_visual.size.y = target_y
 	var dist_factor = clampf(current_dist / aim_max_height, 0.0, 1.0)

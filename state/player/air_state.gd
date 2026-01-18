@@ -45,12 +45,12 @@ func physics_update(delta: float) -> void:
 				fall_feedback()
 	
 	if Input.is_action_just_pressed("jump") and coyote_timer > 0:
-		player.jump()
+		player.jump(false)  # Coyote jump = first jump
 		jump_feedback()
 		coyote_timer = 0.0
 		return
 	elif Input.is_action_just_pressed("jump") and player.jumps_available > 0:
-		player.jump()
+		player.jump(true)  # Mid-air jump = double jump
 		jump_feedback()
 		return
 	

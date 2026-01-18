@@ -1,11 +1,16 @@
-[gd_scene load_steps=18 format=3 uid="uid://c8yn67wshcpor"]
+[gd_scene load_steps=23 format=3 uid="uid://c8yn67wshcpor"]
 
 [ext_resource type="PackedScene" uid="uid://cotswcby4pyh4" path="res://scenes/enemy/enemy.tscn" id="1_hrymj"]
 [ext_resource type="Texture2D" uid="uid://djots553lwyxp" path="res://assets/sprites/worm/worm6.png" id="2_2sabi"]
+[ext_resource type="Texture2D" uid="uid://bifpbjkb22hj" path="res://assets/sprites/beetle/bomb/blowup/bombexplode2.png" id="2_grp04"]
 [ext_resource type="Texture2D" uid="uid://dpxsf178cflat" path="res://assets/sprites/worm/worm1.png" id="3_j1qjt"]
+[ext_resource type="Texture2D" uid="uid://c24exgng1xy7e" path="res://assets/sprites/beetle/bomb/blowup/bombexplode3.png" id="3_yice5"]
+[ext_resource type="Texture2D" uid="uid://bbfsd83ss2h2x" path="res://assets/sprites/beetle/bomb/blowup/bombexplode4.png" id="4_frydm"]
 [ext_resource type="Texture2D" uid="uid://bwpn2vxettoaf" path="res://assets/sprites/worm/worm2.png" id="4_o8sjv"]
+[ext_resource type="Texture2D" uid="uid://5l26y10g83f8" path="res://assets/sprites/beetle/bomb/blowup/bombexplode5.png" id="5_ftsm7"]
 [ext_resource type="Texture2D" uid="uid://bvqi2u0l6cehx" path="res://assets/sprites/worm/worm3.png" id="5_glq07"]
 [ext_resource type="Texture2D" uid="uid://4nquhp8fixwa" path="res://assets/sprites/worm/worm4.png" id="6_dd6au"]
+[ext_resource type="Texture2D" uid="uid://b4cxueko4e1na" path="res://assets/sprites/beetle/bomb/blowup/bombexplode6.png" id="6_u7pm3"]
 [ext_resource type="Texture2D" uid="uid://b2w4w6vy1yaby" path="res://assets/sprites/worm/worm5.png" id="7_y8yk7"]
 [ext_resource type="Texture2D" uid="uid://blqalq7mo4wjg" path="res://assets/sprites/worm/worm7.png" id="8_5ikso"]
 [ext_resource type="AudioStream" uid="uid://due0i8t76plt8" path="res://assets/sounds/enemy/worm/wormdie1.wav" id="9_5ikso"]
@@ -21,6 +26,26 @@ animations = [{
 "loop": true,
 "name": &"attack",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_grp04")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_yice5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_frydm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_ftsm7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_u7pm3")
+}],
+"loop": false,
+"name": &"die",
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -76,12 +101,11 @@ stream_5/stream = ExtResource("14_grp04")
 
 [node name="Worm" instance=ExtResource("1_hrymj")]
 spawn_cost = 1
-speed = 200.0
+speed = 190.0
 seed_value = 2
 
 [node name="Sprite" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_mxuh0")
-animation = &"walk"
 
 [node name="Collider" parent="." index="1"]
 position = Vector2(0, 2.5)

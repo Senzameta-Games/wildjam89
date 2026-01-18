@@ -21,7 +21,7 @@ var slot_index: int = -1
 # Growth balancing
 const BASE_PASSIVE_GROWTH: float = 0.005
 const MAX_PASSIVE_GROWTH: float = 0.05
-const ACTIVE_GROWTH_AMOUNT: float = 0.5
+const ACTIVE_GROWTH_AMOUNT: float = 1.5
 
 @onready var tree_trunk = $TreeTrunk
 @onready var tree_top = $TreeTrunk/TreeTop
@@ -39,7 +39,7 @@ var target_sections: int = 0
 var current_sections: int = 0
 var growing_section: Sprite2D
 
-var damage_per_hit: float = 5.0
+var damage_per_hit: float = 2.0
 
 func _ready():
 	_update_target_sections()

@@ -39,6 +39,8 @@ func _ready():
 	for spawner in spawners:
 		if spawner is EnemySpawner:
 			spawner.timer_interval = params.spawn_interval
+			if spawner.has_method("set_spawn_interval"):
+				spawner.set_spawn_interval(params.spawn_interval)
 	
 	call_deferred("_spawn_new_tree")
 	
@@ -159,6 +161,8 @@ func _on_reward_collected() -> void:
 	for spawner in spawners:
 		if spawner is EnemySpawner:
 			spawner.timer_interval = params.spawn_interval
+			if spawner.has_method("set_spawn_interval"):
+				spawner.set_spawn_interval(params.spawn_interval)
 			
 	call_deferred("_spawn_new_tree")
 

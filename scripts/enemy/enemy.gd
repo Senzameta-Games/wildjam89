@@ -27,25 +27,32 @@ signal enemy_defeated
 var passive_movement: bool = false
 var passive_dir: float = 0.0
 
+# Anti-stuck: track if we've been at same position too long
+var stuck_check_timer: float = 0.0
+var last_check_pos: Vector2 = Vector2.ZERO
+const STUCK_CHECK_INTERVAL: float = 1.0
+const STUCK_THRESHOLD: float = 5.0  # If moved less than this, we're stuck
+
 func _ready() -> void:
 	$SFX/Spawned.play()
 	if not passive_movement:
 		aggro_tree()
 	else:
-
 		passive_dir = 1.0 if global_position.x < 320.0 else -1.0
 
 func _physics_process(delta: float) -> void:
-
 	if not is_on_floor():
 		velocity += get_gravity() * delta
+	
+	# Anti-stuck check
+	_check_if_stuck(delta)
+	
 	move_towards_target()
 	move_and_slide()
 
 
 func no_aggro() -> void:
 	passive_movement = true
-
 	current_target = null
 	
 	if is_inside_tree():
@@ -53,8 +60,6 @@ func no_aggro() -> void:
 
 func aggro_player() -> void:
 	if passive_movement: return
-	
-	enemy_sprite.modulate = Color.RED
 	current_target = get_tree().get_first_node_in_group("player")
 	$Hitbox.set_collision_layer_value(3, false)
 
@@ -62,19 +67,54 @@ func aggro_tree() -> void:
 	if passive_movement: return
 	
 	var trees = get_tree().get_nodes_in_group("tree")
-	var closest_tree = null
-	var closest_dist = INF
+	var valid_trees: Array = []
+	
+	for t in trees:
+		if t is SeedTree:
+			valid_trees.append(t)
+	
+	# Pick a random tree instead of closest - distributes enemies better
+	if valid_trees.size() > 0:
+		current_target = valid_trees.pick_random()
+	else:
+		current_target = get_tree().get_first_node_in_group("tree")
+
+func _check_if_stuck(delta: float) -> void:
+	if stomped or is_dying or passive_movement:
+		return
+	
+	stuck_check_timer += delta
+	if stuck_check_timer >= STUCK_CHECK_INTERVAL:
+		stuck_check_timer = 0.0
+		
+		var distance_moved = global_position.distance_to(last_check_pos)
+		if distance_moved < STUCK_THRESHOLD and is_on_floor():
+			# We're stuck! Try to pick a different tree or adjust behavior
+			_handle_stuck_state()
+		
+		last_check_pos = global_position
+
+func _handle_stuck_state() -> void:
+	# If truly stuck (not near any tree), try picking a new tree
+	var trees = get_tree().get_nodes_in_group("tree")
+	var near_any_tree = false
 	
 	for t in trees:
 		if t is SeedTree:
 			var dist = global_position.distance_to(t.global_position)
-			if dist < closest_dist:
-				closest_dist = dist
-				closest_tree = t
-	if closest_tree:
-		current_target = closest_tree
-	else:
-		current_target = get_tree().get_first_node_in_group("tree")
+			if dist < 80.0:
+				near_any_tree = true
+				break
+	
+	# If not near any tree and stuck, pick a new target
+	if not near_any_tree:
+		var valid_trees: Array = []
+		for t in trees:
+			if t is SeedTree and t != current_target:
+				valid_trees.append(t)
+		
+		if valid_trees.size() > 0:
+			current_target = valid_trees.pick_random()
 
 func move_towards_target() -> void:
 	if passive_movement:
@@ -88,7 +128,12 @@ func move_towards_target() -> void:
 	if not is_instance_valid(current_target):
 		aggro_tree()
 		return
-	var dir_x = sign(current_target.global_position.x - global_position.x)
+	
+	# Target the base of the tree - walk straight into it to trigger collision
+	var target_x = current_target.global_position.x
+	var dir_x = sign(target_x - global_position.x)
+	
+	# Keep walking toward tree - collision with TreeHitbox will handle damage/death
 	velocity.x = dir_x * (speed / 3)
 	if enemy_sprite:
 		enemy_sprite.play("walk")
@@ -208,4 +253,7 @@ func _spawn_visual_seed() -> void:
 func sacrifice() -> void:
 	set_physics_process(false)
 	$Collider.set_deferred("disabled", true)
+	enemy_sprite.play("die")
+	die_sfx.play()
+	await enemy_sprite.animation_finished
 	queue_free()

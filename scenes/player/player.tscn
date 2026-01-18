@@ -199,7 +199,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fvjb1"]
-size = Vector2(18, 32)
+size = Vector2(24, 32)
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_ahqnk"]
 streams_count = 7
@@ -304,6 +304,7 @@ sprite_frames = SubResource("SpriteFrames_x7p2l")
 animation = &"hurt"
 
 [node name="Collider" type="CollisionShape2D" parent="."]
+position = Vector2(-2, 0)
 shape = SubResource("RectangleShape2D_fvjb1")
 
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]

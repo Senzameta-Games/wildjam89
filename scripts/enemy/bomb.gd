@@ -36,11 +36,9 @@ func _on_body_entered(body: Node2D) -> void:
 				blow_up()
 				if Achievements:
 					Achievements.on_bomb_blocked()
-				#print("bomb hit something with method hurt() and blew up")
 			
 		elif body.is_in_group("level"):
 			blow_up()
-			#print("bomb hit level and blew up")
 
 func blow_up() -> void:
 	exploded = true
@@ -58,9 +56,19 @@ func blow_up() -> void:
 	queue_free()
 
 
-func _on_area_entered(area):
+func _on_area_entered(area: Area2D) -> void:
+	if exploded:
+		return
 	if area:
 		print(str(area))
-		if area.is_in_group("tree"):
-			area.owner.hurt(5)
+		# Check if this area belongs to ANY tree (not a specific target)
+		# The area's owner should be the tree node
+		var area_owner = area.owner
+		if area_owner and area_owner is SeedTree:
+			area_owner.hurt(5)
+			blow_up()
+		elif area.is_in_group("tree"):
+			# Fallback: if area itself is in tree group
+			if area.owner:
+				area.owner.hurt(5)
 			blow_up()

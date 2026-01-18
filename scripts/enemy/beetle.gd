@@ -8,7 +8,7 @@ class_name Beetle
 @export var throw_arc: float
 
 @onready var throw_timer: Timer = $ThrowTimer
-@onready var fuzzy_hold_dist = randf_range((hold_dist * 0.6), (hold_dist * 1.0))
+@onready var fuzzy_hold_dist = randf_range((hold_dist * 0.5), (hold_dist * 1.2))
 
 @onready var beetle_sprite: AnimatedSprite2D = $Sprite
 
@@ -17,12 +17,51 @@ const SCREEN_MAX_X = 600.0
 
 var about_to_throw: bool = false
 var can_throw: bool = true
+var my_preferred_side: int = 0  # -1 = left, 1 = right, 0 = either
 
 func _ready() -> void:
 	super()
-	throw_timer.wait_time = 3.0
+	throw_timer.wait_time = randf_range(2.5, 4.0)  # Randomize throw timing
 	throw_timer.timeout.connect(_on_timer_timeout)
 	throw_timer.start()
+	
+	# Pick a preferred side based on spawn position to help spread out
+	my_preferred_side = -1 if global_position.x < 320.0 else 1
+	
+	# Add more variance to hold distance so beetles don't stack
+	fuzzy_hold_dist += randf_range(-30.0, 30.0)
+
+# Override aggro_tree to prefer trees that don't already have a beetle targeting them
+func aggro_tree() -> void:
+	if passive_movement: return
+	
+	var trees = get_tree().get_nodes_in_group("tree")
+	var beetles = get_tree().get_nodes_in_group("enemy").filter(func(e): return e is Beetle and e != self)
+	
+	var valid_trees: Array = []
+	var uncontested_trees: Array = []
+	
+	for t in trees:
+		if t is SeedTree:
+			valid_trees.append(t)
+			
+			# Check if any other beetle is targeting this tree
+			var is_contested = false
+			for b in beetles:
+				if b.current_target == t:
+					is_contested = true
+					break
+			
+			if not is_contested:
+				uncontested_trees.append(t)
+	
+	# Prefer uncontested trees
+	if uncontested_trees.size() > 0:
+		current_target = uncontested_trees.pick_random()
+	elif valid_trees.size() > 0:
+		current_target = valid_trees.pick_random()
+	else:
+		current_target = get_tree().get_first_node_in_group("tree")
 
 func move_towards_target() -> void:
 	if current_target == null or about_to_throw:
@@ -30,7 +69,10 @@ func move_towards_target() -> void:
 		return
 	
 	var target_dir = sign(current_target.global_position.x - global_position.x)
-	var target_x = current_target.global_position.x - (target_dir * fuzzy_hold_dist)
+	
+	# Use preferred side to offset position and avoid clustering
+	var side_offset = my_preferred_side * 20.0
+	var target_x = current_target.global_position.x - (target_dir * fuzzy_hold_dist) + side_offset
 	var move_dir = sign(target_x - global_position.x)
 	
 	var future_pos = global_position.x + (move_dir * speed * get_physics_process_delta_time())
@@ -122,5 +164,3 @@ func throw_bomb(temp_bomb: Node2D) -> void:
 			
 			# yeet
 			real_bomb.setup(throw_dir, throw_arc)
-
-	

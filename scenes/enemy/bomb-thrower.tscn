@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://c8ag4374ivpgq"]
+[gd_scene load_steps=32 format=3 uid="uid://c8ag4374ivpgq"]
 
 [ext_resource type="PackedScene" uid="uid://cotswcby4pyh4" path="res://scenes/enemy/enemy.tscn" id="1_5kp4x"]
 [ext_resource type="Texture2D" uid="uid://ccwedjpnr15k6" path="res://assets/sprites/beetle/throw/beetlethrow1.png" id="2_cv0c4"]
@@ -16,9 +16,14 @@
 [ext_resource type="Texture2D" uid="uid://d2kd870wjs5pi" path="res://assets/sprites/beetle/walk/beetleskitter1.png" id="13_nclh7"]
 [ext_resource type="Texture2D" uid="uid://c483rvqj0mboa" path="res://assets/sprites/beetle/walk/beetleskitter2.png" id="14_jrklb"]
 [ext_resource type="Texture2D" uid="uid://xshdnansy85k" path="res://assets/sprites/beetle/walk/beetleskitter3.png" id="15_ckrtb"]
+[ext_resource type="Texture2D" uid="uid://bifpbjkb22hj" path="res://assets/sprites/beetle/bomb/blowup/bombexplode2.png" id="15_i7c7w"]
 [ext_resource type="Texture2D" uid="uid://hcdu4wl66ejw" path="res://assets/sprites/beetle/walk/beetleskitter4.png" id="16_i7c7w"]
+[ext_resource type="Texture2D" uid="uid://c24exgng1xy7e" path="res://assets/sprites/beetle/bomb/blowup/bombexplode3.png" id="16_ibpym"]
+[ext_resource type="Texture2D" uid="uid://bbfsd83ss2h2x" path="res://assets/sprites/beetle/bomb/blowup/bombexplode4.png" id="17_vmgmp"]
 [ext_resource type="PackedScene" uid="uid://dl4yvcpg0vy7w" path="res://scenes/enemy/bomb.tscn" id="18_7bnwr"]
+[ext_resource type="Texture2D" uid="uid://5l26y10g83f8" path="res://assets/sprites/beetle/bomb/blowup/bombexplode5.png" id="18_gn0h7"]
 [ext_resource type="AudioStream" uid="uid://dyeoe2jwlqm46" path="res://assets/sounds/enemy/beetle/beetledie1.wav" id="19_55jmu"]
+[ext_resource type="Texture2D" uid="uid://b4cxueko4e1na" path="res://assets/sprites/beetle/bomb/blowup/bombexplode6.png" id="19_507q1"]
 [ext_resource type="AudioStream" uid="uid://f8vcldwoedh" path="res://assets/sounds/enemy/beetle/beetledie2.wav" id="20_oe4y5"]
 [ext_resource type="AudioStream" uid="uid://cg8dbggbjp1w3" path="res://assets/sounds/enemy/beetle/beetledie3.wav" id="21_h08d2"]
 [ext_resource type="AudioStream" uid="uid://jrs0hai3lrvu" path="res://assets/sounds/enemy/beetle/beetledie4.wav" id="22_nclh7"]
@@ -63,6 +68,26 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("15_i7c7w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_ibpym")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_vmgmp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_gn0h7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_507q1")
+}],
+"loop": true,
+"name": &"die",
 "speed": 8.0
 }, {
 "frames": [{
@@ -118,9 +143,6 @@ seed_value = 5
 [node name="Sprite" parent="." index="0"]
 position = Vector2(0, 7)
 sprite_frames = SubResource("SpriteFrames_ibpym")
-animation = &"attack"
-frame = 10
-frame_progress = 1.0
 flip_h = true
 
 [node name="Collider" parent="." index="1"]

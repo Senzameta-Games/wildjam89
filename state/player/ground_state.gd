@@ -74,3 +74,16 @@ func physics_update(delta: float) -> void:
 	if not player.is_on_floor():
 		transition_requested.emit(self, AirState)
 		return
+	
+	if Input.is_action_just_pressed("stomp"):
+		if player.is_on_floor():
+			for i in player.get_slide_collision_count():
+				var collision = player.get_slide_collision(i)
+				var collider = collision.get_collider()
+				# Check if it's a one-way platform (layer 6)
+				if collider and collider.get_collision_layer_value(6):
+					player.set_collision_mask_value(6, false)
+					player.global_position.y += 1 
+					break
+		transition_requested.emit(self, StompState)
+		return

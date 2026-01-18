@@ -20,6 +20,7 @@ var game_has_started: bool = false
 func start_new_run() -> void:
 	current_stage = 1
 	total_seeds = 0
+	trees_grown_count = 0  # Reset trees grown count
 	_reset_abilities()
 	seen_abilities.clear()
 	game_has_started = true
@@ -36,10 +37,17 @@ func stage_reset() -> void:
 	seeds_changed.emit(total_seeds)
 
 func get_stage_params() -> Dictionary:
-	var difficulty_mult = 1.0 + ((current_stage - 1) * 0.5)
+	# More aggressive difficulty scaling
+	# Stage 1: 1.0x, Stage 2: 1.6x, Stage 3: 2.2x, Stage 4: 2.8x, etc.
+	var difficulty_mult = 1.0 + ((current_stage - 1) * 0.6)
+	
+	# Base spawn interval is 3.5 seconds, gets faster each stage
+	# Minimum spawn interval of 1.5 seconds
+	var base_spawn_interval = 3.5
+	var spawn_interval = max(base_spawn_interval / difficulty_mult, 1.5)
 	
 	return{
-		"spawn_interval": 3.0 / difficulty_mult,
+		"spawn_interval": spawn_interval,
 		"enemy_damage": 5.0 * difficulty_mult,
 		"ability_reward": _get_ability_reward(current_stage)
 	}
@@ -170,6 +178,7 @@ func get_flower_powerup_bonus() -> float:
 
 func reset_game_state() -> void:
 	total_seeds = 0
+	trees_grown_count = 0  # Reset trees grown count
 	flower_columns.clear()
 	total_flowers = 0
 	flower_counts = {
