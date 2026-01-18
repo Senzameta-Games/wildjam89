@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://dctjfeoyd4tgg"
-path="res://.godot/imported/stompfall5.wav-767d639715a44c40331ea12d69e9b38c.sample"
+path="res://.godot/imported/StompFall5.wav-f9a49a1c035afcb1cde5d82752146502.sample"
 
 [deps]
 
-source_file="res://assets/sounds/player/stompFalls/stompfall5.wav"
-dest_files=["res://.godot/imported/stompfall5.wav-767d639715a44c40331ea12d69e9b38c.sample"]
+source_file="res://assets/sounds/player/stompFalls/StompFall5.wav"
+dest_files=["res://.godot/imported/StompFall5.wav-f9a49a1c035afcb1cde5d82752146502.sample"]
 
 [params]
 
