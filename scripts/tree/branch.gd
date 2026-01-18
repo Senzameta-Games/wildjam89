@@ -61,7 +61,7 @@ func _spawn_branch_at_next_height():
 	_create_branch(Vector2(branch_x, branch_y), side)
 
 func _create_branch(global_pos: Vector2, side: int):
-	var segments = randi_range(1, 3)
+	var segments = randi_range(1, 4)
 	var total_width = branch_length * segments
 
 	var branch = StaticBody2D.new()
