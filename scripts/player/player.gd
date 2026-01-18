@@ -21,6 +21,8 @@ var is_low_health: bool
 var is_dead: bool
 @export var seeds_lost: int = 1
 var last_damage_pos: Vector2 = Vector2.ZERO
+var hurt_cooldown: float = 0.0
+const HURT_COOLDOWN_DURATION: float = 1.2
 @export_category("Aim Visuals")
 @export var aim_max_height: float = 360.0
 @export var aim_min_width: float = 0.2
@@ -37,6 +39,8 @@ var last_damage_pos: Vector2 = Vector2.ZERO
 var is_moving: bool
 var is_midair: bool
 var is_stomping: bool
+var stomp_grace_period: float = 0.0  # Brief window after stomp where multi-stomps work
+const STOMP_GRACE_DURATION: float = 0.15
 var bounce_recovering: bool = false
 var pending_bounce: bool = false
 var is_in_hit_stop: bool = false
@@ -88,6 +92,10 @@ func _physics_process(delta: float) -> void:
 		update_aim_visual()
 	if aim_cooldown > 0:
 		aim_cooldown -= delta
+	if hurt_cooldown > 0:
+		hurt_cooldown -= delta
+	if stomp_grace_period > 0:
+		stomp_grace_period -= delta
 
 func apply_gravity(delta) -> void:
 	# Skip gravity for one frame after bounce to preserve bounce velocity
@@ -144,6 +152,7 @@ func _perform_bounce() -> void:
 		velocity.y = -jump_velocity * 1.1
 		is_stomping = false
 		bounce_recovering = true
+		stomp_grace_period = STOMP_GRACE_DURATION  # Allow multi-stomps briefly
 		
 		get_tree().call_group("camera", "apply_shake", Vector2(1, 32), 4.0)
 		hit_stop(0.1)
@@ -168,6 +177,11 @@ func interact() -> void:
 	just_interacted.emit()
 
 func hurt(damage_source_pos: Vector2) -> void:
+	if hurt_cooldown > 0:
+		return
+	
+	hurt_cooldown = HURT_COOLDOWN_DURATION
+	last_damage_pos = damage_source_pos
 	just_hurt.emit()
 	lose_seeds(seeds_lost)
 	var sm = $StateMachine

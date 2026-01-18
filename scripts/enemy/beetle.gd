@@ -146,13 +146,18 @@ func prepare_bomb() -> void:
 		#print("temp bomb has moved to beetle hands")
 
 func throw_bomb(temp_bomb: Node2D) -> void:
-	# kill temp bomb
+	if not is_instance_valid(temp_bomb):
+		return
+
+	var spawn_pos = temp_bomb.global_position
+
 	temp_bomb.queue_free()
-	# get the real one in
+	
 	if bomb:
 		var real_bomb = bomb.instantiate()
 		get_parent().add_child(real_bomb)
-		real_bomb.global_position = temp_bomb.global_position
+		
+		real_bomb.global_position = spawn_pos
 		
 		if stomped:
 			if "harmless" in real_bomb:

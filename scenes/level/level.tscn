@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://cfl62gijxtptm"]
+[gd_scene load_steps=37 format=3 uid="uid://cfl62gijxtptm"]
 
 [ext_resource type="PackedScene" uid="uid://ciyc0yamaacqw" path="res://scenes/player/player.tscn" id="1_nbgty"]
 [ext_resource type="Script" uid="uid://f1ao7nyts6na" path="res://scripts/level/level.gd" id="1_wcngd"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://c8yn67wshcpor" path="res://scenes/enemy/fast-weak.tscn" id="5_xv074"]
 [ext_resource type="PackedScene" uid="uid://c8ag4374ivpgq" path="res://scenes/enemy/bomb-thrower.tscn" id="6_pe1ox"]
 [ext_resource type="PackedScene" uid="uid://clg6borink2ye" path="res://scenes/enemy/slow-strong.tscn" id="6_sytrn"]
+[ext_resource type="PackedScene" uid="uid://dd0je2fatvmkm" path="res://scenes/enemy/bird.tscn" id="8_yoh1m"]
 [ext_resource type="Script" uid="uid://wj3def6gl0vr" path="res://scripts/game/camera.gd" id="9_sytrn"]
 [ext_resource type="Script" uid="uid://bpdggf0ahipqg" path="res://scripts/ui/seed_counter.gd" id="12_vrc4q"]
 [ext_resource type="FontFile" uid="uid://bxn105qovmxyq" path="res://assets/fonts/Ruler 9.ttf" id="13_x4oov"]
@@ -137,11 +138,11 @@ shape = SubResource("RectangleShape2D_vpf64")
 
 [node name="EnemySpawner" parent="." groups=["spawner"] instance=ExtResource("5_vpf64")]
 position = Vector2(5, 272)
-enemies = Array[PackedScene]([ExtResource("5_xv074"), ExtResource("6_sytrn"), ExtResource("6_pe1ox")])
+enemies = Array[PackedScene]([ExtResource("5_xv074"), ExtResource("6_sytrn"), ExtResource("6_pe1ox"), ExtResource("8_yoh1m")])
 
 [node name="EnemySpawner2" parent="." groups=["spawner"] instance=ExtResource("5_vpf64")]
 position = Vector2(637, 272)
-enemies = Array[PackedScene]([ExtResource("5_xv074"), ExtResource("6_sytrn"), ExtResource("6_pe1ox")])
+enemies = Array[PackedScene]([ExtResource("5_xv074"), ExtResource("6_sytrn"), ExtResource("6_pe1ox"), ExtResource("8_yoh1m")])
 
 [node name="Player" parent="." instance=ExtResource("1_nbgty")]
 z_index = 11

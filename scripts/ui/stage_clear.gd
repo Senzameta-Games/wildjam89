@@ -19,7 +19,7 @@ extends CanvasLayer
 # Text Map
 var ability_text: Dictionary = {
 	"aim_stomp": {
-		"name": "Stopwatch",
+		"name": "Stopwatch (RMB or LT)",
 		"desc": "While airborne, Fiora can aim with focus."
 	},
 	"double_jump": {

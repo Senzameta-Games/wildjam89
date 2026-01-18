@@ -1,0 +1,184 @@
+[gd_scene load_steps=30 format=3 uid="uid://dd0je2fatvmkm"]
+
+[ext_resource type="Script" uid="uid://cigrqh006tmk" path="res://scripts/enemy/bird.gd" id="1_ij41n"]
+[ext_resource type="PackedScene" uid="uid://3mhjgr2g4y7j" path="res://scenes/seed/seed.tscn" id="2_xgqxe"]
+[ext_resource type="Texture2D" uid="uid://bifpbjkb22hj" path="res://assets/sprites/beetle/bomb/blowup/bombexplode2.png" id="3_dp7h2"]
+[ext_resource type="Texture2D" uid="uid://c24exgng1xy7e" path="res://assets/sprites/beetle/bomb/blowup/bombexplode3.png" id="4_b3l6d"]
+[ext_resource type="Texture2D" uid="uid://bbfsd83ss2h2x" path="res://assets/sprites/beetle/bomb/blowup/bombexplode4.png" id="5_ij41n"]
+[ext_resource type="Texture2D" uid="uid://5l26y10g83f8" path="res://assets/sprites/beetle/bomb/blowup/bombexplode5.png" id="6_yuues"]
+[ext_resource type="Texture2D" uid="uid://b4cxueko4e1na" path="res://assets/sprites/beetle/bomb/blowup/bombexplode6.png" id="7_7xs7y"]
+[ext_resource type="Texture2D" uid="uid://bte1aecv7bdhw" path="res://assets/sprites/bird/birdwhiteoutline1.png" id="8_ij41n"]
+[ext_resource type="Texture2D" uid="uid://b0t0ilywthrxx" path="res://assets/sprites/bird/birdwhiteoutline2.png" id="9_yuues"]
+[ext_resource type="Texture2D" uid="uid://cmrob6yfegyf7" path="res://assets/sprites/bird/birdwhiteoutline3.png" id="10_7xs7y"]
+[ext_resource type="AudioStream" uid="uid://be8hwxiqbufhk" path="res://assets/sounds/enemy/squash/squash1.wav" id="10_mvcny"]
+[ext_resource type="AudioStream" uid="uid://bmibw7o0mgv5h" path="res://assets/sounds/enemy/squash/squash2.wav" id="11_1ig3u"]
+[ext_resource type="Texture2D" uid="uid://rm5gm53rn3y7" path="res://assets/sprites/bird/birdwhiteoutline4.png" id="11_lw4yj"]
+[ext_resource type="Texture2D" uid="uid://xlyjkxlhrufo" path="res://assets/sprites/bird/birdwhiteoutline5.png" id="12_3gthf"]
+[ext_resource type="AudioStream" uid="uid://cnrpn1017ouq" path="res://assets/sounds/enemy/squash/squash3.wav" id="12_vqyds"]
+[ext_resource type="Texture2D" uid="uid://b1qfb7ej5scnw" path="res://assets/sprites/bird/birdwhiteoutline6.png" id="13_mvcny"]
+[ext_resource type="AudioStream" uid="uid://bs4tuf6q3qjp0" path="res://assets/sounds/enemy/squash/squash4.wav" id="13_vy471"]
+[ext_resource type="AudioStream" uid="uid://0v7itmyiepv1" path="res://assets/sounds/enemy/squash/squash5.wav" id="14_o8chl"]
+[ext_resource type="AudioStream" uid="uid://ctjate5yf8t3u" path="res://assets/sounds/enemy/snail/snaildie1.wav" id="15_x3b56"]
+[ext_resource type="AudioStream" uid="uid://ds7tevskh6bth" path="res://assets/sounds/enemy/snail/snaildie2.wav" id="16_ts8s8"]
+[ext_resource type="AudioStream" uid="uid://ft5g6jpwasrr" path="res://assets/sounds/enemy/snail/snaildie3.wav" id="17_va6sq"]
+[ext_resource type="AudioStream" uid="uid://cnkhlbive3kv4" path="res://assets/sounds/enemy/snail/snaildie4.wav" id="18_kt6ee"]
+[ext_resource type="AudioStream" uid="uid://6s0yf0oxxsuc" path="res://assets/sounds/enemy/snail/snaildie5.wav" id="19_1wll6"]
+[ext_resource type="AudioStream" uid="uid://c7xcvo6roh7n7" path="res://assets/sounds/enemy/snail/snaildie6.wav" id="20_v6a84"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_883im"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_dp7h2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_b3l6d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_ij41n")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_yuues")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_7xs7y")
+}],
+"loop": false,
+"name": &"die",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.3,
+"texture": ExtResource("8_ij41n")
+}, {
+"duration": 1.3,
+"texture": ExtResource("9_yuues")
+}, {
+"duration": 1.3,
+"texture": ExtResource("10_7xs7y")
+}, {
+"duration": 1.3,
+"texture": ExtResource("11_lw4yj")
+}, {
+"duration": 1.3,
+"texture": ExtResource("12_3gthf")
+}, {
+"duration": 1.3,
+"texture": ExtResource("13_mvcny")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 8.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"stomped",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_ij41n")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_yuues")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_7xs7y")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_lw4yj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_3gthf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_mvcny")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 8.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4a83h"]
+size = Vector2(12, 12)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_a3pup"]
+radius = 2.0
+height = 15.999999
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_so3kp"]
+streams_count = 5
+stream_0/stream = ExtResource("10_mvcny")
+stream_1/stream = ExtResource("11_1ig3u")
+stream_2/stream = ExtResource("12_vqyds")
+stream_3/stream = ExtResource("13_vy471")
+stream_4/stream = ExtResource("14_o8chl")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_wk82e"]
+streams_count = 6
+stream_0/stream = ExtResource("15_x3b56")
+stream_1/stream = ExtResource("16_ts8s8")
+stream_2/stream = ExtResource("17_va6sq")
+stream_3/stream = ExtResource("18_kt6ee")
+stream_4/stream = ExtResource("19_1wll6")
+stream_5/stream = ExtResource("20_v6a84")
+
+[node name="Enemy" type="CharacterBody2D" groups=["enemy"]]
+visibility_layer = 2
+z_index = 200
+texture_filter = 1
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_ij41n")
+spawn_cost = 1
+seed_value = 10
+seed_scn = ExtResource("2_xgqxe")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+visibility_layer = 2
+position = Vector2(0, 8)
+sprite_frames = SubResource("SpriteFrames_883im")
+animation = &"idle"
+offset = Vector2(0, -8)
+
+[node name="Collider" type="CollisionShape2D" parent="."]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_4a83h")
+
+[node name="Hitbox" type="Area2D" parent="."]
+position = Vector2(0, 8)
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(0, -14)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_a3pup")
+
+[node name="SFX" type="Node2D" parent="."]
+
+[node name="Spawned" type="AudioStreamPlayer2D" parent="SFX"]
+
+[node name="Idle" type="AudioStreamPlayer2D" parent="SFX"]
+
+[node name="Step" type="AudioStreamPlayer2D" parent="SFX"]
+
+[node name="Attack" type="AudioStreamPlayer2D" parent="SFX"]
+
+[node name="Squash" type="AudioStreamPlayer2D" parent="SFX"]
+stream = SubResource("AudioStreamRandomizer_so3kp")
+volume_db = -8.0
+pitch_scale = 2.0
+
+[node name="Die" type="AudioStreamPlayer2D" parent="SFX"]
+stream = SubResource("AudioStreamRandomizer_wk82e")
+
+[node name="Seed" parent="." instance=ExtResource("2_xgqxe")]
+visible = false
+
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]

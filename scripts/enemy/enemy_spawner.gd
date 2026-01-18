@@ -11,6 +11,7 @@ var spawn_passive: bool = false
 # Separate enemy types for conditional spawning
 var basic_enemies: Array[PackedScene] = []
 var beetle_enemies: Array[PackedScene] = []
+var bird_enemies: Array[PackedScene] = []
 
 func _ready() -> void:
 	add_to_group("spawner")
@@ -28,7 +29,10 @@ func _categorize_enemies() -> void:
 		
 		# Check the scene path to categorize
 		var path = enemy_scene.resource_path.to_lower()
-		if "bomb-thrower" in path or "beetle" in path:
+		
+		if "bird" in path:
+			bird_enemies.append(enemy_scene)
+		elif "bomb-thrower" in path or "beetle" in path:
 			beetle_enemies.append(enemy_scene)
 		else:
 			basic_enemies.append(enemy_scene)
@@ -43,9 +47,11 @@ func _on_timer_done() -> void:
 	# Always can spawn basic enemies
 	spawnable.append_array(basic_enemies)
 	
-	# Only spawn beetles if at least one tree has been fully grown
 	if Game.trees_grown_count >= 1:
 		spawnable.append_array(beetle_enemies)
+
+	if Game.trees_grown_count >= 2:
+		spawnable.append_array(bird_enemies)
 	
 	if spawnable.is_empty():
 		return

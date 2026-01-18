@@ -17,12 +17,19 @@ var unlocked_abilities: Dictionary = {
 var seen_abilities: Dictionary = {}
 var game_has_started: bool = false
 
+# Randomized power-up system
+var ability_queue: Array[String] = []
+var recent_abilities: Array[String] = []  # Track last 2 abilities to prevent 3+ repeats
+const ALL_ABILITIES: Array[String] = ["aim_stomp", "double_jump", "pesticide"]
+
 func start_new_run() -> void:
 	current_stage = 1
 	total_seeds = 0
-	trees_grown_count = 0  # Reset trees grown count
+	trees_grown_count = 0
 	_reset_abilities()
 	seen_abilities.clear()
+	recent_abilities.clear()
+	_init_ability_queue()
 	game_has_started = true
 
 func next_stage() -> void:
@@ -45,7 +52,7 @@ func get_stage_params() -> Dictionary:
 	return{
 		"spawn_interval": spawn_interval,
 		"enemy_damage": 1.2 * difficulty_mult,
-		"ability_reward": _get_ability_reward(current_stage)
+		"ability_reward": _get_next_ability()
 	}
 
 func unlock_ability(ability_key: String) -> void:
@@ -66,14 +73,38 @@ func has_seen_ability(ability_key: String) -> bool:
 func mark_ability_seen(ability_key: String) -> void:
 	seen_abilities[ability_key] = true
 
-func _get_ability_reward(stage: int) -> String:
-	match stage:
-		1: return "aim_stomp"
-		2: return "double_jump"
-		3: return "pesticide"
-		_: 
-			var all_keys = ["aim_stomp", "double_jump", "pesticide"]
-			return all_keys.pick_random()
+func _get_ability_reward(_stage: int) -> String:
+	# Refill queue if empty
+	if ability_queue.is_empty():
+		_init_ability_queue()
+	
+	return ability_queue.pop_front()
+
+func _init_ability_queue() -> void:
+	# Create a shuffled copy of all abilities
+	ability_queue = ALL_ABILITIES.duplicate()
+	ability_queue.shuffle()
+	
+	if recent_abilities.size() >= 2:
+		var last_two_same = recent_abilities[0] == recent_abilities[1]
+		if last_two_same and ability_queue[0] == recent_abilities[0]:
+			# Move the repeated ability to later in the queue
+			var repeated = ability_queue.pop_front()
+			var insert_pos = randi_range(1, ability_queue.size())
+			ability_queue.insert(insert_pos, repeated)
+
+func _get_next_ability() -> String:
+	if ability_queue.is_empty():
+		_init_ability_queue()
+	
+	var next_ability = ability_queue.pop_front()
+	
+	# Track recent abilities (keep last 2)
+	recent_abilities.append(next_ability)
+	if recent_abilities.size() > 2:
+		recent_abilities.pop_front()
+	
+	return next_ability
 
 func check_win_con() -> bool:
 	var seen_all = seen_abilities.size() >= 3 
@@ -110,9 +141,9 @@ const GRID_SIZE: int = 16
 const FLOWER_HEIGHT: int = 16
 
 # Flower bonus constants (per flower)
-const FLOWER_GROWTH_BONUS: float = 0.03
-const FLOWER_DEFENSE_BONUS: float = 0.02
-const FLOWER_POWERUP_BONUS: float = 0.01
+const FLOWER_GROWTH_BONUS: float = 0.05
+const FLOWER_DEFENSE_BONUS: float = 0.01
+const FLOWER_POWERUP_BONUS: float = 0.02
 
 var flower_scene: PackedScene = preload("res://scenes/flower/flower.tscn")
 
@@ -174,7 +205,7 @@ func get_flower_powerup_bonus() -> float:
 
 func reset_game_state() -> void:
 	total_seeds = 0
-	trees_grown_count = 0  # Reset trees grown count
+	trees_grown_count = 0 
 	flower_columns.clear()
 	total_flowers = 0
 	flower_counts = {

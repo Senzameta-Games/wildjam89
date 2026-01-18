@@ -101,6 +101,7 @@ text = "Take this gift and cherish it."
 label_settings = SubResource("LabelSettings_bxd5g")
 
 [node name="NewGamePlus" type="Button" parent="Content/StageClearContainer"]
+visible = false
 layout_mode = 2
 theme_override_fonts/font = ExtResource("8_dkba7")
 text = "Emerge in the new year
@@ -116,5 +117,5 @@ icon = ExtResource("4_bj6ca")
 alignment = 0
 
 [connection signal="pressed" from="Content/StageClearContainer/NewGamePlus" to="." method="_on_new_game_plus_pressed"]
-[connection signal="pressed" from="Content/StageClearContainer/QuitToMenu" to="." method="_on_quit_pressed"]
 [connection signal="pressed" from="Content/StageClearContainer/QuitToMenu" to="." method="_on_quit_to_menu_pressed"]
+[connection signal="pressed" from="Content/StageClearContainer/QuitToMenu" to="." method="_on_quit_pressed"]

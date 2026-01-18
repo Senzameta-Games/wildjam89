@@ -3,8 +3,8 @@ class_name AimState
 
 var time_slowed: bool = false
 @export var max_aim_dur: float = 0.5
-@export_range(0.0, 1.0) var velocity_preserved: float = 0.05
-@export var tether_radius: float = 20
+@export_range(0.0, 1.0) var velocity_preserved: float = 0.4
+@export var tether_radius: float = 40
 @export var cooldown_dur: float = 1.5
 
 var aim_timer: float = 0.0
@@ -19,6 +19,8 @@ func enter() -> void:
 	player.velocity *= velocity_preserved
 	player.set_time_scale(0.2)
 	time_slowed = true
+	if MusicManager:
+		MusicManager.fade_to_aim_slowmo()
 	# show visuals
 	fall_feedback()
 	player.aim_visual.visible = true
@@ -31,6 +33,8 @@ func exit() -> void:
 	if time_slowed:
 		player.set_time_scale(1.0)
 		time_slowed = false
+	if MusicManager:
+		MusicManager.fade_to_normal()
 	# hide visuals
 	player.aim_visual.visible = false
 	player.aim_raycast.enabled = false
@@ -48,7 +52,7 @@ func physics_update(delta: float) -> void:
 	
 	var dir = Input.get_axis("move_left", "move_right")
 	
-	var aim_move_speed: = player.move_speed * 0.3
+	var aim_move_speed: = player.move_speed * 1.8
 	
 	if dir:
 		player.velocity.x = move_toward(player.velocity.x, dir * aim_move_speed, player.move_acceleration * delta)

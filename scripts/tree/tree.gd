@@ -19,8 +19,8 @@ var slot_index: int = -1
 @export var max_sections: int = 20
 
 # Growth balancing
-const BASE_PASSIVE_GROWTH: float = 0.005
-const MAX_PASSIVE_GROWTH: float = 0.05
+const BASE_PASSIVE_GROWTH: float = 0.02
+const MAX_PASSIVE_GROWTH: float = 0.08
 const ACTIVE_GROWTH_AMOUNT: float = 1.5
 
 @onready var tree_trunk = $TreeTrunk
@@ -44,6 +44,11 @@ var damage_per_hit: float = 2.0
 func _ready():
 	_update_target_sections()
 	_update_leaf_tier_target()
+	
+	# Create a unique shape for this tree's collider (avoid shared resource issue)
+	if tree_collider and tree_collider.shape:
+		tree_collider.shape = tree_collider.shape.duplicate()
+	
 	_build_trunk_immediate()
 	impulse_grow_sfx.volume_db = -24.0
 
@@ -196,11 +201,14 @@ func _rebuild_trunk():
 		new_section_added.emit()
 	if tree_collider and tree_collider.shape is RectangleShape2D:
 		var total_height = current_sections * trunk_section_height
-		var shape = tree_collider.shape as RectangleShape2D
 		var min_buffer: float = 10.0
+		
+		# Ensure minimum collider height
+		if total_height < min_buffer:
+			total_height = min_buffer
+		
+		var shape = tree_collider.shape as RectangleShape2D
 		shape.size = Vector2(32, total_height)
-		if shape.size.y == 0.0:
-			total_height += min_buffer
 		tree_collider.position.y = -(total_height / 2.0) + 10
 	tree_trunk.position.y = -current_sections * trunk_section_height
 	tree_top.position.y = 0
@@ -215,8 +223,14 @@ func _on_shop_interacted():
 	tree_healed.emit(ACTIVE_GROWTH_AMOUNT)
 
 func _on_tree_hitbox_area_entered(area: Area2D):
-	if area.get_parent() is Enemy:
-		area.get_parent().sacrifice()
+	var entity = area.get_parent()
+	
+	if entity is Bird:
+		return
+
+	if entity is Enemy:
+		entity.sacrifice()
 		hurt(damage_per_hit)
-	elif area.get_parent() is Bomb:
+
+	elif entity is Bomb:
 		hurt(damage_per_hit * 1.2)

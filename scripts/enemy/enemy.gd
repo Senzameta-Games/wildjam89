@@ -142,30 +142,39 @@ func move_towards_target() -> void:
 
 func _on_hitbox_body_entered(body: Node2D) -> void:
 	#print(body.name)
-	if stomped:
+	if stomped or is_dying:
 		return
 	
 	if (body != self) and body.is_in_group("player"):
-		var is_above = body.global_position.y < (global_position.y -8.0)
-		var is_falling = body.velocity.y > 0
+		var is_above = body.global_position.y < (global_position.y - 8.0)
 		
-		if body.get("is_stomping") and is_above and is_falling: 
+		# Check if player is in stomp mode OR in the grace period after a stomp
+		var is_stomp_active = body.get("is_stomping") or body.get("stomp_grace_period") > 0
+		
+		if is_stomp_active and is_above:
+			# Player is stomping from above - they win
 			if body.has_method("bounce"):
 				body.bounce()
 			die()
-		elif is_above and is_falling:
+		elif is_above and body.velocity.y > 0:
+			# Player landed on enemy without stomping - still bounce but no kill
 			if body.has_method("bounce"):
 				body.bounce()
 		else:
+			# Enemy touches player from side/below - player gets hurt
 			body.hurt(global_position)
 
 func die() -> void:
 	if is_dying: return
 	is_dying = true
+	stomped = true
+	
+	# Immediately disable hitbox to prevent hurting player during multi-stomp
+	$Hitbox/CollisionShape2D.set_deferred("disabled", true)
+	
 	remove_from_group("enemy")
 	set_physics_process(false)
 	$Collider.set_deferred("disabled", true)
-	stomped = true
 	die_sfx.play()
 	squash_and_hide()
 	drop_seed()
