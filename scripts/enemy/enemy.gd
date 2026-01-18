@@ -10,17 +10,18 @@ class_name Enemy
 
 @export_category("Drops")
 @export var seed_value: int = 1
+@export var seed_scn: PackedScene
 
 var current_target: Node2D = null
 signal seed_dropped
 signal enemy_defeated
 
-@onready var dropped_seed: Node = $Seed
 @onready var stomped: bool = false
 @onready var is_dying: bool = false
 
 @onready var die_sfx: AudioStreamPlayer2D = $SFX/Die
 @onready var enemy_sprite: AnimatedSprite2D = $Sprite
+@onready var dropped_seed: Node2D = $Seed
 
 
 func _ready() -> void:
@@ -78,7 +79,6 @@ func die() -> void:
 	squash_and_hide()
 	drop_seed()
 	Game.plant_flower(global_position)
-	Game.add_seeds(seed_value)
 
 func squash_and_hide() -> void:
 	var tween = create_tween()
@@ -88,7 +88,7 @@ func squash_and_hide() -> void:
 
 func drop_seed() -> void:
 	# hide the source node
-	dropped_seed.visible = false
+	if dropped_seed: dropped_seed.visible = false
 	
 	# emit signals so logic/achievements count right away
 	seed_dropped.emit()
@@ -113,35 +113,24 @@ func drop_seed() -> void:
 	queue_free()
 
 func _spawn_visual_seed() -> void:
+	if not seed_scn: return
 	# instantiate a copy of the source node
-	var new_seed = dropped_seed.duplicate()
-	add_child(new_seed)
-	
-	# reset state
-	new_seed.position = Vector2.ZERO 
+	var new_seed = seed_scn.instantiate()
+	get_tree().current_scene.add_child(new_seed)
+
+	# seed -> enemy
+	new_seed.global_position = global_position
 	new_seed.visible = true
 	
-	# animation
-	var tween = create_tween()
-	var fuzzy_end_point = randf_range(-36.0, -60.0)
-	tween.tween_property(new_seed, "position:y", fuzzy_end_point, 0.4).as_relative().set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
-	#wrote this expression to send the seed sto player instead of up if we think that's interesting
-	tween.tween_property(new_seed, "global_position", get_tree().get_nodes_in_group("player")[0].global_position, 0.5).set_trans(Tween.TRANS_QUINT).set_ease(Tween.EASE_OUT)
-	
-	var spin_tween = create_tween()
-	
-	# spin on loop
-	spin_tween.set_loops(1) 
-	spin_tween.tween_property(new_seed, "scale:x", -1.0, 0.1).set_trans(Tween.TRANS_SINE)
-	spin_tween.tween_property(new_seed, "scale:x", 1.0, 0.1).set_trans(Tween.TRANS_SINE)
-	
+	# find player
+	var player = get_tree().get_first_node_in_group("player")
+	if player:
+		new_seed.setup(player)
+
 	# find and play sound
 	var sfx = new_seed.get_node_or_null("SFX/Appear")
 	if sfx:
-		tween.tween_callback(sfx.play)
-	tween.tween_property(new_seed, "modulate:a", 0.0, 1.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
-	# clean up
-	tween.tween_callback(new_seed.queue_free)
+		sfx.play()
 
 func sacrifice() -> void:
 	set_physics_process(false)

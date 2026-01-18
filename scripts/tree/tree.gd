@@ -242,12 +242,8 @@ func _unhandled_input(event: InputEvent):
 		print("Manually Hurting: ", tree_progress, "%")
 
 func _on_shop_interacted():
-	impulse_grow_sfx.volume_db = -12.0
-	impulse_grow_sfx.play()
-	add_progress(1.0)
+	add_progress(0.5)
 	tree_healed.emit(1.0)
-	await impulse_grow_sfx.finished
-	impulse_grow_sfx.volume_db = -24.0
 	
 
 func _on_tree_hitbox_area_entered(area: Area2D):

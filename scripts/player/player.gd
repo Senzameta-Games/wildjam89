@@ -7,6 +7,7 @@ class_name Player
 @export var player_collider: CollisionShape2D
 @export var spawn_pos: Vector2
 @export var sfx: Node
+@export var seed_scn: PackedScene
 var gravity = Game.gravity # Game.gd is an autoload
 
 @export_category("Gameplay")
@@ -51,10 +52,8 @@ signal entered_interact_area
 signal exited_interact_area
 # Combat
 signal just_hurt
-signal just_died
 # Movement
 signal just_jumped
-signal just_landed
 # Action
 signal just_stomped
 signal just_interacted
@@ -164,6 +163,14 @@ func lose_seeds(amount: int) -> void:
 	if Game.total_seeds > 0:
 		var actual_loss = min(amount, Game.total_seeds)
 		Game.add_seeds(-actual_loss)
+		
+		if seed_scn:
+			for i in range(actual_loss):
+				var lost_seed = seed_scn.instantiate()
+				get_tree().current_scene.add_child(lost_seed)
+				lost_seed.global_position = global_position
+				if lost_seed.has_method("setup_loss"):
+					lost_seed.setup_loss()
 
 func _on_entered_interact_area():
 	entered_interact_area.emit()

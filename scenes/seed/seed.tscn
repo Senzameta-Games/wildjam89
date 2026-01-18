@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://3mhjgr2g4y7j"]
 
-[ext_resource type="Texture2D" uid="uid://evljh2213602" path="res://assets/sprites/seed/seedblack.png" id="1_ause0"]
+[ext_resource type="Script" uid="uid://b53l5jth8smm3" path="res://scripts/seed/visual_seed.gd" id="1_duic0"]
 [ext_resource type="Texture2D" uid="uid://bqy7jvtn34w8s" path="res://assets/sprites/seed/seedchonk.png" id="1_tjbah"]
 [ext_resource type="AudioStream" uid="uid://k6ivgxey1k1" path="res://assets/sounds/enemy/seedget/seedget1.wav" id="3_tjbah"]
 [ext_resource type="AudioStream" uid="uid://dfmboaurpmnna" path="res://assets/sounds/enemy/seedget/seedget2.wav" id="4_duic0"]
@@ -20,7 +20,7 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_ause0")
+"texture": ExtResource("1_tjbah")
 }],
 "loop": true,
 "name": &"collected",
@@ -36,15 +36,15 @@ stream_3/stream = ExtResource("6_y84vo")
 stream_4/stream = ExtResource("7_ntb4p")
 
 [node name="Seed" type="Node2D"]
+z_index = 200
+script = ExtResource("1_duic0")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
 sprite_frames = SubResource("SpriteFrames_rl07t")
-animation = &"appear"
+animation = &"collected"
 
 [node name="SFX" type="Node2D" parent="."]
 
-[node name="Appear" type="AudioStreamPlayer2D" parent="SFX"]
-stream = SubResource("AudioStreamRandomizer_8fk8a")
-
 [node name="Collected" type="AudioStreamPlayer2D" parent="SFX"]
+stream = SubResource("AudioStreamRandomizer_8fk8a")
