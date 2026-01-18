@@ -11,7 +11,7 @@ var current_stage: int = 1
 var unlocked_abilities: Dictionary = {
 	"aim_stomp": false,
 	"double_jump": false,
-	"pesticide": false
+	"pesticide": false,
 }
 
 var seen_abilities: Dictionary = {}
@@ -99,12 +99,19 @@ func add_seeds(amount: int) -> void:
 
 const GRID_SIZE: int = 16
 const FLOWER_HEIGHT: int = 16
-const FLOWER_GROWTH_BONUS: float = 0.8
+const FLOWER_GROWTH_BONUS: float = 0.3  # Reduced from 0.8
 
 var flower_scene: PackedScene = preload("res://scenes/flower/flower.tscn")
 
 var flower_columns: Dictionary = {}
 
+# Track flowers by color
+signal flower_counts_changed
+var flower_counts: Dictionary = {
+	"blue": 0,
+	"green": 0,
+	"red": 0
+}
 var total_flowers: int = 0
 
 func _ready() -> void:
@@ -125,19 +132,38 @@ func plant_flower(at_position: Vector2) -> void:
 	flower.global_position = spawn_pos
 	
 	flower_columns[grid_index] = stack_count + 1
-	total_flowers += 1
+	# Note: flower will call add_flower() with its color in _ready()
 	# Track for achievements
 	if Achievements:
 		Achievements.on_flower_planted()
 
+func add_flower(color: String) -> void:
+	if flower_counts.has(color):
+		flower_counts[color] += 1
+		total_flowers += 1
+		flower_counts_changed.emit()
+
+func remove_flower(color: String) -> void:
+	if flower_counts.has(color) and flower_counts[color] > 0:
+		flower_counts[color] -= 1
+		total_flowers = max(0, total_flowers - 1)
+		flower_counts_changed.emit()
+
 func get_flower_bonus() -> float:
-	return float(total_flowers) * FLOWER_GROWTH_BONUS
+	# Only green flowers contribute to passive growth bonus
+	return float(flower_counts.get("green", 0)) * FLOWER_GROWTH_BONUS
 
 func reset_game_state() -> void:
 	total_seeds = 0
 	flower_columns.clear()
 	total_flowers = 0
+	flower_counts = {
+		"blue": 0,
+		"green": 0,
+		"red": 0
+	}
 	seeds_changed.emit(total_seeds)
+	flower_counts_changed.emit()
 	# Reset achievements for new run
 	if Achievements:
 		Achievements.reset_achievements()
@@ -155,4 +181,3 @@ func _unhandled_input(event):
 		
 		if Input.is_action_just_pressed("zapper_get"):
 			unlock_ability("pesticide")
-		

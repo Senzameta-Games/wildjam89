@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://cfl62gijxtptm"]
+[gd_scene load_steps=41 format=3 uid="uid://cfl62gijxtptm"]
 
 [ext_resource type="PackedScene" uid="uid://ciyc0yamaacqw" path="res://scenes/player/player.tscn" id="1_nbgty"]
 [ext_resource type="Script" uid="uid://f1ao7nyts6na" path="res://scripts/level/level.gd" id="1_wcngd"]
@@ -25,7 +25,6 @@
 [ext_resource type="Script" uid="uid://dq3mklt16ehm1" path="res://scripts/ui/flower_stats.gd" id="23_87pmf"]
 [ext_resource type="Texture2D" uid="uid://d238xmmjguwum" path="res://assets/sprites/items/bigstomps/boot.png" id="23_fhw5o"]
 [ext_resource type="Texture2D" uid="uid://gucr12hgnqie" path="res://assets/sprites/flower/flowerred.png" id="23_r732y"]
-[ext_resource type="FontFile" uid="uid://c8gml42wpgpkm" path="res://assets/fonts/Jersey10-Regular.ttf" id="24_87pmf"]
 [ext_resource type="PackedScene" uid="uid://dpxb8hcxh5heh" path="res://scenes/ui/game_clear.tscn" id="25_cqqhe"]
 [ext_resource type="Texture2D" uid="uid://b6aq64kifulkl" path="res://assets/sprites/flower/flowergreen.png" id="25_mf35j"]
 [ext_resource type="Texture2D" uid="uid://bnrlv6xwr6dd8" path="res://assets/sprites/flower/flowerblue.png" id="26_t51ir"]
@@ -50,8 +49,7 @@ thickness = 6
 vertical = true
 
 [sub_resource type="LabelSettings" id="LabelSettings_bdmju"]
-font = ExtResource("24_87pmf")
-font_size = 18
+font = ExtResource("13_x4oov")
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_uhw4h"]
 color = Color(0.063821144, 0.14246508, 0.01725775, 1)
