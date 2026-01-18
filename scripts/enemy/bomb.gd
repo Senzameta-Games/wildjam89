@@ -34,6 +34,8 @@ func _on_body_entered(body: Node2D) -> void:
 			if not harmless:
 				body.hurt(global_position)
 				blow_up()
+				if Achievements:
+					Achievements.on_bomb_blocked()
 				#print("bomb hit something with method hurt() and blew up")
 			
 		elif body.is_in_group("level"):

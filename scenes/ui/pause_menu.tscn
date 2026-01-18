@@ -12,48 +12,41 @@ offset_right = 640.0
 offset_bottom = 360.0
 color = Color(0, 0, 0, 0.49019608)
 
-[node name="ResumeButton" type="Button" parent="."]
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -50.0
-offset_top = 60.0
-offset_right = 50.0
-offset_bottom = 110.0
-grow_horizontal = 2
-theme_override_fonts/font = ExtResource("2_0lmf7")
-text = "Resume"
-
-[node name="RestartButton" type="Button" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -50.0
-offset_top = -55.0
+offset_top = -90.0
 offset_right = 50.0
-offset_bottom = -5.0
+offset_bottom = 90.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/separation = 12
+
+[node name="ResumeButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0lmf7")
+text = "Resume"
+
+[node name="AchievementsButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0lmf7")
+text = "Achievements"
+
+[node name="RestartButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
 theme_override_fonts/font = ExtResource("2_0lmf7")
 text = "Restart"
 
-[node name="ExitButton" type="Button" parent="."]
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -50.0
-offset_top = -170.0
-offset_right = 50.0
-offset_bottom = -120.0
-grow_horizontal = 2
-grow_vertical = 0
+[node name="ExitButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
 theme_override_fonts/font = ExtResource("2_0lmf7")
 text = "Exit"
 
-[connection signal="pressed" from="ResumeButton" to="." method="_on_resume_button_pressed"]
-[connection signal="pressed" from="RestartButton" to="." method="_on_restart_button_pressed"]
-[connection signal="pressed" from="ExitButton" to="." method="_on_exit_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/AchievementsButton" to="." method="_on_achievements_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]

@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://cne6nr2xqlc0h"]
+[gd_scene load_steps=5 format=3 uid="uid://cne6nr2xqlc0h"]
 
 [ext_resource type="PackedScene" uid="uid://cfl62gijxtptm" path="res://scenes/level/level.tscn" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://dpq2tcruw021u" path="res://scenes/ui/game_over.tscn" id="3_sugp2"]
 [ext_resource type="PackedScene" uid="uid://cnedgj3aevipi" path="res://scenes/ui/pause_menu.tscn" id="5_tbgi4"]
+[ext_resource type="PackedScene" path="res://scenes/ui/achievements_view.tscn" id="6_achievements"]
 
 [node name="Main" type="Node2D"]
 
@@ -12,3 +13,9 @@
 
 [node name="GameOver" parent="." instance=ExtResource("3_sugp2")]
 layer = 99
+
+[node name="AchievementsView" parent="." instance=ExtResource("6_achievements")]
+offset_left = 208.0
+offset_top = 126.0
+offset_right = 208.0
+offset_bottom = 126.0
