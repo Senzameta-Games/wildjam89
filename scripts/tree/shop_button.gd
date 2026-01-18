@@ -5,10 +5,11 @@ extends Node2D
 @export var grow_sfx: AudioStreamPlayer2D
 @export var seed_scn: PackedScene
 
-@export var zap_threshold: int
+@export var zap_threshold: int = 10
 
-@onready var buy_prompt: Container = $BuyPromptContainer
-@onready var buy_prompt_label: Label = $BuyPromptContainer/BuyPrompt
+# CHANGED: We now look for the TreeUI CanvasLayer
+@onready var tree_ui: CanvasLayer = $TreeUI
+@onready var buy_prompt_label: Label = $TreeUI/BuyPromptContainer/BuyPrompt
 @onready var detect_area: Area2D = $Area
 
 var player_in_range: bool = false
@@ -24,7 +25,9 @@ const MIN_INTERVAL: float = 0.05
 signal shop_interacted
 
 func _ready():
-	buy_prompt.visible = false
+	# Hide the entire UI (Prompt + Bar) by default
+	if tree_ui:
+		tree_ui.visible = false
 
 func _process(delta) -> void:
 	if not player_in_range:
@@ -71,7 +74,6 @@ func _attempt_deposit() -> void:
 	
 	if Game.has_ability("pesticide"):
 		seed_since_last_zap += 1
-		print("Zap count: ", seed_since_last_zap, "/", zap_threshold)
 		if seed_since_last_zap >= zap_threshold:
 			_fire_zapper()
 			seed_since_last_zap = 0
@@ -80,7 +82,6 @@ func _trigger_empty_feedback() -> void:
 	interaction_locked = true
 	
 	if empty_sfx:
-		print("playing empty sfx")
 		empty_sfx.play()
 	
 	var ui_seeds = get_tree().current_scene.find_child("Seeds", true, false)
@@ -100,7 +101,6 @@ func _fire_zapper() -> void:
 				closest_dist = dist
 				target = enemy
 	if target:
-		print("ZAP FIRED at ", target.name)
 		var zapper = zapper_script.new()
 		get_tree().current_scene.add_child(zapper)
 		zapper.zap(target.global_position)
@@ -110,17 +110,18 @@ func _on_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		player_in_range = true
 		current_player_body = body
-		show_buy_prompt()
+		show_tree_ui()
 
 func _on_area_body_exited(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		player_in_range = false
 		current_player_body = null
-		hide_buy_prompt()
+		hide_tree_ui()
 
-func show_buy_prompt() -> void:
-	buy_prompt_label.text = str("Grow")
-	buy_prompt.visible = true
+func show_tree_ui() -> void:
+	if tree_ui:
+		tree_ui.visible = true
 	
-func hide_buy_prompt() -> void:
-	buy_prompt.visible = false
+func hide_tree_ui() -> void:
+	if tree_ui:
+		tree_ui.visible = false
