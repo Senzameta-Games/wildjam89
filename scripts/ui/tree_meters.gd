@@ -2,20 +2,8 @@ extends HBoxContainer
 class_name TreeMeters
 
 @onready var tree_meters_container: HBoxContainer
-@onready var ability_icon: TextureRect
 
 var tree_to_meter: Dictionary = {} # {tree: meter_node}
-
-# Ability icons
-var ability_icons: Dictionary = {
-	"aim_stomp": preload("res://assets/sprites/items/aimstomp/stopwatch.png"),
-	"double_jump": preload("res://assets/sprites/items/doublejump/feather.png"),
-	"pesticide": preload("res://assets/sprites/items/pesticide/pesticide.png")
-}
-
-var active_ability: String = ""
-var ability_timer: float = 0.0
-const ABILITY_DURATION: float = 15.0
 
 func _ready() -> void:
 	# Find or create container
@@ -25,24 +13,6 @@ func _ready() -> void:
 		tree_meters_container.name = "TreeMetersContainer"
 		tree_meters_container.add_theme_constant_override("separation", 8)
 		add_child(tree_meters_container)
-	
-	# Find or create ability icon
-	ability_icon = get_node_or_null("AbilityIcon")
-	if not ability_icon:
-		ability_icon = TextureRect.new()
-		ability_icon.name = "AbilityIcon"
-		ability_icon.custom_minimum_size = Vector2(32, 32)
-		ability_icon.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
-		ability_icon.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-		# Add as first child so it appears on the left
-		add_child(ability_icon)
-		move_child(ability_icon, 0)
-	
-	ability_icon.visible = false
-	
-	# Connect to Game signals
-	if Game:
-		Game.ability_unlocked.connect(_on_ability_collected)
 
 func register_tree(tree: SeedTree) -> void:
 	if not tree or tree in tree_to_meter:
@@ -150,20 +120,6 @@ func _on_tree_healed(_amount: float, tree: SeedTree) -> void:
 func _on_tree_died(tree: SeedTree) -> void:
 	unregister_tree(tree)
 
-func _on_ability_collected(ability_key: String) -> void:
-	# Activate the ability for 15 seconds
-	activate_ability(ability_key)
-
-func activate_ability(ability_key: String) -> void:
-	if not ability_icons.has(ability_key):
-		return
-	
-	active_ability = ability_key
-	ability_timer = ABILITY_DURATION
-	
-	if ability_icon:
-		ability_icon.texture = ability_icons[ability_key]
-		ability_icon.visible = true
 
 func _process(delta: float) -> void:
 	# Update all active tree meters
@@ -171,16 +127,3 @@ func _process(delta: float) -> void:
 		if is_instance_valid(tree):
 			var meter = tree_to_meter[tree]
 			_update_meter(tree, meter)
-	
-	# Handle ability timer
-	if active_ability != "" and ability_timer > 0:
-		ability_timer -= delta
-		
-		if ability_timer <= 0:
-			# Deactivate ability
-			if ability_icon:
-				ability_icon.visible = false
-			
-			Game.lock_ability(active_ability)
-			active_ability = ""
-			ability_timer = 0.0

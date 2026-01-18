@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://cfl62gijxtptm"]
+[gd_scene load_steps=37 format=3 uid="uid://cfl62gijxtptm"]
 
 [ext_resource type="PackedScene" uid="uid://ciyc0yamaacqw" path="res://scenes/player/player.tscn" id="1_nbgty"]
 [ext_resource type="Script" uid="uid://f1ao7nyts6na" path="res://scripts/level/level.gd" id="1_wcngd"]
@@ -9,7 +9,6 @@
 [ext_resource type="PackedScene" uid="uid://c8yn67wshcpor" path="res://scenes/enemy/fast-weak.tscn" id="5_xv074"]
 [ext_resource type="PackedScene" uid="uid://c8ag4374ivpgq" path="res://scenes/enemy/bomb-thrower.tscn" id="6_pe1ox"]
 [ext_resource type="PackedScene" uid="uid://clg6borink2ye" path="res://scenes/enemy/slow-strong.tscn" id="6_sytrn"]
-[ext_resource type="PackedScene" uid="uid://5u0rjw4fxv62" path="res://scenes/tree/tree.tscn" id="7_wcngd"]
 [ext_resource type="Script" uid="uid://wj3def6gl0vr" path="res://scripts/game/camera.gd" id="9_sytrn"]
 [ext_resource type="Script" uid="uid://bpdggf0ahipqg" path="res://scripts/ui/seed_counter.gd" id="12_vrc4q"]
 [ext_resource type="FontFile" uid="uid://bxn105qovmxyq" path="res://assets/fonts/Ruler 9.ttf" id="13_x4oov"]
@@ -26,7 +25,6 @@
 [ext_resource type="Texture2D" uid="uid://bnrlv6xwr6dd8" path="res://assets/sprites/flower/flowerblue.png" id="26_t51ir"]
 [ext_resource type="Script" uid="uid://chy5vii7fk6sl" path="res://scripts/music/dynamic_music.gd" id="26_u5w0m"]
 [ext_resource type="Script" uid="uid://d1sl3reli2sg5" path="res://scripts/ui/game_clear.gd" id="26_yoh1m"]
-[ext_resource type="Texture2D" uid="uid://cl7cn87nh7x8w" path="res://assets/sprites/tree/acorn.png" id="27_87pmf"]
 [ext_resource type="AudioStream" uid="uid://ba1w3s3lkrw5e" path="res://assets/sounds/music/StompTreeMaster.wav" id="28_fhw5o"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hnne4"]
@@ -65,16 +63,6 @@ vertical = true
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_eipt2"]
 color = Color(0.3882353, 0.60784316, 1, 1)
-thickness = 6
-vertical = true
-
-[sub_resource type="StyleBoxLine" id="StyleBoxLine_mf35j"]
-color = Color(0.0885599, 0.08855992, 0.08855987, 1)
-thickness = 6
-vertical = true
-
-[sub_resource type="StyleBoxLine" id="StyleBoxLine_t51ir"]
-color = Color(1, 1, 1, 1)
 thickness = 6
 vertical = true
 
@@ -155,9 +143,6 @@ enemies = Array[PackedScene]([ExtResource("5_xv074"), ExtResource("6_sytrn"), Ex
 [node name="EnemySpawner2" parent="." groups=["spawner"] instance=ExtResource("5_vpf64")]
 position = Vector2(637, 272)
 enemies = Array[PackedScene]([ExtResource("5_xv074"), ExtResource("6_sytrn"), ExtResource("6_pe1ox")])
-
-[node name="Tree" parent="." instance=ExtResource("7_wcngd")]
-position = Vector2(320, 288)
 
 [node name="Player" parent="." instance=ExtResource("1_nbgty")]
 z_index = 11
@@ -294,141 +279,6 @@ offset_bottom = 355.0
 theme_override_constants/separation = 8
 script = ExtResource("21_r732y")
 
-[node name="Tree1" type="HBoxContainer" parent="UI/TreeMeters"]
-layout_mode = 2
-theme_override_constants/separation = 2
-
-[node name="Sprite" type="TextureRect" parent="UI/TreeMeters/Tree1"]
-custom_minimum_size = Vector2(24, 24)
-layout_mode = 2
-size_flags_vertical = 4
-texture = ExtResource("27_87pmf")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="Index" type="Label" parent="UI/TreeMeters/Tree1"]
-layout_mode = 2
-text = "1"
-label_settings = SubResource("LabelSettings_bdmju")
-vertical_alignment = 2
-
-[node name="Meter" type="ProgressBar" parent="UI/TreeMeters/Tree1"]
-custom_minimum_size = Vector2(0, 18)
-layout_mode = 2
-size_flags_vertical = 4
-theme_override_styles/background = SubResource("StyleBoxLine_mf35j")
-theme_override_styles/fill = SubResource("StyleBoxLine_t51ir")
-fill_mode = 3
-show_percentage = false
-
-[node name="Tree2" type="HBoxContainer" parent="UI/TreeMeters"]
-layout_mode = 2
-theme_override_constants/separation = 2
-
-[node name="Sprite" type="TextureRect" parent="UI/TreeMeters/Tree2"]
-custom_minimum_size = Vector2(24, 24)
-layout_mode = 2
-size_flags_vertical = 4
-texture = ExtResource("27_87pmf")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="Index" type="Label" parent="UI/TreeMeters/Tree2"]
-layout_mode = 2
-text = "2"
-label_settings = SubResource("LabelSettings_bdmju")
-vertical_alignment = 2
-
-[node name="Meter" type="ProgressBar" parent="UI/TreeMeters/Tree2"]
-custom_minimum_size = Vector2(0, 18)
-layout_mode = 2
-size_flags_vertical = 4
-theme_override_styles/background = SubResource("StyleBoxLine_mf35j")
-theme_override_styles/fill = SubResource("StyleBoxLine_t51ir")
-fill_mode = 3
-show_percentage = false
-
-[node name="Tree3" type="HBoxContainer" parent="UI/TreeMeters"]
-layout_mode = 2
-theme_override_constants/separation = 2
-
-[node name="Sprite" type="TextureRect" parent="UI/TreeMeters/Tree3"]
-custom_minimum_size = Vector2(24, 24)
-layout_mode = 2
-size_flags_vertical = 4
-texture = ExtResource("27_87pmf")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="Index" type="Label" parent="UI/TreeMeters/Tree3"]
-layout_mode = 2
-text = "3"
-label_settings = SubResource("LabelSettings_bdmju")
-vertical_alignment = 2
-
-[node name="Meter" type="ProgressBar" parent="UI/TreeMeters/Tree3"]
-custom_minimum_size = Vector2(0, 18)
-layout_mode = 2
-size_flags_vertical = 4
-theme_override_styles/background = SubResource("StyleBoxLine_mf35j")
-theme_override_styles/fill = SubResource("StyleBoxLine_t51ir")
-fill_mode = 3
-show_percentage = false
-
-[node name="Tree4" type="HBoxContainer" parent="UI/TreeMeters"]
-layout_mode = 2
-theme_override_constants/separation = 2
-
-[node name="Sprite" type="TextureRect" parent="UI/TreeMeters/Tree4"]
-custom_minimum_size = Vector2(24, 24)
-layout_mode = 2
-size_flags_vertical = 4
-texture = ExtResource("27_87pmf")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="Index" type="Label" parent="UI/TreeMeters/Tree4"]
-layout_mode = 2
-text = "4"
-label_settings = SubResource("LabelSettings_bdmju")
-vertical_alignment = 2
-
-[node name="Meter" type="ProgressBar" parent="UI/TreeMeters/Tree4"]
-custom_minimum_size = Vector2(0, 18)
-layout_mode = 2
-size_flags_vertical = 4
-theme_override_styles/background = SubResource("StyleBoxLine_mf35j")
-theme_override_styles/fill = SubResource("StyleBoxLine_t51ir")
-fill_mode = 3
-show_percentage = false
-
-[node name="Tree5" type="HBoxContainer" parent="UI/TreeMeters"]
-layout_mode = 2
-theme_override_constants/separation = 2
-
-[node name="Sprite" type="TextureRect" parent="UI/TreeMeters/Tree5"]
-custom_minimum_size = Vector2(24, 24)
-layout_mode = 2
-size_flags_vertical = 4
-texture = ExtResource("27_87pmf")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="Index" type="Label" parent="UI/TreeMeters/Tree5"]
-layout_mode = 2
-text = "5"
-label_settings = SubResource("LabelSettings_bdmju")
-vertical_alignment = 2
-
-[node name="Meter" type="ProgressBar" parent="UI/TreeMeters/Tree5"]
-custom_minimum_size = Vector2(0, 18)
-layout_mode = 2
-size_flags_vertical = 4
-theme_override_styles/background = SubResource("StyleBoxLine_mf35j")
-theme_override_styles/fill = SubResource("StyleBoxLine_t51ir")
-fill_mode = 3
-show_percentage = false
-
 [node name="AbilityContainer" type="PanelContainer" parent="UI"]
 offset_left = 117.0
 offset_top = 317.0
@@ -441,7 +291,16 @@ script = ExtResource("18_qjqsm")
 z_index = 100
 texture_filter = 1
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 theme_override_constants/separation = 0
+
+[node name="AbilityIcon" type="TextureRect" parent="UI/AbilityContainer/Abilities"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 2
+stretch_mode = 3
 
 [node name="StageClear" parent="." instance=ExtResource("17_ivku7")]
 visible = false

@@ -1,0 +1,11 @@
+[gd_resource type="AudioStreamRandomizer" load_steps=4 format=3 uid="uid://nfg76eumuab6"]
+
+[ext_resource type="AudioStream" uid="uid://dm0s8vu1sus3x" path="res://assets/sounds/tree/pesticide.wav" id="1_mf027"]
+[ext_resource type="AudioStream" uid="uid://dhf0axxj5efbs" path="res://assets/sounds/tree/pesticide2.wav" id="2_x6llm"]
+[ext_resource type="AudioStream" uid="uid://dhon4o8akeh32" path="res://assets/sounds/tree/pesticide3.wav" id="3_itoyy"]
+
+[resource]
+streams_count = 3
+stream_0/stream = ExtResource("1_mf027")
+stream_1/stream = ExtResource("2_x6llm")
+stream_2/stream = ExtResource("3_itoyy")

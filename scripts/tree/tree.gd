@@ -125,6 +125,8 @@ func _die_permanently():
 	print("Tree died, freeing slot: ", slot_index)
 	slot_freed.emit(slot_index)
 	
+	tree_died.emit()
+	
 	var tween = create_tween()
 	tween.tween_property(self, "scale", Vector2.ZERO, 0.5).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
 	tween.tween_callback(queue_free)

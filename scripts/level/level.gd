@@ -1,15 +1,14 @@
 extends Node2D
 class_name Level
 
-@onready var tree: SeedTree = $Tree
-@onready var goal_spawn: Marker2D = $Goal
 @onready var stage_clear_scn = $StageClear
 @onready var game_clear_scn = $GameClear
 @onready var music: AudioStreamPlayer2D = $Music
-@onready var zap_sfx: AudioStreamPlayer2D = $Tree/SFX/Zap
+@export var zap_sfx: AudioStreamPlayer2D
 @onready var tree_meters_ui: TreeMeters = $UI/TreeMeters
 @export var next_level_btn_scn: PackedScene
 @export var tree_scn: PackedScene = preload("res://scenes/tree/tree.tscn")
+@export var acorn_scn: PackedScene = preload("res://scenes/tree/acorn_seed.tscn")
 
 var goal_scenes: Dictionary = {
 	"aim_stomp": preload("res://scenes/goal/stopwatch.tscn"),
@@ -39,26 +38,7 @@ func _ready():
 		if spawner is EnemySpawner:
 			spawner.timer_interval = params.spawn_interval
 	
-	# Setup Initial Tree
-	if tree:
-		tree.damage_per_hit = params["enemy_damage"]
-		
-		# Register tree with UI
-		if tree_meters_ui:
-			tree_meters_ui.register_tree(tree)
-		
-		# Register the initial tree's slot so we don't overlap it
-		var best_slot = _get_slot_from_x(tree.global_position.x)
-		if best_slot != -1:
-			occupied_slots[best_slot] = true
-			tree.slot_index = best_slot
-			print("Initial tree registered in slot: ", best_slot)
-		
-		# Connect signals logic
-		if not tree.growth_completed.is_connected(_on_tree_growth_completed):
-			tree.growth_completed.connect(_on_tree_growth_completed.bind(tree))
-		if not tree.slot_freed.is_connected(_on_tree_slot_freed):
-			tree.slot_freed.connect(_on_tree_slot_freed)
+	call_deferred("_spawn_new_tree")
 	
 	# Start music if game has already started (e.g., from restart)
 	# Otherwise, it will start when title screen start button is pressed
@@ -82,6 +62,7 @@ func _on_tree_slot_freed(slot_index: int) -> void:
 	if slot_index >= 0 and slot_index < occupied_slots.size():
 		print("Slot ", slot_index, " freed up!")
 		occupied_slots[slot_index] = false
+		call_deferred("_spawn_new_tree")
 
 func _on_tree_growth_completed(source_tree: SeedTree) -> void:
 	print("Tree growth completed! Attempting to spawn reward: ", current_reward_key)
@@ -171,7 +152,6 @@ func _on_reward_collected() -> void:
 	call_deferred("_spawn_new_tree")
 
 func _spawn_new_tree() -> void:
-	# 1. Find Open Slots
 	var available_indices = []
 	for i in range(MAX_SLOTS):
 		if not occupied_slots[i]:
@@ -180,33 +160,39 @@ func _spawn_new_tree() -> void:
 	if available_indices.is_empty():
 		return
 		
-	if not tree_scn: return
-	
-	# 2. Pick Slot & Calculate Pos
 	var chosen_slot = available_indices.pick_random()
 	occupied_slots[chosen_slot] = true
 	
 	var center_x = SIDE_MARGIN + (chosen_slot * SLOT_WIDTH) + (SLOT_WIDTH / 2.0)
-	var wiggle = randf_range(-20.0, 20.0)
-	var final_x = center_x + wiggle
+	var fuzz = randf_range(-20.0, 20.0)
+	var final_x = center_x + fuzz
 	
-	# 3. Instantiate
+	if acorn_scn:
+		var acorn = acorn_scn.instantiate()
+		add_child(acorn)
+		
+		var spawn_height = -8.0
+		var ground_y = 288.0
+		if acorn.has_method("initialize"):
+			acorn.initialize(Vector2(final_x, spawn_height), ground_y, chosen_slot)
+			acorn.planted.connect(_on_acorn_planted, CONNECT_DEFERRED)
+
+func _on_acorn_planted(slot_index: int, location: Vector2) -> void:
+	if not tree_scn: return
+	
 	var new_tree = tree_scn.instantiate()
 	add_child(new_tree)
-	new_tree.global_position = Vector2(final_x, 288) # Ground Level Y
-	new_tree.slot_index = chosen_slot
+	new_tree.global_position = location
+	new_tree.slot_index = slot_index
 	
-	# Register tree with UI
+	# add tree to ui
 	if tree_meters_ui:
 		tree_meters_ui.register_tree(new_tree)
 	
-	# 4. Connect Signals
 	if not new_tree.growth_completed.is_connected(_on_tree_growth_completed):
 		new_tree.growth_completed.connect(_on_tree_growth_completed.bind(new_tree))
 	if not new_tree.slot_freed.is_connected(_on_tree_slot_freed):
 		new_tree.slot_freed.connect(_on_tree_slot_freed)
-	
-	# 5. Apply Stats
+
 	var params = Game.get_stage_params()
 	new_tree.damage_per_hit = params["enemy_damage"]
-	print("New tree spawned in slot ", chosen_slot, " at X:", final_x)

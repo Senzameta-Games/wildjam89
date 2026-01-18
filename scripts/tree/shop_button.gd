@@ -7,7 +7,6 @@ extends Node2D
 
 @export var zap_threshold: int = 10
 
-@onready var buy_prompt_label: Label = $TreeUI/BuyPromptContainer/BuyPrompt
 @onready var detect_area: Area2D = $Area
 
 var player_in_range: bool = false
