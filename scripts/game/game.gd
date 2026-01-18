@@ -36,7 +36,7 @@ func stage_reset() -> void:
 	seeds_changed.emit(total_seeds)
 
 func get_stage_params() -> Dictionary:
-	var difficulty_mult = 1.0 + ((current_stage - 1) * 0.1)
+	var difficulty_mult = 1.0 + ((current_stage - 1) * 0.5)
 	
 	return{
 		"spawn_interval": 3.0 / difficulty_mult,
@@ -69,8 +69,10 @@ func _get_ability_reward(stage: int) -> String:
 		3: return "double_jump"
 		4: return "pesticide"
 		5: return "big_stomps"
-		6: return "tree_shield"
-		_: return ""
+		#6: return "tree_shield"
+		_: 
+			var all_keys = ["aim_stomp", "acorns", "double_jump", "pesticide", "big_stomps"]
+			return all_keys.pick_random()
 
 func check_win_con() -> bool:
 	for key in unlocked_abilities:
