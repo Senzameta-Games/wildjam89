@@ -94,7 +94,31 @@ func drop_seed() -> void:
 	seed_dropped.emit()
 	enemy_defeated.emit()
 	if Achievements:
-		Achievements.on_enemy_stomped()
+		# Determine enemy type for tracking
+		var enemy_type: String = "enemy" # default fallback
+		
+		# Check if it's a Beetle (has its own class)
+		if self is Beetle:
+			enemy_type = "beetle"
+		else:
+			# For base Enemy instances, check the scene name or node name
+			# Get the scene file path if available
+			var scene_file = scene_file_path
+			if scene_file != "":
+				if "bomb-thrower" in scene_file:
+					enemy_type = "beetle"
+				elif "slow-strong" in scene_file or "enemy.tscn" == scene_file.get_file():
+					enemy_type = "snail"
+				elif "fast-weak" in scene_file:
+					enemy_type = "worm"
+			else:
+				# Fallback to checking node name
+				if "Snail" in name:
+					enemy_type = "snail"
+				elif "Worm" in name or "fast" in name.to_lower():
+					enemy_type = "worm"
+		print(enemy_type)
+		Achievements.on_enemy_stomped(enemy_type)
 	
 	# tie interval to seed value (normalizes seed animation duration)
 	var interval = remap(float(seed_value), 1.0, 10.0, 0.2, 0.1)
