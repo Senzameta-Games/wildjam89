@@ -1,13 +1,24 @@
 extends CanvasLayer
 
+var achievements_view: CanvasLayer
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	visible = false
 	get_tree().paused = false
+	# Find AchievementsView from Main scene (sibling node)
+	achievements_view = get_node("../AchievementsView") as CanvasLayer
 
 func _input(event: InputEvent) -> void:
 	if Input.is_action_just_pressed("pause"):
 		if get_tree().paused:
+			# If achievements view is open, close it first
+			if achievements_view:
+				# Check if the Control child is visible
+				var control_node = achievements_view.get_node_or_null("Control")
+				if control_node and control_node.visible:
+					achievements_view.hide_achievements()
+					return
 			visible = false
 			get_tree().paused = false
 		else:
@@ -28,3 +39,7 @@ func _on_restart_button_pressed() -> void:
 
 func _on_exit_button_pressed() -> void:
 	get_tree().quit()
+
+func _on_achievements_button_pressed() -> void:
+	if achievements_view:
+		achievements_view.show_achievements()
