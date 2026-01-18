@@ -59,8 +59,6 @@ func prepare_bomb() -> void:
 	
 	var throw_delay = 6.0 / 8.0
 	
-	
-	
 	# form bomb
 	if bomb and not stomped:
 		var bomb_visual = bomb.instantiate()
@@ -93,23 +91,23 @@ func prepare_bomb() -> void:
 		#print("temp bomb has moved to beetle hands")
 
 func throw_bomb(temp_bomb: Node2D) -> void:
-	#print("getting ready to throw bomb")
 	# kill temp bomb
 	temp_bomb.queue_free()
-	#print("deleted temp bomb")
 	# get the real one in
 	if bomb:
 		var real_bomb = bomb.instantiate()
 		get_parent().add_child(real_bomb)
-		#print("added real bomb to scene")
-		# place in same position as temp bomb before it was freed
 		real_bomb.global_position = temp_bomb.global_position
 		
-		# decide throw direction
-		var throw_dir = sign(current_target.global_position.x - global_position.x)
-		if throw_dir == 0: throw_dir = 1
-		
-		# yeet
-		real_bomb.setup(throw_dir, throw_arc)
-		#print("passing control off to bomb")
+		if stomped:
+			if "harmless" in real_bomb:
+				real_bomb.harmless = true
+		else: 
+			# decide throw direction
+			var throw_dir = sign(current_target.global_position.x - global_position.x)
+			if throw_dir == 0: throw_dir = 1
+			
+			# yeet
+			real_bomb.setup(throw_dir, throw_arc)
+
 	

@@ -1,8 +1,6 @@
 extends Node2D
 class_name Level
 
-const ZAPPER_SCRIPT = preload("res://scripts/player/zapper.gd")
-
 @onready var tree: SeedTree = $Tree
 @onready var goal_spawn: Marker2D = $Goal
 @onready var stage_clear_scn = $StageClear
@@ -52,43 +50,6 @@ func _ready():
 		goal_spawn.visible = true
 		if not goal_spawn.goal_reached.is_connected(_on_stage_win):
 			goal_spawn.goal_reached.connect(_on_stage_win)
-			
-	tree.tree_healed.connect(_on_tree_fed)
-	tree.growth_completed.connect(_on_tree_grown)
-
-func _on_tree_fed(amount: float) -> void:
-	if Game.has_ability("pesticide"):
-		_trigger_zap()
-
-func _trigger_zap():
-	var enemies = get_tree().get_nodes_in_group("enemy")
-	if enemies.is_empty(): return
-	
-	# bombs are in this group, sorry
-	var valid_enemies = []
-	for e in enemies:
-		if is_instance_valid(e) and not e.is_queued_for_deletion() and not e.get("is_dying"):
-			if e is Enemy and not e.name.contains("Bomb"):
-				valid_enemies.append(e)
-	
-	if valid_enemies.is_empty(): return
-	
-	var target = valid_enemies.pick_random()
-	
-	# zap
-	var zap = Node2D.new()
-	zap.set_script(ZAPPER_SCRIPT)
-	add_child(zap)
-	zap.zap(target.global_position)
-	zap_sfx.play()
-	
-	# then die
-	if target.has_method("die"):
-		target.die()
-	
-
-func _on_tree_grown() -> void:
-	print("Tree max growth")
 
 func _on_stage_win() -> void:
 	get_tree().paused = true
