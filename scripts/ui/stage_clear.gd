@@ -11,10 +11,7 @@ extends CanvasLayer
 var ability_names: Dictionary = {
 	"aim_stomp": "Stopwatch",
 	"double_jump": "Feather",
-	"acorns": "Acorn Bomb",
 	"pesticide": "Bug Zapper",
-	"big_stomps": "Big Boots",
-	"tree_shield": "Tree Shield"
 }
 
 @export var ability_icons: Dictionary = {}

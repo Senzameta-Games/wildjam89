@@ -22,27 +22,20 @@ func enter() -> void:
 		land_feedback()
 
 func stomp_feedback():
-	if Game.has_ability("big_stomps"):
-		player.do_big_stomp()
-		var tween = create_tween()
-		tween.tween_property(player.sfx_land, "volume_db", 0.0, 0.5)
-		tween.parallel().tween_property(player.sfx_land, "pitch_scale", 1.0, 0.5)
-		player.is_stomping = false
-	else:
-		is_recovering = true
-		player.velocity = Vector2.ZERO
-		player.player_sprite.stop()
-		player.player_sprite.play("stomp")
-		player.player_sprite.frame = 3
-		player.sfx_land.volume_db = -2.0
-		player.sfx_land.pitch_scale = 1.0
-		player.sfx_land.play()
-		get_tree().call_group("camera", "apply_shake", Vector2(0, 8), 12.0)
-		
-		await player.player_sprite.animation_finished
-		is_recovering = false
-		player.is_stomping = false
-		player.player_sprite.play("idle")
+	is_recovering = true
+	player.velocity = Vector2.ZERO
+	player.player_sprite.stop()
+	player.player_sprite.play("stomp")
+	player.player_sprite.frame = 3
+	player.sfx_land.volume_db = -2.0
+	player.sfx_land.pitch_scale = 1.0
+	player.sfx_land.play()
+	get_tree().call_group("camera", "apply_shake", Vector2(0, 8), 12.0)
+	
+	await player.player_sprite.animation_finished
+	is_recovering = false
+	player.is_stomping = false
+	player.player_sprite.play("idle")
 	
 func land_feedback():
 	player.sfx_land.play()

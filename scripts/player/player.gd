@@ -71,8 +71,6 @@ signal just_interacted
 @onready var aim_raycast: RayCast2D = $AimRay
 @onready var aim_visual: ColorRect = $AimVisual
 
-@onready var big_stomp_zone: Area2D = $BigStompZone
-
 func _ready() -> void:
 	self.position = spawn_pos
 	just_spawned.emit()
@@ -111,23 +109,6 @@ func stomp() -> void:
 	velocity.x = 0.69 * velocity.x
 	is_stomping = true
 	just_stomped.emit()
-
-func do_big_stomp() -> void:
-	get_tree().call_group("camera", "apply_shake", Vector2(8, 64), 2.0)
-	sfx_land.volume_db = 0.0
-	sfx_land.pitch_scale = 0.8
-	sfx_land.play()
-	
-	
-	await get_tree().physics_frame
-	await get_tree().physics_frame
-	
-	if big_stomp_zone:
-		var bodies = big_stomp_zone.get_overlapping_bodies()
-		for body in bodies:
-			if body.is_in_group("enemy") and body.has_method("die"):
-				if body != self:
-					body.die()
 
 func bounce() -> void:
 	sfx_stompimpact.play()

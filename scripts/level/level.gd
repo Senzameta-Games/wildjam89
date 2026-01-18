@@ -13,10 +13,7 @@ class_name Level
 var goal_scenes: Dictionary = {
 	"aim_stomp": preload("res://scenes/goal/stopwatch.tscn"),
 	"double_jump": preload("res://scenes/goal/feather.tscn"),
-	"acorns": preload("res://scenes/goal/acorn.tscn"),
 	"pesticide": preload("res://scenes/goal/pesticide.tscn"),
-	"big_stomps": preload("res://scenes/goal/bigboots.tscn"),
-	#"tree_shield": preload("res://scenes/goal/shield.tscn") 
 }
 
 var current_reward_key: String = ""

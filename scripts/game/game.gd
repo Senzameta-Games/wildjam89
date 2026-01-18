@@ -11,9 +11,7 @@ var current_stage: int = 1
 var unlocked_abilities: Dictionary = {
 	"aim_stomp": false,
 	"double_jump": false,
-	"acorns": false,
-	"big_stomps": false,
-	"pesticide": false,
+	"pesticide": false
 }
 
 var seen_abilities: Dictionary = {}
@@ -67,13 +65,10 @@ func mark_ability_seen(ability_key: String) -> void:
 func _get_ability_reward(stage: int) -> String:
 	match stage:
 		1: return "aim_stomp"
-		2: return "acorns"
-		3: return "double_jump"
-		4: return "pesticide"
-		5: return "big_stomps"
-		#6: return "tree_shield"
+		2: return "double_jump"
+		3: return "pesticide"
 		_: 
-			var all_keys = ["aim_stomp", "acorns", "double_jump", "pesticide", "big_stomps"]
+			var all_keys = ["aim_stomp", "double_jump", "pesticide"]
 			return all_keys.pick_random()
 
 func check_win_con() -> bool:
@@ -155,14 +150,9 @@ func _unhandled_input(event):
 		if Input.is_action_just_pressed("stopwatch_get"):
 			unlock_ability("aim_stomp")
 		
-		if Input.is_action_just_pressed("acorn_get"):
-			unlock_ability("acorns")
-		
 		if Input.is_action_just_pressed("feather_get"):
 			unlock_ability("double_jump")
 		
 		if Input.is_action_just_pressed("zapper_get"):
 			unlock_ability("pesticide")
 		
-		if Input.is_action_just_pressed("bigboots_get"):
-			unlock_ability("big_stomps")
