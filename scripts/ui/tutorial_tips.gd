@@ -14,9 +14,9 @@ func show_tips() -> void:
 		MusicManager.fade_to_paused()
 
 func _on_understand_button_pressed() -> void:
-	# Complete the tutorial (this will unpause the game)
+	# Tell tutorial manager tips were acknowledged
 	if Tutorial:
-		Tutorial.complete_tutorial()
+		Tutorial.on_tips_acknowledged()
 	
 	# Fade music back to normal after unpause
 	if MusicManager:

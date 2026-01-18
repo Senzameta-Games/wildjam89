@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://c7r3m25rixk32"]
+[gd_scene load_steps=9 format=3 uid="uid://c7r3m25rixk32"]
 
 [ext_resource type="Script" uid="uid://b470knmtc10vu" path="res://scripts/ui/tutorial_tips.gd" id="1_tips"]
 [ext_resource type="FontFile" uid="uid://bxn105qovmxyq" path="res://assets/fonts/Ruler 9.ttf" id="2_tips_font"]
@@ -11,9 +11,18 @@ font_size = 32
 
 [sub_resource type="LabelSettings" id="LabelSettings_r2ah4"]
 font = ExtResource("3_bqit1")
-font_size = 20
+font_size = 19
 
 [sub_resource type="LabelSettings" id="LabelSettings_2i06i"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bqit1"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.13472062, 0.14259034, 0.14067972, 0.6)
+corner_detail = 5
+anti_aliasing = false
 
 [node name="TutorialTips" type="CanvasLayer"]
 process_mode = 3
@@ -65,45 +74,56 @@ text = "LEARN ABOUT FIORA IL PROCIONE"
 label_settings = SubResource("LabelSettings_r2ah4")
 horizontal_alignment = 1
 
-[node name="TipsContainer" type="VBoxContainer" parent="Control/CenterContainer/VBoxContainer"]
+[node name="TipsContainer" type="HBoxContainer" parent="Control/CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
-theme_override_constants/separation = 12
+size_flags_vertical = 0
+theme_override_constants/separation = 16
 
 [node name="Tip2" type="Label" parent="Control/CenterContainer/VBoxContainer/TipsContainer"]
-custom_minimum_size = Vector2(200, 0)
+custom_minimum_size = Vector2(188, 0)
 layout_mode = 2
+size_flags_vertical = 5
 theme_override_fonts/font = ExtResource("3_tips_small")
 theme_override_font_sizes/font_size = 10
-text = "• Deposit seeds at the tree  -  E or X / Y  
-• Seeds make your tree grow"
+text = "PLAY GUIDE
+
+- Stomp enemies to get seeds and plant flowers.
+- Use seeds to grow trees and gain power-ups."
 label_settings = SubResource("LabelSettings_2i06i")
 autowrap_mode = 3
 
 [node name="Tip3" type="Label" parent="Control/CenterContainer/VBoxContainer/TipsContainer"]
-custom_minimum_size = Vector2(200, 0)
+custom_minimum_size = Vector2(188, 0)
 layout_mode = 2
+size_flags_vertical = 5
 theme_override_fonts/font = ExtResource("3_tips_small")
 theme_override_font_sizes/font_size = 10
-text = "• Green flowers -> Increased growth
-• Blue flowers   -> Tree defense-up
-• Red flowers    -> Longer power-ups"
+text = "FLOWERS GUIDE
+
+Green -> Passive growing
+Red -> Longer power-ups
+Blue -> Tree damage resist"
 label_settings = SubResource("LabelSettings_2i06i")
 autowrap_mode = 3
 
 [node name="Tip4" type="Label" parent="Control/CenterContainer/VBoxContainer/TipsContainer"]
-custom_minimum_size = Vector2(200, 0)
+custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
+size_flags_vertical = 5
 theme_override_fonts/font = ExtResource("3_tips_small")
 theme_override_font_sizes/font_size = 10
-text = "• Good luck, Fiora!"
+text = "
+Good luck, Fiora!"
 label_settings = SubResource("LabelSettings_2i06i")
+vertical_alignment = 2
 autowrap_mode = 3
 
 [node name="UnderstandButton" type="Button" parent="Control/CenterContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_tips_font")
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 32
+theme_override_styles/normal = SubResource("StyleBoxFlat_bqit1")
 text = "Ciao!~"
 
 [connection signal="pressed" from="Control/CenterContainer/VBoxContainer/UnderstandButton" to="." method="_on_understand_button_pressed"]

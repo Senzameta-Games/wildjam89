@@ -3,9 +3,9 @@ extends Node
 # Tutorial overall flags
 var tutorial_completed: bool = false
 var tutorial_flags: Dictionary = {
+	"tips_seen": false,
 	"acorn_stomped": false,
-	"snail_stomped": false,
-	"tips_seen": false
+	"snail_stomped": false
 }
 
 # Tutorial flags
@@ -14,7 +14,6 @@ var current_tutorial_acorn: Node2D = null
 var current_tutorial_snail: Node2D = null
 var snail_move_timer: float = 0.0
 var snail_stopped: bool = false
-var seeds_before_snail_stomp: int = 0
 
 # Scene references
 var tutorial_prompt_scene: PackedScene = preload("res://scenes/ui/tutorial_prompt.tscn")
@@ -42,8 +41,9 @@ func start_tutorial() -> void:
 	print("Tutorial started")
 	
 	_disable_spawners()
-	await get_tree().process_frame
-	_wait_for_acorn_plant()
+	
+	# Show tips first, before anything else spawns
+	_show_tips_screen()
 
 func _disable_spawners() -> void:
 	var spawners = get_tree().get_nodes_in_group("spawner")
@@ -60,6 +60,20 @@ func _enable_spawners() -> void:
 		if spawner.has_node("Timer"):
 			var timer = spawner.get_node("Timer")
 			timer.start()
+
+func _show_tips_screen() -> void:
+	show_tips_screen.emit()
+	await get_tree().create_timer(0.35).timeout
+	get_tree().paused = true
+
+# Called by TutorialTips when player clicks "Ciao!"
+func on_tips_acknowledged() -> void:
+	tutorial_flags["tips_seen"] = true
+	tutorial_phase_completed.emit("tips_seen")
+	get_tree().paused = false
+	
+	# Now spawn the player and acorn
+	_wait_for_acorn_plant()
 
 func _wait_for_acorn_plant() -> void:
 	# Find the first acorn
@@ -89,7 +103,6 @@ func _on_acorn_stomped() -> void:
 	print("Tutorial: Acorn stomped")
 	
 	_start_music()
-	
 
 	await get_tree().create_timer(0.3).timeout
 	await get_tree().create_timer(0.5).timeout
@@ -103,7 +116,6 @@ func _start_music() -> void:
 		if music and not music.playing:
 			music.play()
 			print("Tutorial: Music started!")
-
 
 func _spawn_tutorial_snail() -> void:
 	var spawners = get_tree().get_nodes_in_group("spawner")
@@ -171,35 +183,21 @@ func _on_snail_stomped() -> void:
 	tutorial_flags["snail_stomped"] = true
 	hide_tutorial_prompt.emit()
 	tutorial_phase_completed.emit("snail_stomped")
-	seeds_before_snail_stomp = Game.total_seeds
-
-	_wait_for_seed_collection()
-
-func _wait_for_seed_collection() -> void:
-
-	while Game.total_seeds < seeds_before_snail_stomp + current_tutorial_snail.seed_value:
-		await get_tree().create_timer(0.1).timeout
-
-	_show_tips_screen()
-
-func _show_tips_screen() -> void:
-	show_tips_screen.emit()
-	await get_tree().create_timer(0.35).timeout
-	get_tree().paused = true
+	print("Tutorial: Snail stomped - tutorial complete!")
+	
+	# Go straight into the game
+	complete_tutorial()
 
 func complete_tutorial() -> void:
-	tutorial_flags["tips_seen"] = true
 	tutorial_completed = true
 	is_tutorial_active = false
 	_enable_spawners()
-	get_tree().paused = false
-	#print("Tutorial complete")
 
 func reset_tutorial() -> void:
 	tutorial_completed = false
 	tutorial_flags = {
+		"tips_seen": false,
 		"acorn_stomped": false,
-		"snail_stomped": false,
-		"tips_seen": false
+		"snail_stomped": false
 	}
 	is_tutorial_active = false
