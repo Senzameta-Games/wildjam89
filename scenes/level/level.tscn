@@ -23,7 +23,7 @@
 [ext_resource type="Texture2D" uid="uid://b6aq64kifulkl" path="res://assets/sprites/flower/flowergreen.png" id="25_mf35j"]
 [ext_resource type="FontFile" uid="uid://cycbiy0d7iv67" path="res://assets/fonts/Tiny5-Regular.ttf" id="25_t51ir"]
 [ext_resource type="Texture2D" uid="uid://bnrlv6xwr6dd8" path="res://assets/sprites/flower/flowerblue.png" id="26_t51ir"]
-[ext_resource type="Script" uid="uid://chy5vii7fk6sl" path="res://scripts/music/dynamic_music.gd" id="26_u5w0m"]
+[ext_resource type="Script" uid="uid://chy5vii7fk6sl" path="res://scripts/music/music_manager.gd" id="26_u5w0m"]
 [ext_resource type="AudioStream" uid="uid://ba1w3s3lkrw5e" path="res://assets/sounds/music/StompTreeMaster.wav" id="28_fhw5o"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hnne4"]

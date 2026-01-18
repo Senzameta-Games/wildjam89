@@ -18,6 +18,8 @@ config/features=PackedStringArray("4.5", "Forward Plus")
 
 Game="*res://scripts/game/game.gd"
 Achievements="*res://scripts/game/achievements.gd"
+Tutorial="*res://scripts/game/tutorial_manager.gd"
+MusicManager="*res://scripts/music/music_manager.gd"
 
 [display]
 

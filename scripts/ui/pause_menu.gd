@@ -22,15 +22,30 @@ func _input(event: InputEvent) -> void:
 				if control_node and control_node.visible:
 					achievements_view.hide_achievements()
 					return
-			visible = false
-			get_tree().paused = false
+			_unpause()
 		else:
-			visible = true
-			get_tree().paused = true
+			_pause()
 
-func _on_resume_button_pressed() -> void:
+func _pause() -> void:
+	visible = true
+	
+	# Fade music to paused pitch BEFORE pausing
+	if MusicManager:
+		MusicManager.fade_to_paused()
+		# Wait for fade to complete (fade_duration + small buffer)
+		await get_tree().create_timer(0.35).timeout
+	
+	get_tree().paused = true
+
+func _unpause() -> void:
 	visible = false
 	get_tree().paused = false
+	# Fade music back to normal
+	if MusicManager:
+		MusicManager.fade_to_normal()
+
+func _on_resume_button_pressed() -> void:
+	_unpause()
 
 func _on_restart_button_pressed() -> void:
 	# Reset the game state, and then reset the Main scene
@@ -38,12 +53,22 @@ func _on_restart_button_pressed() -> void:
 	 
 	var scene = get_tree()	
 	scene.paused = false
+	
+	# Restore music to normal before scene reload
+	if MusicManager:
+		MusicManager.fade_to_normal()
+	
 	scene.reload_current_scene()
 
 func _on_exit_button_pressed() -> void:
 	if Game:
 		Game.game_has_started = false
 	get_tree().paused = false
+	
+	# Restore music to normal
+	if MusicManager:
+		MusicManager.fade_to_normal()
+	
 	get_tree().reload_current_scene()
 
 func _on_achievements_button_pressed() -> void:

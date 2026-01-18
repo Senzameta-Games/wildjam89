@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://cne6nr2xqlc0h"]
+[gd_scene load_steps=7 format=3 uid="uid://cne6nr2xqlc0h"]
 
 [ext_resource type="PackedScene" uid="uid://cfl62gijxtptm" path="res://scenes/level/level.tscn" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://dpq2tcruw021u" path="res://scenes/ui/game_over.tscn" id="3_sugp2"]
 [ext_resource type="PackedScene" uid="uid://cnedgj3aevipi" path="res://scenes/ui/pause_menu.tscn" id="5_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://c3mhpqsgk2w8x" path="res://scenes/ui/achievements_view.tscn" id="6_achievements"]
-[ext_resource type="PackedScene" path="res://scenes/ui/title_screen.tscn" id="7_title"]
+[ext_resource type="PackedScene" uid="uid://dkxl5p8m2vy4g" path="res://scenes/ui/tutorial_ui.tscn" id="6_tefeu"]
+[ext_resource type="PackedScene" uid="uid://dotas6ahmr6nb" path="res://scenes/ui/title_screen.tscn" id="7_title"]
 
 [node name="Main" type="Node2D"]
 
@@ -18,3 +19,5 @@
 layer = 99
 
 [node name="AchievementsView" parent="." instance=ExtResource("6_achievements")]
+
+[node name="TutorialUI" parent="." instance=ExtResource("6_tefeu")]

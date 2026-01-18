@@ -20,6 +20,7 @@ var slot_index: int = -1
 @onready var land_sfx: AudioStreamPlayer2D = $LandSFX
 
 func _ready() -> void:
+	add_to_group("acorn")
 	static_collider.set_deferred("disabled", true)
 	set_process(false)
 

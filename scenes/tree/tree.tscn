@@ -88,7 +88,7 @@ texture = ExtResource("10_8y5qr")
 
 [node name="Grow" type="AudioStreamPlayer2D" parent="SFX"]
 stream = ExtResource("6_bm6y3")
-volume_db = -20.0
+volume_db = -12.0
 pitch_scale = 0.5
 autoplay = true
 
@@ -99,11 +99,14 @@ pitch_scale = 0.6
 
 [node name="ImpulseGrow" type="AudioStreamPlayer2D" parent="SFX"]
 stream = SubResource("AudioStreamRandomizer_urhbk")
-volume_db = -12.0
+volume_db = -6.0
+max_polyphony = 6
 
 [node name="Zap" type="AudioStreamPlayer2D" parent="SFX"]
 stream = ExtResource("20_polbh")
 volume_db = -8.0
+pitch_scale = 0.85
+max_polyphony = 3
 
 [node name="BranchManager" type="Node2D" parent="."]
 visibility_layer = 2
@@ -113,12 +116,13 @@ leaf_sprites = Array[Texture2D]([ExtResource("9_d4o0i"), ExtResource("10_6wwch")
 seed_bundle_scn = ExtResource("25_hesdt")
 enemy_roster = Array[PackedScene]([ExtResource("26_rciy5"), ExtResource("27_lnqmm"), ExtResource("28_ukm5v")])
 
-[node name="Shop" type="Node2D" parent="." node_paths=PackedStringArray("empty_sfx", "grow_sfx")]
+[node name="Shop" type="Node2D" parent="." node_paths=PackedStringArray("empty_sfx", "grow_sfx", "zap_sfx")]
 script = ExtResource("1_mbf7r")
 zapper_script = ExtResource("25_0uf4c")
 empty_sfx = NodePath("../SFX/Empty")
 grow_sfx = NodePath("../SFX/ImpulseGrow")
 seed_scn = ExtResource("27_polbh")
+zap_sfx = NodePath("../SFX/Zap")
 
 [node name="Area" type="Area2D" parent="Shop"]
 collision_layer = 16

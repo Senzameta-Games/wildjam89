@@ -4,6 +4,7 @@ extends Node2D
 @export var empty_sfx: AudioStreamPlayer2D
 @export var grow_sfx: AudioStreamPlayer2D
 @export var seed_scn: PackedScene
+@export var zap_sfx: AudioStreamPlayer2D
 
 @export var zap_threshold: int = 10
 
@@ -96,6 +97,7 @@ func _fire_zapper() -> void:
 		var zapper = zapper_script.new()
 		get_tree().current_scene.add_child(zapper)
 		zapper.zap(target.global_position)
+		zap_sfx.play()
 		target.die()
 
 func _on_area_body_entered(body: Node2D) -> void:
