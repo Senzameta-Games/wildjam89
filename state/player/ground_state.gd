@@ -1,7 +1,7 @@
 extends State
 class_name GroundState
 
-@export var step_interval: float = 0.4
+@export var step_interval: float = 0.3
 var step_timer: float = 0.0
 
 var is_recovering: bool = false
@@ -12,6 +12,7 @@ func enter() -> void:
 	player.can_aim = false
 	player.velocity.y = 0
 	player.jumps_available = 2 if Game.has_ability("double_jump") else 1
+	player.bounce_recovering = false
 	step_timer = 0.0
 	
 	is_recovering = false
@@ -26,7 +27,7 @@ func stomp_feedback():
 	player.velocity = Vector2.ZERO
 	player.player_sprite.stop()
 	player.player_sprite.play("stomp")
-	player.player_sprite.frame = 3
+	player.player_sprite.frame = 2
 	player.sfx_land.volume_db = -2.0
 	player.sfx_land.pitch_scale = 1.0
 	player.sfx_land.play()

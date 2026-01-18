@@ -35,6 +35,7 @@ var last_damage_pos: Vector2 = Vector2.ZERO
 var is_moving: bool
 var is_midair: bool
 var is_stomping: bool
+var bounce_recovering: bool = false
 @export var jump_velocity: float
 @export var stomp_velocity: float
 var aim_cooldown: float
@@ -116,9 +117,13 @@ func bounce() -> void:
 	if is_stomping:
 		velocity.y = -jump_velocity * 1.1
 		is_stomping = false
-		get_tree().call_group("camera", "apply_shake", Vector2(1, 32), 4.0)
+		bounce_recovering = true
+		# Play stomp animation from recovery frames
+		player_sprite.play("stomp")
+		player_sprite.frame = 2
 		await hit_stop(0.1)
-		
+		get_tree().call_group("camera", "apply_shake", Vector2(0.1, 4), 2.0)
+		await player_sprite.animation_finished
 	else: velocity.y = -jump_velocity * 0.7
 	
 	move_and_slide()

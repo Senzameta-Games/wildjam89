@@ -14,6 +14,7 @@ func enter() -> void:
 	# store position on entering
 	aim_pos = player.position
 	aim_timer = 0.0
+	player.bounce_recovering = false
 	# hold in air briefly
 	player.velocity *= velocity_preserved
 	player.set_time_scale(0.2)

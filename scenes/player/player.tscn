@@ -137,22 +137,22 @@ animations = [{
 "speed": 8.0
 }, {
 "frames": [{
-"duration": 1.0,
+"duration": 0.66,
 "texture": ExtResource("9_fvjb1")
 }, {
-"duration": 1.0,
+"duration": 0.66,
 "texture": ExtResource("10_bysbl")
 }, {
-"duration": 1.0,
+"duration": 0.66,
 "texture": ExtResource("11_2wy34")
 }, {
-"duration": 1.0,
+"duration": 0.66,
 "texture": ExtResource("12_ymths")
 }, {
-"duration": 1.0,
+"duration": 0.66,
 "texture": ExtResource("13_3p0jd")
 }, {
-"duration": 1.0,
+"duration": 0.66,
 "texture": ExtResource("14_7nf13")
 }],
 "loop": true,
@@ -169,16 +169,16 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("19_trum3")
 }, {
-"duration": 1.0,
+"duration": 0.5,
 "texture": ExtResource("20_4b1ex")
 }, {
-"duration": 1.0,
+"duration": 0.5,
 "texture": ExtResource("21_v8cnd")
 }, {
-"duration": 0.5,
+"duration": 0.7,
 "texture": ExtResource("22_wuxn4")
 }, {
-"duration": 0.5,
+"duration": 0.7,
 "texture": ExtResource("23_46q5t")
 }],
 "loop": false,
@@ -287,7 +287,7 @@ stomp_velocity = 300.0
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(-8, 0)
 sprite_frames = SubResource("SpriteFrames_x7p2l")
-animation = &"idle"
+animation = &"stomp"
 
 [node name="Collider" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_fvjb1")

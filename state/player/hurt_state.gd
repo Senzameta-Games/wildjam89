@@ -10,6 +10,7 @@ func enter() -> void:
 	# feedback
 	player.player_sprite.play("hurt")
 	player.sfx_hurt.play()
+	player.bounce_recovering = false
 	# reset timer
 	timer = knockback_dur
 	# get knockback dir

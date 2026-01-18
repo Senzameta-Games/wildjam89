@@ -8,6 +8,11 @@ func enter() -> void:
 	if player.is_stomping:
 		player.is_stomping = false
 	
+	# If bounce recovering, let the stomp animation continue playing
+	if player.bounce_recovering:
+		coyote_timer = 0.0
+		return
+	
 	if player.velocity.y < 0:
 		jump_feedback()
 		coyote_timer = 0.0
@@ -24,6 +29,20 @@ func physics_update(delta: float) -> void:
 	
 	if coyote_timer > 0:
 		coyote_timer -= delta
+	
+	# Handle bounce recovery animation
+	if player.bounce_recovering:
+		# Check if stomp animation finished or player is providing input
+		var anim_finished = not player.player_sprite.is_playing() or player.player_sprite.animation != "stomp"
+		var has_input = abs(dir) > 0.1
+		
+		if anim_finished or has_input:
+			player.bounce_recovering = false
+			# Transition to appropriate air animation
+			if player.velocity.y < 0:
+				jump_feedback()
+			else:
+				fall_feedback()
 	
 	if Input.is_action_just_pressed("jump") and coyote_timer > 0:
 		player.jump()
