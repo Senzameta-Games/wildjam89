@@ -55,6 +55,11 @@ func _ready():
 	goal_spawn.visible = false
 	if goal_spawn.has_node("Area"):
 		goal_spawn.get_node("Area").queue_free()
+	
+	# Start music if game has already started (e.g., from restart)
+	# Otherwise, it will start when title screen start button is pressed
+	if Game.game_has_started and music:
+		music.play()
 
 func _on_tree_growth_completed() -> void:
 	var goal_scn = null

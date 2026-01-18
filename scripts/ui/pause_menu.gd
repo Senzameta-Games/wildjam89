@@ -5,7 +5,10 @@ var achievements_view: CanvasLayer
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	visible = false
-	get_tree().paused = false
+	# Only unpause if game has started (don't interfere with title screen)
+	# The title screen manages pause state on initial load
+	if Game.game_has_started:
+		get_tree().paused = false
 	# Find AchievementsView from Main scene (sibling node)
 	achievements_view = get_node("../AchievementsView") as CanvasLayer
 

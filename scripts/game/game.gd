@@ -17,12 +17,14 @@ var unlocked_abilities: Dictionary = {
 }
 
 var seen_abilities: Dictionary = {}
+var game_has_started: bool = false
 
 func start_new_run() -> void:
 	current_stage = 1
 	total_seeds = 0
 	_reset_abilities()
 	seen_abilities.clear()
+	game_has_started = true
 
 func next_stage() -> void:
 	current_stage += 1
@@ -142,6 +144,7 @@ func reset_game_state() -> void:
 	# Reset achievements for new run
 	if Achievements:
 		Achievements.reset_achievements()
+	# Keep game_has_started = true so title screen doesn't show on restart
 		
 func _unhandled_input(event):
 	if not OS.has_feature("editor"): return
