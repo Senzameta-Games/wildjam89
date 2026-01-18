@@ -164,8 +164,18 @@ func throw_bomb(temp_bomb: Node2D) -> void:
 				real_bomb.harmless = true
 		else: 
 			# decide throw direction
-			var throw_dir = sign(current_target.global_position.x - global_position.x)
+			var throw_dir = 1
+			if is_instance_valid(current_target):
+				throw_dir = sign(current_target.global_position.x - global_position.x)
+			else:
+				# If target died mid-throw, just throw in the direction the beetle is facing
+				# (Assuming flip_h = true is Right, flip_h = false is Left)
+				if enemy_sprite.flip_h:
+					throw_dir = 1
+				else:
+					throw_dir = -1
+			
+			# Fallback if x positions are identical
 			if throw_dir == 0: throw_dir = 1
 			
-			# yeet
 			real_bomb.setup(throw_dir, throw_arc)

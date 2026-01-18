@@ -39,7 +39,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0.7058824)
+color = Color(0, 0, 0, 0.9019608)
 
 [node name="StageClearContainer" type="VBoxContainer" parent="Content"]
 layout_mode = 1
@@ -58,7 +58,7 @@ theme_override_constants/separation = 16
 
 [node name="StageClear" type="Label" parent="Content/StageClearContainer"]
 layout_mode = 2
-text = "GOLDEN LEAF BESTOWED"
+text = "You Won in 00:00"
 label_settings = SubResource("LabelSettings_oh052")
 horizontal_alignment = 1
 
@@ -117,5 +117,4 @@ icon = ExtResource("4_bj6ca")
 alignment = 0
 
 [connection signal="pressed" from="Content/StageClearContainer/NewGamePlus" to="." method="_on_new_game_plus_pressed"]
-[connection signal="pressed" from="Content/StageClearContainer/QuitToMenu" to="." method="_on_quit_to_menu_pressed"]
 [connection signal="pressed" from="Content/StageClearContainer/QuitToMenu" to="." method="_on_quit_pressed"]
