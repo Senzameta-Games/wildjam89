@@ -112,8 +112,18 @@ func _on_tree_growth_completed(source_tree: SeedTree) -> void:
 		for b in branch_manager.active_branches:
 			if is_instance_valid(b): valid_branches.append(b)
 		
-		if not valid_branches.is_empty():
-			var rand_branch = valid_branches.pick_random()
+		# Need at least 3 branches to exclude top 2 and still have options
+		if valid_branches.size() >= 3:
+			# Branches are ordered bottom to top (index 0 = lowest)
+			# Exclude the top 2 branches
+			var eligible_branches = valid_branches.slice(0, valid_branches.size() - 2)
+			
+			# Pick from the top portion of eligible branches (highest remaining)
+			var pick_from_top = mini(3, eligible_branches.size())
+			var high_branches = eligible_branches.slice(eligible_branches.size() - pick_from_top)
+			
+			var rand_branch = high_branches.pick_random()
+			
 			# Guess side based on first sprite child
 			var side_sign = 1
 			if rand_branch.get_child_count() > 0:
@@ -168,7 +178,6 @@ func _spawn_new_tree() -> void:
 			available_indices.append(i)
 	
 	if available_indices.is_empty():
-		print("Crown Shyness: No slots available for new tree.")
 		return
 		
 	if not tree_scn: return

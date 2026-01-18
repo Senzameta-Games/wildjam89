@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://cfl62gijxtptm"]
+[gd_scene load_steps=41 format=3 uid="uid://cfl62gijxtptm"]
 
 [ext_resource type="PackedScene" uid="uid://ciyc0yamaacqw" path="res://scenes/player/player.tscn" id="1_nbgty"]
 [ext_resource type="Script" uid="uid://f1ao7nyts6na" path="res://scripts/level/level.gd" id="1_wcngd"]
@@ -23,7 +23,11 @@
 [ext_resource type="Texture2D" uid="uid://c4m88c6a3ep6t" path="res://assets/sprites/items/doublejump/feather.png" id="21_yoh1m"]
 [ext_resource type="Texture2D" uid="uid://d07t3ds35gotx" path="res://assets/sprites/items/pesticide/pesticide.png" id="22_u5w0m"]
 [ext_resource type="Texture2D" uid="uid://d238xmmjguwum" path="res://assets/sprites/items/bigstomps/boot.png" id="23_fhw5o"]
+[ext_resource type="Texture2D" uid="uid://gucr12hgnqie" path="res://assets/sprites/flower/flowerred.png" id="23_r732y"]
+[ext_resource type="FontFile" uid="uid://c8gml42wpgpkm" path="res://assets/fonts/Jersey10-Regular.ttf" id="24_87pmf"]
 [ext_resource type="PackedScene" uid="uid://dpxb8hcxh5heh" path="res://scenes/ui/game_clear.tscn" id="25_cqqhe"]
+[ext_resource type="Texture2D" uid="uid://b6aq64kifulkl" path="res://assets/sprites/flower/flowergreen.png" id="25_mf35j"]
+[ext_resource type="Texture2D" uid="uid://bnrlv6xwr6dd8" path="res://assets/sprites/flower/flowerblue.png" id="26_t51ir"]
 [ext_resource type="Script" uid="uid://chy5vii7fk6sl" path="res://scripts/music/dynamic_music.gd" id="26_u5w0m"]
 [ext_resource type="Script" uid="uid://d1sl3reli2sg5" path="res://scripts/ui/game_clear.gd" id="26_yoh1m"]
 [ext_resource type="AudioStream" uid="uid://ba1w3s3lkrw5e" path="res://assets/sounds/music/StompTreeMaster.wav" id="28_fhw5o"]
@@ -33,6 +37,40 @@ size = Vector2(640, 120)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vpf64"]
 size = Vector2(38, 664)
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_hfr1v"]
+color = Color(0.15668055, 0.024334267, 0.038237233, 1)
+thickness = 6
+vertical = true
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_7lsmv"]
+color = Color(0.8509804, 0.34117648, 0.3882353, 1)
+thickness = 6
+vertical = true
+
+[sub_resource type="LabelSettings" id="LabelSettings_bdmju"]
+font = ExtResource("24_87pmf")
+font_size = 18
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_uhw4h"]
+color = Color(0.063821144, 0.14246508, 0.01725775, 1)
+thickness = 6
+vertical = true
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_d6d7a"]
+color = Color(0.41568628, 0.74509805, 0.1882353, 1)
+thickness = 6
+vertical = true
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_lilx5"]
+color = Color(1.6123802e-06, 0.08683371, 0.28147107, 1)
+thickness = 6
+vertical = true
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_eipt2"]
+color = Color(0.3882353, 0.60784316, 1, 1)
+thickness = 6
+vertical = true
 
 [node name="Level" type="Node2D"]
 script = ExtResource("1_wcngd")
@@ -102,7 +140,7 @@ enemies = Array[PackedScene]([ExtResource("5_xv074"), ExtResource("6_sytrn"), Ex
 position = Vector2(637, 272)
 enemies = Array[PackedScene]([ExtResource("5_xv074"), ExtResource("6_sytrn"), ExtResource("6_pe1ox")])
 
-[node name="Tree" parent="." groups=["tree"] instance=ExtResource("7_wcngd")]
+[node name="Tree" parent="." instance=ExtResource("7_wcngd")]
 position = Vector2(320, 288)
 
 [node name="Goal" parent="." instance=ExtResource("7_tf2q7")]
@@ -174,6 +212,79 @@ ability_icons = {
 "pesticide": ExtResource("22_u5w0m")
 }
 
+[node name="FlowerMeters" type="HBoxContainer" parent="UI"]
+offset_left = 436.0
+offset_top = 315.0
+offset_right = 605.0
+offset_bottom = 355.0
+theme_override_constants/separation = 32
+
+[node name="RedFlower" type="HBoxContainer" parent="UI/FlowerMeters"]
+layout_mode = 2
+
+[node name="Sprite" type="TextureRect" parent="UI/FlowerMeters/RedFlower"]
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("23_r732y")
+
+[node name="Meter" type="ProgressBar" parent="UI/FlowerMeters/RedFlower"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("StyleBoxLine_hfr1v")
+theme_override_styles/fill = SubResource("StyleBoxLine_7lsmv")
+fill_mode = 3
+show_percentage = false
+
+[node name="Count" type="Label" parent="UI/FlowerMeters/RedFlower"]
+layout_mode = 2
+text = "00"
+label_settings = SubResource("LabelSettings_bdmju")
+
+[node name="GreenFlower" type="HBoxContainer" parent="UI/FlowerMeters"]
+layout_mode = 2
+
+[node name="Sprite" type="TextureRect" parent="UI/FlowerMeters/GreenFlower"]
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("25_mf35j")
+
+[node name="Meter" type="ProgressBar" parent="UI/FlowerMeters/GreenFlower"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("StyleBoxLine_uhw4h")
+theme_override_styles/fill = SubResource("StyleBoxLine_d6d7a")
+fill_mode = 3
+show_percentage = false
+
+[node name="Count" type="Label" parent="UI/FlowerMeters/GreenFlower"]
+layout_mode = 2
+text = "00"
+label_settings = SubResource("LabelSettings_bdmju")
+
+[node name="BlueFlower" type="HBoxContainer" parent="UI/FlowerMeters"]
+layout_mode = 2
+
+[node name="Sprite" type="TextureRect" parent="UI/FlowerMeters/BlueFlower"]
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("26_t51ir")
+
+[node name="Meter" type="ProgressBar" parent="UI/FlowerMeters/BlueFlower"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("StyleBoxLine_lilx5")
+theme_override_styles/fill = SubResource("StyleBoxLine_eipt2")
+fill_mode = 3
+show_percentage = false
+
+[node name="Count" type="Label" parent="UI/FlowerMeters/BlueFlower"]
+layout_mode = 2
+text = "00"
+label_settings = SubResource("LabelSettings_bdmju")
+
 [node name="StageClear" parent="." instance=ExtResource("17_ivku7")]
 visible = false
 
@@ -184,5 +295,4 @@ script = ExtResource("26_yoh1m")
 [node name="Music" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("28_fhw5o")
 volume_db = -8.0
-autoplay = false
 script = ExtResource("26_u5w0m")

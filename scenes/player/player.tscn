@@ -86,10 +86,22 @@
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_x7p2l"]
 animations = [{
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("22_wuxn4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_bysbl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_3p0jd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_7nf13")
+}],
 "loop": true,
 "name": &"hurt",
-"speed": 5.0
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -287,7 +299,7 @@ stomp_velocity = 300.0
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 position = Vector2(-8, 0)
 sprite_frames = SubResource("SpriteFrames_x7p2l")
-animation = &"stomp"
+animation = &"hurt"
 
 [node name="Collider" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_fvjb1")
