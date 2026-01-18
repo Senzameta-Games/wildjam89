@@ -81,8 +81,6 @@ func hurt(amount: float):
 	subtract_progress(amount)
 
 func add_progress(amount: float):
-	if all_grown_up: return
-	
 	tree_progress = clampf(tree_progress + amount, 0.0, 100.0)
 	
 	if sudden_death and tree_progress > 0.0:
