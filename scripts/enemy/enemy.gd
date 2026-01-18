@@ -41,9 +41,25 @@ func aggro_player() -> void:
 	$Hitbox.set_collision_layer_value(3, false)
 
 func aggro_tree() -> void:
-	current_target = get_tree().get_first_node_in_group("tree")
+	var trees = get_tree().get_nodes_in_group("tree")
+	var closest_tree = null
+	var closest_dist = INF
+	
+	for t in trees:
+		if t is SeedTree:
+			var dist = global_position.distance_to(t.global_position)
+			if dist < closest_dist:
+				closest_dist = dist
+				closest_tree = t
+	if closest_tree:
+		current_target = closest_tree
+	else:
+		current_target = get_tree().get_first_node_in_group("tree")
 
 func move_towards_target() -> void:
+	if not is_instance_valid(current_target):
+		aggro_tree()
+		return
 	var dir_x = sign(current_target.global_position.x - global_position.x)
 	velocity.x = dir_x * (speed / 3)
 	if enemy_sprite:
