@@ -14,8 +14,8 @@ extends Node2D
 @export var enemy_roster: Array[PackedScene] = []
 
 # Spawn Weights
-@export var spawn_chance_nothing: float = 0.5
-@export var spawn_chance_seeds: float = 0.25
+@export var spawn_chance_nothing: float = 0.2
+@export var spawn_chance_seeds: float = 0.4
 
 
 @onready var tree_node: SeedTree = owner
@@ -122,7 +122,6 @@ func _try_spawn_content(branch: Node2D, side: int, total_width: float, branch_in
 	var spawn_dist = randf_range(branch_length, total_width - 8)
 	var spawn_pos = branch.global_position + Vector2(spawn_dist * side, -16)
 	
-	# 2. Spawn Seeds
 	if roll < (spawn_chance_nothing + spawn_chance_seeds):
 		if seed_bundle_scn:
 			var bundle = seed_bundle_scn.instantiate()
@@ -130,8 +129,6 @@ func _try_spawn_content(branch: Node2D, side: int, total_width: float, branch_in
 			bundle.global_position = spawn_pos
 		return
 
-	# 3. Spawn Enemy Spawner (NEW)
-	# Roll check for spawner (approx 10-15%)
 	var spawner_threshold = spawn_chance_nothing + spawn_chance_seeds + 0.15 # 0.5 + 0.25 + 0.15 = 0.9
 	
 	if roll < spawner_threshold and enemy_spawner_scn:

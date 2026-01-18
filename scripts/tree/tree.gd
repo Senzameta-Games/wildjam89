@@ -3,7 +3,7 @@ class_name SeedTree
 
 signal growth_completed
 signal tree_died
-signal tree_damaged(amount: float)
+signal tree_damaged(_amount: float)
 signal tree_healed(amount: float)
 signal new_section_added
 signal slot_freed(slot_index: int) 
@@ -19,9 +19,9 @@ var slot_index: int = -1
 @export var max_sections: int = 20
 
 # Growth balancing
-const BASE_PASSIVE_GROWTH: float = 0.02
-const MAX_PASSIVE_GROWTH: float = 0.08
-const ACTIVE_GROWTH_AMOUNT: float = 1.5
+const BASE_PASSIVE_GROWTH: float = 0.08
+const MAX_PASSIVE_GROWTH: float = 2.0
+const ACTIVE_GROWTH_AMOUNT: float = 0.75
 
 @onready var tree_trunk = $TreeTrunk
 @onready var tree_top = $TreeTrunk/TreeTop
@@ -218,6 +218,8 @@ func _build_trunk_immediate():
 	_rebuild_trunk()
 
 func _on_shop_interacted():
+	if tree_progress >= 100.0:
+		return
 	# Active growth from depositing seeds
 	add_progress(ACTIVE_GROWTH_AMOUNT)
 	tree_healed.emit(ACTIVE_GROWTH_AMOUNT)

@@ -31,7 +31,7 @@ func stomp_feedback():
 	player.sfx_land.volume_db = -2.0
 	player.sfx_land.pitch_scale = 1.0
 	player.sfx_land.play()
-	get_tree().call_group("camera", "apply_shake", Vector2(0, 8), 12.0)
+	get_tree().call_group("camera", "apply_shake", Vector2(0, 12), 7.0)
 	
 	await player.player_sprite.animation_finished
 	is_recovering = false

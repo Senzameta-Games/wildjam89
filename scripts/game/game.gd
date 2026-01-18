@@ -1,11 +1,27 @@
 extends Node
 
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
-var trees_grown_count: int = 0 # win state looks for 4
+var trees_grown_count: int = 0
 signal game_over_called
 signal game_won
 signal ability_unlocked(ability_name: String)
 
+# -- Session Timer --
+var session_start_time: int = 0
+var session_end_time: int = 0
+
+func start_session_timer() -> void:
+	session_start_time = Time.get_ticks_msec()
+
+func stop_session_timer() -> void:
+	session_end_time = Time.get_ticks_msec()
+
+func get_session_time_formatted() -> String:
+	var total_ms = session_end_time - session_start_time
+	var total_seconds = int(total_ms / 1000.0)
+	var minutes = total_seconds / 60
+	var seconds = total_seconds % 60
+	return "%02d:%02d" % [minutes, seconds]
 
 var current_stage: int = 1
 var unlocked_abilities: Dictionary = {
@@ -19,17 +35,31 @@ var game_has_started: bool = false
 
 # Randomized power-up system
 var ability_queue: Array[String] = []
-var recent_abilities: Array[String] = []  # Track last 2 abilities to prevent 3+ repeats
+var recent_abilities: Array[String] = [] 
 const ALL_ABILITIES: Array[String] = ["aim_stomp", "double_jump", "pesticide"]
 
+# -- FIXED CACHE --
+# We store the reward AND the stage it was assigned to.
+# This prevents the previous stage's reward from persisting if stage_reset is skipped.
+var cached_reward: String = ""
+var cached_reward_stage: int = -1
+
 func start_new_run() -> void:
+	randomize() # Ensure RNG is seeded
 	current_stage = 1
 	total_seeds = 0
 	trees_grown_count = 0
 	_reset_abilities()
 	seen_abilities.clear()
 	recent_abilities.clear()
-	_init_ability_queue()
+	
+	# Force a fresh shuffled deck of the 3 unique abilities
+	ability_queue = ALL_ABILITIES.duplicate()
+	ability_queue.shuffle()
+	
+	cached_reward = ""
+	cached_reward_stage = -1
+	
 	game_has_started = true
 
 func next_stage() -> void:
@@ -42,17 +72,27 @@ func stage_reset() -> void:
 	flower_columns.clear()
 	total_flowers = 0
 	seeds_changed.emit(total_seeds)
+	# Note: We don't strictly need to clear cache here anymore because 
+	# get_stage_params checks the stage index, but it's good practice.
+	cached_reward = ""
+	cached_reward_stage = -1
 
 func get_stage_params() -> Dictionary:
-	var difficulty_mult = 1.0 + ((current_stage - 1) * 0.5)
-
-	var base_spawn_interval = 3.5
-	var spawn_interval = max(base_spawn_interval / difficulty_mult, 1.2)
+	var difficulty_mult = 1.0 + ((current_stage - 1) * 0.2)
+	var base_spawn_interval = 5.0
+	var spawn_interval = max(base_spawn_interval / difficulty_mult, 1.5)
+	
+	# -- LOGIC FIX --
+	# 1. Check if we already have a reward assigned for THIS stage index
+	if cached_reward == "" or cached_reward_stage != current_stage:
+		# 2. If not, get a new one and cache it
+		cached_reward = _get_next_ability()
+		cached_reward_stage = current_stage
 	
 	return{
 		"spawn_interval": spawn_interval,
 		"enemy_damage": 1.2 * difficulty_mult,
-		"ability_reward": _get_next_ability()
+		"ability_reward": cached_reward
 	}
 
 func unlock_ability(ability_key: String) -> void:
@@ -74,10 +114,8 @@ func mark_ability_seen(ability_key: String) -> void:
 	seen_abilities[ability_key] = true
 
 func _get_ability_reward(_stage: int) -> String:
-	# Refill queue if empty
 	if ability_queue.is_empty():
 		_init_ability_queue()
-	
 	return ability_queue.pop_front()
 
 func _init_ability_queue() -> void:
@@ -85,21 +123,22 @@ func _init_ability_queue() -> void:
 	ability_queue = ALL_ABILITIES.duplicate()
 	ability_queue.shuffle()
 	
+	# Only prevent repeats if we aren't in the initial "clean slate" phase
 	if recent_abilities.size() >= 2:
 		var last_two_same = recent_abilities[0] == recent_abilities[1]
 		if last_two_same and ability_queue[0] == recent_abilities[0]:
-			# Move the repeated ability to later in the queue
 			var repeated = ability_queue.pop_front()
 			var insert_pos = randi_range(1, ability_queue.size())
 			ability_queue.insert(insert_pos, repeated)
 
 func _get_next_ability() -> String:
+	# Refill if empty
 	if ability_queue.is_empty():
 		_init_ability_queue()
 	
 	var next_ability = ability_queue.pop_front()
 	
-	# Track recent abilities (keep last 2)
+	# Track recent
 	recent_abilities.append(next_ability)
 	if recent_abilities.size() > 2:
 		recent_abilities.pop_front()
@@ -122,6 +161,8 @@ func win_game() -> void:
 	game_won.emit()
 
 #==================================================================================================#
+# ... (Rest of the file: Seeds, Flowers, Input handling remains unchanged)
+#==================================================================================================#
 
 signal seeds_changed(current_total: int)
 var total_seeds: int = 0
@@ -130,17 +171,13 @@ func add_seeds(amount: int) -> void:
 	total_seeds += amount
 	seeds_changed.emit(total_seeds)
 	print("Seeds collected: ", total_seeds)
-	# Track for achievements
 	if Achievements:
 		for i in range(amount):
 			Achievements.on_seed_collected()
 	
-#==================================================================================================#
-
 const GRID_SIZE: int = 16
 const FLOWER_HEIGHT: int = 16
 
-# Flower bonus constants (per flower)
 const FLOWER_GROWTH_BONUS: float = 0.05
 const FLOWER_DEFENSE_BONUS: float = 0.01
 const FLOWER_POWERUP_BONUS: float = 0.02
@@ -149,7 +186,6 @@ var flower_scene: PackedScene = preload("res://scenes/flower/flower.tscn")
 
 var flower_columns: Dictionary = {}
 
-# Track flowers by color
 signal flower_counts_changed
 var flower_counts: Dictionary = {
 	"blue": 0,
@@ -176,8 +212,6 @@ func plant_flower(at_position: Vector2) -> void:
 	flower.global_position = spawn_pos
 	
 	flower_columns[grid_index] = stack_count + 1
-	# Note: flower will call add_flower() with its color in _ready()
-	# Track for achievements
 	if Achievements:
 		Achievements.on_flower_planted()
 
@@ -215,7 +249,6 @@ func reset_game_state() -> void:
 	}
 	seeds_changed.emit(total_seeds)
 	flower_counts_changed.emit()
-	# Reset achievements for new run
 	if Achievements:
 		Achievements.reset_achievements()
 	
@@ -228,12 +261,9 @@ func _unhandled_input(event):
 	if event:
 		if Input.is_action_just_pressed("stopwatch_get"):
 			unlock_ability("aim_stomp")
-		
 		if Input.is_action_just_pressed("feather_get"):
 			unlock_ability("double_jump")
-		
 		if Input.is_action_just_pressed("zapper_get"):
 			unlock_ability("pesticide")
-		
 		if Input.is_action_just_pressed("big_money"):
 			big_money()

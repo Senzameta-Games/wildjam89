@@ -12,7 +12,7 @@ func _ready() -> void:
 	# Find AchievementsView from Main scene (sibling node)
 	achievements_view = get_node("../AchievementsView") as CanvasLayer
 
-func _input(event: InputEvent) -> void:
+func _input(_event: InputEvent) -> void:
 	if Input.is_action_just_pressed("pause"):
 		if get_tree().paused:
 			# If achievements view is open, close it first

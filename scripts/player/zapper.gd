@@ -29,7 +29,7 @@ func _get_lightning_points(start: Vector2, end: Vector2) -> PackedVector2Array:
 	var points = PackedVector2Array()
 	points.append(start)
 	
-	var current = start
+	var _current = start
 	var segment_length = 20.0
 	var total_dist = start.distance_to(end)
 	var steps = int(total_dist / segment_length)

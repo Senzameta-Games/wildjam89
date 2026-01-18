@@ -1,4 +1,4 @@
-﻿extends CanvasLayer
+extends CanvasLayer
 
 # Achievements View - Shows all achievements (unlocked first, then locked)
 
@@ -26,7 +26,7 @@ func _ready() -> void:
 	
 	control.visible = false
 
-func _input(event: InputEvent) -> void:
+func _input(_event: InputEvent) -> void:
 	# Handle Esc key to close (same as pause menu does)
 	if Input.is_action_just_pressed("pause") and control.visible:
 		hide_achievements()
