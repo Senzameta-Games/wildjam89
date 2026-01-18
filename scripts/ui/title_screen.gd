@@ -1,17 +1,11 @@
 extends CanvasLayer
 
 func _enter_tree() -> void:
-	# Only pause and show title screen if game hasn't started yet
-	# When restarting, Game.game_has_started will be true, so we skip this
-	if not Game.game_has_started:
-		# Pause the game as soon as this node enters the tree
-		# This happens before _ready(), ensuring nothing starts before we pause
-		get_tree().paused = true
+	get_tree().paused = true
+	if Game: Game.game_has_started = false
 
 func _ready() -> void:
-	# Only show title screen if game hasn't started yet
-	# This prevents showing it when restarting from pause menu
-	visible = not Game.game_has_started
+	visible = true
 
 func _on_start_button_pressed() -> void:
 	# Reset game state for a new run

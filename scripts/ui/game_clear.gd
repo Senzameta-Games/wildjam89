@@ -33,5 +33,7 @@ func _on_new_game_plus_pressed() -> void:
 	pass
 
 func _on_quit_pressed() -> void:
+	if Game:
+		Game.game_has_started = false
 	get_tree().paused = false
-	get_tree().change_scene_to_file("res://scenes/ui/title_screen.tscn")
+	get_tree().reload_current_scene()
