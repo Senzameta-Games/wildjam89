@@ -65,7 +65,7 @@ func _process(delta: float) -> void:
 		
 		# Flash faster when time is running out
 		if ability_timer <= 3.0 and ability_timer > 0:
-			var flash_speed = 0.2
+			var _flash_speed = 0.2
 			if int(ability_timer * 5) % 2 == 0:
 				if ability_icon:
 					ability_icon.modulate = Color(1, 0.5, 0.5, 1)

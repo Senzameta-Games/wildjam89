@@ -3,6 +3,7 @@ extends CanvasLayer
 @onready var content: Control = $Content
 @onready var new_game_plus_btn: Button = $Content/StageClearContainer/NewGamePlus
 @onready var quit_btn: Button = $Content/StageClearContainer/QuitToMenu
+@onready var header_label: Label = $Content/StageClearContainer/StageClear
 
 func _ready() -> void:
 	visible = false
@@ -10,6 +11,14 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
 func show_screen(_key: String = "") -> void:
+	if Game:
+		Game.stop_session_timer()
+		var final_time = Game.get_session_time_formatted()
+		
+		# Update the Label Text
+		if header_label:
+			header_label.text = "You Won in " + final_time
+			
 	get_tree().paused = true
 	
 	var reward_icon: TextureRect = $Content/StageClearContainer/Ability/Margin/RewardIcon

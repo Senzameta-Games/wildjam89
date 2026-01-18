@@ -22,7 +22,7 @@ var is_dead: bool
 @export var seeds_lost: int = 1
 var last_damage_pos: Vector2 = Vector2.ZERO
 var hurt_cooldown: float = 0.0
-const HURT_COOLDOWN_DURATION: float = 1.2
+const HURT_COOLDOWN_DURATION: float = 2.0
 @export_category("Aim Visuals")
 @export var aim_max_height: float = 360.0
 @export var aim_min_width: float = 0.2
@@ -154,7 +154,7 @@ func _perform_bounce() -> void:
 		bounce_recovering = true
 		stomp_grace_period = STOMP_GRACE_DURATION  # Allow multi-stomps briefly
 		
-		get_tree().call_group("camera", "apply_shake", Vector2(1, 32), 4.0)
+		get_tree().call_group("camera", "apply_shake", Vector2(1, 32), 1.5)
 		hit_stop(0.1)
 	else:
 		velocity.y = -jump_velocity * 0.7

@@ -43,7 +43,7 @@ func unregister_tree(tree: SeedTree) -> void:
 	if is_instance_valid(meter):
 		meter.queue_free()
 
-func _create_tree_meter(tree: SeedTree) -> HBoxContainer:
+func _create_tree_meter(_tree: SeedTree) -> HBoxContainer:
 	var meter = HBoxContainer.new()
 	meter.add_theme_constant_override("separation", 2)
 	
@@ -121,7 +121,7 @@ func _on_tree_died(tree: SeedTree) -> void:
 	unregister_tree(tree)
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	# Update all active tree meters
 	for tree in tree_to_meter:
 		if is_instance_valid(tree):

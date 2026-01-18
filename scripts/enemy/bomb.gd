@@ -47,7 +47,7 @@ func blow_up() -> void:
 	$Collider.set_deferred("disabled", true)
 	rotation = 0
 	bomb_sprite.play("blow up")
-	get_tree().call_group("camera", "apply_shake", Vector2(8, 8), 1.0)
+	get_tree().call_group("camera", "apply_shake", Vector2(4, 4), 2.0)
 	if blowup_sfx:
 		blowup_sfx.play()
 		await blowup_sfx.finished
