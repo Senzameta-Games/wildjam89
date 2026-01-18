@@ -12,7 +12,9 @@ enum ConditionType {
 	SEED_COUNT,         # Unlocks when seed count reaches threshold
 	ENEMIES_STOMPED,    # Unlocks when total enemies stomped reaches threshold
 	MULTI_STOMP,        # Unlocks when X enemies stomped within time window
-	FLOWERS_PLANTED     # Unlocks when total flowers planted reaches threshold
+	FLOWERS_PLANTED,    # Unlocks when total flowers planted reaches threshold
+	BOMB_BLOCKED,		# Unlocks when blocking a bomb that beetles throw
+	EACH_ENEMY_KILLED	# Unlocks when each enemy type killed
 }
 
 @export var threshold: int = 1  # For count-based achievements
