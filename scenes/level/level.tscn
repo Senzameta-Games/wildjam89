@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://cfl62gijxtptm"]
+[gd_scene load_steps=42 format=3 uid="uid://cfl62gijxtptm"]
 
 [ext_resource type="PackedScene" uid="uid://ciyc0yamaacqw" path="res://scenes/player/player.tscn" id="1_nbgty"]
 [ext_resource type="Script" uid="uid://f1ao7nyts6na" path="res://scripts/level/level.gd" id="1_wcngd"]
@@ -22,6 +22,7 @@
 [ext_resource type="Texture2D" uid="uid://2jlluw0iil3t" path="res://assets/sprites/items/aimstomp/stopwatch.png" id="20_cqqhe"]
 [ext_resource type="Texture2D" uid="uid://c4m88c6a3ep6t" path="res://assets/sprites/items/doublejump/feather.png" id="21_yoh1m"]
 [ext_resource type="Texture2D" uid="uid://d07t3ds35gotx" path="res://assets/sprites/items/pesticide/pesticide.png" id="22_u5w0m"]
+[ext_resource type="Script" uid="uid://dq3mklt16ehm1" path="res://scripts/ui/flower_stats.gd" id="23_87pmf"]
 [ext_resource type="Texture2D" uid="uid://d238xmmjguwum" path="res://assets/sprites/items/bigstomps/boot.png" id="23_fhw5o"]
 [ext_resource type="Texture2D" uid="uid://gucr12hgnqie" path="res://assets/sprites/flower/flowerred.png" id="23_r732y"]
 [ext_resource type="FontFile" uid="uid://c8gml42wpgpkm" path="res://assets/fonts/Jersey10-Regular.ttf" id="24_87pmf"]
@@ -218,6 +219,7 @@ offset_top = 315.0
 offset_right = 605.0
 offset_bottom = 355.0
 theme_override_constants/separation = 32
+script = ExtResource("23_87pmf")
 
 [node name="RedFlower" type="HBoxContainer" parent="UI/FlowerMeters"]
 layout_mode = 2
