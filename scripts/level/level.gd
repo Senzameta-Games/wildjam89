@@ -7,6 +7,7 @@ class_name Level
 @onready var game_clear_scn = $GameClear
 @onready var music: AudioStreamPlayer2D = $Music
 @onready var zap_sfx: AudioStreamPlayer2D = $Tree/SFX/Zap
+@onready var tree_meters_ui: TreeMeters = $UI/TreeMeters
 @export var next_level_btn_scn: PackedScene
 @export var tree_scn: PackedScene = preload("res://scenes/tree/tree.tscn")
 
@@ -41,6 +42,10 @@ func _ready():
 	# Setup Initial Tree
 	if tree:
 		tree.damage_per_hit = params["enemy_damage"]
+		
+		# Register tree with UI
+		if tree_meters_ui:
+			tree_meters_ui.register_tree(tree)
 		
 		# Register the initial tree's slot so we don't overlap it
 		var best_slot = _get_slot_from_x(tree.global_position.x)
@@ -190,6 +195,10 @@ func _spawn_new_tree() -> void:
 	add_child(new_tree)
 	new_tree.global_position = Vector2(final_x, 288) # Ground Level Y
 	new_tree.slot_index = chosen_slot
+	
+	# Register tree with UI
+	if tree_meters_ui:
+		tree_meters_ui.register_tree(new_tree)
 	
 	# 4. Connect Signals
 	if not new_tree.growth_completed.is_connected(_on_tree_growth_completed):

@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3 uid="uid://cfl62gijxtptm"]
+[gd_scene load_steps=41 format=3 uid="uid://cfl62gijxtptm"]
 
 [ext_resource type="PackedScene" uid="uid://ciyc0yamaacqw" path="res://scenes/player/player.tscn" id="1_nbgty"]
 [ext_resource type="Script" uid="uid://f1ao7nyts6na" path="res://scripts/level/level.gd" id="1_wcngd"]
@@ -17,9 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://kti6pw1y8020" path="res://scenes/ui/achievement_manager.tscn" id="15_ss4b2"]
 [ext_resource type="PackedScene" uid="uid://bne58sbwdhc4l" path="res://scenes/ui/stage_clear.tscn" id="17_ivku7"]
 [ext_resource type="Script" uid="uid://b7x7dtjh3m4hu" path="res://scripts/ui/ability_row.gd" id="18_qjqsm"]
-[ext_resource type="Texture2D" uid="uid://2jlluw0iil3t" path="res://assets/sprites/items/aimstomp/stopwatch.png" id="20_cqqhe"]
-[ext_resource type="Texture2D" uid="uid://c4m88c6a3ep6t" path="res://assets/sprites/items/doublejump/feather.png" id="21_yoh1m"]
-[ext_resource type="Texture2D" uid="uid://d07t3ds35gotx" path="res://assets/sprites/items/pesticide/pesticide.png" id="22_u5w0m"]
+[ext_resource type="Script" uid="uid://dsjm3g7gr02wc" path="res://scripts/ui/tree_meters.gd" id="21_r732y"]
 [ext_resource type="Script" uid="uid://dq3mklt16ehm1" path="res://scripts/ui/flower_stats.gd" id="23_87pmf"]
 [ext_resource type="Texture2D" uid="uid://gucr12hgnqie" path="res://assets/sprites/flower/flowerred.png" id="23_r732y"]
 [ext_resource type="PackedScene" uid="uid://dpxb8hcxh5heh" path="res://scenes/ui/game_clear.tscn" id="25_cqqhe"]
@@ -294,7 +292,7 @@ offset_top = 315.0
 offset_right = 441.0
 offset_bottom = 355.0
 theme_override_constants/separation = 8
-script = ExtResource("23_87pmf")
+script = ExtResource("21_r732y")
 
 [node name="Tree1" type="HBoxContainer" parent="UI/TreeMeters"]
 layout_mode = 2
@@ -437,18 +435,13 @@ offset_top = 317.0
 offset_right = 153.0
 offset_bottom = 353.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_87pmf")
+script = ExtResource("18_qjqsm")
 
 [node name="Abilities" type="HBoxContainer" parent="UI/AbilityContainer"]
 z_index = 100
 texture_filter = 1
 layout_mode = 2
 theme_override_constants/separation = 0
-script = ExtResource("18_qjqsm")
-ability_icons = {
-"aim_stomp": ExtResource("20_cqqhe"),
-"double_jump": ExtResource("21_yoh1m"),
-"pesticide": ExtResource("22_u5w0m")
-}
 
 [node name="StageClear" parent="." instance=ExtResource("17_ivku7")]
 visible = false
