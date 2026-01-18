@@ -12,7 +12,7 @@ func _ready() -> void:
 func show_screen(_key: String = "") -> void:
 	get_tree().paused = true
 	
-	var reward_icon: TextureRect = $Content/StageClearContainer/RewardIcon
+	var reward_icon: TextureRect = $Content/StageClearContainer/Ability/Margin/RewardIcon
 		
 	visible = true
 	

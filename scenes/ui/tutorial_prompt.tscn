@@ -25,6 +25,7 @@ font = ExtResource("1_prompt")
 font = ExtResource("3_2ssro")
 
 [node name="TutorialPrompt" type="Control"]
+z_as_relative = false
 custom_minimum_size = Vector2(100, 50)
 layout_mode = 3
 anchors_preset = 0

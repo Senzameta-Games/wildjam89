@@ -124,6 +124,9 @@ func die() -> void:
 	die_sfx.play()
 	squash_and_hide()
 	drop_seed()
+	var flower_colors = ["green", "blue", "red"]
+	var random_color = flower_colors[randi() % 3]
+	FlowerManager.add_flower(random_color)
 	Game.plant_flower(global_position)
 
 func squash_and_hide() -> void:

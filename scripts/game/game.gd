@@ -104,7 +104,11 @@ func add_seeds(amount: int) -> void:
 
 const GRID_SIZE: int = 16
 const FLOWER_HEIGHT: int = 16
-const FLOWER_GROWTH_BONUS: float = 0.3  # Reduced from 0.8
+
+# Flower bonus constants (per flower)
+const FLOWER_GROWTH_BONUS: float = 0.03
+const FLOWER_DEFENSE_BONUS: float = 0.02
+const FLOWER_POWERUP_BONUS: float = 0.01
 
 var flower_scene: PackedScene = preload("res://scenes/flower/flower.tscn")
 
@@ -154,9 +158,15 @@ func remove_flower(color: String) -> void:
 		total_flowers = max(0, total_flowers - 1)
 		flower_counts_changed.emit()
 
-func get_flower_bonus() -> float:
-	# Only green flowers contribute to passive growth bonus
+func get_flower_growth_bonus() -> float:
 	return float(flower_counts.get("green", 0)) * FLOWER_GROWTH_BONUS
+
+func get_flower_defense_bonus() -> float:
+	var reduction = float(flower_counts.get("blue", 0)) * FLOWER_DEFENSE_BONUS
+	return clamp(1.0 - reduction, 0.0, 1.0)
+
+func get_flower_powerup_bonus() -> float:
+	return float(flower_counts.get("red", 0)) * FLOWER_POWERUP_BONUS
 
 func reset_game_state() -> void:
 	total_seeds = 0
@@ -172,7 +182,6 @@ func reset_game_state() -> void:
 	# Reset achievements for new run
 	if Achievements:
 		Achievements.reset_achievements()
-	# Keep game_has_started = true so title screen doesn't show on restart
 	
 func big_money() -> void:
 	total_seeds = 999

@@ -64,7 +64,7 @@ func _spawn_branch_at_next_height():
 
 func _create_branch(global_pos: Vector2, side: int):
 	var current_idx = active_branches.size()
-	var max_segments = 4
+	var max_segments = 5
 	
 	if current_idx <= 2:
 		max_segments = 2

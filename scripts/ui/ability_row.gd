@@ -11,7 +11,7 @@ class_name AbilityContainer
 
 var active_ability: String = ""
 var ability_timer: float = 0.0
-const ABILITY_DURATION: float = 15.0
+const BASE_ABILITY_DURATION: float = 15.0
 
 func _ready() -> void:
 	# Create ability icon if it doesn't exist
@@ -36,7 +36,7 @@ func _ready() -> void:
 		Game.ability_unlocked.connect(_on_ability_collected)
 
 func _on_ability_collected(ability_key: String) -> void:
-	# Activate the ability for 15 seconds
+	# Activate the ability with RED FLOWER BONUS duration
 	activate_ability(ability_key)
 
 func activate_ability(ability_key: String) -> void:
@@ -44,7 +44,10 @@ func activate_ability(ability_key: String) -> void:
 		return
 	
 	active_ability = ability_key
-	ability_timer = ABILITY_DURATION
+	
+	# Apply RED FLOWER POWERUP BONUS to duration
+	var bonus_duration = Game.get_flower_powerup_bonus()
+	ability_timer = BASE_ABILITY_DURATION + bonus_duration
 	
 	if ability_icon:
 		ability_icon.texture = ability_icons[ability_key]

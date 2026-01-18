@@ -16,8 +16,12 @@ var slot_index: int = -1
 @export var trunk_textures: Array[Texture2D] = []
 @export var trunk_section_height: int = 16
 @export var tree_progress: float = 10.0
-@export var base_grow_amount: float = 0.1
 @export var max_sections: int = 20
+
+# Growth balancing
+const BASE_PASSIVE_GROWTH: float = 0.005
+const MAX_PASSIVE_GROWTH: float = 0.05
+const ACTIVE_GROWTH_AMOUNT: float = 0.5
 
 @onready var tree_trunk = $TreeTrunk
 @onready var tree_top = $TreeTrunk/TreeTop
@@ -55,18 +59,19 @@ func _ready():
 			shop.shop_interacted.connect(_on_shop_interacted)
 
 func _process(delta: float) -> void:
-	# Passive growth BALANCING
-	var passive_bonus = Game.get_flower_bonus()
+	var passive_growth = BASE_PASSIVE_GROWTH
+	
+	var flower_bonus = Game.get_flower_growth_bonus()
 	var active_trees = get_tree().get_nodes_in_group("tree").size()
 	
 	if active_trees > 0:
-		passive_bonus = passive_bonus / float(active_trees)
+		flower_bonus = flower_bonus / float(active_trees)
 	
-	var total_growth_speed = base_grow_amount + passive_bonus
-	
-	# Only grow passively if not in sudden death and not fully maxed visually
+	passive_growth += flower_bonus
+	passive_growth = min(passive_growth, MAX_PASSIVE_GROWTH)
+
 	if not sudden_death and tree_progress < 100.0:
-		add_progress(total_growth_speed * delta)
+		add_progress(passive_growth * delta)
 	
 	_update_trunk_visual()
 	_update_leaf_visual()
@@ -78,7 +83,11 @@ func heal_tree(amount: float):
 	add_progress(amount)
 
 func hurt(amount: float):
-	subtract_progress(amount)
+	# blue flowers
+	var defense_multiplier = Game.get_flower_defense_bonus()
+	var actual_damage = amount * defense_multiplier
+	
+	subtract_progress(actual_damage)
 
 func add_progress(amount: float):
 	# Cap visual progress at 100
@@ -201,8 +210,9 @@ func _build_trunk_immediate():
 	_rebuild_trunk()
 
 func _on_shop_interacted():
-	add_progress(0.5)
-	tree_healed.emit(1.0)
+	# Active growth from depositing seeds
+	add_progress(ACTIVE_GROWTH_AMOUNT)
+	tree_healed.emit(ACTIVE_GROWTH_AMOUNT)
 
 func _on_tree_hitbox_area_entered(area: Area2D):
 	if area.get_parent() is Enemy:
