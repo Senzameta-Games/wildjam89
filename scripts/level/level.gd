@@ -8,6 +8,7 @@ class_name Level
 @onready var music: AudioStreamPlayer2D = $Music
 @onready var zap_sfx: AudioStreamPlayer2D = $Tree/SFX/Zap
 @export var next_level_btn_scn: PackedScene
+@export var tree_scn: PackedScene = preload("res://scenes/tree/tree.tscn")
 
 var goal_scenes: Dictionary = {
 	"aim_stomp": preload("res://scenes/goal/stopwatch.tscn"),
@@ -33,7 +34,7 @@ func _ready():
 		tree.damage_per_hit = params["enemy_damage"]
 		print("Stage ", Game.current_stage, " Damage: ", tree.damage_per_hit)
 		if not tree.growth_completed.is_connected(_on_tree_growth_completed):
-			tree.growth_completed.connect(_on_tree_growth_completed)
+			tree.growth_completed.connect(_on_tree_growth_completed.bind(tree))
 	
 	# old stage logic
 	#if goal_scenes.has(ability_key):
@@ -57,18 +58,20 @@ func _ready():
 
 func _on_tree_growth_completed() -> void:
 	var goal_scn = null
-	
 	if goal_scenes.has(current_reward_key):
 		goal_scn = goal_scenes[current_reward_key]
 	else:
-		if Game.current_stage >= Game.FINAL_STAGE:
-			_on_stage_win()
+			_on_reward_collected()
 			return
+			
 	if not goal_scn: return
 	
 	var goal = goal_scn.instantiate()
 	add_child(goal)
-	goal.goal_reached.connect(_on_stage_win)
+	goal.visible = true
+	goal.z_index = 200
+	
+	goal.goal_reached.connect(_on_reward_collected)
 	
 	var branch_manager = tree.get_node_or_null("BranchManager")
 	var target_pos = goal_spawn.global_position
@@ -81,19 +84,25 @@ func _on_tree_growth_completed() -> void:
 				valid_branches.append(b)
 		if not valid_branches.is_empty():
 			var rand_branch = valid_branches.pick_random()
-			var side_sign = sign(rand_branch.get_child(0).scale.x)
-			if side_sign == 0: side_sign =1
-			
+			var side_sign = 1
+			if rand_branch.get_child_count() > 0:
+				var sprite = rand_branch.get_child(0) as Node2D
+				if sprite: side_sign = sign(sprite.scale.x)
+				if side_sign == 0: side_sign = 1
 			target_pos = rand_branch.global_position + Vector2(40 * side_sign, -24)
+			
 	goal.global_position = target_pos
 	# sound feedback
 				
 
-func _on_stage_win() -> void:
-	get_tree().paused = true
+func _on_reward_collected() -> void:
+	Game.unlock_ability(current_reward_key)
 	
-	if current_reward_key != "":
-		Game.unlock_ability(current_reward_key)
+	if not Game.has_seen_ability(current_reward_key):
+		Game.mark_ability_seen(current_reward_key)
+		stage_clear_scn.show_screen(current_reward_key)
+	
+	_spawn_new_tree()
 	
 	if Game.current_stage >= Game.FINAL_STAGE:
 		_game_clear()
@@ -101,6 +110,37 @@ func _on_stage_win() -> void:
 		stage_clear_scn.show_screen(current_reward_key)
 		await get_tree().create_timer(3.0).timeout
 		_purgatory_state()
+
+func _spawn_new_tree() -> void:
+	if not tree_scn: return
+	
+	var new_tree = tree_scn.instantiate()
+	add_child(new_tree)
+	
+	var valid_x = _get_valid_tree_x()
+	new_tree.global_position = Vector2(valid_x, 288)
+	new_tree.growth_completed.connect(_on_tree_growth_completed.bind(new_tree))
+	
+	var params = Game.get_stage_params()
+	new_tree.damage_per_hit = params["enemy_damage"]
+
+func _get_valid_tree_x() -> float:
+	var existing_trees = get_tree().get_nodes_in_group("tree")
+	var min_dist = 120.0
+	var margin = 60.0
+	var level_width = 640.0
+	
+	for i in range(8):
+		var candidate_x = randf_range(margin, level_width - margin)
+		var valid = true
+		
+		for t in existing_trees:
+			if abs(t.global_position.x - candidate_x) < min_dist:
+				valid = false
+				break
+		if valid:
+			return candidate_x
+	return randf_range(margin, level_width - margin)
 
 func _purgatory_state() -> void:
 	stage_clear_scn.hide_screen()

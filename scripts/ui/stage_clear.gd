@@ -25,7 +25,14 @@ func _ready() -> void:
 	content.modulate.a = 0.0
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
+func _unhandled_input(event: InputEvent) -> void:
+	if not visible: return
+	
+	if event.is_action_pressed("interact") or event.is_action_pressed("ui_accept"):
+		hide_screen()
+
 func show_screen(reward_key: String) -> void:
+	get_tree().paused = true
 	if reward_key == "GameClear":
 		title_label.text = ""
 		reward_label.text = ""
@@ -58,6 +65,7 @@ func hide_screen() -> void:
 	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 	tween.tween_property(content, "modulate:a", 0.0, 0.5)
 	tween.tween_callback(func(): visible = false)
+	get_tree().paused = false
 
 func _on_restart_button_pressed():
 	Game.reset_game_state()

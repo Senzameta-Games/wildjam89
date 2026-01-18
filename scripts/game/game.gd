@@ -16,10 +16,13 @@ var unlocked_abilities: Dictionary = {
 	"pesticide": false,
 }
 
+var seen_abilities: Dictionary = {}
+
 func start_new_run() -> void:
 	current_stage = 1
 	total_seeds = 0
 	_reset_abilities()
+	seen_abilities.clear()
 
 func next_stage() -> void:
 	current_stage += 1
@@ -45,9 +48,19 @@ func unlock_ability(ability_key: String) -> void:
 	if ability_key in unlocked_abilities:
 		unlocked_abilities[ability_key] = true
 		ability_unlocked.emit(ability_key)
+		
+func lock_ability(ability_key: String) -> void:
+	if ability_key in unlocked_abilities:
+		unlocked_abilities[ability_key] = false
 
 func has_ability(ability_key: String) -> bool:
 	return unlocked_abilities.get(ability_key, false)
+
+func has_seen_ability(ability_key: String) -> bool:
+	return seen_abilities.get(ability_key, false)
+
+func mark_ability_seen(ability_key: String) -> void:
+	seen_abilities[ability_key] = true
 
 func _get_ability_reward(stage: int) -> String:
 	match stage:
