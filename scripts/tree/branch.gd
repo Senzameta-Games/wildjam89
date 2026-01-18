@@ -109,11 +109,11 @@ func _create_branch(global_pos: Vector2, side: int):
 	collision.position.x = (total_width / 2.0) * side
 	branch.add_child(collision)
 	
-	_try_spawn_content(branch, side, total_width)
+	_try_spawn_content(branch, side, total_width, current_idx)
 
 	_animate_branch_in(branch)
 
-func _try_spawn_content(branch: Node2D, side: int, total_width: float) -> void:
+func _try_spawn_content(branch: Node2D, side: int, total_width: float, branch_index) -> void:
 	var roll = randf()
 	
 	# get nothing
@@ -124,6 +124,8 @@ func _try_spawn_content(branch: Node2D, side: int, total_width: float) -> void:
 	var spawn_dist = randf_range(branch_length, total_width - 8)
 	var spawn_pos = branch.global_position + Vector2(spawn_dist * side, -16)
 	
+	if branch_index == 0:
+		return
 	# get some seeds
 	if roll < (spawn_chance_nothing + spawn_chance_seeds):
 		if seed_bundle_scn:
