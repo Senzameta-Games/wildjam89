@@ -12,6 +12,8 @@ var unlocked_achievements: Dictionary = {}  # achievement_id -> AchievementData
 var total_enemies_stomped: int = 0
 var total_flowers_planted: int = 0
 var recent_stomps: Array[float] = []  # Timestamps of recent stomps for multi-stomp tracking
+var total_bombs_blocked: int = 0
+var killed_enemy_types: Array[String] = []
 
 # All achievements defined here
 var achievement_resources: Dictionary = {}  # achievement_id -> AchievementData
@@ -56,6 +58,20 @@ func load_achievements() -> void:
 			"description": "Plant 5 flowers",
 			"condition": AchievementData.ConditionType.FLOWERS_PLANTED,
 			"threshold": 5
+		},
+		{
+			"id": "bomb_blocker",
+			"name": "Bomb Blocker",
+			"description": "Block a bomb from hitting the tree",
+			"condition": AchievementData.ConditionType.BOMB_BLOCKED,
+			"threshold": 1
+		},
+		{
+			"id": "equal_opportunity_stomper",
+			"name": "Equal Opportunity Stomper",
+			"description": "Stomp on each type of enemy",
+			"condition": AchievementData.ConditionType.EACH_ENEMY_KILLED,
+			"threshold": 3
 		}
 	]
 	
@@ -100,6 +116,15 @@ func check_condition(achievement: AchievementData) -> bool:
 		
 		AchievementData.ConditionType.FLOWERS_PLANTED:
 			return total_flowers_planted >= achievement.threshold
+			
+		AchievementData.ConditionType.BOMB_BLOCKED:
+			return total_bombs_blocked >= achievement.threshold
+			
+		AchievementData.ConditionType.EACH_ENEMY_KILLED:
+			var required_types = ["beetle", "snail", "worm"]
+			# Check if we've killed all required enemy types
+			return killed_enemy_types.size() >= required_types.size() and \
+				required_types.all(func(type): return type in killed_enemy_types)
 		
 		_:
 			return false
@@ -126,14 +151,23 @@ func on_seed_collected() -> void:
 	# Seeds are tracked in Game.total_seeds, just check achievements
 	check_all_achievements()
 
-func on_enemy_stomped() -> void:
+func on_enemy_stomped(enemy_type: String = "enemy") -> void:
 	total_enemies_stomped += 1
 	var current_time = Time.get_ticks_msec() / 1000.0
 	recent_stomps.append(current_time)
+	
+	# Track unique enemy types killed
+	if enemy_type not in killed_enemy_types:
+		killed_enemy_types.append(enemy_type)
+	
 	check_all_achievements()
 
 func on_flower_planted() -> void:
 	total_flowers_planted += 1
+	check_all_achievements()
+	
+func on_bomb_blocked() -> void:
+	total_bombs_blocked += 1
 	check_all_achievements()
 
 func check_all_achievements() -> void:
@@ -149,3 +183,5 @@ func reset_achievements() -> void:
 	total_enemies_stomped = 0
 	total_flowers_planted = 0
 	recent_stomps.clear()
+	total_bombs_blocked = 0
+	killed_enemy_types.clear()
