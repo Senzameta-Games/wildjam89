@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://5u0rjw4fxv62"]
+[gd_scene load_steps=44 format=3 uid="uid://5u0rjw4fxv62"]
 
 [ext_resource type="Script" uid="uid://dps82nj04mquw" path="res://scripts/tree/shop_button.gd" id="1_mbf7r"]
 [ext_resource type="Texture2D" uid="uid://b8ichhlia4jkk" path="res://assets/sprites/tree/Trunk/treetile01.png" id="2_xwrx4"]
@@ -32,6 +32,8 @@
 [ext_resource type="PackedScene" uid="uid://clg6borink2ye" path="res://scenes/enemy/slow-strong.tscn" id="27_lnqmm"]
 [ext_resource type="PackedScene" uid="uid://3mhjgr2g4y7j" path="res://scenes/seed/seed.tscn" id="27_polbh"]
 [ext_resource type="PackedScene" uid="uid://c8ag4374ivpgq" path="res://scenes/enemy/bomb-thrower.tscn" id="28_ukm5v"]
+[ext_resource type="Script" uid="uid://dx4m7j17iilpw" path="res://scripts/tree/tree_progress_bar.gd" id="33_lnqmm"]
+[ext_resource type="AudioStream" uid="uid://dohtb600f0oca" path="res://assets/sounds/placeholder/bip.mp3" id="34_ukm5v"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r4rvj"]
 
@@ -66,7 +68,35 @@ corner_radius_bottom_left = 2
 corner_detail = 1
 expand_margin_left = 1.0
 
-[node name="Tree" type="Node2D"]
+[sub_resource type="LabelSettings" id="LabelSettings_dk2yx"]
+font = ExtResource("3_4ol1s")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k7a1e"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+corner_detail = 2
+expand_margin_left = 4.0
+expand_margin_top = 4.0
+expand_margin_right = 4.0
+expand_margin_bottom = 4.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f0p4d"]
+bg_color = Color(1, 1, 1, 1)
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 1
+corner_radius_top_right = 1
+corner_radius_bottom_right = 1
+corner_radius_bottom_left = 1
+corner_detail = 2
+
+[node name="Tree" type="Node2D" groups=["tree"]]
 visibility_layer = 2
 script = ExtResource("5_bm6y3")
 trunk_textures = Array[Texture2D]([ExtResource("2_xwrx4"), ExtResource("3_0uf4c"), ExtResource("4_urhbk"), ExtResource("5_polbh")])
@@ -87,14 +117,14 @@ debug_color = Color(0.9549287, 2.0214916e-06, 0.54821306, 0.41960785)
 [node name="Sprite2D" type="Sprite2D" parent="TreeTrunk/TreeTop"]
 texture = ExtResource("8_d4o0i")
 
-[node name="TreeBase" type="Node2D" parent="." groups=["tree"]]
+[node name="TreeBase" type="Node2D" parent="."]
 z_index = 10
 
-[node name="TreeHitbox" type="Area2D" parent="TreeBase" groups=["tree"]]
+[node name="TreeHitbox" type="Area2D" parent="TreeBase"]
 collision_layer = 16
 collision_mask = 4
 
-[node name="TreeCollider" type="CollisionShape2D" parent="TreeBase/TreeHitbox" groups=["tree"]]
+[node name="TreeCollider" type="CollisionShape2D" parent="TreeBase/TreeHitbox"]
 position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_bm6y3")
 
@@ -137,7 +167,6 @@ zapper_script = ExtResource("25_0uf4c")
 empty_sfx = NodePath("../SFX/Empty")
 grow_sfx = NodePath("../SFX/ImpulseGrow")
 seed_scn = ExtResource("27_polbh")
-zap_threshold = 10
 
 [node name="Area" type="Area2D" parent="Shop"]
 collision_layer = 16
@@ -147,7 +176,10 @@ collision_mask = 2
 position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_mbf7r")
 
-[node name="BuyPromptContainer" type="HBoxContainer" parent="Shop"]
+[node name="TreeUI" type="CanvasLayer" parent="Shop"]
+layer = 200
+
+[node name="BuyPromptContainer" type="HBoxContainer" parent="Shop/TreeUI"]
 top_level = true
 z_index = 100
 anchors_preset = 7
@@ -155,16 +187,17 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -35.0
-offset_top = -45.0
-offset_right = 62.0
-offset_bottom = -29.0
+offset_left = -29.5
+offset_top = -48.0
+offset_right = 29.5
+offset_bottom = -32.0
 grow_horizontal = 2
 grow_vertical = 0
+size_flags_horizontal = 4
 theme_override_constants/separation = 8
 metadata/_edit_use_anchors_ = true
 
-[node name="Input" type="Label" parent="Shop/BuyPromptContainer"]
+[node name="Input" type="Label" parent="Shop/TreeUI/BuyPromptContainer"]
 custom_minimum_size = Vector2(16, 0)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -174,7 +207,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_d4o0i")
 text = "E"
 horizontal_alignment = 1
 
-[node name="BuyPrompt" type="Label" parent="Shop/BuyPromptContainer"]
+[node name="BuyPrompt" type="Label" parent="Shop/TreeUI/BuyPromptContainer"]
 layout_mode = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 0
@@ -183,6 +216,34 @@ theme_override_constants/outline_size = 2
 theme_override_constants/shadow_outline_size = 4
 theme_override_fonts/font = ExtResource("3_4ol1s")
 text = "Grow"
+
+[node name="TreeProgress" type="VBoxContainer" parent="Shop/TreeUI"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -100.0
+offset_top = -47.0
+offset_right = 100.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 6
+script = ExtResource("33_lnqmm")
+alert_sfx = ExtResource("34_ukm5v")
+
+[node name="Label" type="Label" parent="Shop/TreeUI/TreeProgress"]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_dk2yx")
+
+[node name="ProgressBar" type="ProgressBar" parent="Shop/TreeUI/TreeProgress"]
+texture_filter = 1
+custom_minimum_size = Vector2(120, 12)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_styles/background = SubResource("StyleBoxFlat_k7a1e")
+theme_override_styles/fill = SubResource("StyleBoxFlat_f0p4d")
+show_percentage = false
 
 [connection signal="area_entered" from="TreeBase/TreeHitbox" to="." method="_on_tree_hitbox_area_entered"]
 [connection signal="shop_interacted" from="Shop" to="." method="_on_shop_interacted"]
