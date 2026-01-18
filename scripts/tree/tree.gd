@@ -90,31 +90,30 @@ func add_progress(amount: float):
 	_update_target_sections()
 	_update_leaf_tier_target()
 	
-	# TRIGGER REWARD (ONCE)
 	if tree_progress >= 100.0 and not reward_spawned:
 		reward_spawned = true
 		growth_completed.emit()
 
 func subtract_progress(amount: float):
-	# REMOVED the "if reward_spawned: return" check.
-	# Now trees can always be damaged.
-
 	var progress_delta = tree_progress - amount
 	
 	if progress_delta <= 0.0:
 		tree_progress = 0.0
 		
-		var all_trees = get_tree().get_nodes_in_group("tree")
-		if all_trees.size() > 1:
+		var trees = get_tree().get_nodes_in_group("tree")
+		var active_tree_count = 0
+		for t in trees:
+			if t is SeedTree:
+				active_tree_count += 1
+		
+		if active_tree_count > 1:
 			_die_permanently()
 		else:
 			if not sudden_death:
 				sudden_death = true
-				print("SUDDEN DEATH!")
 			else:
 				Game.game_over_called.emit()
 				tree_died.emit()
-				
 	else: 
 		tree_progress = progress_delta
 		
@@ -130,7 +129,6 @@ func _die_permanently():
 	tween.tween_property(self, "scale", Vector2.ZERO, 0.5).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
 	tween.tween_callback(queue_free)
 
-# ... [Keep rest of the visual logic (_get_fractional_growth, etc.) unchanged] ...
 func _get_fractional_growth() -> float:
 	var full_value = (tree_progress / 100.0) * max_sections
 	var whole_part = int(full_value)
