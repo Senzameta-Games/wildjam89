@@ -12,6 +12,7 @@ var velocity: Vector2
 var grav: float = (Game.gravity / 2)
 
 var exploded: bool = false
+var harmless: bool = false
 
 func setup(dir: float, arc: float) -> void:
 	# arc it
@@ -30,9 +31,10 @@ func _on_body_entered(body: Node2D) -> void:
 	if body:
 		print(str(body))
 		if body.is_in_group("player"):
-			body.hurt(global_position)
-			blow_up()
-			#print("bomb hit something with method hurt() and blew up")
+			if not harmless:
+				body.hurt(global_position)
+				blow_up()
+				#print("bomb hit something with method hurt() and blew up")
 			
 		elif body.is_in_group("level"):
 			blow_up()

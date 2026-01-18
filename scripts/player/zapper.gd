@@ -14,7 +14,7 @@ func zap(target_pos: Vector2) -> void:
 	# lines/feedback
 	# wider line
 	var wide_line = Line2D.new()
-	wide_line.width = 4.0
+	wide_line.width = 2.0
 	wide_line.default_color = Color.WHITE
 	wide_line.points = points
 	add_child(wide_line)

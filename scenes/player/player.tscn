@@ -1,7 +1,8 @@
-[gd_scene load_steps=84 format=3 uid="uid://ciyc0yamaacqw"]
+[gd_scene load_steps=85 format=3 uid="uid://ciyc0yamaacqw"]
 
 [ext_resource type="Script" uid="uid://c5l22pvevgh2q" path="res://scripts/player/player.gd" id="1_dovo2"]
 [ext_resource type="Texture2D" uid="uid://da78vrp648vjw" path="res://assets/sprites/player/idle/raccoonmcidle.png" id="2_5q8fn"]
+[ext_resource type="PackedScene" uid="uid://3mhjgr2g4y7j" path="res://scenes/seed/seed.tscn" id="2_bysbl"]
 [ext_resource type="Texture2D" uid="uid://bd73n0bhblawn" path="res://assets/sprites/player/jump/raccoonmcjumpwhiteoutline1.png" id="3_fvjb1"]
 [ext_resource type="Script" uid="uid://b5r0p46rp1jyn" path="res://state/state_machine.gd" id="3_lvxji"]
 [ext_resource type="Script" uid="uid://qe4qdle3ommv" path="res://state/player/ground_state.gd" id="4_0owmy"]
@@ -237,6 +238,7 @@ player_sprite = NodePath("Sprite")
 player_collider = NodePath("Collider")
 spawn_pos = Vector2(320, 250)
 sfx = NodePath("SFX")
+seed_scn = ExtResource("2_bysbl")
 move_speed = 165.0
 max_move_speed = 800.0
 move_acceleration = 3000.0
