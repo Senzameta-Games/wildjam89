@@ -1,9 +1,8 @@
 extends CanvasLayer
 
 @onready var content: Control = $Content
-@onready var title_label: Label = $Content/StageClearContainer/StageClear
-@onready var subtitle_label: Label = $Content/StageClearContainer/YouGotTheThing
-# referencing to hide it
+@onready var new_game_plus_btn: Button = $Content/StageClearContainer/NewGamePlus
+@onready var quit_btn: Button = $Content/StageClearContainer/QuitToMenu
 
 func _ready() -> void:
 	visible = false
@@ -11,11 +10,9 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
 func show_screen(_key: String = "") -> void:
-	title_label.text = "ALL GEAR SCAVENGED"
-	subtitle_label.text = "The trees marvel at the ingenuity of the raccoon"
+	get_tree().paused = true
+	
 	var reward_icon: TextureRect = $Content/StageClearContainer/RewardIcon
-	if reward_icon:
-		reward_icon.visible = false
 		
 	visible = true
 	
@@ -27,4 +24,14 @@ func hide_screen() -> void:
 	var tween = create_tween()
 	tween.set_pause_mode(Tween.TWEEN_PAUSE_PROCESS)
 	tween.tween_property(content, "modulate:a", 0.0, 0.5)
-	tween.tween_callback(func(): visible = false)
+	tween.tween_callback(func(): 
+		visible = false
+		get_tree().paused = false
+	)
+
+func _on_new_game_plus_pressed() -> void:
+	pass
+
+func _on_quit_pressed() -> void:
+	get_tree().paused = false
+	get_tree().change_scene_to_file("res://scenes/ui/title_screen.tscn")

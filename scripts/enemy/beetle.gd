@@ -8,9 +8,12 @@ class_name Beetle
 @export var throw_arc: float
 
 @onready var throw_timer: Timer = $ThrowTimer
-@onready var fuzzy_hold_dist = randf_range((hold_dist * 0.7), (hold_dist * 1.2))
+@onready var fuzzy_hold_dist = randf_range((hold_dist * 0.6), (hold_dist * 1.0))
 
 @onready var beetle_sprite: AnimatedSprite2D = $Sprite
+
+const SCREEN_MIN_X = 40.0
+const SCREEN_MAX_X = 600.0
 
 var about_to_throw: bool = false
 var can_throw: bool = true
@@ -30,7 +33,15 @@ func move_towards_target() -> void:
 	var target_x = current_target.global_position.x - (target_dir * fuzzy_hold_dist)
 	var move_dir = sign(target_x - global_position.x)
 	
-	if abs(global_position.x - target_x) > buffer:
+	var future_pos = global_position.x + (move_dir * speed * get_physics_process_delta_time())
+	var hitting_wall: bool = false
+	
+	if move_dir < 0 and future_pos < SCREEN_MIN_X:
+		hitting_wall = true
+	if move_dir > 0 and future_pos > SCREEN_MAX_X:
+		hitting_wall = true
+	
+	if abs(global_position.x - target_x) > buffer and not hitting_wall:
 		velocity.x = move_dir * speed
 	else:
 		velocity.x = move_toward(velocity.x, 0, 10)
@@ -42,6 +53,8 @@ func move_towards_target() -> void:
 			enemy_sprite.flip_h = target_dir > 0
 		else:
 			enemy_sprite.play("idle")
+			if current_target:
+				enemy_sprite.flip_h = (current_target.global_position.x - global_position.x) > 0
 
 func _on_timer_timeout() -> void:
 	if not about_to_throw and current_target:

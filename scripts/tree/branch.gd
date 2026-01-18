@@ -10,14 +10,16 @@ extends Node2D
 
 @export_category("Spawning")
 @export var seed_bundle_scn: PackedScene
+@export var enemy_spawner_scn: PackedScene # NEW: Spawner scene reference
 @export var enemy_roster: Array[PackedScene] = []
-@export var spawn_chance_nothing: float = 0.6
-@export var spawn_chance_seeds: float = 0.3
 
-# Navigation: Finding the Tree node
+# Spawn Weights
+@export var spawn_chance_nothing: float = 0.5
+@export var spawn_chance_seeds: float = 0.25
+
+
 @onready var tree_node: SeedTree = owner
 
-# The "Registry": A list to keep track of every branch object created
 var active_branches: Array[Node2D] = []
 
 func _ready():
@@ -32,33 +34,27 @@ func _process(_delta):
 	var current_trunk_height = tree_node.current_sections
 	var current_branch_count = active_branches.size()
 	
-	# CASE 1: Tree grew taller
+	# tree grew taller
 	if current_branch_count < current_trunk_height:
-		# 'current_branch_count' is effectively the "Floor Number" we are on.
 		# Check if it's divisible by 2
 		if current_branch_count % 2 == 0:
 			_spawn_branch_at_next_height()
 		else:
-			# IMPORTANT: Even if we skip spawning a branch,
-			# we add 'null' to the list.
-			# This keeps our "Branch List" the same height as the "Tree Trunk".
 			active_branches.append(null)
 	
-	# CASE 2: Tree shrank
+	# tree shrank
 	elif current_branch_count > current_trunk_height:
 		_remove_excess_branches()
 
 func _on_growth_completed():
-	# Only spawn if we haven't already reached the current height
+	# only spawn if we haven't already reached the current height
 	if active_branches.size() < tree_node.current_sections:
 		_spawn_branch_at_next_height()
 
 func _spawn_branch_at_next_height():
-	# Identify which "floor" this branch belongs to
+	# get floor this branch belongs to
 	var branch_index = active_branches.size()
-	
-	# MATH: Base Y - (Index * Height)
-	# Index 0 sits at the first log, Index 1 at the second, etc.
+
 	var y_offset = branch_index * tree_node.trunk_section_height
 	var branch_y = tree_node.global_position.y - y_offset
 	var branch_x = tree_node.global_position.x
@@ -68,7 +64,7 @@ func _spawn_branch_at_next_height():
 
 func _create_branch(global_pos: Vector2, side: int):
 	var current_idx = active_branches.size()
-	var max_segments = 7
+	var max_segments = 4
 	
 	if current_idx <= 2:
 		max_segments = 2
@@ -87,7 +83,7 @@ func _create_branch(global_pos: Vector2, side: int):
 	branch.global_position = Vector2(global_pos.x + edge_offset, global_pos.y)
 	active_branches.append(branch)
 
-	var leaf_idx := [0] # <-- mutable counter (array of one int)
+	var leaf_idx := [0]
 
 	for i in range(segments):
 		var sprite = Sprite2D.new()
@@ -100,7 +96,6 @@ func _create_branch(global_pos: Vector2, side: int):
 
 		_add_leaves_to_segment(branch, i, side, offset_from_bark, leaf_idx)
 
-	# collision...
 	var collision = CollisionShape2D.new()
 	var shape = RectangleShape2D.new()
 	shape.size = Vector2(total_width, 8)
@@ -114,27 +109,43 @@ func _create_branch(global_pos: Vector2, side: int):
 	_animate_branch_in(branch)
 
 func _try_spawn_content(branch: Node2D, side: int, total_width: float, branch_index) -> void:
+	if branch_index == 0:
+		return
+		
 	var roll = randf()
 	
-	# get nothing
+	# 1. Spawn Nothing
 	if roll < spawn_chance_nothing:
 		return
 		
-	# find spawn spot
+	# Find spawn spot
 	var spawn_dist = randf_range(branch_length, total_width - 8)
 	var spawn_pos = branch.global_position + Vector2(spawn_dist * side, -16)
 	
-	if branch_index == 0:
-		return
-	# get some seeds
+	# 2. Spawn Seeds
 	if roll < (spawn_chance_nothing + spawn_chance_seeds):
 		if seed_bundle_scn:
 			var bundle = seed_bundle_scn.instantiate()
 			get_tree().current_scene.add_child(bundle)
 			bundle.global_position = spawn_pos
 		return
+
+	# 3. Spawn Enemy Spawner (NEW)
+	# Roll check for spawner (approx 10-15%)
+	var spawner_threshold = spawn_chance_nothing + spawn_chance_seeds + 0.15 # 0.5 + 0.25 + 0.15 = 0.9
+	
+	if roll < spawner_threshold and enemy_spawner_scn:
+		var spawner = enemy_spawner_scn.instantiate()
+		get_tree().current_scene.add_child(spawner)
+		spawner.global_position = spawn_pos
 		
-	# aggro enemy spawn
+		# Configure spawner to be passive
+		spawner.spawn_passive = true
+		spawner.enemies = enemy_roster # Give it the roster
+		spawner.timer_interval = randf_range(3.0, 6.0)
+		return
+
+	# 4. Aggro Enemy Spawn (Remaining %)
 	if not enemy_roster.is_empty():
 		var enemy_scn = enemy_roster.pick_random()
 		var enemy = enemy_scn.instantiate()
@@ -202,14 +213,13 @@ func _animate_leaf_in(leaf: Sprite2D, delay: float = 0.0):
 		.set_ease(Tween.EASE_OUT)
 
 func _remove_excess_branches():
-	# Pop the last (highest) branch out of our list
 	var branch_to_remove = active_branches.pop_back()
 	if is_instance_valid(branch_to_remove):
-		# You could add a "Fall away" animation here!
 		branch_to_remove.queue_free()
 
 func _animate_branch_in(branch: Node2D):
 	branch.scale = Vector2.ZERO
 	var tween = create_tween().set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	tween.tween_property(branch, "scale", Vector2.ONE, grow_duration)
-	owner.impulse_grow_sfx.play()
+	if owner and owner.impulse_grow_sfx:
+		owner.impulse_grow_sfx.play()

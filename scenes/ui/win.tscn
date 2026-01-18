@@ -1,0 +1,120 @@
+[gd_scene load_steps=11 format=3 uid="uid://ktktf7qr20j7"]
+
+[ext_resource type="Script" uid="uid://d1sl3reli2sg5" path="res://scripts/ui/game_clear.gd" id="1_hs3yd"]
+[ext_resource type="Texture2D" uid="uid://b5qkp4ycqnerd" path="res://assets/sprites/items/acorns/acorn.png" id="2_gtoyh"]
+[ext_resource type="Texture2D" uid="uid://d238xmmjguwum" path="res://assets/sprites/items/bigstomps/boot.png" id="4_bj6ca"]
+[ext_resource type="Texture2D" uid="uid://d2jlve8yunyeh" path="res://assets/sprites/items/golden_leaf/goalsprite1.png" id="4_hs3yd"]
+[ext_resource type="FontFile" uid="uid://bxn105qovmxyq" path="res://assets/fonts/Ruler 9.ttf" id="8_dkba7"]
+[ext_resource type="FontFile" uid="uid://cycbiy0d7iv67" path="res://assets/fonts/Tiny5-Regular.ttf" id="9_eds2p"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_oh052"]
+font = ExtResource("8_dkba7")
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_7cqm2"]
+font = ExtResource("9_eds2p")
+
+[sub_resource type="LabelSettings" id="LabelSettings_jwkcq"]
+font = ExtResource("8_dkba7")
+
+[sub_resource type="LabelSettings" id="LabelSettings_bxd5g"]
+font = ExtResource("9_eds2p")
+
+[node name="GameClear" type="CanvasLayer"]
+script = ExtResource("1_hs3yd")
+
+[node name="Content" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Scrim" type="ColorRect" parent="Content"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.7058824)
+
+[node name="StageClearContainer" type="VBoxContainer" parent="Content"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -92.0
+offset_top = -49.0
+offset_right = 92.0
+offset_bottom = 49.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+
+[node name="StageClear" type="Label" parent="Content/StageClearContainer"]
+layout_mode = 2
+text = "GOLDEN LEAF BESTOWED"
+label_settings = SubResource("LabelSettings_oh052")
+horizontal_alignment = 1
+
+[node name="YouGotTheThing" type="Label" parent="Content/StageClearContainer"]
+layout_mode = 2
+text = "The trees marvel at the ingenuity of the raccoon."
+label_settings = SubResource("LabelSettings_7cqm2")
+horizontal_alignment = 1
+
+[node name="Ability" type="HBoxContainer" parent="Content/StageClearContainer"]
+layout_mode = 2
+theme_override_constants/separation = 24
+alignment = 1
+
+[node name="Margin" type="MarginContainer" parent="Content/StageClearContainer/Ability"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="RewardIcon" type="TextureRect" parent="Content/StageClearContainer/Ability/Margin"]
+layout_mode = 2
+texture = ExtResource("4_hs3yd")
+stretch_mode = 3
+
+[node name="Labels" type="VBoxContainer" parent="Content/StageClearContainer/Ability"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="ItemName" type="Label" parent="Content/StageClearContainer/Ability/Labels"]
+layout_mode = 2
+text = "Golden Leaf"
+label_settings = SubResource("LabelSettings_jwkcq")
+
+[node name="ItemDesc" type="Label" parent="Content/StageClearContainer/Ability/Labels"]
+layout_mode = 2
+text = "Take this gift and cherish it."
+label_settings = SubResource("LabelSettings_bxd5g")
+
+[node name="NewGamePlus" type="Button" parent="Content/StageClearContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("8_dkba7")
+text = "Emerge in the new year
+(New Game Plus)"
+icon = ExtResource("2_gtoyh")
+alignment = 0
+
+[node name="QuitToMenu" type="Button" parent="Content/StageClearContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("8_dkba7")
+text = "Quit To Menu"
+icon = ExtResource("4_bj6ca")
+alignment = 0
+
+[connection signal="pressed" from="Content/StageClearContainer/NewGamePlus" to="." method="_on_new_game_plus_pressed"]
+[connection signal="pressed" from="Content/StageClearContainer/QuitToMenu" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="Content/StageClearContainer/QuitToMenu" to="." method="_on_quit_to_menu_pressed"]

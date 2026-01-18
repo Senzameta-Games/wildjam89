@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://cfl62gijxtptm"]
+[gd_scene load_steps=36 format=3 uid="uid://cfl62gijxtptm"]
 
 [ext_resource type="PackedScene" uid="uid://ciyc0yamaacqw" path="res://scenes/player/player.tscn" id="1_nbgty"]
 [ext_resource type="Script" uid="uid://f1ao7nyts6na" path="res://scripts/level/level.gd" id="1_wcngd"]
@@ -18,13 +18,12 @@
 [ext_resource type="Script" uid="uid://b7x7dtjh3m4hu" path="res://scripts/ui/ability_row.gd" id="18_qjqsm"]
 [ext_resource type="Script" uid="uid://dsjm3g7gr02wc" path="res://scripts/ui/tree_meters.gd" id="21_r732y"]
 [ext_resource type="Script" uid="uid://dq3mklt16ehm1" path="res://scripts/ui/flower_stats.gd" id="23_87pmf"]
+[ext_resource type="PackedScene" uid="uid://ktktf7qr20j7" path="res://scenes/ui/win.tscn" id="23_cqqhe"]
 [ext_resource type="Texture2D" uid="uid://gucr12hgnqie" path="res://assets/sprites/flower/flowerred.png" id="23_r732y"]
-[ext_resource type="PackedScene" uid="uid://dpxb8hcxh5heh" path="res://scenes/ui/game_clear.tscn" id="25_cqqhe"]
 [ext_resource type="Texture2D" uid="uid://b6aq64kifulkl" path="res://assets/sprites/flower/flowergreen.png" id="25_mf35j"]
 [ext_resource type="FontFile" uid="uid://cycbiy0d7iv67" path="res://assets/fonts/Tiny5-Regular.ttf" id="25_t51ir"]
 [ext_resource type="Texture2D" uid="uid://bnrlv6xwr6dd8" path="res://assets/sprites/flower/flowerblue.png" id="26_t51ir"]
 [ext_resource type="Script" uid="uid://chy5vii7fk6sl" path="res://scripts/music/dynamic_music.gd" id="26_u5w0m"]
-[ext_resource type="Script" uid="uid://d1sl3reli2sg5" path="res://scripts/ui/game_clear.gd" id="26_yoh1m"]
 [ext_resource type="AudioStream" uid="uid://ba1w3s3lkrw5e" path="res://assets/sounds/music/StompTreeMaster.wav" id="28_fhw5o"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hnne4"]
@@ -305,9 +304,8 @@ stretch_mode = 3
 [node name="StageClear" parent="." instance=ExtResource("17_ivku7")]
 visible = false
 
-[node name="GameClear" parent="." instance=ExtResource("25_cqqhe")]
+[node name="GameClear" parent="." instance=ExtResource("23_cqqhe")]
 visible = false
-script = ExtResource("26_yoh1m")
 
 [node name="Music" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("28_fhw5o")

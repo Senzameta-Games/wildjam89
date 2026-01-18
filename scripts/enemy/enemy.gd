@@ -24,23 +24,43 @@ signal enemy_defeated
 @onready var dropped_seed: Node2D = $Seed
 
 
+var passive_movement: bool = false
+var passive_dir: float = 0.0
+
 func _ready() -> void:
 	$SFX/Spawned.play()
-	aggro_tree()
+	if not passive_movement:
+		aggro_tree()
+	else:
+
+		passive_dir = 1.0 if global_position.x < 320.0 else -1.0
 
 func _physics_process(delta: float) -> void:
-	# Add the gravity.
+
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 	move_towards_target()
 	move_and_slide()
 
+
+func no_aggro() -> void:
+	passive_movement = true
+
+	current_target = null
+	
+	if is_inside_tree():
+		passive_dir = 1.0 if global_position.x < 320.0 else -1.0
+
 func aggro_player() -> void:
+	if passive_movement: return
+	
 	enemy_sprite.modulate = Color.RED
 	current_target = get_tree().get_first_node_in_group("player")
 	$Hitbox.set_collision_layer_value(3, false)
 
 func aggro_tree() -> void:
+	if passive_movement: return
+	
 	var trees = get_tree().get_nodes_in_group("tree")
 	var closest_tree = null
 	var closest_dist = INF
@@ -57,6 +77,14 @@ func aggro_tree() -> void:
 		current_target = get_tree().get_first_node_in_group("tree")
 
 func move_towards_target() -> void:
+	if passive_movement:
+		velocity.x = passive_dir * speed
+		if enemy_sprite:
+			enemy_sprite.play("walk")
+			if passive_dir != 0:
+				enemy_sprite.flip_h = passive_dir < 0
+		return
+
 	if not is_instance_valid(current_target):
 		aggro_tree()
 		return
@@ -178,4 +206,3 @@ func sacrifice() -> void:
 	set_physics_process(false)
 	$Collider.set_deferred("disabled", true)
 	queue_free()
-	

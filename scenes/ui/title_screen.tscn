@@ -4,8 +4,8 @@
 [ext_resource type="FontFile" uid="uid://bxn105qovmxyq" path="res://assets/fonts/Ruler 9.ttf" id="2_font"]
 
 [node name="TitleScreen" type="CanvasLayer"]
-layer = 101
 process_mode = 3
+layer = 101
 script = ExtResource("1_title")
 
 [node name="Control" type="Control" parent="."]
@@ -45,7 +45,7 @@ alignment = 1
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_font")
 theme_override_font_sizes/font_size = 32
-text = "GAME TITLE"
+text = "Fiora il Procione"
 horizontal_alignment = 1
 
 [node name="StartButton" type="Button" parent="Control/VBoxContainer"]

@@ -1,11 +1,11 @@
 extends Node
 
-const FINAL_STAGE: int = 7
-
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
-
+var trees_grown_count: int = 0 # win state looks for 4
 signal game_over_called
+signal game_won
 signal ability_unlocked(ability_name: String)
+
 
 var current_stage: int = 1
 var unlocked_abilities: Dictionary = {
@@ -72,14 +72,19 @@ func _get_ability_reward(stage: int) -> String:
 			return all_keys.pick_random()
 
 func check_win_con() -> bool:
-	for key in unlocked_abilities:
-		if unlocked_abilities[key] == false:
-			return false
-	return true
+	var seen_all = seen_abilities.size() >= 3 
+	var grown_enough = trees_grown_count >= 4
+	return seen_all and grown_enough
 
 func _reset_abilities():
 	for key in unlocked_abilities:
 		unlocked_abilities[key] = false
+
+func register_tree_grown() -> void:
+	trees_grown_count += 1
+
+func win_game() -> void:
+	game_won.emit()
 
 #==================================================================================================#
 
@@ -168,6 +173,9 @@ func reset_game_state() -> void:
 	if Achievements:
 		Achievements.reset_achievements()
 	# Keep game_has_started = true so title screen doesn't show on restart
+	
+func big_money() -> void:
+	total_seeds = 999
 		
 func _unhandled_input(event):
 	if not OS.has_feature("editor"): return
@@ -181,3 +189,6 @@ func _unhandled_input(event):
 		
 		if Input.is_action_just_pressed("zapper_get"):
 			unlock_ability("pesticide")
+		
+		if Input.is_action_just_pressed("big_money"):
+			big_money()

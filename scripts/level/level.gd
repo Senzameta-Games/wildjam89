@@ -9,11 +9,13 @@ class_name Level
 @export var next_level_btn_scn: PackedScene
 @export var tree_scn: PackedScene = preload("res://scenes/tree/tree.tscn")
 @export var acorn_scn: PackedScene = preload("res://scenes/tree/acorn_seed.tscn")
+@export var golden_leaf_scn: PackedScene = preload("res://scenes/goal/goldenleaf.tscn")
 
 var goal_scenes: Dictionary = {
 	"aim_stomp": preload("res://scenes/goal/stopwatch.tscn"),
 	"double_jump": preload("res://scenes/goal/feather.tscn"),
 	"pesticide": preload("res://scenes/goal/pesticide.tscn"),
+	"golden_leaf": preload("res://scenes/goal/goldenleaf.tscn")
 }
 
 var current_reward_key: String = ""
@@ -65,15 +67,22 @@ func _on_tree_slot_freed(slot_index: int) -> void:
 		call_deferred("_spawn_new_tree")
 
 func _on_tree_growth_completed(source_tree: SeedTree) -> void:
-	print("Tree growth completed! Attempting to spawn reward: ", current_reward_key)
 	
+	Game.register_tree_grown()
+	if Game.check_win_con():
+		current_reward_key = "golden_leaf"
+	else:
+		var params = Game.get_stage_params()
+		current_reward_key = params["ability_reward"]
+
 	var goal_scn = null
-	if goal_scenes.has(current_reward_key):
+	
+	if current_reward_key == "golden_leaf" and golden_leaf_scn:
+		goal_scn = golden_leaf_scn
+	elif goal_scenes.has(current_reward_key):
 		goal_scn = goal_scenes[current_reward_key]
 	else:
-		print("ERROR: No scene found for key '", current_reward_key, "'. Skipping reward.")
-		_on_reward_collected() # Skip to next stage if reward missing
-		return
+		goal_scn = goal_scenes.values().pick_random()
 
 	# Instantiate Goal
 	var goal = goal_scn.instantiate()
@@ -82,7 +91,6 @@ func _on_tree_growth_completed(source_tree: SeedTree) -> void:
 	goal.z_index = 100
 	goal.goal_reached.connect(_on_reward_collected)
 	
-	# --- POSITIONING LOGIC ---
 	# Try to spawn on a branch first
 	var target_pos = Vector2.ZERO
 	var found_branch = false
@@ -115,7 +123,6 @@ func _on_tree_growth_completed(source_tree: SeedTree) -> void:
 			target_pos = rand_branch.global_position + Vector2(40 * side_sign, -24)
 			found_branch = true
 	
-	# Fallback: Spawn floating above the tree top
 	if not found_branch:
 		# Use the visual TreeTop node to find the actual height
 		if source_tree.tree_top:
@@ -127,28 +134,32 @@ func _on_tree_growth_completed(source_tree: SeedTree) -> void:
 	print("Goal spawned at ", target_pos)
 
 func _on_reward_collected() -> void:
-	print("Reward collected. Advancing stage.")
+	print("Reward collected. Checking type: ", current_reward_key)
+	if current_reward_key == "golden_leaf":
+		if game_clear_scn:
+			game_clear_scn.show_screen("golden_leaf")
+		return
+
+	print("Advancing stage.")
 	
 	if current_reward_key != "":
 		Game.unlock_ability(current_reward_key)
 	
 	if not Game.has_seen_ability(current_reward_key) and current_reward_key != "":
 		Game.mark_ability_seen(current_reward_key)
-		stage_clear_scn.show_screen(current_reward_key)
+		if stage_clear_scn:
+			stage_clear_scn.show_screen(current_reward_key)
 	
-	# Advance Stage
 	Game.current_stage += 1
 	var params = Game.get_stage_params()
 	current_reward_key = params["ability_reward"]
 	print("Next Stage: ", Game.current_stage, " | Next Reward: ", current_reward_key)
 	
-	# Update Spawners
 	var spawners = get_tree().get_nodes_in_group("spawner")
 	for spawner in spawners:
 		if spawner is EnemySpawner:
 			spawner.timer_interval = params.spawn_interval
 			
-	# Spawn Next Tree
 	call_deferred("_spawn_new_tree")
 
 func _spawn_new_tree() -> void:
