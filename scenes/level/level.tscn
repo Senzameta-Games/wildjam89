@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://cfl62gijxtptm"]
+[gd_scene load_steps=43 format=3 uid="uid://cfl62gijxtptm"]
 
 [ext_resource type="PackedScene" uid="uid://ciyc0yamaacqw" path="res://scenes/player/player.tscn" id="1_nbgty"]
 [ext_resource type="Script" uid="uid://f1ao7nyts6na" path="res://scripts/level/level.gd" id="1_wcngd"]
@@ -9,7 +9,6 @@
 [ext_resource type="PackedScene" uid="uid://c8yn67wshcpor" path="res://scenes/enemy/fast-weak.tscn" id="5_xv074"]
 [ext_resource type="PackedScene" uid="uid://c8ag4374ivpgq" path="res://scenes/enemy/bomb-thrower.tscn" id="6_pe1ox"]
 [ext_resource type="PackedScene" uid="uid://clg6borink2ye" path="res://scenes/enemy/slow-strong.tscn" id="6_sytrn"]
-[ext_resource type="PackedScene" uid="uid://bgfe0hn24uhk1" path="res://scenes/goal/goal.tscn" id="7_tf2q7"]
 [ext_resource type="PackedScene" uid="uid://5u0rjw4fxv62" path="res://scenes/tree/tree.tscn" id="7_wcngd"]
 [ext_resource type="Script" uid="uid://wj3def6gl0vr" path="res://scripts/game/camera.gd" id="9_sytrn"]
 [ext_resource type="Script" uid="uid://bpdggf0ahipqg" path="res://scripts/ui/seed_counter.gd" id="12_vrc4q"]
@@ -18,18 +17,18 @@
 [ext_resource type="PackedScene" uid="uid://kti6pw1y8020" path="res://scenes/ui/achievement_manager.tscn" id="15_ss4b2"]
 [ext_resource type="PackedScene" uid="uid://bne58sbwdhc4l" path="res://scenes/ui/stage_clear.tscn" id="17_ivku7"]
 [ext_resource type="Script" uid="uid://b7x7dtjh3m4hu" path="res://scripts/ui/ability_row.gd" id="18_qjqsm"]
-[ext_resource type="Texture2D" uid="uid://b5qkp4ycqnerd" path="res://assets/sprites/items/acorns/acorn.png" id="19_b3up8"]
 [ext_resource type="Texture2D" uid="uid://2jlluw0iil3t" path="res://assets/sprites/items/aimstomp/stopwatch.png" id="20_cqqhe"]
 [ext_resource type="Texture2D" uid="uid://c4m88c6a3ep6t" path="res://assets/sprites/items/doublejump/feather.png" id="21_yoh1m"]
 [ext_resource type="Texture2D" uid="uid://d07t3ds35gotx" path="res://assets/sprites/items/pesticide/pesticide.png" id="22_u5w0m"]
 [ext_resource type="Script" uid="uid://dq3mklt16ehm1" path="res://scripts/ui/flower_stats.gd" id="23_87pmf"]
-[ext_resource type="Texture2D" uid="uid://d238xmmjguwum" path="res://assets/sprites/items/bigstomps/boot.png" id="23_fhw5o"]
 [ext_resource type="Texture2D" uid="uid://gucr12hgnqie" path="res://assets/sprites/flower/flowerred.png" id="23_r732y"]
 [ext_resource type="PackedScene" uid="uid://dpxb8hcxh5heh" path="res://scenes/ui/game_clear.tscn" id="25_cqqhe"]
 [ext_resource type="Texture2D" uid="uid://b6aq64kifulkl" path="res://assets/sprites/flower/flowergreen.png" id="25_mf35j"]
+[ext_resource type="FontFile" uid="uid://cycbiy0d7iv67" path="res://assets/fonts/Tiny5-Regular.ttf" id="25_t51ir"]
 [ext_resource type="Texture2D" uid="uid://bnrlv6xwr6dd8" path="res://assets/sprites/flower/flowerblue.png" id="26_t51ir"]
 [ext_resource type="Script" uid="uid://chy5vii7fk6sl" path="res://scripts/music/dynamic_music.gd" id="26_u5w0m"]
 [ext_resource type="Script" uid="uid://d1sl3reli2sg5" path="res://scripts/ui/game_clear.gd" id="26_yoh1m"]
+[ext_resource type="Texture2D" uid="uid://cl7cn87nh7x8w" path="res://assets/sprites/tree/acorn.png" id="27_87pmf"]
 [ext_resource type="AudioStream" uid="uid://ba1w3s3lkrw5e" path="res://assets/sounds/music/StompTreeMaster.wav" id="28_fhw5o"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hnne4"]
@@ -39,7 +38,7 @@ size = Vector2(640, 120)
 size = Vector2(38, 664)
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_hfr1v"]
-color = Color(0.15668055, 0.024334267, 0.038237233, 1)
+color = Color(0.101960786, 0.023529412, 0.039215688, 1)
 thickness = 6
 vertical = true
 
@@ -49,10 +48,10 @@ thickness = 6
 vertical = true
 
 [sub_resource type="LabelSettings" id="LabelSettings_bdmju"]
-font = ExtResource("13_x4oov")
+font = ExtResource("25_t51ir")
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_uhw4h"]
-color = Color(0.063821144, 0.14246508, 0.01725775, 1)
+color = Color(0.0627451, 0.11764706, 0.015686275, 1)
 thickness = 6
 vertical = true
 
@@ -62,7 +61,7 @@ thickness = 6
 vertical = true
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_lilx5"]
-color = Color(1.6123802e-06, 0.08683371, 0.28147107, 1)
+color = Color(0, 0.08627451, 0.19215687, 1)
 thickness = 6
 vertical = true
 
@@ -70,6 +69,26 @@ vertical = true
 color = Color(0.3882353, 0.60784316, 1, 1)
 thickness = 6
 vertical = true
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_mf35j"]
+color = Color(0.0885599, 0.08855992, 0.08855987, 1)
+thickness = 6
+vertical = true
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_t51ir"]
+color = Color(1, 1, 1, 1)
+thickness = 6
+vertical = true
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_87pmf"]
+bg_color = Color(0.060530342, 0.060530365, 0.060530297, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.12955844, 0.1295585, 0.12955835, 1)
+corner_detail = 1
+anti_aliasing = false
 
 [node name="Level" type="Node2D"]
 script = ExtResource("1_wcngd")
@@ -142,9 +161,6 @@ enemies = Array[PackedScene]([ExtResource("5_xv074"), ExtResource("6_sytrn"), Ex
 [node name="Tree" parent="." instance=ExtResource("7_wcngd")]
 position = Vector2(320, 288)
 
-[node name="Goal" parent="." instance=ExtResource("7_tf2q7")]
-position = Vector2(360, 40)
-
 [node name="Player" parent="." instance=ExtResource("1_nbgty")]
 z_index = 11
 collision_mask = 57
@@ -173,18 +189,21 @@ stretch_mode = 4
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="Seeds" type="HBoxContainer" parent="UI"]
-offset_left = 8.0
-offset_top = 320.0
-offset_right = 62.0
-offset_bottom = 352.0
+offset_left = 13.0
+offset_top = 319.0
+offset_right = 75.0
+offset_bottom = 351.0
 size_flags_horizontal = 0
 theme_override_constants/separation = 4
 script = ExtResource("12_vrc4q")
 
 [node name="TextureRect" type="TextureRect" parent="UI/Seeds"]
+custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 texture = ExtResource("15_b3up8")
-stretch_mode = 3
+expand_mode = 2
 
 [node name="seed_count" type="Label" parent="UI/Seeds"]
 layout_mode = 2
@@ -194,29 +213,13 @@ text = "000"
 
 [node name="AchievementManager" parent="UI" instance=ExtResource("15_ss4b2")]
 
-[node name="Abilities" type="HBoxContainer" parent="UI"]
-z_index = 100
-texture_filter = 1
-offset_left = 71.0
-offset_top = 315.0
-offset_right = 210.0
-offset_bottom = 355.0
-theme_override_constants/separation = 0
-script = ExtResource("18_qjqsm")
-ability_icons = {
-"acorns": ExtResource("19_b3up8"),
-"aim_stomp": ExtResource("20_cqqhe"),
-"big_stomps": ExtResource("23_fhw5o"),
-"double_jump": ExtResource("21_yoh1m"),
-"pesticide": ExtResource("22_u5w0m")
-}
-
 [node name="FlowerMeters" type="HBoxContainer" parent="UI"]
-offset_left = 436.0
-offset_top = 315.0
-offset_right = 605.0
-offset_bottom = 355.0
-theme_override_constants/separation = 32
+offset_left = 493.0
+offset_top = 326.0
+offset_right = 623.0
+offset_bottom = 344.0
+size_flags_horizontal = 0
+theme_override_constants/separation = 8
 script = ExtResource("23_87pmf")
 
 [node name="RedFlower" type="HBoxContainer" parent="UI/FlowerMeters"]
@@ -284,6 +287,168 @@ show_percentage = false
 layout_mode = 2
 text = "00"
 label_settings = SubResource("LabelSettings_bdmju")
+
+[node name="TreeMeters" type="HBoxContainer" parent="UI"]
+offset_left = 199.0
+offset_top = 315.0
+offset_right = 441.0
+offset_bottom = 355.0
+theme_override_constants/separation = 8
+script = ExtResource("23_87pmf")
+
+[node name="Tree1" type="HBoxContainer" parent="UI/TreeMeters"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Sprite" type="TextureRect" parent="UI/TreeMeters/Tree1"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("27_87pmf")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Index" type="Label" parent="UI/TreeMeters/Tree1"]
+layout_mode = 2
+text = "1"
+label_settings = SubResource("LabelSettings_bdmju")
+vertical_alignment = 2
+
+[node name="Meter" type="ProgressBar" parent="UI/TreeMeters/Tree1"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("StyleBoxLine_mf35j")
+theme_override_styles/fill = SubResource("StyleBoxLine_t51ir")
+fill_mode = 3
+show_percentage = false
+
+[node name="Tree2" type="HBoxContainer" parent="UI/TreeMeters"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Sprite" type="TextureRect" parent="UI/TreeMeters/Tree2"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("27_87pmf")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Index" type="Label" parent="UI/TreeMeters/Tree2"]
+layout_mode = 2
+text = "2"
+label_settings = SubResource("LabelSettings_bdmju")
+vertical_alignment = 2
+
+[node name="Meter" type="ProgressBar" parent="UI/TreeMeters/Tree2"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("StyleBoxLine_mf35j")
+theme_override_styles/fill = SubResource("StyleBoxLine_t51ir")
+fill_mode = 3
+show_percentage = false
+
+[node name="Tree3" type="HBoxContainer" parent="UI/TreeMeters"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Sprite" type="TextureRect" parent="UI/TreeMeters/Tree3"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("27_87pmf")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Index" type="Label" parent="UI/TreeMeters/Tree3"]
+layout_mode = 2
+text = "3"
+label_settings = SubResource("LabelSettings_bdmju")
+vertical_alignment = 2
+
+[node name="Meter" type="ProgressBar" parent="UI/TreeMeters/Tree3"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("StyleBoxLine_mf35j")
+theme_override_styles/fill = SubResource("StyleBoxLine_t51ir")
+fill_mode = 3
+show_percentage = false
+
+[node name="Tree4" type="HBoxContainer" parent="UI/TreeMeters"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Sprite" type="TextureRect" parent="UI/TreeMeters/Tree4"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("27_87pmf")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Index" type="Label" parent="UI/TreeMeters/Tree4"]
+layout_mode = 2
+text = "4"
+label_settings = SubResource("LabelSettings_bdmju")
+vertical_alignment = 2
+
+[node name="Meter" type="ProgressBar" parent="UI/TreeMeters/Tree4"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("StyleBoxLine_mf35j")
+theme_override_styles/fill = SubResource("StyleBoxLine_t51ir")
+fill_mode = 3
+show_percentage = false
+
+[node name="Tree5" type="HBoxContainer" parent="UI/TreeMeters"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Sprite" type="TextureRect" parent="UI/TreeMeters/Tree5"]
+custom_minimum_size = Vector2(24, 24)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("27_87pmf")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Index" type="Label" parent="UI/TreeMeters/Tree5"]
+layout_mode = 2
+text = "5"
+label_settings = SubResource("LabelSettings_bdmju")
+vertical_alignment = 2
+
+[node name="Meter" type="ProgressBar" parent="UI/TreeMeters/Tree5"]
+custom_minimum_size = Vector2(0, 18)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/background = SubResource("StyleBoxLine_mf35j")
+theme_override_styles/fill = SubResource("StyleBoxLine_t51ir")
+fill_mode = 3
+show_percentage = false
+
+[node name="AbilityContainer" type="PanelContainer" parent="UI"]
+offset_left = 117.0
+offset_top = 317.0
+offset_right = 153.0
+offset_bottom = 353.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_87pmf")
+
+[node name="Abilities" type="HBoxContainer" parent="UI/AbilityContainer"]
+z_index = 100
+texture_filter = 1
+layout_mode = 2
+theme_override_constants/separation = 0
+script = ExtResource("18_qjqsm")
+ability_icons = {
+"aim_stomp": ExtResource("20_cqqhe"),
+"double_jump": ExtResource("21_yoh1m"),
+"pesticide": ExtResource("22_u5w0m")
+}
 
 [node name="StageClear" parent="." instance=ExtResource("17_ivku7")]
 visible = false

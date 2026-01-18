@@ -54,11 +54,6 @@ func _ready():
 			tree.growth_completed.connect(_on_tree_growth_completed.bind(tree))
 		if not tree.slot_freed.is_connected(_on_tree_slot_freed):
 			tree.slot_freed.connect(_on_tree_slot_freed)
-
-	# Cleanup placeholder marker
-	goal_spawn.visible = false
-	if goal_spawn.has_node("Area"):
-		goal_spawn.get_node("Area").queue_free()
 	
 	# Start music if game has already started (e.g., from restart)
 	# Otherwise, it will start when title screen start button is pressed

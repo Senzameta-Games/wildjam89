@@ -7,8 +7,6 @@ extends Node2D
 
 @export var zap_threshold: int = 10
 
-# CHANGED: We now look for the TreeUI CanvasLayer
-@onready var tree_ui: CanvasLayer = $TreeUI
 @onready var buy_prompt_label: Label = $TreeUI/BuyPromptContainer/BuyPrompt
 @onready var detect_area: Area2D = $Area
 
@@ -23,11 +21,6 @@ const MAX_INTERVAL: float = 0.2
 const MIN_INTERVAL: float = 0.05
 
 signal shop_interacted
-
-func _ready():
-	# Hide the entire UI (Prompt + Bar) by default
-	if tree_ui:
-		tree_ui.visible = false
 
 func _process(delta) -> void:
 	if not player_in_range:
@@ -110,18 +103,8 @@ func _on_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		player_in_range = true
 		current_player_body = body
-		show_tree_ui()
 
 func _on_area_body_exited(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		player_in_range = false
 		current_player_body = null
-		hide_tree_ui()
-
-func show_tree_ui() -> void:
-	if tree_ui:
-		tree_ui.visible = true
-	
-func hide_tree_ui() -> void:
-	if tree_ui:
-		tree_ui.visible = false
