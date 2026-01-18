@@ -4,6 +4,8 @@ class_name GroundState
 @export var step_interval: float = 0.4
 var step_timer: float = 0.0
 
+var is_recovering: bool = false
+
 func enter() -> void:
 	player.player_collider.scale = Vector2(1.0, 1.0)
 	player.aim_cooldown = 0.0
@@ -11,6 +13,8 @@ func enter() -> void:
 	player.velocity.y = 0
 	player.jumps_available = 2 if Game.has_ability("double_jump") else 1
 	step_timer = 0.0
+	
+	is_recovering = false
 	
 	if player.is_stomping:
 		stomp_feedback()
@@ -23,24 +27,33 @@ func stomp_feedback():
 		var tween = create_tween()
 		tween.tween_property(player.sfx_land, "volume_db", 0.0, 0.5)
 		tween.parallel().tween_property(player.sfx_land, "pitch_scale", 1.0, 0.5)
+		player.is_stomping = false
 	else:
-		player.player_sprite.play("idle")
+		is_recovering = true
+		player.velocity = Vector2.ZERO
+		player.player_sprite.stop()
+		player.player_sprite.play("stomp")
+		player.player_sprite.frame = 3
 		player.sfx_land.volume_db = -2.0
 		player.sfx_land.pitch_scale = 1.0
 		player.sfx_land.play()
 		get_tree().call_group("camera", "apply_shake", Vector2(0, 8), 12.0)
-	
+		
+		await player.player_sprite.animation_finished
+		is_recovering = false
+		player.is_stomping = false
+		player.player_sprite.play("idle")
 	
 func land_feedback():
 	player.sfx_land.play()
 	
 func physics_update(delta: float) -> void:
+	if is_recovering:
+		player.move_and_slide()
+		return
 	# inputs
 	var dir = Input.get_axis("move_left", "move_right")
-	
-	# let stomp finish
-	if player.is_stomping:
-		player.is_stomping = false
+
 	# feedback
 	if dir != 0:
 		player.player_sprite.play("run")

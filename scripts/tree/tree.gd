@@ -7,6 +7,8 @@ signal tree_damaged(amount: float)
 signal tree_healed(amount: float)
 signal new_section_added
 
+var all_grown_up: bool = false
+
 var sudden_death: bool = false
 
 # Settings
@@ -52,7 +54,7 @@ func _process(delta: float) -> void:
 	# Passive growth
 	var passive_bonus = Game.get_flower_bonus()
 	var total_growth_speed = base_grow_amount + passive_bonus
-	if not sudden_death:
+	if not sudden_death and not all_grown_up:
 		add_progress(total_growth_speed * delta)
 	
 	# Update trunk if needed
@@ -79,6 +81,8 @@ func hurt(amount: float):
 	subtract_progress(amount)
 
 func add_progress(amount: float):
+	if all_grown_up: return
+	
 	tree_progress = clampf(tree_progress + amount, 0.0, 100.0)
 	
 	if sudden_death and tree_progress > 0.0:
@@ -88,7 +92,8 @@ func add_progress(amount: float):
 	_update_target_sections()
 	_update_leaf_tier_target()
 	
-	if tree_progress >= 100.0:
+	if tree_progress >= 100.0 and not all_grown_up:
+		all_grown_up = true
 		growth_completed.emit()
 
 func _get_fractional_growth() -> float:

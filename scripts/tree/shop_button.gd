@@ -9,10 +9,7 @@ extends Node2D
 
 @onready var buy_prompt: Container = $BuyPromptContainer
 @onready var buy_prompt_label: Label = $BuyPromptContainer/BuyPrompt
-@onready var seed_cost_label: Label = $BuyPromptContainer/SeedCost
-@onready var seed_cost: int = 10
 @onready var detect_area: Area2D = $Area
-
 
 var player_in_range: bool = false
 var interaction_locked: bool = false
@@ -28,7 +25,6 @@ signal shop_interacted
 
 func _ready():
 	buy_prompt.visible = false
-	seed_cost_label.visible = false
 
 func _process(delta) -> void:
 	if not player_in_range:
@@ -123,11 +119,8 @@ func _on_area_body_exited(body: Node2D) -> void:
 		hide_buy_prompt()
 
 func show_buy_prompt() -> void:
-	buy_prompt_label.text = str("Grow tree? ")
-	seed_cost_label.text = str(seed_cost)
+	buy_prompt_label.text = str("Grow")
 	buy_prompt.visible = true
-	seed_cost_label.visible = true
 	
 func hide_buy_prompt() -> void:
 	buy_prompt.visible = false
-	seed_cost_label.visible = false

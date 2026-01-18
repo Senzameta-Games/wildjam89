@@ -87,7 +87,7 @@ func add_seeds(amount: int) -> void:
 
 const GRID_SIZE: int = 16
 const FLOWER_HEIGHT: int = 16
-const FLOWER_GROWTH_BONUS: float = 0.05
+const FLOWER_GROWTH_BONUS: float = 0.8
 
 var flower_scene: PackedScene = preload("res://scenes/flower/flower.tscn")
 
@@ -120,8 +120,6 @@ func plant_flower(at_position: Vector2) -> void:
 
 func get_flower_bonus() -> float:
 	return float(total_flowers) * FLOWER_GROWTH_BONUS
-
-
 
 func reset_game_state() -> void:
 	total_seeds = 0

@@ -8,6 +8,12 @@ extends Node2D
 @export var branch_length: int = 24
 @export var grow_duration: float = 0.4
 
+@export_category("Spawning")
+@export var seed_bundle_scn: PackedScene
+@export var enemy_roster: Array[PackedScene] = []
+@export var spawn_chance_nothing: float = 0.6
+@export var spawn_chance_seeds: float = 0.3
+
 # Navigation: Finding the Tree node
 @onready var tree_node: SeedTree = owner
 
@@ -96,8 +102,41 @@ func _create_branch(global_pos: Vector2, side: int):
 	collision.one_way_collision = true
 	collision.position.x = (total_width / 2.0) * side
 	branch.add_child(collision)
+	
+	_try_spawn_content(branch, side, total_width)
 
 	_animate_branch_in(branch)
+
+func _try_spawn_content(branch: Node2D, side: int, total_width: float) -> void:
+	var roll = randf()
+	
+	# get nothing
+	if roll < spawn_chance_nothing:
+		return
+		
+	# find spawn spot
+	var spawn_dist = randf_range(branch_length, total_width - 8)
+	var spawn_pos = branch.global_position + Vector2(spawn_dist * side, -16)
+	
+	# get some seeds
+	if roll < (spawn_chance_nothing + spawn_chance_seeds):
+		if seed_bundle_scn:
+			var bundle = seed_bundle_scn.instantiate()
+			get_tree().current_scene.add_child(bundle)
+			bundle.global_position = spawn_pos
+		return
+		
+	# aggro enemy spawn
+	if not enemy_roster.is_empty():
+		var enemy_scn = enemy_roster.pick_random()
+		var enemy = enemy_scn.instantiate()
+		get_tree().current_scene.add_child(enemy)
+		enemy.global_position = spawn_pos
+		
+		# enemy.gd's _ready() calls aggro_tree() first
+		# call aggro_player() instead and wait a frame to do it
+		if enemy.has_method("aggro_player"):
+			enemy.call_deferred("aggro_player")
 
 func _add_leaves_to_segment(
 	branch: Node2D,

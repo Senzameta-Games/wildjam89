@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://5u0rjw4fxv62"]
+[gd_scene load_steps=39 format=3 uid="uid://5u0rjw4fxv62"]
 
 [ext_resource type="Script" uid="uid://dps82nj04mquw" path="res://scripts/tree/shop_button.gd" id="1_mbf7r"]
 [ext_resource type="Texture2D" uid="uid://b8ichhlia4jkk" path="res://assets/sprites/tree/Trunk/treetile01.png" id="2_xwrx4"]
@@ -26,9 +26,12 @@
 [ext_resource type="AudioStream" uid="uid://dm0s8vu1sus3x" path="res://assets/sounds/tree/pesticide.wav" id="17_1gpcc"]
 [ext_resource type="AudioStream" uid="uid://dhf0axxj5efbs" path="res://assets/sounds/tree/pesticide2.wav" id="18_j8lld"]
 [ext_resource type="AudioStream" uid="uid://dhon4o8akeh32" path="res://assets/sounds/tree/pesticide3.wav" id="19_xwrx4"]
-[ext_resource type="Texture2D" uid="uid://bqy7jvtn34w8s" path="res://assets/sprites/seed/seedchonk.png" id="21_pwldy"]
 [ext_resource type="Script" uid="uid://b1pdju5ijjh7w" path="res://scripts/player/zapper.gd" id="25_0uf4c"]
+[ext_resource type="PackedScene" uid="uid://db1lwwtlllkav" path="res://scenes/seed/seed_bundle.tscn" id="25_hesdt"]
+[ext_resource type="PackedScene" uid="uid://c8yn67wshcpor" path="res://scenes/enemy/fast-weak.tscn" id="26_rciy5"]
+[ext_resource type="PackedScene" uid="uid://clg6borink2ye" path="res://scenes/enemy/slow-strong.tscn" id="27_lnqmm"]
 [ext_resource type="PackedScene" uid="uid://3mhjgr2g4y7j" path="res://scenes/seed/seed.tscn" id="27_polbh"]
+[ext_resource type="PackedScene" uid="uid://c8ag4374ivpgq" path="res://scenes/enemy/bomb-thrower.tscn" id="28_ukm5v"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r4rvj"]
 
@@ -125,6 +128,8 @@ visibility_layer = 2
 script = ExtResource("10_kui63")
 branch_sprite = ExtResource("11_bynld")
 leaf_sprites = Array[Texture2D]([ExtResource("9_d4o0i"), ExtResource("10_6wwch"), ExtResource("11_kui63")])
+seed_bundle_scn = ExtResource("25_hesdt")
+enemy_roster = Array[PackedScene]([ExtResource("26_rciy5"), ExtResource("27_lnqmm"), ExtResource("28_ukm5v")])
 
 [node name="Shop" type="Node2D" parent="." node_paths=PackedStringArray("empty_sfx", "grow_sfx")]
 script = ExtResource("1_mbf7r")
@@ -150,10 +155,10 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -48.5
-offset_top = -32.0
-offset_right = 48.5
-offset_bottom = -16.0
+offset_left = -35.0
+offset_top = -45.0
+offset_right = 62.0
+offset_bottom = -29.0
 grow_horizontal = 2
 grow_vertical = 0
 theme_override_constants/separation = 8
@@ -177,22 +182,7 @@ theme_override_constants/shadow_offset_y = 1
 theme_override_constants/outline_size = 2
 theme_override_constants/shadow_outline_size = 4
 theme_override_fonts/font = ExtResource("3_4ol1s")
-text = "Spend"
-
-[node name="SeedCost" type="Label" parent="Shop/BuyPromptContainer"]
-layout_mode = 2
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_x = 0
-theme_override_constants/shadow_offset_y = 1
-theme_override_constants/outline_size = 2
-theme_override_constants/shadow_outline_size = 4
-theme_override_fonts/font = ExtResource("3_4ol1s")
-text = "000"
-
-[node name="SeedIcon" type="TextureRect" parent="Shop/BuyPromptContainer"]
-layout_mode = 2
-texture = ExtResource("21_pwldy")
-stretch_mode = 3
+text = "Grow"
 
 [connection signal="area_entered" from="TreeBase/TreeHitbox" to="." method="_on_tree_hitbox_area_entered"]
 [connection signal="shop_interacted" from="Shop" to="." method="_on_shop_interacted"]

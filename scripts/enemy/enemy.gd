@@ -36,7 +36,10 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 func aggro_player() -> void:
+	enemy_sprite.modulate = Color.RED
 	current_target = get_tree().get_first_node_in_group("player")
+	set_collision_mask_value(5, false)
+	set_collision_mask_value(8, false)
 
 func aggro_tree() -> void:
 	current_target = get_tree().get_first_node_in_group("tree")
