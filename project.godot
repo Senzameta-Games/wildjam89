@@ -20,14 +20,14 @@ config/features=PackedStringArray("4.6", "Forward Plus")
 
 [autoload]
 
-Session="*uid://bf76ck0n0bg0w"
 Economy="*uid://ded67l5bkxls7"
 Abilities="*uid://orx5ypewgc8m"
+Session="*uid://bf76ck0n0bg0w"
+Game="*res://scripts/game/game.gd"
+Achievements="*res://scripts/game/achievements.gd"
 Tutorial="*res://scripts/game/tutorial_manager.gd"
 MusicPlayer="*res://scripts/game/MusicPlayer.gd"
 FlowerManager="*res://scripts/level/flower_manager.gd"
-Achievements="*res://scripts/game/achievements.gd"
-Game="*res://scripts/game/game.gd"
 
 [display]
 
