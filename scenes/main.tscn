@@ -20,4 +20,5 @@ layer = 99
 
 [node name="AchievementsView" parent="." unique_id=1766635032 instance=ExtResource("6_achievements")]
 
+
 [node name="TutorialUI" parent="." unique_id=290329031 instance=ExtResource("6_tefeu")]
