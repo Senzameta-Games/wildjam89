@@ -47,7 +47,7 @@ var cached_reward_stage: int = -1
 func start_new_run() -> void:
 	randomize() # Ensure RNG is seeded
 	current_stage = 1
-	total_seeds = 0
+	Economy.reset()
 	trees_grown_count = 0
 	_reset_abilities()
 	seen_abilities.clear()
@@ -68,11 +68,10 @@ func next_stage() -> void:
 	get_tree().reload_current_scene()
 	
 func stage_reset() -> void:
-	total_seeds = 0
+	Economy.reset()
 	flower_columns.clear()
 	total_flowers = 0
-	seeds_changed.emit(total_seeds)
-	# Note: We don't strictly need to clear cache here anymore because 
+	# Note: We don't strictly need to clear cache here anymore because
 	# get_stage_params checks the stage index, but it's good practice.
 	cached_reward = ""
 	cached_reward_stage = -1
@@ -160,17 +159,16 @@ func register_tree_grown() -> void:
 func win_game() -> void:
 	game_won.emit()
 
+# PASS-THROUGH: migrate callers to Economy directly
 signal seeds_changed(current_total: int)
-var total_seeds: int = 0
+
+var total_seeds: int:
+	get: return Economy.get_balance()
+	set(v): Economy.add_seeds(v - Economy.get_balance())
 
 func add_seeds(amount: int) -> void:
-	total_seeds += amount
-	seeds_changed.emit(total_seeds)
-	print("Seeds collected: ", total_seeds)
-	if Achievements:
-		for i in range(amount):
-			Achievements.on_seed_collected()
-	
+	Economy.add_seeds(amount)
+
 const GRID_SIZE: int = 16
 const FLOWER_HEIGHT: int = 16
 
@@ -192,6 +190,7 @@ var total_flowers: int = 0
 
 func _ready() -> void:
 	flower_columns.clear()
+	Economy.seeds_changed.connect(func(val): seeds_changed.emit(val))
 
 func plant_flower(at_position: Vector2) -> void:
 	if flower_scene == null: return
@@ -234,8 +233,8 @@ func get_flower_powerup_bonus() -> float:
 	return float(flower_counts.get("red", 0)) * FLOWER_POWERUP_BONUS
 
 func reset_game_state() -> void:
-	total_seeds = 0
-	trees_grown_count = 0 
+	Economy.reset()
+	trees_grown_count = 0
 	flower_columns.clear()
 	total_flowers = 0
 	flower_counts = {
@@ -243,17 +242,13 @@ func reset_game_state() -> void:
 		"green": 0,
 		"red": 0
 	}
-	seeds_changed.emit(total_seeds)
 	flower_counts_changed.emit()
 	if Achievements:
 		Achievements.reset_achievements()
 	
-func big_money() -> void:
-	total_seeds = 999
-		
 func _unhandled_input(event):
 	if not OS.has_feature("editor"): return
-	
+
 	if event:
 		if Input.is_action_just_pressed("stopwatch_get"):
 			unlock_ability("aim_stomp")
@@ -262,4 +257,4 @@ func _unhandled_input(event):
 		if Input.is_action_just_pressed("zapper_get"):
 			unlock_ability("pesticide")
 		if Input.is_action_just_pressed("big_money"):
-			big_money()
+			Economy.big_money()

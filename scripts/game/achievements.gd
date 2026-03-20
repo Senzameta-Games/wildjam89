@@ -20,6 +20,7 @@ var achievement_resources: Dictionary = {}  # achievement_id -> AchievementData
 
 func _ready() -> void:
 	load_achievements()
+	Economy.seeds_changed.connect(func(_val): on_seed_collected())
 
 func load_achievements() -> void:
 	var achievements = [
@@ -102,7 +103,7 @@ func check_achievement(achievement_id: String) -> bool:
 func check_condition(achievement: AchievementData) -> bool:
 	match achievement.condition_type:
 		AchievementData.ConditionType.SEED_COUNT:
-			return Game.total_seeds >= achievement.threshold
+			return Economy.get_balance() >= achievement.threshold
 		
 		AchievementData.ConditionType.ENEMIES_STOMPED:
 			return total_enemies_stomped >= achievement.threshold
