@@ -8,19 +8,26 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="stomptreegame"
 run/main_scene="uid://cne6nr2xqlc0h"
-config/features=PackedStringArray("4.5", "Forward Plus")
+config/features=PackedStringArray("4.6", "Forward Plus")
 
 [autoload]
 
 Game="*res://scripts/game/game.gd"
 Achievements="*res://scripts/game/achievements.gd"
 Tutorial="*res://scripts/game/tutorial_manager.gd"
-MusicManager="*res://scripts/music/music_manager.gd"
+MusicPlayer="*res://scripts/music/music_manager.gd"
 FlowerManager="*res://scripts/level/flower_manager.gd"
+Session="*uid://bf76ck0n0bg0w"
+Economy="*uid://ded67l5bkxls7"
+Abilities="*uid://orx5ypewgc8m"
 
 [display]
 

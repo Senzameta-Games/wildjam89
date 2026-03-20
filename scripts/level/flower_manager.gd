@@ -1,5 +1,4 @@
 extends Node
-class_name FlowerManagerClass
 
 # Flower counts
 var green_flowers: int = 0

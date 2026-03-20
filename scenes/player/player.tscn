@@ -1,6 +1,6 @@
-[gd_scene load_steps=94 format=3 uid="uid://ciyc0yamaacqw"]
+[gd_scene format=3 uid="uid://ciyc0yamaacqw"]
 
-[ext_resource type="Script" uid="uid://c5l22pvevgh2q" path="res://scripts/player/player.gd" id="1_dovo2"]
+[ext_resource type="Script" uid="uid://c5l22pvevgh2q" path="res://scripts/game/Player.gd" id="1_dovo2"]
 [ext_resource type="PackedScene" uid="uid://3mhjgr2g4y7j" path="res://scenes/seed/seed.tscn" id="2_bysbl"]
 [ext_resource type="Texture2D" uid="uid://vanhqgess1l8" path="res://assets/sprites/player/idle/raccoonmcidleani1.png" id="3_21yht"]
 [ext_resource type="Texture2D" uid="uid://bd73n0bhblawn" path="res://assets/sprites/player/jump/raccoonmcjumpwhiteoutline1.png" id="3_fvjb1"]
@@ -64,11 +64,11 @@
 [ext_resource type="AudioStream" uid="uid://btlowwi871lt5" path="res://assets/sounds/player/jumps/jumpshort2.wav" id="39_8lfxt"]
 [ext_resource type="AudioStream" uid="uid://cidfk24bk5bn1" path="res://assets/sounds/player/jumps/jumpshort3.wav" id="40_lclul"]
 [ext_resource type="Shader" uid="uid://c4ibaqhwwsbf6" path="res://assets/shaders/aim_ray.gdshader" id="46_iwuka"]
-[ext_resource type="AudioStream" uid="uid://rtvn3cv221aw" path="res://assets/sounds/player/stompFalls/stompfall1.wav" id="46_w8qe1"]
-[ext_resource type="AudioStream" uid="uid://d1fbcy6q5v7hl" path="res://assets/sounds/player/stompFalls/stompfall2.wav" id="47_hdvrm"]
-[ext_resource type="AudioStream" uid="uid://bkcs8mrqtwysn" path="res://assets/sounds/player/stompFalls/stompfall3.wav" id="48_5xbmr"]
-[ext_resource type="AudioStream" uid="uid://ftbjhqjvfh17" path="res://assets/sounds/player/stompFalls/stompfall4.wav" id="49_hir57"]
-[ext_resource type="AudioStream" uid="uid://dctjfeoyd4tgg" path="res://assets/sounds/player/stompFalls/stompfall5.wav" id="50_7072n"]
+[ext_resource type="AudioStream" uid="uid://rtvn3cv221aw" path="res://assets/sounds/player/stompFalls/StompFall1.wav" id="46_w8qe1"]
+[ext_resource type="AudioStream" uid="uid://d1fbcy6q5v7hl" path="res://assets/sounds/player/stompFalls/StompFall2.wav" id="47_hdvrm"]
+[ext_resource type="AudioStream" uid="uid://bkcs8mrqtwysn" path="res://assets/sounds/player/stompFalls/StompFall3.wav" id="48_5xbmr"]
+[ext_resource type="AudioStream" uid="uid://ftbjhqjvfh17" path="res://assets/sounds/player/stompFalls/StompFall4.wav" id="49_hir57"]
+[ext_resource type="AudioStream" uid="uid://dctjfeoyd4tgg" path="res://assets/sounds/player/stompFalls/StompFall5.wav" id="50_7072n"]
 [ext_resource type="AudioStream" uid="uid://vhcukf3u5iq6" path="res://assets/sounds/player/stompFalls/stompfall6.wav" id="51_gmu8b"]
 [ext_resource type="AudioStream" uid="uid://djls4e2ld3xkb" path="res://assets/sounds/player/stompFalls/stompfall7.wav" id="52_a38bk"]
 [ext_resource type="AudioStream" uid="uid://dfgrx3nuauws2" path="res://assets/sounds/player/stompFalls/stompfall8.wav" id="53_3chqh"]
@@ -279,7 +279,7 @@ shader_parameter/beam_color = Color(1, 1, 1, 0.5)
 shader_parameter/speed = 0.5
 shader_parameter/width_scale = 0.2000000095
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("player_sprite", "player_collider", "sfx") groups=["player"]]
+[node name="Player" type="CharacterBody2D" unique_id=2092900557 node_paths=PackedStringArray("player_sprite", "player_collider", "sfx") groups=["player"]]
 top_level = true
 z_index = 4096
 collision_layer = 2
@@ -298,86 +298,86 @@ air_drag = 500.0
 jump_velocity = 300.0
 stomp_velocity = 300.0
 
-[node name="Sprite" type="AnimatedSprite2D" parent="."]
+[node name="Sprite" type="AnimatedSprite2D" parent="." unique_id=1735033067]
 position = Vector2(-8, 0)
 sprite_frames = SubResource("SpriteFrames_x7p2l")
 animation = &"hurt"
 
-[node name="Collider" type="CollisionShape2D" parent="."]
+[node name="Collider" type="CollisionShape2D" parent="." unique_id=1011330774]
 position = Vector2(-2, 0)
 shape = SubResource("RectangleShape2D_fvjb1")
 
-[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+[node name="StateMachine" type="Node" parent="." unique_id=1437977515 node_paths=PackedStringArray("initial_state")]
 script = ExtResource("3_lvxji")
 initial_state = NodePath("Ground")
 metadata/_custom_type_script = "uid://b5r0p46rp1jyn"
 
-[node name="Ground" type="Node" parent="StateMachine"]
+[node name="Ground" type="Node" parent="StateMachine" unique_id=1467626888]
 script = ExtResource("4_0owmy")
 metadata/_custom_type_script = "uid://bjaxay0j51t5j"
 
-[node name="Air" type="Node" parent="StateMachine"]
+[node name="Air" type="Node" parent="StateMachine" unique_id=600570005]
 script = ExtResource("5_qek5x")
 metadata/_custom_type_script = "uid://bjaxay0j51t5j"
 
-[node name="Aim" type="Node" parent="StateMachine"]
+[node name="Aim" type="Node" parent="StateMachine" unique_id=1607919571]
 script = ExtResource("18_hdvrm")
 metadata/_custom_type_script = "uid://bjaxay0j51t5j"
 
-[node name="Hurt" type="Node" parent="StateMachine"]
+[node name="Hurt" type="Node" parent="StateMachine" unique_id=1622054466]
 script = ExtResource("19_5xbmr")
 metadata/_custom_type_script = "uid://bjaxay0j51t5j"
 
-[node name="Stomp" type="Node" parent="StateMachine"]
+[node name="Stomp" type="Node" parent="StateMachine" unique_id=1539208981]
 script = ExtResource("6_5gtgg")
 metadata/_custom_type_script = "uid://bjaxay0j51t5j"
 
-[node name="SFX" type="Node2D" parent="."]
+[node name="SFX" type="Node2D" parent="." unique_id=1615474161]
 
-[node name="Step" type="AudioStreamPlayer2D" parent="SFX"]
+[node name="Step" type="AudioStreamPlayer2D" parent="SFX" unique_id=1469813340]
 stream = SubResource("AudioStreamRandomizer_ahqnk")
 
-[node name="Jump" type="AudioStreamPlayer2D" parent="SFX"]
+[node name="Jump" type="AudioStreamPlayer2D" parent="SFX" unique_id=1393379373]
 stream = SubResource("AudioStreamRandomizer_j4nxn")
 volume_db = -8.0
 
-[node name="Land" type="AudioStreamPlayer2D" parent="SFX"]
+[node name="Land" type="AudioStreamPlayer2D" parent="SFX" unique_id=406855509]
 stream = SubResource("AudioStreamRandomizer_tffgl")
 pitch_scale = 2.0
 
-[node name="StompFall" type="AudioStreamPlayer2D" parent="SFX"]
+[node name="StompFall" type="AudioStreamPlayer2D" parent="SFX" unique_id=515106636]
 stream = SubResource("AudioStreamRandomizer_28m0y")
 volume_db = -12.0
 pitch_scale = 1.5
 
-[node name="StompImpact" type="AudioStreamPlayer2D" parent="SFX"]
+[node name="StompImpact" type="AudioStreamPlayer2D" parent="SFX" unique_id=385691009]
 stream = SubResource("AudioStreamRandomizer_6cv16")
 volume_db = -4.0
 
-[node name="Hurt" type="AudioStreamPlayer2D" parent="SFX"]
+[node name="Hurt" type="AudioStreamPlayer2D" parent="SFX" unique_id=236682678]
 stream = SubResource("AudioStreamRandomizer_bysbl")
 
-[node name="Heal" type="AudioStreamPlayer2D" parent="SFX"]
+[node name="Heal" type="AudioStreamPlayer2D" parent="SFX" unique_id=1358485976]
 
-[node name="Dash" type="AudioStreamPlayer2D" parent="SFX"]
+[node name="Dash" type="AudioStreamPlayer2D" parent="SFX" unique_id=725730773]
 stream = SubResource("AudioStreamRandomizer_7nf13")
 volume_db = -8.0
 
-[node name="VFX" type="Node2D" parent="."]
+[node name="VFX" type="Node2D" parent="." unique_id=16929064]
 
-[node name="RunParticles" type="GPUParticles2D" parent="VFX"]
+[node name="RunParticles" type="GPUParticles2D" parent="VFX" unique_id=1442364521]
 
-[node name="StompParticles" type="GPUParticles2D" parent="VFX"]
+[node name="StompParticles" type="GPUParticles2D" parent="VFX" unique_id=39506498]
 
-[node name="MotionFollowParticles" type="GPUParticles2D" parent="VFX"]
+[node name="MotionFollowParticles" type="GPUParticles2D" parent="VFX" unique_id=645314303]
 
-[node name="AimRay" type="RayCast2D" parent="."]
+[node name="AimRay" type="RayCast2D" parent="." unique_id=2080163080]
 z_index = -1
 enabled = false
 target_position = Vector2(0, 360)
 collision_mask = 9
 
-[node name="AimVisual" type="ColorRect" parent="."]
+[node name="AimVisual" type="ColorRect" parent="." unique_id=1939334198]
 visible = false
 z_index = -1
 material = SubResource("ShaderMaterial_hyqqp")

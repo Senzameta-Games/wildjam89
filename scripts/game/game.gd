@@ -160,10 +160,6 @@ func register_tree_grown() -> void:
 func win_game() -> void:
 	game_won.emit()
 
-#==================================================================================================#
-# ... (Rest of the file: Seeds, Flowers, Input handling remains unchanged)
-#==================================================================================================#
-
 signal seeds_changed(current_total: int)
 var total_seeds: int = 0
 
