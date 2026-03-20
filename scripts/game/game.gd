@@ -4,6 +4,7 @@ var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 var trees_grown_count: int = 0
 signal game_over_called
 signal game_won
+# PASS-THROUGH: migrate callers to Abilities directly
 signal ability_unlocked(ability_name: String)
 
 # -- Session Timer --
@@ -24,19 +25,7 @@ func get_session_time_formatted() -> String:
 	return "%02d:%02d" % [minutes, seconds]
 
 var current_stage: int = 1
-var unlocked_abilities: Dictionary = {
-	"aim_stomp": false,
-	"double_jump": false,
-	"pesticide": false,
-}
-
-var seen_abilities: Dictionary = {}
 var game_has_started: bool = false
-
-# Randomized power-up system
-var ability_queue: Array[String] = []
-var recent_abilities: Array[String] = [] 
-const ALL_ABILITIES: Array[String] = ["aim_stomp", "double_jump", "pesticide"]
 
 # -- FIXED CACHE --
 # We store the reward AND the stage it was assigned to.
@@ -49,17 +38,9 @@ func start_new_run() -> void:
 	current_stage = 1
 	Economy.reset()
 	trees_grown_count = 0
-	_reset_abilities()
-	seen_abilities.clear()
-	recent_abilities.clear()
-	
-	# Force a fresh shuffled deck of the 3 unique abilities
-	ability_queue = ALL_ABILITIES.duplicate()
-	ability_queue.shuffle()
-	
+	Abilities.reset()
 	cached_reward = ""
 	cached_reward_stage = -1
-	
 	game_has_started = true
 
 func next_stage() -> void:
@@ -85,7 +66,7 @@ func get_stage_params() -> Dictionary:
 	# 1. Check if we already have a reward assigned for THIS stage index
 	if cached_reward == "" or cached_reward_stage != current_stage:
 		# 2. If not, get a new one and cache it
-		cached_reward = _get_next_ability()
+		cached_reward = Abilities._get_next_ability()
 		cached_reward_stage = current_stage
 	
 	return{
@@ -94,64 +75,26 @@ func get_stage_params() -> Dictionary:
 		"ability_reward": cached_reward
 	}
 
+# PASS-THROUGH: migrate callers to Abilities directly
 func unlock_ability(ability_key: String) -> void:
-	if ability_key in unlocked_abilities:
-		unlocked_abilities[ability_key] = true
-		ability_unlocked.emit(ability_key)
-		
+	Abilities.unlock_ability(ability_key)
+
 func lock_ability(ability_key: String) -> void:
-	if ability_key in unlocked_abilities:
-		unlocked_abilities[ability_key] = false
+	Abilities.lock_ability(ability_key)
 
 func has_ability(ability_key: String) -> bool:
-	return unlocked_abilities.get(ability_key, false)
+	return Abilities.has_ability(ability_key)
 
 func has_seen_ability(ability_key: String) -> bool:
-	return seen_abilities.get(ability_key, false)
+	return Abilities.has_seen_ability(ability_key)
 
 func mark_ability_seen(ability_key: String) -> void:
-	seen_abilities[ability_key] = true
-
-func _get_ability_reward(_stage: int) -> String:
-	if ability_queue.is_empty():
-		_init_ability_queue()
-	return ability_queue.pop_front()
-
-func _init_ability_queue() -> void:
-	# Create a shuffled copy of all abilities
-	ability_queue = ALL_ABILITIES.duplicate()
-	ability_queue.shuffle()
-	
-	# Only prevent repeats if we aren't in the initial "clean slate" phase
-	if recent_abilities.size() >= 2:
-		var last_two_same = recent_abilities[0] == recent_abilities[1]
-		if last_two_same and ability_queue[0] == recent_abilities[0]:
-			var repeated = ability_queue.pop_front()
-			var insert_pos = randi_range(1, ability_queue.size())
-			ability_queue.insert(insert_pos, repeated)
-
-func _get_next_ability() -> String:
-	# Refill if empty
-	if ability_queue.is_empty():
-		_init_ability_queue()
-	
-	var next_ability = ability_queue.pop_front()
-	
-	# Track recent
-	recent_abilities.append(next_ability)
-	if recent_abilities.size() > 2:
-		recent_abilities.pop_front()
-	
-	return next_ability
+	Abilities.mark_ability_seen(ability_key)
 
 func check_win_con() -> bool:
-	var seen_all = seen_abilities.size() >= 3 
+	var seen_all = Abilities.seen_abilities.size() >= 3
 	var grown_enough = trees_grown_count >= 4
 	return seen_all and grown_enough
-
-func _reset_abilities():
-	for key in unlocked_abilities:
-		unlocked_abilities[key] = false
 
 func register_tree_grown() -> void:
 	trees_grown_count += 1
@@ -191,6 +134,7 @@ var total_flowers: int = 0
 func _ready() -> void:
 	flower_columns.clear()
 	Economy.seeds_changed.connect(func(val): seeds_changed.emit(val))
+	Abilities.ability_unlocked.connect(func(name): ability_unlocked.emit(name))
 
 func plant_flower(at_position: Vector2) -> void:
 	if flower_scene == null: return
