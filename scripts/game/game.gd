@@ -1,79 +1,56 @@
 extends Node
 
 var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
-var trees_grown_count: int = 0
+
+# PASS-THROUGH: migrate callers to Session directly
 signal game_over_called
 signal game_won
 # PASS-THROUGH: migrate callers to Abilities directly
 signal ability_unlocked(ability_name: String)
 
-# -- Session Timer --
-var session_start_time: int = 0
-var session_end_time: int = 0
+var game_has_started: bool:
+	get: return Session.game_has_started
+	set(v): Session.game_has_started = v
 
-func start_session_timer() -> void:
-	session_start_time = Time.get_ticks_msec()
+var current_stage: int:
+	get: return Session.current_stage
+	set(v): Session.current_stage = v
 
-func stop_session_timer() -> void:
-	session_end_time = Time.get_ticks_msec()
-
-func get_session_time_formatted() -> String:
-	var total_ms = session_end_time - session_start_time
-	var total_seconds = int(total_ms / 1000.0)
-	var minutes = total_seconds / 60
-	var seconds = total_seconds % 60
-	return "%02d:%02d" % [minutes, seconds]
-
-var current_stage: int = 1
-var game_has_started: bool = false
-
-# -- FIXED CACHE --
-# We store the reward AND the stage it was assigned to.
-# This prevents the previous stage's reward from persisting if stage_reset is skipped.
-var cached_reward: String = ""
-var cached_reward_stage: int = -1
+var trees_grown_count: int:
+	get: return Session.trees_grown_count
+	set(v): Session.trees_grown_count = v
 
 func start_new_run() -> void:
-	randomize() # Ensure RNG is seeded
-	current_stage = 1
-	Economy.reset()
-	trees_grown_count = 0
-	Abilities.reset()
-	cached_reward = ""
-	cached_reward_stage = -1
-	game_has_started = true
+	Session.start_new_run()
 
 func next_stage() -> void:
-	current_stage += 1
-	stage_reset()
-	get_tree().reload_current_scene()
-	
+	Session.next_stage()
+
 func stage_reset() -> void:
-	Economy.reset()
+	Session.stage_reset()
 	flower_columns.clear()
 	total_flowers = 0
-	# Note: We don't strictly need to clear cache here anymore because
-	# get_stage_params checks the stage index, but it's good practice.
-	cached_reward = ""
-	cached_reward_stage = -1
 
 func get_stage_params() -> Dictionary:
-	var difficulty_mult = 1.0 + ((current_stage - 1) * 0.2)
-	var base_spawn_interval = 5.0
-	var spawn_interval = max(base_spawn_interval / difficulty_mult, 1.5)
-	
-	# -- LOGIC FIX --
-	# 1. Check if we already have a reward assigned for THIS stage index
-	if cached_reward == "" or cached_reward_stage != current_stage:
-		# 2. If not, get a new one and cache it
-		cached_reward = Abilities._get_next_ability()
-		cached_reward_stage = current_stage
-	
-	return{
-		"spawn_interval": spawn_interval,
-		"enemy_damage": 1.2 * difficulty_mult,
-		"ability_reward": cached_reward
-	}
+	return Session.get_stage_params()
+
+func check_win_con() -> bool:
+	return Session.check_win_con()
+
+func register_tree_grown() -> void:
+	Session.register_tree_grown()
+
+func win_game() -> void:
+	Session.win_game()
+
+func start_session_timer() -> void:
+	Session.start_session_timer()
+
+func stop_session_timer() -> void:
+	Session.stop_session_timer()
+
+func get_session_time_formatted() -> String:
+	return Session.get_session_time_formatted()
 
 # PASS-THROUGH: migrate callers to Abilities directly
 func unlock_ability(ability_key: String) -> void:
@@ -90,17 +67,6 @@ func has_seen_ability(ability_key: String) -> bool:
 
 func mark_ability_seen(ability_key: String) -> void:
 	Abilities.mark_ability_seen(ability_key)
-
-func check_win_con() -> bool:
-	var seen_all = Abilities.seen_abilities.size() >= 3
-	var grown_enough = trees_grown_count >= 4
-	return seen_all and grown_enough
-
-func register_tree_grown() -> void:
-	trees_grown_count += 1
-
-func win_game() -> void:
-	game_won.emit()
 
 # PASS-THROUGH: migrate callers to Economy directly
 signal seeds_changed(current_total: int)
@@ -135,6 +101,8 @@ func _ready() -> void:
 	flower_columns.clear()
 	Economy.seeds_changed.connect(func(val): seeds_changed.emit(val))
 	Abilities.ability_unlocked.connect(func(name): ability_unlocked.emit(name))
+	Session.game_over_called.connect(func(): game_over_called.emit())
+	Session.game_won.connect(func(): game_won.emit())
 
 func plant_flower(at_position: Vector2) -> void:
 	if flower_scene == null: return
@@ -178,7 +146,7 @@ func get_flower_powerup_bonus() -> float:
 
 func reset_game_state() -> void:
 	Economy.reset()
-	trees_grown_count = 0
+	Session.reset()
 	flower_columns.clear()
 	total_flowers = 0
 	flower_counts = {
