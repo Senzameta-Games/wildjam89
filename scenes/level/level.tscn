@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://cfl62gijxtptm"]
+[gd_scene format=3 uid="uid://cfl62gijxtptm"]
 
 [ext_resource type="PackedScene" uid="uid://ciyc0yamaacqw" path="res://scenes/player/player.tscn" id="1_nbgty"]
 [ext_resource type="Script" uid="uid://f1ao7nyts6na" path="res://scripts/level/level.gd" id="1_wcngd"]
@@ -24,7 +24,7 @@
 [ext_resource type="Texture2D" uid="uid://b6aq64kifulkl" path="res://assets/sprites/flower/flowergreen.png" id="25_mf35j"]
 [ext_resource type="FontFile" uid="uid://cycbiy0d7iv67" path="res://assets/fonts/Tiny5-Regular.ttf" id="25_t51ir"]
 [ext_resource type="Texture2D" uid="uid://bnrlv6xwr6dd8" path="res://assets/sprites/flower/flowerblue.png" id="26_t51ir"]
-[ext_resource type="Script" uid="uid://chy5vii7fk6sl" path="res://scripts/music/music_manager.gd" id="26_u5w0m"]
+[ext_resource type="Script" uid="uid://chy5vii7fk6sl" path="res://scripts/game/MusicPlayer.gd" id="26_u5w0m"]
 [ext_resource type="AudioStream" uid="uid://ba1w3s3lkrw5e" path="res://assets/sounds/music/StompTreeMaster.wav" id="28_fhw5o"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hnne4"]
@@ -76,23 +76,23 @@ border_color = Color(0.12955844, 0.1295585, 0.12955835, 1)
 corner_detail = 1
 anti_aliasing = false
 
-[node name="Level" type="Node2D"]
+[node name="Level" type="Node2D" unique_id=191387750]
 script = ExtResource("1_wcngd")
 next_level_btn_scn = ExtResource("2_ss4b2")
 
-[node name="Environment" type="Node2D" parent="." groups=["level"]]
+[node name="Environment" type="Node2D" parent="." unique_id=637035998 groups=["level"]]
 top_level = true
 z_index = 10
 
-[node name="GroundPlane" type="StaticBody2D" parent="Environment" groups=["level"]]
+[node name="GroundPlane" type="StaticBody2D" parent="Environment" unique_id=617442281 groups=["level"]]
 position = Vector2(320, 320)
 collision_mask = 6
 
-[node name="Collision" type="CollisionShape2D" parent="Environment/GroundPlane" groups=["level"]]
+[node name="Collision" type="CollisionShape2D" parent="Environment/GroundPlane" unique_id=820539178 groups=["level"]]
 position = Vector2(0, 45)
 shape = SubResource("RectangleShape2D_hnne4")
 
-[node name="NinePatchRect" type="NinePatchRect" parent="Environment/GroundPlane"]
+[node name="NinePatchRect" type="NinePatchRect" parent="Environment/GroundPlane" unique_id=926160085]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -114,50 +114,50 @@ axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="LeftWall" type="StaticBody2D" parent="Environment"]
+[node name="LeftWall" type="StaticBody2D" parent="Environment" unique_id=351099818]
 position = Vector2(-19, -28)
 collision_mask = 6
 
-[node name="Collision" type="CollisionShape2D" parent="Environment/LeftWall"]
+[node name="Collision" type="CollisionShape2D" parent="Environment/LeftWall" unique_id=894553340]
 shape = SubResource("RectangleShape2D_vpf64")
 
-[node name="RightWall" type="StaticBody2D" parent="Environment"]
+[node name="RightWall" type="StaticBody2D" parent="Environment" unique_id=1618449681]
 position = Vector2(659, -28)
 collision_mask = 6
 
-[node name="Collision" type="CollisionShape2D" parent="Environment/RightWall"]
+[node name="Collision" type="CollisionShape2D" parent="Environment/RightWall" unique_id=1245768552]
 shape = SubResource("RectangleShape2D_vpf64")
 
-[node name="Ceiling" type="StaticBody2D" parent="Environment"]
+[node name="Ceiling" type="StaticBody2D" parent="Environment" unique_id=1568508567]
 position = Vector2(320, -53)
 rotation = 1.5707964
 collision_mask = 6
 
-[node name="Collision" type="CollisionShape2D" parent="Environment/Ceiling"]
+[node name="Collision" type="CollisionShape2D" parent="Environment/Ceiling" unique_id=1853071620]
 shape = SubResource("RectangleShape2D_vpf64")
 
-[node name="EnemySpawner" parent="." groups=["spawner"] instance=ExtResource("5_vpf64")]
+[node name="EnemySpawner" parent="." unique_id=2078480546 groups=["spawner"] instance=ExtResource("5_vpf64")]
 position = Vector2(5, 272)
 enemies = Array[PackedScene]([ExtResource("5_xv074"), ExtResource("6_sytrn"), ExtResource("6_pe1ox"), ExtResource("8_yoh1m")])
 
-[node name="EnemySpawner2" parent="." groups=["spawner"] instance=ExtResource("5_vpf64")]
+[node name="EnemySpawner2" parent="." unique_id=1106504284 groups=["spawner"] instance=ExtResource("5_vpf64")]
 position = Vector2(637, 272)
 enemies = Array[PackedScene]([ExtResource("5_xv074"), ExtResource("6_sytrn"), ExtResource("6_pe1ox"), ExtResource("8_yoh1m")])
 
-[node name="Player" parent="." instance=ExtResource("1_nbgty")]
+[node name="Player" parent="." unique_id=338326015 instance=ExtResource("1_nbgty")]
 z_index = 11
 collision_mask = 57
 spawn_pos = Vector2(260, 285)
 
-[node name="Camera" type="Camera2D" parent="." groups=["camera"]]
+[node name="Camera" type="Camera2D" parent="." unique_id=1681789707 groups=["camera"]]
 anchor_mode = 0
 position_smoothing_enabled = true
 script = ExtResource("9_sytrn")
 
-[node name="Background" type="CanvasLayer" parent="."]
+[node name="Background" type="CanvasLayer" parent="." unique_id=477964417]
 layer = -1
 
-[node name="TextureRect" type="TextureRect" parent="Background"]
+[node name="TextureRect" type="TextureRect" parent="Background" unique_id=618699861]
 texture_filter = 5
 anchors_preset = 4
 anchor_top = 0.5
@@ -169,9 +169,9 @@ grow_vertical = 2
 texture = ExtResource("2_wcngd")
 stretch_mode = 4
 
-[node name="UI" type="CanvasLayer" parent="."]
+[node name="UI" type="CanvasLayer" parent="." unique_id=1711658404]
 
-[node name="Seeds" type="HBoxContainer" parent="UI"]
+[node name="Seeds" type="HBoxContainer" parent="UI" unique_id=322649063]
 offset_left = 13.0
 offset_top = 319.0
 offset_right = 75.0
@@ -180,7 +180,7 @@ size_flags_horizontal = 0
 theme_override_constants/separation = 4
 script = ExtResource("12_vrc4q")
 
-[node name="TextureRect" type="TextureRect" parent="UI/Seeds"]
+[node name="TextureRect" type="TextureRect" parent="UI/Seeds" unique_id=2099059465]
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -188,15 +188,15 @@ size_flags_vertical = 4
 texture = ExtResource("15_b3up8")
 expand_mode = 2
 
-[node name="seed_count" type="Label" parent="UI/Seeds"]
+[node name="seed_count" type="Label" parent="UI/Seeds" unique_id=2056983395]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("13_x4oov")
 theme_override_font_sizes/font_size = 32
 text = "000"
 
-[node name="AchievementManager" parent="UI" instance=ExtResource("15_ss4b2")]
+[node name="AchievementManager" parent="UI" unique_id=1247066342 instance=ExtResource("15_ss4b2")]
 
-[node name="FlowerMeters" type="HBoxContainer" parent="UI"]
+[node name="FlowerMeters" type="HBoxContainer" parent="UI" unique_id=536695705]
 offset_left = 493.0
 offset_top = 326.0
 offset_right = 623.0
@@ -205,15 +205,15 @@ size_flags_horizontal = 0
 theme_override_constants/separation = 8
 script = ExtResource("23_87pmf")
 
-[node name="RedFlower" type="HBoxContainer" parent="UI/FlowerMeters"]
+[node name="RedFlower" type="HBoxContainer" parent="UI/FlowerMeters" unique_id=1042704462]
 layout_mode = 2
 
-[node name="Sprite" type="TextureRect" parent="UI/FlowerMeters/RedFlower"]
+[node name="Sprite" type="TextureRect" parent="UI/FlowerMeters/RedFlower" unique_id=238322350]
 layout_mode = 2
 size_flags_vertical = 4
 texture = ExtResource("23_r732y")
 
-[node name="Meter" type="ProgressBar" parent="UI/FlowerMeters/RedFlower"]
+[node name="Meter" type="ProgressBar" parent="UI/FlowerMeters/RedFlower" unique_id=1691386567]
 custom_minimum_size = Vector2(0, 18)
 layout_mode = 2
 size_flags_vertical = 4
@@ -222,20 +222,20 @@ theme_override_styles/fill = SubResource("StyleBoxLine_7lsmv")
 fill_mode = 3
 show_percentage = false
 
-[node name="Count" type="Label" parent="UI/FlowerMeters/RedFlower"]
+[node name="Count" type="Label" parent="UI/FlowerMeters/RedFlower" unique_id=1080324552]
 layout_mode = 2
 text = "00"
 label_settings = SubResource("LabelSettings_bdmju")
 
-[node name="GreenFlower" type="HBoxContainer" parent="UI/FlowerMeters"]
+[node name="GreenFlower" type="HBoxContainer" parent="UI/FlowerMeters" unique_id=1963330866]
 layout_mode = 2
 
-[node name="Sprite" type="TextureRect" parent="UI/FlowerMeters/GreenFlower"]
+[node name="Sprite" type="TextureRect" parent="UI/FlowerMeters/GreenFlower" unique_id=1293856241]
 layout_mode = 2
 size_flags_vertical = 4
 texture = ExtResource("25_mf35j")
 
-[node name="Meter" type="ProgressBar" parent="UI/FlowerMeters/GreenFlower"]
+[node name="Meter" type="ProgressBar" parent="UI/FlowerMeters/GreenFlower" unique_id=1892965239]
 custom_minimum_size = Vector2(0, 18)
 layout_mode = 2
 size_flags_vertical = 4
@@ -244,20 +244,20 @@ theme_override_styles/fill = SubResource("StyleBoxLine_d6d7a")
 fill_mode = 3
 show_percentage = false
 
-[node name="Count" type="Label" parent="UI/FlowerMeters/GreenFlower"]
+[node name="Count" type="Label" parent="UI/FlowerMeters/GreenFlower" unique_id=915668781]
 layout_mode = 2
 text = "00"
 label_settings = SubResource("LabelSettings_bdmju")
 
-[node name="BlueFlower" type="HBoxContainer" parent="UI/FlowerMeters"]
+[node name="BlueFlower" type="HBoxContainer" parent="UI/FlowerMeters" unique_id=1572273491]
 layout_mode = 2
 
-[node name="Sprite" type="TextureRect" parent="UI/FlowerMeters/BlueFlower"]
+[node name="Sprite" type="TextureRect" parent="UI/FlowerMeters/BlueFlower" unique_id=127763780]
 layout_mode = 2
 size_flags_vertical = 4
 texture = ExtResource("26_t51ir")
 
-[node name="Meter" type="ProgressBar" parent="UI/FlowerMeters/BlueFlower"]
+[node name="Meter" type="ProgressBar" parent="UI/FlowerMeters/BlueFlower" unique_id=663071447]
 custom_minimum_size = Vector2(0, 18)
 layout_mode = 2
 size_flags_vertical = 4
@@ -266,12 +266,12 @@ theme_override_styles/fill = SubResource("StyleBoxLine_eipt2")
 fill_mode = 3
 show_percentage = false
 
-[node name="Count" type="Label" parent="UI/FlowerMeters/BlueFlower"]
+[node name="Count" type="Label" parent="UI/FlowerMeters/BlueFlower" unique_id=1786955118]
 layout_mode = 2
 text = "00"
 label_settings = SubResource("LabelSettings_bdmju")
 
-[node name="TreeMeters" type="HBoxContainer" parent="UI"]
+[node name="TreeMeters" type="HBoxContainer" parent="UI" unique_id=280264137]
 offset_left = 199.0
 offset_top = 315.0
 offset_right = 441.0
@@ -279,7 +279,7 @@ offset_bottom = 355.0
 theme_override_constants/separation = 8
 script = ExtResource("21_r732y")
 
-[node name="AbilityContainer" type="PanelContainer" parent="UI"]
+[node name="AbilityContainer" type="PanelContainer" parent="UI" unique_id=1250723397]
 offset_left = 117.0
 offset_top = 317.0
 offset_right = 153.0
@@ -287,7 +287,7 @@ offset_bottom = 353.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_87pmf")
 script = ExtResource("18_qjqsm")
 
-[node name="Abilities" type="HBoxContainer" parent="UI/AbilityContainer"]
+[node name="Abilities" type="HBoxContainer" parent="UI/AbilityContainer" unique_id=1858371872]
 z_index = 100
 texture_filter = 1
 layout_mode = 2
@@ -295,20 +295,20 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 theme_override_constants/separation = 0
 
-[node name="AbilityIcon" type="TextureRect" parent="UI/AbilityContainer/Abilities"]
+[node name="AbilityIcon" type="TextureRect" parent="UI/AbilityContainer/Abilities" unique_id=1845364434]
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 expand_mode = 2
 stretch_mode = 3
 
-[node name="StageClear" parent="." instance=ExtResource("17_ivku7")]
+[node name="StageClear" parent="." unique_id=834283153 instance=ExtResource("17_ivku7")]
 visible = false
 
-[node name="GameClear" parent="." instance=ExtResource("23_cqqhe")]
+[node name="GameClear" parent="." unique_id=2046808443 instance=ExtResource("23_cqqhe")]
 visible = false
 
-[node name="Music" type="AudioStreamPlayer2D" parent="."]
+[node name="Music" type="AudioStreamPlayer2D" parent="." unique_id=1470177633]
 stream = ExtResource("28_fhw5o")
 volume_db = -8.0
 script = ExtResource("26_u5w0m")
