@@ -4,7 +4,7 @@ class_name AchievementManager
 # Manages the display of achievement toasts
 # Should be added to the CanvasLayer in main.tscn
 
-var toast_scene: PackedScene = preload("res://scenes/ui/achievement_toast.tscn")
+var toast_scene: PackedScene = preload("res://ui/achievements/achievement_toast.tscn")
 var toast_queue: Array[AchievementData] = []
 var is_showing_toast: bool = false
 

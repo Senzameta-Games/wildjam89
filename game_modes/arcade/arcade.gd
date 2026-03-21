@@ -7,15 +7,15 @@ class_name Arcade
 @export var zap_sfx: AudioStreamPlayer2D
 @onready var tree_meters_ui: TreeMeters = $UI/TreeMeters
 @export var next_stage_btn_scn: PackedScene
-@export var tree_scn: PackedScene = preload("res://scenes/tree/tree.tscn")
-@export var acorn_scn: PackedScene = preload("res://scenes/tree/acorn_seed.tscn")
-@export var golden_leaf_scn: PackedScene = preload("res://scenes/goal/goldenleaf.tscn")
+@export var tree_scn: PackedScene = preload("res://entities/tree/tree.tscn")
+@export var acorn_scn: PackedScene = preload("res://entities/tree/acorn_seed.tscn")
+@export var golden_leaf_scn: PackedScene = preload("res://entities/goal/goldenleaf.tscn")
 
 var goal_scenes: Dictionary = {
-	"aim_stomp": preload("res://scenes/goal/stopwatch.tscn"),
-	"double_jump": preload("res://scenes/goal/feather.tscn"),
-	"pesticide": preload("res://scenes/goal/pesticide.tscn"),
-	"golden_leaf": preload("res://scenes/goal/goldenleaf.tscn")
+	"aim_stomp": preload("res://entities/goal/stopwatch.tscn"),
+	"double_jump": preload("res://entities/goal/feather.tscn"),
+	"pesticide": preload("res://entities/goal/pesticide.tscn"),
+	"golden_leaf": preload("res://entities/goal/goldenleaf.tscn")
 }
 
 var current_reward_key: String = ""

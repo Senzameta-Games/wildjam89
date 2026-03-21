@@ -9,7 +9,7 @@ var red_flowers: int = 0
 const GRID_SIZE: int = 16
 const FLOWER_HEIGHT: int = 16
 var flower_columns: Dictionary = {}
-var flower_scene: PackedScene = preload("res://scenes/flower/flower.tscn")
+var flower_scene: PackedScene = preload("res://entities/flower/flower.tscn")
 var _flower_positions: Array = []  # exact spawn pos of every flower node, for visual restore on load
 
 # Gameplay bonus constants

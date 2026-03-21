@@ -16,8 +16,8 @@ var snail_move_timer: float = 0.0
 var snail_stopped: bool = false
 
 # Scene references
-var tutorial_prompt_scene: PackedScene = preload("res://scenes/ui/tutorial_prompt.tscn")
-var tutorial_tips_scene: PackedScene = preload("res://scenes/ui/tutorial_tips.tscn")
+var tutorial_prompt_scene: PackedScene = preload("res://ui/tutorial/tutorial_prompt.tscn")
+var tutorial_tips_scene: PackedScene = preload("res://ui/tutorial/tutorial_tips.tscn")
 
 # Signals
 signal tutorial_phase_completed(phase: String)
@@ -144,7 +144,7 @@ func _spawn_tutorial_snail() -> void:
 		return
 
 	# Spawn a snail (slow-strong enemy)
-	var snail_scene = preload("res://scenes/enemy/slow-strong.tscn")
+	var snail_scene = preload("res://entities/enemy/variants/slow-strong.tscn")
 	var snail = snail_scene.instantiate()
 	get_tree().current_scene.add_child(snail)
 	snail.global_position = furthest_spawner.global_position

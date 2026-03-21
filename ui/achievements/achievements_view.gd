@@ -12,7 +12,7 @@ var achievement_item_scene: PackedScene
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	# Try to load the achievement item scene
-	var scene_path = "res://scenes/ui/achievement_item.tscn"
+	var scene_path = "res://ui/achievements/achievement_item.tscn"
 	if ResourceLoader.exists(scene_path):
 		achievement_item_scene = load(scene_path) as PackedScene
 		if not achievement_item_scene:

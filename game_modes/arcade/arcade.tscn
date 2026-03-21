@@ -28,6 +28,10 @@
 [ext_resource type="Script" uid="uid://bg2jld7ixu7xe" path="res://game_modes/states/game_state_machine.gd" id="27_87pmf"]
 [ext_resource type="Script" uid="uid://ch45bl5xagp3v" path="res://game_modes/arcade/states/tutorial_state.gd" id="28_87pmf"]
 [ext_resource type="AudioStream" uid="uid://ba1w3s3lkrw5e" path="res://assets/sounds/music/StompTreeMaster.wav" id="28_fhw5o"]
+[ext_resource type="Script" uid="uid://cpi5nl1c5sn4i" path="res://game_modes/arcade/states/play_state.gd" id="29_hv3u0"]
+[ext_resource type="Script" uid="uid://c1b5vu1pgf2l8" path="res://game_modes/arcade/states/stage_win_state.gd" id="30_wk61e"]
+[ext_resource type="Script" uid="uid://fhnml50sbx2f" path="res://game_modes/arcade/states/game_win_state.gd" id="31_vrcex"]
+[ext_resource type="Script" uid="uid://qmpllcwffffp" path="res://game_modes/arcade/states/paused_state.gd" id="32_olc17"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hnne4"]
 size = Vector2(640, 120)
@@ -77,89 +81,6 @@ border_width_bottom = 2
 border_color = Color(0.12955844, 0.1295585, 0.12955835, 1)
 corner_detail = 1
 anti_aliasing = false
-
-[sub_resource type="GDScript" id="GDScript_735j5"]
-script/source = "class_name PlayState
-extends GameState
-
-func physics_update(_delta: float) -> void:
-	if Input.is_action_just_pressed(\"pause\"):
-		transition_requested.emit(self, PausedState)
-
-func enter() -> void:
-	context.stage_won.connect(_on_stage_won)
-	context.game_won.connect(_on_game_won)
-
-func exit() -> void:
-	if context.stage_won.is_connected(_on_stage_won):
-		context.stage_won.disconnect(_on_stage_won)
-	if context.game_won.is_connected(_on_game_won):
-		context.game_won.disconnect(_on_game_won)
-
-func _on_stage_won(_reward_key: String) -> void:
-	transition_requested.emit(self, StageWinState)
-
-func _on_game_won() -> void:
-	transition_requested.emit(self, GameWinState)
-"
-
-[sub_resource type="GDScript" id="GDScript_f5yl8"]
-script/source = "class_name StageWinState
-extends GameState
-
-func enter() -> void:
-	var scn := context.get_node(\"StageClear\")
-	scn.show_screen(context.current_reward_key)
-	scn.screen_dismissed.connect(_on_dismissed, CONNECT_ONE_SHOT)
-
-func exit() -> void:
-	pass
-
-func _on_dismissed() -> void:
-	transition_requested.emit(self, PlayState)
-"
-
-[sub_resource type="GDScript" id="GDScript_ye1ny"]
-script/source = "class_name GameWinState
-extends GameState
-
-func enter() -> void:
-	Saves.delete_run_save()
-	context.get_node(\"GameClear\").show_screen(\"golden_leaf\")
-"
-
-[sub_resource type="GDScript" id="GDScript_41rxb"]
-script/source = "class_name PausedState
-extends GameState
-
-var _menu: CanvasLayer
-
-func enter() -> void:
-	_menu = context.get_parent().get_node(\"PauseMenu\")
-	_menu.resume_requested.connect(_on_resume, CONNECT_ONE_SHOT)
-	_menu.restart_requested.connect(_on_restart, CONNECT_ONE_SHOT)
-	_menu.return_to_title_requested.connect(_on_return_to_title, CONNECT_ONE_SHOT)
-	_menu._pause()  # handles show + async music fade + tree pause internally
-
-func exit() -> void:
-	if _menu.resume_requested.is_connected(_on_resume):
-		_menu.resume_requested.disconnect(_on_resume)
-	if _menu.restart_requested.is_connected(_on_restart):
-		_menu.restart_requested.disconnect(_on_restart)
-	if _menu.return_to_title_requested.is_connected(_on_return_to_title):
-		_menu.return_to_title_requested.disconnect(_on_return_to_title)
-	_menu._unpause()
-	_menu = null
-
-func _on_resume() -> void:
-	transition_requested.emit(self, PlayState)
-
-func _on_restart() -> void:
-	Main.restart_run()
-
-func _on_return_to_title() -> void:
-	Main.return_to_title()
-"
 
 [node name="Arcade" type="Node2D" unique_id=191387750]
 script = ExtResource("1_wcngd")
@@ -408,17 +329,17 @@ script = ExtResource("28_87pmf")
 metadata/_custom_type_script = "uid://cynb7gmuroem5"
 
 [node name="Play" type="Node" parent="StateMachine" unique_id=1687527904]
-script = SubResource("GDScript_735j5")
+script = ExtResource("29_hv3u0")
 metadata/_custom_type_script = "uid://cynb7gmuroem5"
 
 [node name="StageWin" type="Node" parent="StateMachine" unique_id=381812821]
-script = SubResource("GDScript_f5yl8")
+script = ExtResource("30_wk61e")
 metadata/_custom_type_script = "uid://cynb7gmuroem5"
 
 [node name="GameWin" type="Node" parent="StateMachine" unique_id=401023593]
-script = SubResource("GDScript_ye1ny")
+script = ExtResource("31_vrcex")
 metadata/_custom_type_script = "uid://cynb7gmuroem5"
 
 [node name="Paused" type="Node" parent="StateMachine" unique_id=235452738]
-script = SubResource("GDScript_41rxb")
+script = ExtResource("32_olc17")
 metadata/_custom_type_script = "uid://cynb7gmuroem5"
