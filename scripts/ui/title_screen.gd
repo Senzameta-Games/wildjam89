@@ -1,15 +1,15 @@
 extends CanvasLayer
 
+signal start_requested
+
 func _enter_tree() -> void:
-	get_tree().paused = true
-	Session.game_has_started = false
+	pass
 
 func _ready() -> void:
-	visible = true
+	pass
 
 func _on_start_button_pressed() -> void:
-	visible = false
-	Main.start_new_run()
+	start_requested.emit()
 
 func _on_exit_button_pressed() -> void:
 	get_tree().quit()

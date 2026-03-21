@@ -20,14 +20,15 @@ config/features=PackedStringArray("4.6", "Forward Plus")
 
 [autoload]
 
+Session="*uid://bf76ck0n0bg0w"
 Economy="*uid://ded67l5bkxls7"
 Abilities="*uid://orx5ypewgc8m"
-Session="*uid://bf76ck0n0bg0w"
-Main="*uid://c5iaet4w5e306"
-Achievements="*res://scripts/game/achievements.gd"
 Tutorial="*res://scripts/game/tutorial_manager.gd"
 MusicPlayer="*res://scripts/game/MusicPlayer.gd"
 FlowerManager="*res://scripts/level/flower_manager.gd"
+Achievements="*res://scripts/game/achievements.gd"
+Main="*uid://c5iaet4w5e306"
+Saves="*res://scripts/game/Saves.gd"
 
 [display]
 
@@ -142,6 +143,16 @@ zapper_get={
 big_money={
 "deadzone": 0.2,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":77,"key_label":0,"unicode":109,"location":0,"echo":false,"script":null)
+]
+}
+quick_save={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194336,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
+]
+}
+quick_load={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194337,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 ]
 }
 

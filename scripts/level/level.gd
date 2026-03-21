@@ -1,5 +1,5 @@
 extends Node2D
-class_name Level
+class_name Arcade
 
 @onready var stage_clear_scn = $StageClear
 @onready var game_clear_scn = $GameClear
@@ -20,6 +20,9 @@ var goal_scenes: Dictionary = {
 
 var current_reward_key: String = ""
 
+signal stage_won(reward_key: String)
+signal game_won()
+
 # --- SPAWNING & SLOTS ---
 const MAX_SLOTS = 4
 const LEVEL_WIDTH = 640
@@ -29,8 +32,13 @@ var occupied_slots: Array[bool] = []
 var most_recent_tree: SeedTree
 
 func _ready():
+	Saves.register_arcade(self)
 	_init_slots()
-	
+
+	if Saves.has_pending_run_load():
+		_apply_run_restore(Saves.consume_pending_run_data())
+		return
+
 	var params = Session.get_stage_params()
 	current_reward_key = params["ability_reward"]
 	print("Level Ready. Current Reward Key: ", current_reward_key)
@@ -48,6 +56,18 @@ func _ready():
 	# Otherwise, it will start when title screen start button is pressed
 	if Session.game_has_started and music:
 		music.play()
+
+func _exiting_tree() -> void:
+	Saves.unregister_arcade()
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("quick_save"):
+		Saves.write_run()
+		Saves.debug_print_run_save()
+	elif event.is_action_pressed("quick_load"):
+		Saves.load_run()
+		if Saves.has_pending_run_load():
+			get_tree().reload_current_scene()
 
 func _init_slots():
 	occupied_slots.clear()
@@ -138,19 +158,18 @@ func _on_tree_growth_completed(source_tree: SeedTree) -> void:
 func _on_reward_collected() -> void:
 	print("Reward collected. Checking type: ", current_reward_key)
 	if current_reward_key == "golden_leaf":
-		if game_clear_scn:
-			game_clear_scn.show_screen("golden_leaf")
+		game_won.emit()
 		return
 
+	Saves.write_run()
 	print("Advancing stage.")
-	
+
 	if current_reward_key != "":
 		Abilities.unlock_ability(current_reward_key)
 
 	if not Abilities.has_seen_ability(current_reward_key) and current_reward_key != "":
 		Abilities.mark_ability_seen(current_reward_key)
-		if stage_clear_scn:
-			stage_clear_scn.show_screen(current_reward_key)
+		stage_won.emit(current_reward_key)
 
 	Session.current_stage += 1
 	var params = Session.get_stage_params()
@@ -194,16 +213,16 @@ func _spawn_new_tree() -> void:
 
 func _on_acorn_planted(slot_index: int, location: Vector2) -> void:
 	if not tree_scn: return
-	
+
 	var new_tree = tree_scn.instantiate()
 	add_child(new_tree)
 	new_tree.global_position = location
 	new_tree.slot_index = slot_index
-	
+
 	# add tree to ui
 	if tree_meters_ui:
 		tree_meters_ui.register_tree(new_tree)
-	
+
 	if not new_tree.growth_completed.is_connected(_on_tree_growth_completed):
 		new_tree.growth_completed.connect(_on_tree_growth_completed.bind(new_tree))
 	if not new_tree.slot_freed.is_connected(_on_tree_slot_freed):
@@ -211,3 +230,53 @@ func _on_acorn_planted(slot_index: int, location: Vector2) -> void:
 
 	var params = Session.get_stage_params()
 	new_tree.damage_per_hit = params["enemy_damage"]
+
+func serialize() -> Dictionary:
+	return {
+		"occupied_slots": occupied_slots.duplicate(),
+		"current_reward_key": current_reward_key,
+	}
+
+func deserialize(data: Dictionary) -> void:
+	occupied_slots.assign(data.get("occupied_slots", [false, false, false, false]))
+	current_reward_key = data.get("current_reward_key", "")
+
+func _apply_run_restore(data: Dictionary) -> void:
+	print("[Saves] applying run restore...")
+
+	Session.deserialize(data.get("session", {}))
+	Economy.deserialize(data.get("economy", {}))
+	Abilities.deserialize(data.get("abilities", {}))
+	Achievements.deserialize_run(data.get("achievements_run", {}))
+	FlowerManager.deserialize(data.get("flower_manager", {}))
+	deserialize(data.get("level", {}))
+
+	if Saves._player != null:
+		Saves._player.deserialize(data.get("player", {}))
+
+
+	var params = Session.get_stage_params()
+	var spawners = get_tree().get_nodes_in_group("spawner")
+	for spawner in spawners:
+		if spawner is EnemySpawner:
+			spawner.timer_interval = params.spawn_interval
+			if spawner.has_method("set_spawn_interval"):
+				spawner.set_spawn_interval(params.spawn_interval)
+
+	for tree_data in data.get("trees", []):
+		var new_tree: SeedTree = tree_scn.instantiate()
+		add_child(new_tree)
+		new_tree.deserialize(tree_data)
+		new_tree.damage_per_hit = params["enemy_damage"]
+		if tree_meters_ui:
+			tree_meters_ui.register_tree(new_tree)
+		if not new_tree.growth_completed.is_connected(_on_tree_growth_completed):
+			new_tree.growth_completed.connect(_on_tree_growth_completed.bind(new_tree))
+		if not new_tree.slot_freed.is_connected(_on_tree_slot_freed):
+			new_tree.slot_freed.connect(_on_tree_slot_freed)
+
+	if music:
+		music.play()
+
+	get_tree().paused = false
+	print("[Saves] run restore complete (stage %d)" % Session.current_stage)

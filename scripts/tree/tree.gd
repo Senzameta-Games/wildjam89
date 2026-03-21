@@ -226,7 +226,7 @@ func _on_shop_interacted():
 
 func _on_tree_hitbox_area_entered(area: Area2D):
 	var entity = area.get_parent()
-	
+
 	if entity is Bird:
 		return
 
@@ -236,3 +236,28 @@ func _on_tree_hitbox_area_entered(area: Area2D):
 
 	elif entity is Bomb:
 		hurt(damage_per_hit * 1.2)
+
+func serialize() -> Dictionary:
+	return {
+		"slot_index": slot_index,
+		"position_x": global_position.x,
+		"position_y": global_position.y,
+		"tree_progress": tree_progress,
+		"reward_spawned": reward_spawned,
+		"sudden_death": sudden_death,
+	}
+
+func deserialize(data: Dictionary) -> void:
+	slot_index = data.get("slot_index", -1)
+	global_position = Vector2(
+		data.get("position_x", 0.0),
+		data.get("position_y", 0.0)
+	)
+	tree_progress = data.get("tree_progress", 10.0)
+	reward_spawned = data.get("reward_spawned", false)
+	sudden_death = data.get("sudden_death", false)
+	# current_sections and leaf_tier_current are derived from tree_progress
+	# via _update_target_sections() and _update_leaf_tier_target() in _ready()
+	_update_target_sections()
+	_update_leaf_tier_target()
+	_build_trunk_immediate()

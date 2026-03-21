@@ -88,3 +88,21 @@ func reset() -> void:
 	cached_reward_stage = -1
 	session_start_time = 0
 	session_end_time = 0
+
+func serialize() -> Dictionary:
+	return {
+		"current_stage": current_stage,
+		"trees_grown_count": trees_grown_count,
+		"game_has_started": game_has_started,
+		"cached_reward": cached_reward,
+		"cached_reward_stage": cached_reward_stage,
+		"session_start_time": session_start_time,
+	}
+
+func deserialize(data: Dictionary) -> void:
+	current_stage = data.get("current_stage", 1)
+	trees_grown_count = data.get("trees_grown_count", 0)
+	game_has_started = data.get("game_has_started", false)
+	cached_reward = data.get("cached_reward", "")
+	cached_reward_stage = data.get("cached_reward_stage", -1)
+	session_start_time = data.get("session_start_time", 0)

@@ -12,6 +12,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 @export_category("Gameplay")
 var can_interact: bool
+const DEPOSIT_RANGE: float = 80.0
 @export_group("Health")
 var current_health: int
 @export var max_health: int
@@ -84,8 +85,26 @@ signal just_interacted
 @onready var aim_visual: ColorRect = $AimVisual
 
 func _ready() -> void:
+	Saves.register_player(self)
 	self.position = spawn_pos
 	just_spawned.emit()
+
+func _exiting_tree() -> void:
+	Saves.unregister_player()
+
+func _find_nearest_shop() -> Node2D:
+	var trees := get_tree().get_nodes_in_group("tree")
+	var nearest: Node2D = null
+	var nearest_dist := DEPOSIT_RANGE
+	for tree in trees:
+		var shop := tree.get_node_or_null("Shop") as Node2D
+		if shop == null:
+			continue
+		var dist := global_position.distance_to(shop.global_position)
+		if dist < nearest_dist:
+			nearest_dist = dist
+			nearest = shop
+	return nearest
 
 func _physics_process(delta: float) -> void:
 	if aim_visual.visible:
@@ -239,3 +258,23 @@ func update_aim_visual() -> void:
 
 func set_time_scale(target_scale: float) -> void:
 	Engine.time_scale = target_scale
+
+func serialize() -> Dictionary:
+	return {
+		"current_health": current_health,
+		"max_health": max_health,
+		"position_x": global_position.x,
+		"position_y": global_position.y,
+		"slow_aim": slow_aim,
+		"double_jump": double_jump,
+	}
+
+func deserialize(data: Dictionary) -> void:
+	current_health = data.get("current_health", max_health)
+	max_health = data.get("max_health", max_health)
+	global_position = Vector2(
+		data.get("position_x", spawn_pos.x),
+		data.get("position_y", spawn_pos.y)
+	)
+	slow_aim = data.get("slow_aim", false)
+	double_jump = data.get("double_jump", false)

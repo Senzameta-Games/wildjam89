@@ -19,8 +19,8 @@ func enter() -> void:
 	player.velocity *= velocity_preserved
 	player.set_time_scale(0.2)
 	time_slowed = true
-	if MusicManager:
-		MusicManager.fade_to_aim_slowmo()
+	if MusicPlayer:
+		MusicPlayer.fade_to_aim_slowmo()
 	# show visuals
 	fall_feedback()
 	player.aim_visual.visible = true
@@ -33,8 +33,8 @@ func exit() -> void:
 	if time_slowed:
 		player.set_time_scale(1.0)
 		time_slowed = false
-	if MusicManager:
-		MusicManager.fade_to_normal()
+	if MusicPlayer:
+		MusicPlayer.fade_to_normal()
 	# hide visuals
 	player.aim_visual.visible = false
 	player.aim_raycast.enabled = false

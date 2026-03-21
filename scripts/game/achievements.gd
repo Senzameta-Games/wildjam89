@@ -133,15 +133,16 @@ func check_condition(achievement: AchievementData) -> bool:
 func unlock_achievement(achievement_id: String) -> void:
 	if achievement_id in unlocked_achievements:
 		return  # Already unlocked
-	
+
 	if not achievement_id in achievement_resources:
 		push_error("Achievement ID not found: " + achievement_id)
 		return
-	
+
 	var achievement = achievement_resources[achievement_id]
 	unlocked_achievements[achievement_id] = achievement
 	achievement_unlocked.emit(achievement)
 	print("Achievement Unlocked: ", achievement.achievement_name)
+	Saves.write_meta()
 
 func check_and_unlock_achievement(achievement_id: String) -> void:
 	if check_achievement(achievement_id):
@@ -186,3 +187,27 @@ func reset_achievements() -> void:
 	recent_stomps.clear()
 	total_bombs_blocked = 0
 	killed_enemy_types.clear()
+
+func serialize_meta() -> Dictionary:
+	return { "unlocked_achievements": unlocked_achievements.keys() }
+
+func deserialize_meta(data: Dictionary) -> void:
+	# load_achievements() has already run in _ready(), so achievement_resources is populated
+	for id in data.get("unlocked_achievements", []):
+		if id in achievement_resources:
+			unlocked_achievements[id] = achievement_resources[id]
+
+func serialize_run() -> Dictionary:
+	return {
+		"total_enemies_stomped": total_enemies_stomped,
+		"total_flowers_planted": total_flowers_planted,
+		"total_bombs_blocked": total_bombs_blocked,
+		"killed_enemy_types": killed_enemy_types.duplicate(),
+	}
+
+func deserialize_run(data: Dictionary) -> void:
+	total_enemies_stomped = data.get("total_enemies_stomped", 0)
+	total_flowers_planted = data.get("total_flowers_planted", 0)
+	total_bombs_blocked = data.get("total_bombs_blocked", 0)
+	killed_enemy_types.assign(data.get("killed_enemy_types", []))
+	recent_stomps.clear()  # intentionally not restored — stale timestamps break multi-stomp window

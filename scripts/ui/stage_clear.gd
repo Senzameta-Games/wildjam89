@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+signal screen_dismissed
+
 # Node References
 @onready var content: Control = $Content
 @onready var reward_icon: TextureRect = $Content/StageClearContainer/Ability/Margin/RewardIcon
@@ -81,3 +83,4 @@ func hide_screen() -> void:
 func _input(event: InputEvent) -> void:
 	if visible and event.is_action_pressed("ui_accept"):
 		hide_screen()
+		screen_dismissed.emit()

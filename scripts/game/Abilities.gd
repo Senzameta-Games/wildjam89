@@ -75,3 +75,23 @@ func reset() -> void:
 	recent_abilities.clear()
 	ability_queue = ALL_ABILITIES.duplicate()
 	ability_queue.shuffle()
+
+func serialize() -> Dictionary:
+	return {
+		"unlocked_abilities": unlocked_abilities.duplicate(),
+		"seen_abilities": seen_abilities.duplicate(),
+		"ability_queue": ability_queue.duplicate(),
+		"recent_abilities": recent_abilities.duplicate(),
+	}
+
+func deserialize(data: Dictionary) -> void:
+	if data.has("unlocked_abilities"):
+		for key in data["unlocked_abilities"]:
+			if key in unlocked_abilities:
+				unlocked_abilities[key] = data["unlocked_abilities"][key]
+	if data.has("seen_abilities"):
+		seen_abilities = data["seen_abilities"].duplicate()
+	if data.has("ability_queue"):
+		ability_queue.assign(data["ability_queue"])
+	if data.has("recent_abilities"):
+		recent_abilities.assign(data["recent_abilities"])

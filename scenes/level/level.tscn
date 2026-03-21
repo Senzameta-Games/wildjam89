@@ -25,7 +25,13 @@
 [ext_resource type="FontFile" uid="uid://cycbiy0d7iv67" path="res://assets/fonts/Tiny5-Regular.ttf" id="25_t51ir"]
 [ext_resource type="Texture2D" uid="uid://bnrlv6xwr6dd8" path="res://assets/sprites/flower/flowerblue.png" id="26_t51ir"]
 [ext_resource type="Script" uid="uid://chy5vii7fk6sl" path="res://scripts/game/MusicPlayer.gd" id="26_u5w0m"]
+[ext_resource type="Script" uid="uid://bg2jld7ixu7xe" path="res://state/game_state_machine.gd" id="27_87pmf"]
+[ext_resource type="Script" uid="uid://ch45bl5xagp3v" path="res://state/arcade/tutorial_state.gd" id="28_87pmf"]
 [ext_resource type="AudioStream" uid="uid://ba1w3s3lkrw5e" path="res://assets/sounds/music/StompTreeMaster.wav" id="28_fhw5o"]
+[ext_resource type="Script" uid="uid://cpi5nl1c5sn4i" path="res://state/arcade/play_state.gd" id="29_mf35j"]
+[ext_resource type="Script" uid="uid://c1b5vu1pgf2l8" path="res://state/arcade/stage_win_state.gd" id="30_t51ir"]
+[ext_resource type="Script" uid="uid://fhnml50sbx2f" path="res://state/arcade/game_win_state.gd" id="31_hfr1v"]
+[ext_resource type="Script" uid="uid://qmpllcwffffp" path="res://state/arcade/paused_state.gd" id="32_7lsmv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hnne4"]
 size = Vector2(640, 120)
@@ -312,3 +318,28 @@ visible = false
 stream = ExtResource("28_fhw5o")
 volume_db = -8.0
 script = ExtResource("26_u5w0m")
+
+[node name="StateMachine" type="Node" parent="." unique_id=192022773 node_paths=PackedStringArray("initial_state")]
+script = ExtResource("27_87pmf")
+initial_state = NodePath("Tutorial")
+metadata/_custom_type_script = "uid://bg2jld7ixu7xe"
+
+[node name="Tutorial" type="Node" parent="StateMachine" unique_id=1366694364]
+script = ExtResource("28_87pmf")
+metadata/_custom_type_script = "uid://cynb7gmuroem5"
+
+[node name="Play" type="Node" parent="StateMachine" unique_id=1687527904]
+script = ExtResource("29_mf35j")
+metadata/_custom_type_script = "uid://cynb7gmuroem5"
+
+[node name="StageWin" type="Node" parent="StateMachine" unique_id=381812821]
+script = ExtResource("30_t51ir")
+metadata/_custom_type_script = "uid://cynb7gmuroem5"
+
+[node name="GameWin" type="Node" parent="StateMachine" unique_id=401023593]
+script = ExtResource("31_hfr1v")
+metadata/_custom_type_script = "uid://cynb7gmuroem5"
+
+[node name="Paused" type="Node" parent="StateMachine" unique_id=235452738]
+script = ExtResource("32_7lsmv")
+metadata/_custom_type_script = "uid://cynb7gmuroem5"

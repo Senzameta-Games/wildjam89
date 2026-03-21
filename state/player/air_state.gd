@@ -3,8 +3,10 @@ class_name AirState
 
 @export var coyote_time: float = 0.1
 var coyote_timer: float = 0.0
+var _depositing_at: Node2D = null
 
 func enter() -> void:
+	_depositing_at = null
 	if player.is_stomping:
 		player.is_stomping = false
 	
@@ -67,10 +69,21 @@ func physics_update(delta: float) -> void:
 	player.move_and_slide()
 	player.update_facing_dir(dir)
 	
+	# deposit
+	if Input.is_action_pressed("interact"):
+		if _depositing_at == null:
+			_depositing_at = player._find_nearest_shop()
+		if _depositing_at:
+			_depositing_at.deposit_tick(delta, player.global_position)
+	else:
+		if _depositing_at:
+			_depositing_at.release_deposit()
+			_depositing_at = null
+
 	if player.is_on_floor():
 		transition_requested.emit(self, GroundState)
 		return
-	
+
 func jump_feedback():
 	player.player_sprite.play("jump")
 	player.sfx_jump.play()

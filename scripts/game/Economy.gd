@@ -26,3 +26,10 @@ func big_money() -> void:
 func reset() -> void:
 	total_seeds = 0
 	seeds_changed.emit(total_seeds)
+
+func serialize() -> Dictionary:
+	return { "total_seeds": total_seeds }
+
+func deserialize(data: Dictionary) -> void:
+	total_seeds = data.get("total_seeds", 0)
+	seeds_changed.emit(total_seeds)

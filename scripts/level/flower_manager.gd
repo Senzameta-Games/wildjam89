@@ -10,6 +10,7 @@ const GRID_SIZE: int = 16
 const FLOWER_HEIGHT: int = 16
 var flower_columns: Dictionary = {}
 var flower_scene: PackedScene = preload("res://scenes/flower/flower.tscn")
+var _flower_positions: Array = []  # exact spawn pos of every flower node, for visual restore on load
 
 # Gameplay bonus constants
 const FLOWER_GROWTH_BONUS: float = 0.05
@@ -37,6 +38,7 @@ func reset_flowers() -> void:
 	blue_flowers = 0
 	red_flowers = 0
 	flower_columns.clear()
+	_flower_positions.clear()
 	emit_all_signals()
 
 func plant_flower(at_position: Vector2) -> void:
@@ -48,6 +50,7 @@ func plant_flower(at_position: Vector2) -> void:
 	var stack_count = flower_columns.get(grid_index, 0)
 
 	var spawn_pos = Vector2(snapped_x, at_position.y - (stack_count * FLOWER_HEIGHT))
+	_flower_positions.append({"x": spawn_pos.x, "y": spawn_pos.y})
 
 	var flower = flower_scene.instantiate()
 	get_tree().current_scene.call_deferred_thread_group("add_child", flower)
@@ -119,6 +122,38 @@ func emit_all_signals() -> void:
 	flowers_changed.emit(green_flowers, blue_flowers, red_flowers)
 	defense_changed.emit(get_defense_percent())
 	powerup_duration_bonus_changed.emit(get_powerup_duration_bonus_percent())
+
+func restore_visuals() -> void:
+	if flower_scene == null: return
+	for pos_data in _flower_positions:
+		var flower = flower_scene.instantiate()
+		flower.global_position = Vector2(pos_data["x"], pos_data["y"])
+		get_tree().current_scene.call_deferred_thread_group("add_child", flower)
+
+func serialize() -> Dictionary:
+	var columns_str: Dictionary = {}
+	for k in flower_columns:
+		columns_str[str(k)] = flower_columns[k]
+	return {
+		"green_flowers": green_flowers,
+		"blue_flowers": blue_flowers,
+		"red_flowers": red_flowers,
+		"flower_columns": columns_str,
+		"flower_positions": _flower_positions.duplicate(),
+	}
+
+func deserialize(data: Dictionary) -> void:
+	green_flowers = data.get("green_flowers", 0)
+	blue_flowers = data.get("blue_flowers", 0)
+	red_flowers = data.get("red_flowers", 0)
+	flower_columns.clear()
+	for k in data.get("flower_columns", {}):
+		flower_columns[int(k)] = data["flower_columns"][k]
+	_flower_positions.clear()
+	for pos_data in data.get("flower_positions", []):
+		_flower_positions.append(pos_data)
+	emit_all_signals()
+	restore_visuals()
 
 # Debug helpers
 func get_defense_display_text() -> String:

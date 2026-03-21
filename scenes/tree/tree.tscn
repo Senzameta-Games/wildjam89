@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://5u0rjw4fxv62"]
+[gd_scene load_steps=31 format=3 uid="uid://5u0rjw4fxv62"]
 
 [ext_resource type="Script" uid="uid://dps82nj04mquw" path="res://scripts/tree/shop_button.gd" id="1_mbf7r"]
 [ext_resource type="Texture2D" uid="uid://b8ichhlia4jkk" path="res://assets/sprites/tree/Trunk/treetile01.png" id="2_xwrx4"]
@@ -25,10 +25,7 @@
 [ext_resource type="AudioStream" uid="uid://nfg76eumuab6" path="res://assets/sounds/tree/zap.tres" id="20_polbh"]
 [ext_resource type="Script" uid="uid://b1pdju5ijjh7w" path="res://scripts/player/zapper.gd" id="25_0uf4c"]
 [ext_resource type="PackedScene" uid="uid://db1lwwtlllkav" path="res://scenes/seed/seed_bundle.tscn" id="25_hesdt"]
-[ext_resource type="PackedScene" uid="uid://c8yn67wshcpor" path="res://scenes/enemy/fast-weak.tscn" id="26_rciy5"]
-[ext_resource type="PackedScene" uid="uid://clg6borink2ye" path="res://scenes/enemy/slow-strong.tscn" id="27_lnqmm"]
 [ext_resource type="PackedScene" uid="uid://3mhjgr2g4y7j" path="res://scenes/seed/seed.tscn" id="27_polbh"]
-[ext_resource type="PackedScene" uid="uid://c8ag4374ivpgq" path="res://scenes/enemy/bomb-thrower.tscn" id="28_ukm5v"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r4rvj"]
 
@@ -114,7 +111,7 @@ script = ExtResource("10_kui63")
 branch_sprite = ExtResource("11_bynld")
 leaf_sprites = Array[Texture2D]([ExtResource("9_d4o0i"), ExtResource("10_6wwch"), ExtResource("11_kui63")])
 seed_bundle_scn = ExtResource("25_hesdt")
-enemy_roster = Array[PackedScene]([ExtResource("26_rciy5"), ExtResource("27_lnqmm"), ExtResource("28_ukm5v")])
+enemy_roster = Array[PackedScene]([])
 
 [node name="Shop" type="Node2D" parent="." node_paths=PackedStringArray("empty_sfx", "grow_sfx", "zap_sfx")]
 script = ExtResource("1_mbf7r")

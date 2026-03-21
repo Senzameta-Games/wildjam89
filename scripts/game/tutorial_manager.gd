@@ -192,6 +192,13 @@ func complete_tutorial() -> void:
 	tutorial_completed = true
 	is_tutorial_active = false
 	_enable_spawners()
+	Saves.write_meta()
+
+func serialize_meta() -> Dictionary:
+	return { "tutorial_completed": tutorial_completed }
+
+func deserialize_meta(data: Dictionary) -> void:
+	tutorial_completed = data.get("tutorial_completed", false)
 
 func reset_tutorial() -> void:
 	tutorial_completed = false

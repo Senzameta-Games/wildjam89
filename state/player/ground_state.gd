@@ -5,6 +5,7 @@ class_name GroundState
 var step_timer: float = 0.0
 
 var is_recovering: bool = false
+var _depositing_at: Node2D = null
 
 func enter() -> void:
 	player.player_collider.scale = Vector2(1.0, 1.0)
@@ -14,8 +15,8 @@ func enter() -> void:
 	player.jumps_available = 2 if Abilities.has_ability("double_jump") else 1
 	player.bounce_recovering = false
 	step_timer = 0.0
-	
 	is_recovering = false
+	_depositing_at = null
 	
 	if player.is_stomping:
 		stomp_feedback()
@@ -65,16 +66,27 @@ func physics_update(delta: float) -> void:
 	player.move_and_slide()
 	player.update_facing_dir(dir)
 	
+	# deposit
+	if Input.is_action_pressed("interact"):
+		if _depositing_at == null:
+			_depositing_at = player._find_nearest_shop()
+		if _depositing_at:
+			_depositing_at.deposit_tick(delta, player.global_position)
+	else:
+		if _depositing_at:
+			_depositing_at.release_deposit()
+			_depositing_at = null
+
 	# transitions
 	if Input.is_action_just_pressed("jump") and player.is_on_floor():
 		player.jump()
 		transition_requested.emit(self, AirState)
 		return
-	
+
 	if not player.is_on_floor():
 		transition_requested.emit(self, AirState)
 		return
-	
+
 	if Input.is_action_just_pressed("stomp"):
 		if player.is_on_floor():
 			for i in player.get_slide_collision_count():
@@ -83,7 +95,7 @@ func physics_update(delta: float) -> void:
 				# Check if it's a one-way platform (layer 6)
 				if collider and collider.get_collision_layer_value(6):
 					player.set_collision_mask_value(6, false)
-					player.global_position.y += 1 
+					player.global_position.y += 1
 					break
 		transition_requested.emit(self, StompState)
 		return
