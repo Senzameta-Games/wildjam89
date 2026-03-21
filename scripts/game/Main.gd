@@ -4,6 +4,9 @@ extends Node
 # Main is the app shell. It owns all transitions between screens.
 # UI scripts call Main; Main decides what state to change and what scene to load.
 
+func _ready() -> void:
+	Session.stage_advanced.connect(advance_stage)
+
 func start_new_run() -> void:
 	Session.start_new_run()
 	Achievements.reset_achievements()

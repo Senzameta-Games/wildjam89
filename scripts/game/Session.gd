@@ -2,6 +2,7 @@ extends Node
 
 signal game_over_called
 signal game_won
+signal stage_advanced
 
 var current_stage: int = 1
 var trees_grown_count: int = 0
@@ -30,7 +31,7 @@ func start_new_run() -> void:
 func next_stage() -> void:
 	current_stage += 1
 	stage_reset()
-	get_tree().reload_current_scene()
+	stage_advanced.emit()
 
 func stage_reset() -> void:
 	Economy.reset()
