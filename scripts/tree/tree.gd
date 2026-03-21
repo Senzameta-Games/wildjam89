@@ -66,7 +66,7 @@ func _ready():
 func _process(delta: float) -> void:
 	var passive_growth = BASE_PASSIVE_GROWTH
 	
-	var flower_bonus = Game.get_flower_growth_bonus()
+	var flower_bonus = FlowerManager.get_flower_growth_bonus()
 	var active_trees = get_tree().get_nodes_in_group("tree").size()
 	
 	if active_trees > 0:
@@ -89,7 +89,7 @@ func heal_tree(amount: float):
 
 func hurt(amount: float):
 	# blue flowers
-	var defense_multiplier = Game.get_flower_defense_bonus()
+	var defense_multiplier = FlowerManager.get_flower_defense_bonus()
 	var actual_damage = amount * defense_multiplier
 	
 	subtract_progress(actual_damage)

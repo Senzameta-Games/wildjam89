@@ -19,12 +19,12 @@ func _ready() -> void:
 			meter.max_value = max_flower_display
 	
 	_update_display()
-	Game.flower_counts_changed.connect(_update_display)
+	FlowerManager.flowers_changed.connect(func(_g, _b, _r): _update_display())
 
 func _update_display() -> void:
-	var red = Game.flower_counts.get("red", 0)
-	var green = Game.flower_counts.get("green", 0)
-	var blue = Game.flower_counts.get("blue", 0)
+	var red = FlowerManager.red_flowers
+	var green = FlowerManager.green_flowers
+	var blue = FlowerManager.blue_flowers
 	
 	if red_count:
 		red_count.text = "%02d" % red

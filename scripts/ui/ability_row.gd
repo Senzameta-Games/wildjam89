@@ -46,7 +46,7 @@ func activate_ability(ability_key: String) -> void:
 	active_ability = ability_key
 	
 	# Apply RED FLOWER POWERUP BONUS to duration
-	var bonus_duration = Game.get_flower_powerup_bonus()
+	var bonus_duration = FlowerManager.get_flower_powerup_bonus()
 	ability_timer = BASE_ABILITY_DURATION + bonus_duration
 	
 	if ability_icon:

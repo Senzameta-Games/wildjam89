@@ -1,15 +1,26 @@
 extends Node
 
-# Flower counts
+# Flower counts (live flowers currently in the scene)
 var green_flowers: int = 0
 var blue_flowers: int = 0
 var red_flowers: int = 0
 
-# Blue flower defense values
+# Visual spawning
+const GRID_SIZE: int = 16
+const FLOWER_HEIGHT: int = 16
+var flower_columns: Dictionary = {}
+var flower_scene: PackedScene = preload("res://scenes/flower/flower.tscn")
+
+# Gameplay bonus constants
+const FLOWER_GROWTH_BONUS: float = 0.05
+const FLOWER_DEFENSE_BONUS: float = 0.01
+const FLOWER_POWERUP_BONUS: float = 0.02
+
+# Blue flower defense values (used by legacy helpers)
 const BLUE_DEFENSE_PER_FLOWER: float = 0.01
 const BLUE_MAX_DEFENSE: float = 0.80
 
-# Red flower powerup duration values
+# Red flower powerup duration values (used by legacy helpers)
 const RED_DURATION_PER_FLOWER: float = 0.01
 const RED_MAX_DURATION_BONUS: float = 1.0
 
@@ -25,7 +36,26 @@ func reset_flowers() -> void:
 	green_flowers = 0
 	blue_flowers = 0
 	red_flowers = 0
+	flower_columns.clear()
 	emit_all_signals()
+
+func plant_flower(at_position: Vector2) -> void:
+	if flower_scene == null: return
+
+	var grid_index = round(at_position.x / GRID_SIZE)
+	var snapped_x = grid_index * GRID_SIZE
+
+	var stack_count = flower_columns.get(grid_index, 0)
+
+	var spawn_pos = Vector2(snapped_x, at_position.y - (stack_count * FLOWER_HEIGHT))
+
+	var flower = flower_scene.instantiate()
+	get_tree().current_scene.call_deferred_thread_group("add_child", flower)
+	flower.global_position = spawn_pos
+
+	flower_columns[grid_index] = stack_count + 1
+	if Achievements:
+		Achievements.on_flower_planted()
 
 func add_flower(color: String) -> void:
 	match color.to_lower():
@@ -38,8 +68,36 @@ func add_flower(color: String) -> void:
 		_:
 			push_warning("Unknown flower color: " + color)
 			return
-	
+
 	emit_all_signals()
+
+func remove_flower(color: String) -> void:
+	match color.to_lower():
+		"green":
+			green_flowers = max(0, green_flowers - 1)
+		"blue":
+			blue_flowers = max(0, blue_flowers - 1)
+		"red":
+			red_flowers = max(0, red_flowers - 1)
+		_:
+			push_warning("Unknown flower color: " + color)
+			return
+
+	emit_all_signals()
+
+# -- Gameplay bonus getters --
+
+func get_flower_growth_bonus() -> float:
+	return float(green_flowers) * FLOWER_GROWTH_BONUS
+
+func get_flower_defense_bonus() -> float:
+	var reduction = float(blue_flowers) * FLOWER_DEFENSE_BONUS
+	return clamp(1.0 - reduction, 0.0, 1.0)
+
+func get_flower_powerup_bonus() -> float:
+	return float(red_flowers) * FLOWER_POWERUP_BONUS
+
+# -- Capped helpers (used by defense/powerup UI displays) --
 
 func get_defense_multiplier() -> float:
 	var defense = get_defense_percent()

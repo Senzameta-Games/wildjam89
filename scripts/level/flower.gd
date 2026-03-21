@@ -20,8 +20,8 @@ func _ready() -> void:
 	else:
 		flower_color = "green" # fallback
 	
-	Game.add_flower(flower_color)
+	FlowerManager.add_flower(flower_color)
 
 func reset() -> void:
-	Game.remove_flower(flower_color)
+	FlowerManager.remove_flower(flower_color)
 	queue_free()
