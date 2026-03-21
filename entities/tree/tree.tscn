@@ -1,0 +1,398 @@
+[gd_scene format=3 uid="uid://5u0rjw4fxv62"]
+
+[ext_resource type="Texture2D" uid="uid://b8ichhlia4jkk" path="res://assets/sprites/tree/Trunk/treetile01.png" id="2_juvck"]
+[ext_resource type="Texture2D" uid="uid://b1emgf33clctd" path="res://assets/sprites/tree/Trunk/treetile02.png" id="3_5hlbj"]
+[ext_resource type="Texture2D" uid="uid://b6cndi4cq2uau" path="res://assets/sprites/tree/Trunk/treetile03.png" id="4_bugn8"]
+[ext_resource type="Texture2D" uid="uid://bhatgaalsj0c" path="res://assets/sprites/tree/Trunk/treetile04.png" id="5_dsl2o"]
+[ext_resource type="Texture2D" uid="uid://c3vywuqtddxdj" path="res://assets/sprites/tree/tempLeaves/leaf1.png" id="6_50opu"]
+[ext_resource type="Texture2D" uid="uid://co5ws8k3x0pfd" path="res://assets/sprites/tree/tempLeaves/leaf2.png" id="7_yynoe"]
+[ext_resource type="Texture2D" uid="uid://be58d6ebquamy" path="res://assets/sprites/tree/tempLeaves/leaf3.png" id="8_vathx"]
+[ext_resource type="Texture2D" uid="uid://yt8rouylgkov" path="res://assets/sprites/tree/tempSprite/TreeTrunk/placeholder_tree_top.png" id="9_0kxki"]
+[ext_resource type="Texture2D" uid="uid://ci3qntsrvfh28" path="res://assets/sprites/tree/Trunk/treebase.png" id="10_8rwt7"]
+[ext_resource type="AudioStream" uid="uid://b50xpqmiuv013" path="res://assets/sounds/tree/treegrow2.wav" id="11_kk062"]
+[ext_resource type="AudioStream" uid="uid://bafoqtti38b0" path="res://assets/sounds/placeholder/bop.mp3" id="12_428ny"]
+[ext_resource type="AudioStream" uid="uid://c4pgvg4aoawmy" path="res://assets/sounds/tree/treegrowSlap1.wav" id="13_0hqo2"]
+[ext_resource type="AudioStream" uid="uid://bmhddxahbs3wf" path="res://assets/sounds/tree/treegrowSlap2.wav" id="14_1bpus"]
+[ext_resource type="AudioStream" uid="uid://7vf81s1paluv" path="res://assets/sounds/tree/treegrowSlap3.wav" id="15_1a7c1"]
+[ext_resource type="AudioStream" uid="uid://csxmblm25atps" path="res://assets/sounds/tree/treegrowSlap4.wav" id="16_muljo"]
+[ext_resource type="AudioStream" uid="uid://bgny2yuy18ppk" path="res://assets/sounds/tree/treegrowSlap5.wav" id="17_gfggt"]
+[ext_resource type="AudioStream" uid="uid://cr2alsb5eqp63" path="res://assets/sounds/tree/treegrowSlap6.wav" id="18_edbb3"]
+[ext_resource type="AudioStream" uid="uid://diyvbqh7jxafu" path="res://assets/sounds/tree/treegrowSlap7.wav" id="19_on8mx"]
+[ext_resource type="AudioStream" uid="uid://nfg76eumuab6" path="res://assets/sounds/tree/zap.tres" id="20_dckfb"]
+[ext_resource type="Script" uid="uid://dqhidt2u20g47" path="res://entities/tree/branch.gd" id="21_dxtj1"]
+[ext_resource type="Texture2D" uid="uid://bku6pwe05yvrr" path="res://assets/sprites/tree/tempSprite/TreeBranch/tree_branch.png" id="22_ldqvw"]
+[ext_resource type="PackedScene" uid="uid://db1lwwtlllkav" path="res://entities/seed/seed_bundle.tscn" id="23_yv6h6"]
+[ext_resource type="Script" uid="uid://dps82nj04mquw" path="res://entities/tree/shop_button.gd" id="24_1dfxv"]
+[ext_resource type="Script" uid="uid://b1pdju5ijjh7w" path="res://entities/player/zapper.gd" id="25_ewc3i"]
+[ext_resource type="PackedScene" uid="uid://3mhjgr2g4y7j" path="res://entities/seed/seed.tscn" id="26_4cpv5"]
+
+[sub_resource type="GDScript" id="GDScript_ervmi"]
+script/source = "extends Node2D
+class_name SeedTree
+
+signal growth_completed
+signal tree_died
+signal tree_damaged(_amount: float)
+signal tree_healed(amount: float)
+signal new_section_added
+signal slot_freed(slot_index: int) 
+
+var reward_spawned: bool = false
+var sudden_death: bool = false
+var slot_index: int = -1
+
+# Settings
+@export var trunk_textures: Array[Texture2D] = []
+@export var trunk_section_height: int = 16
+@export var tree_progress: float = 10.0
+@export var max_sections: int = 20
+
+# Growth balancing
+const BASE_PASSIVE_GROWTH: float = 0.08
+const MAX_PASSIVE_GROWTH: float = 2.0
+const ACTIVE_GROWTH_AMOUNT: float = 0.75
+
+@onready var tree_trunk = $TreeTrunk
+@onready var tree_top = $TreeTrunk/TreeTop
+@onready var tree_collider = $TreeBase/TreeHitbox/TreeCollider
+@onready var impulse_grow_sfx: AudioStreamPlayer2D = $SFX/ImpulseGrow
+
+# Leaves
+var leaf_tier_target: int = 0
+var leaf_tier_current: int = 0
+@export var leaf_textures: Array[Texture2D] = []
+@export var leaf_spread_x: float = 12.0
+@export var leaf_spread_y: float = 6.0
+
+var target_sections: int = 0
+var current_sections: int = 0
+var growing_section: Sprite2D
+
+var damage_per_hit: float = 2.0
+
+func _ready():
+	_update_target_sections()
+	_update_leaf_tier_target()
+	
+	# Create a unique shape for this tree's collider (avoid shared resource issue)
+	if tree_collider and tree_collider.shape:
+		tree_collider.shape = tree_collider.shape.duplicate()
+	
+	_build_trunk_immediate()
+	impulse_grow_sfx.volume_db = -24.0
+
+	growing_section = Sprite2D.new()
+	growing_section.name = \"GrowingSection\"
+	if trunk_textures.size() > 0:
+		growing_section.texture = trunk_textures.pick_random()
+	tree_trunk.add_child(growing_section)
+	
+	var shop = find_child(\"Shop\")
+	if shop and shop.has_signal(\"shop_interacted\"):
+		if not shop.shop_interacted.is_connected(_on_shop_interacted):
+			shop.shop_interacted.connect(_on_shop_interacted)
+
+func _process(delta: float) -> void:
+	var passive_growth = BASE_PASSIVE_GROWTH
+	
+	var flower_bonus = FlowerManager.get_flower_growth_bonus()
+	var active_trees = get_tree().get_nodes_in_group(\"tree\").size()
+	
+	if active_trees > 0:
+		flower_bonus = flower_bonus / float(active_trees)
+	
+	passive_growth += flower_bonus
+	passive_growth = min(passive_growth, MAX_PASSIVE_GROWTH)
+
+	if not sudden_death and tree_progress < 100.0:
+		add_progress(passive_growth * delta)
+	
+	_update_trunk_visual()
+	_update_leaf_visual()
+
+	growing_section.scale.y = _get_fractional_growth()
+	tree_top.position.y = -trunk_section_height * _get_fractional_growth()
+
+func heal_tree(amount: float):
+	add_progress(amount)
+
+func hurt(amount: float):
+	# blue flowers
+	var defense_multiplier = FlowerManager.get_flower_defense_bonus()
+	var actual_damage = amount * defense_multiplier
+	
+	subtract_progress(actual_damage)
+
+func add_progress(amount: float):
+	# Cap visual progress at 100
+	tree_progress = clampf(tree_progress + amount, 0.0, 100.0)
+	
+	if sudden_death and tree_progress > 0.0:
+		sudden_death = false
+	
+	_update_target_sections()
+	_update_leaf_tier_target()
+	
+	if tree_progress >= 100.0 and not reward_spawned:
+		reward_spawned = true
+		growth_completed.emit()
+
+func subtract_progress(amount: float):
+	var progress_delta = tree_progress - amount
+	
+	if progress_delta <= 0.0:
+		tree_progress = 0.0
+		
+		var trees = get_tree().get_nodes_in_group(\"tree\")
+		var active_tree_count = 0
+		for t in trees:
+			if t is SeedTree:
+				active_tree_count += 1
+		
+		if active_tree_count > 1:
+			_die_permanently()
+		else:
+			if not sudden_death:
+				sudden_death = true
+			else:
+				Session.game_over_called.emit()
+				tree_died.emit()
+	else: 
+		tree_progress = progress_delta
+		
+	tree_progress = clampf(tree_progress, 0.0, 100.0)
+	_update_target_sections()
+	_update_leaf_tier_target()
+
+func _die_permanently():
+	print(\"Tree died, freeing slot: \", slot_index)
+	slot_freed.emit(slot_index)
+	
+	tree_died.emit()
+	
+	var tween = create_tween()
+	tween.tween_property(self, \"scale\", Vector2.ZERO, 0.5).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
+	tween.tween_callback(queue_free)
+
+func _get_fractional_growth() -> float:
+	var full_value = (tree_progress / 100.0) * max_sections
+	var whole_part = int(full_value)
+	var fractional_part = full_value - whole_part
+	return fractional_part
+
+func _update_target_sections():
+	target_sections = int((tree_progress / 100.0) * max_sections)
+
+func _update_leaf_tier_target():
+	leaf_tier_target = int(tree_progress / 10.0)
+
+func _update_leaf_visual():
+	if leaf_tier_current != leaf_tier_target:
+		leaf_tier_current = leaf_tier_target
+		_rebuild_leaves()
+
+func _update_trunk_visual():
+	if current_sections != target_sections:
+		current_sections = target_sections
+		_rebuild_trunk()
+
+func _rebuild_leaves():
+	for child in tree_top.get_children():
+		child.queue_free()
+	var leaves_per_tier: int = 10
+	var leaf_count: int = (leaves_per_tier * leaf_tier_current)
+	var initial_spread_x: float = 12.0
+	var initial_spread_y: float = 6.0
+	var spread_x_per_tier: float = 2.0
+	var spread_y_per_tier: float = 2.0
+	var spread_x: float = initial_spread_x + leaf_tier_current * spread_x_per_tier
+	var spread_y: float = initial_spread_y + leaf_tier_current * spread_y_per_tier
+	
+	for i in range(leaf_count):
+		var leaf = Sprite2D.new()
+		tree_top.add_child(leaf)
+		leaf.position = Vector2(randf_range(-spread_x, spread_x), randf_range(-spread_y, spread_y))
+		leaf.z_index = 3
+		if leaf_textures.size() > 0:
+			leaf.texture = leaf_textures.pick_random()
+
+func _rebuild_trunk():
+	for child in tree_trunk.get_children():
+		if child.name == \"TreeTop\" or child.name == \"TreeHitbox\" or child.name == \"GrowingSection\":
+			continue
+		child.queue_free()
+	for i in range(current_sections):
+		var section = Sprite2D.new()
+		if trunk_textures.size() > 0:
+			section.texture = trunk_textures.pick_random()
+		section.position.y = (i + 1) * trunk_section_height
+		tree_trunk.add_child(section)
+		new_section_added.emit()
+	if tree_collider and tree_collider.shape is RectangleShape2D:
+		var total_height = current_sections * trunk_section_height
+		var min_buffer: float = 10.0
+		
+		# Ensure minimum collider height
+		if total_height < min_buffer:
+			total_height = min_buffer
+		
+		var shape = tree_collider.shape as RectangleShape2D
+		shape.size = Vector2(32, total_height)
+		tree_collider.position.y = -(total_height / 2.0) + 10
+	tree_trunk.position.y = -current_sections * trunk_section_height
+	tree_top.position.y = 0
+
+func _build_trunk_immediate():
+	current_sections = target_sections
+	_rebuild_trunk()
+
+func _on_shop_interacted():
+	if tree_progress >= 100.0:
+		return
+	# Active growth from depositing seeds
+	add_progress(ACTIVE_GROWTH_AMOUNT)
+	tree_healed.emit(ACTIVE_GROWTH_AMOUNT)
+
+func _on_tree_hitbox_area_entered(area: Area2D):
+	var entity = area.get_parent()
+
+	if entity is Bird:
+		return
+
+	if entity is Enemy:
+		entity.sacrifice()
+		hurt(damage_per_hit)
+
+	elif entity is Bomb:
+		hurt(damage_per_hit * 1.2)
+
+func serialize() -> Dictionary:
+	return {
+		\"slot_index\": slot_index,
+		\"position_x\": global_position.x,
+		\"position_y\": global_position.y,
+		\"tree_progress\": tree_progress,
+		\"reward_spawned\": reward_spawned,
+		\"sudden_death\": sudden_death,
+	}
+
+func deserialize(data: Dictionary) -> void:
+	slot_index = data.get(\"slot_index\", -1)
+	global_position = Vector2(
+		data.get(\"position_x\", 0.0),
+		data.get(\"position_y\", 0.0)
+	)
+	tree_progress = data.get(\"tree_progress\", 10.0)
+	reward_spawned = data.get(\"reward_spawned\", false)
+	sudden_death = data.get(\"sudden_death\", false)
+	# current_sections and leaf_tier_current are derived from tree_progress
+	# via _update_target_sections() and _update_leaf_tier_target() in _ready()
+	_update_target_sections()
+	_update_leaf_tier_target()
+	_build_trunk_immediate()
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r4rvj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bm6y3"]
+size = Vector2(46, 50)
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_urhbk"]
+streams_count = 7
+stream_0/stream = ExtResource("13_0hqo2")
+stream_1/stream = ExtResource("14_1bpus")
+stream_2/stream = ExtResource("15_1a7c1")
+stream_3/stream = ExtResource("16_muljo")
+stream_4/stream = ExtResource("17_gfggt")
+stream_5/stream = ExtResource("18_edbb3")
+stream_6/stream = ExtResource("19_on8mx")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mbf7r"]
+size = Vector2(58, 31)
+
+[node name="Tree" type="Node2D" unique_id=617120509 groups=["tree"]]
+visibility_layer = 2
+script = SubResource("GDScript_ervmi")
+trunk_textures = Array[Texture2D]([ExtResource("2_juvck"), ExtResource("3_5hlbj"), ExtResource("4_bugn8"), ExtResource("5_dsl2o")])
+leaf_textures = Array[Texture2D]([ExtResource("6_50opu"), ExtResource("7_yynoe"), ExtResource("8_vathx")])
+
+[node name="TreeTrunk" type="Node2D" parent="." unique_id=1335066236]
+
+[node name="TreeTop" type="Area2D" parent="TreeTrunk" unique_id=979299210]
+z_index = 10
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TreeTrunk/TreeTop" unique_id=658096790]
+shape = SubResource("RectangleShape2D_r4rvj")
+debug_color = Color(0.9549287, 2.0214916e-06, 0.54821306, 0.41960785)
+
+[node name="Sprite2D" type="Sprite2D" parent="TreeTrunk/TreeTop" unique_id=1650901601]
+texture = ExtResource("9_0kxki")
+
+[node name="TreeBase" type="Node2D" parent="." unique_id=458670315]
+z_index = 10
+
+[node name="TreeHitbox" type="Area2D" parent="TreeBase" unique_id=100168762]
+collision_layer = 16
+collision_mask = 4
+
+[node name="TreeCollider" type="CollisionShape2D" parent="TreeBase/TreeHitbox" unique_id=119788719]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_bm6y3")
+
+[node name="Sprite2D" type="Sprite2D" parent="TreeBase" unique_id=24683082]
+position = Vector2(0, 4)
+texture = ExtResource("10_8rwt7")
+
+[node name="SFX" type="Node2D" parent="." unique_id=1549133778]
+
+[node name="Grow" type="AudioStreamPlayer2D" parent="SFX" unique_id=687440588]
+stream = ExtResource("11_kk062")
+volume_db = -12.0
+pitch_scale = 0.5
+autoplay = true
+
+[node name="Empty" type="AudioStreamPlayer2D" parent="SFX" unique_id=673419286]
+stream = ExtResource("12_428ny")
+volume_db = -8.0
+pitch_scale = 0.6
+
+[node name="ImpulseGrow" type="AudioStreamPlayer2D" parent="SFX" unique_id=1489782834]
+stream = SubResource("AudioStreamRandomizer_urhbk")
+volume_db = -6.0
+max_polyphony = 6
+
+[node name="Zap" type="AudioStreamPlayer2D" parent="SFX" unique_id=1845350982]
+stream = ExtResource("20_dckfb")
+volume_db = -8.0
+pitch_scale = 0.85
+max_polyphony = 3
+
+[node name="BranchManager" type="Node2D" parent="." unique_id=1477874640]
+visibility_layer = 2
+script = ExtResource("21_dxtj1")
+branch_sprite = ExtResource("22_ldqvw")
+leaf_sprites = Array[Texture2D]([ExtResource("6_50opu"), ExtResource("7_yynoe"), ExtResource("8_vathx")])
+seed_bundle_scn = ExtResource("23_yv6h6")
+
+[node name="Shop" type="Node2D" parent="." unique_id=261851250 node_paths=PackedStringArray("empty_sfx", "grow_sfx", "zap_sfx")]
+script = ExtResource("24_1dfxv")
+zapper_script = ExtResource("25_ewc3i")
+empty_sfx = NodePath("../SFX/Empty")
+grow_sfx = NodePath("../SFX/ImpulseGrow")
+seed_scn = ExtResource("26_4cpv5")
+zap_sfx = NodePath("../SFX/Zap")
+
+[node name="Area" type="Area2D" parent="Shop" unique_id=132768595]
+collision_layer = 16
+collision_mask = 2
+
+[node name="Collider" type="CollisionShape2D" parent="Shop/Area" unique_id=31392157]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_mbf7r")
+
+[connection signal="area_entered" from="TreeBase/TreeHitbox" to="." method="_on_tree_hitbox_area_entered"]
+[connection signal="shop_interacted" from="Shop" to="." method="_on_shop_interacted"]
+[connection signal="body_entered" from="Shop/Area" to="Shop" method="_on_area_body_entered"]
+[connection signal="body_exited" from="Shop/Area" to="Shop" method="_on_area_body_exited"]

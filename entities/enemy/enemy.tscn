@@ -1,0 +1,154 @@
+[gd_scene format=3 uid="uid://cotswcby4pyh4"]
+
+[ext_resource type="Script" uid="uid://dbk12nfu4jv2s" path="res://entities/enemy/enemy.gd" id="1_vr86x"]
+[ext_resource type="PackedScene" uid="uid://3mhjgr2g4y7j" path="res://entities/seed/seed.tscn" id="2_fktuf"]
+[ext_resource type="Texture2D" uid="uid://bifpbjkb22hj" path="res://assets/sprites/beetle/bomb/blowup/bombexplode2.png" id="3_v82o1"]
+[ext_resource type="Texture2D" uid="uid://c24exgng1xy7e" path="res://assets/sprites/beetle/bomb/blowup/bombexplode3.png" id="4_pd1ga"]
+[ext_resource type="Texture2D" uid="uid://bbfsd83ss2h2x" path="res://assets/sprites/beetle/bomb/blowup/bombexplode4.png" id="5_1trp4"]
+[ext_resource type="Texture2D" uid="uid://5l26y10g83f8" path="res://assets/sprites/beetle/bomb/blowup/bombexplode5.png" id="6_xowvs"]
+[ext_resource type="Texture2D" uid="uid://b4cxueko4e1na" path="res://assets/sprites/beetle/bomb/blowup/bombexplode6.png" id="7_dfyak"]
+[ext_resource type="Texture2D" uid="uid://c8jgl3dlvyan7" path="res://assets/sprites/snail/16snale1.png" id="8_cdg3n"]
+[ext_resource type="Texture2D" uid="uid://cvqsjcea8yj6x" path="res://assets/sprites/snail/16snale2.png" id="9_203c4"]
+[ext_resource type="AudioStream" uid="uid://be8hwxiqbufhk" path="res://assets/sounds/enemy/squash/squash1.wav" id="10_s0cus"]
+[ext_resource type="AudioStream" uid="uid://bmibw7o0mgv5h" path="res://assets/sounds/enemy/squash/squash2.wav" id="11_kumod"]
+[ext_resource type="AudioStream" uid="uid://cnrpn1017ouq" path="res://assets/sounds/enemy/squash/squash3.wav" id="12_7gdat"]
+[ext_resource type="AudioStream" uid="uid://bs4tuf6q3qjp0" path="res://assets/sounds/enemy/squash/squash4.wav" id="13_i1xf2"]
+[ext_resource type="AudioStream" uid="uid://0v7itmyiepv1" path="res://assets/sounds/enemy/squash/squash5.wav" id="14_02f2a"]
+[ext_resource type="AudioStream" uid="uid://ctjate5yf8t3u" path="res://assets/sounds/enemy/snail/snaildie1.wav" id="15_hqhmn"]
+[ext_resource type="AudioStream" uid="uid://ds7tevskh6bth" path="res://assets/sounds/enemy/snail/snaildie2.wav" id="16_mew3y"]
+[ext_resource type="AudioStream" uid="uid://ft5g6jpwasrr" path="res://assets/sounds/enemy/snail/snaildie3.wav" id="17_7nswv"]
+[ext_resource type="AudioStream" uid="uid://cnkhlbive3kv4" path="res://assets/sounds/enemy/snail/snaildie4.wav" id="18_lwq83"]
+[ext_resource type="AudioStream" uid="uid://6s0yf0oxxsuc" path="res://assets/sounds/enemy/snail/snaildie5.wav" id="19_qur3k"]
+[ext_resource type="AudioStream" uid="uid://c7xcvo6roh7n7" path="res://assets/sounds/enemy/snail/snaildie6.wav" id="20_qhp00"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_883im"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_v82o1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_pd1ga")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_1trp4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_xowvs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_dfyak")
+}],
+"loop": false,
+"name": &"die",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_cdg3n")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"stomped",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_cdg3n")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_203c4")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4a83h"]
+size = Vector2(9, 6)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_a3pup"]
+radius = 2.0
+height = 14.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_so3kp"]
+streams_count = 5
+stream_0/stream = ExtResource("10_s0cus")
+stream_1/stream = ExtResource("11_kumod")
+stream_2/stream = ExtResource("12_7gdat")
+stream_3/stream = ExtResource("13_i1xf2")
+stream_4/stream = ExtResource("14_02f2a")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_wk82e"]
+streams_count = 6
+stream_0/stream = ExtResource("15_hqhmn")
+stream_1/stream = ExtResource("16_mew3y")
+stream_2/stream = ExtResource("17_7nswv")
+stream_3/stream = ExtResource("18_lwq83")
+stream_4/stream = ExtResource("19_qur3k")
+stream_5/stream = ExtResource("20_qhp00")
+
+[node name="Enemy" type="CharacterBody2D" unique_id=1060895816 groups=["enemy"]]
+visibility_layer = 2
+z_index = 200
+texture_filter = 1
+collision_layer = 4
+collision_mask = 201
+script = ExtResource("1_vr86x")
+seed_scn = ExtResource("2_fktuf")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="." unique_id=1350396190]
+visibility_layer = 2
+position = Vector2(0, 8)
+sprite_frames = SubResource("SpriteFrames_883im")
+animation = &"die"
+offset = Vector2(0, -8)
+
+[node name="Collider" type="CollisionShape2D" parent="." unique_id=1980993689]
+position = Vector2(0, 5)
+shape = SubResource("RectangleShape2D_4a83h")
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=360107777]
+position = Vector2(0, 8)
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=2000432856]
+position = Vector2(0, -6)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_a3pup")
+
+[node name="SFX" type="Node2D" parent="." unique_id=68972829]
+
+[node name="Spawned" type="AudioStreamPlayer2D" parent="SFX" unique_id=1249094693]
+
+[node name="Idle" type="AudioStreamPlayer2D" parent="SFX" unique_id=1675186567]
+
+[node name="Step" type="AudioStreamPlayer2D" parent="SFX" unique_id=548095144]
+
+[node name="Attack" type="AudioStreamPlayer2D" parent="SFX" unique_id=773159813]
+
+[node name="Squash" type="AudioStreamPlayer2D" parent="SFX" unique_id=708881082]
+stream = SubResource("AudioStreamRandomizer_so3kp")
+volume_db = -8.0
+
+[node name="Die" type="AudioStreamPlayer2D" parent="SFX" unique_id=329912623]
+stream = SubResource("AudioStreamRandomizer_wk82e")
+
+[node name="VFX" type="Node2D" parent="." unique_id=1198207370]
+
+[node name="StompedParticles" type="GPUParticles2D" parent="VFX" unique_id=1735905352]
+
+[node name="Seed" parent="." unique_id=791949557 instance=ExtResource("2_fktuf")]
+visible = false
+
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]

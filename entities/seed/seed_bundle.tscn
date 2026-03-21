@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://db1lwwtlllkav"]
+
+[ext_resource type="Script" uid="uid://bw3of1es5860y" path="res://entities/seed/seed_bundle.gd" id="1_lov7x"]
+[ext_resource type="Texture2D" uid="uid://bqy7jvtn34w8s" path="res://assets/sprites/seed/seedchonk.png" id="1_rptua"]
+[ext_resource type="AudioStream" uid="uid://k6ivgxey1k1" path="res://assets/sounds/enemy/seedget/seedget1.wav" id="2_0nwxn"]
+[ext_resource type="FontFile" uid="uid://cycbiy0d7iv67" path="res://assets/fonts/Tiny5-Regular.ttf" id="2_lov7x"]
+[ext_resource type="AudioStream" uid="uid://dfmboaurpmnna" path="res://assets/sounds/enemy/seedget/seedget2.wav" id="3_h3gyn"]
+[ext_resource type="AudioStream" uid="uid://cq5lnyoa7kgnb" path="res://assets/sounds/enemy/seedget/seedget3.wav" id="4_fb4te"]
+[ext_resource type="AudioStream" uid="uid://bqcwl2tv7mifh" path="res://assets/sounds/enemy/seedget/seedget4.wav" id="5_gkjjb"]
+[ext_resource type="AudioStream" uid="uid://bnexpihrgct0c" path="res://assets/sounds/enemy/seedget/seedget5.wav" id="6_114nu"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_ct1xi"]
+streams_count = 5
+stream_0/stream = ExtResource("2_0nwxn")
+stream_1/stream = ExtResource("3_h3gyn")
+stream_2/stream = ExtResource("4_fb4te")
+stream_3/stream = ExtResource("5_gkjjb")
+stream_4/stream = ExtResource("6_114nu")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lov7x"]
+size = Vector2(10, 10)
+
+[node name="SeedBundle" type="Node2D" unique_id=1341586570]
+z_index = 200
+script = ExtResource("1_lov7x")
+
+[node name="SFX" type="Node2D" parent="." unique_id=1622190098]
+
+[node name="Collect" type="AudioStreamPlayer2D" parent="SFX" unique_id=1217167247]
+stream = SubResource("AudioStreamRandomizer_ct1xi")
+
+[node name="Area" type="Area2D" parent="." unique_id=939378564]
+collision_layer = 16
+collision_mask = 2
+
+[node name="Collider" type="CollisionShape2D" parent="Area" unique_id=1261774885]
+shape = SubResource("RectangleShape2D_lov7x")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=567554052]
+texture = ExtResource("1_rptua")
+
+[node name="Label" type="Label" parent="." unique_id=1548447118]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -4.0
+offset_top = -13.0
+offset_right = 4.0
+offset_bottom = -4.0
+grow_horizontal = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+theme_override_fonts/font = ExtResource("2_lov7x")
+theme_override_font_sizes/font_size = 8
+text = "10"
+horizontal_alignment = 1
+
+[connection signal="body_entered" from="Area" to="." method="_on_area_body_entered"]

@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://dpq2tcruw021u"]
+
+[ext_resource type="Script" uid="uid://bsf3n4fnw3ep2" path="res://ui/menus/game_over.gd" id="1_x6o8e"]
+[ext_resource type="FontFile" uid="uid://bxn105qovmxyq" path="res://assets/fonts/Ruler 9.ttf" id="2_vfrx6"]
+[ext_resource type="FontFile" uid="uid://cycbiy0d7iv67" path="res://assets/fonts/Tiny5-Regular.ttf" id="3_o6b8n"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_4583b"]
+font = ExtResource("2_vfrx6")
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_b6337"]
+font = ExtResource("3_o6b8n")
+
+[node name="GameOver" type="CanvasLayer" unique_id=1222269750]
+script = ExtResource("1_x6o8e")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=166573602]
+offset_right = 640.0
+offset_bottom = 360.0
+color = Color(0, 0, 0, 0.6)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=63575985]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -37.5
+offset_top = -42.5
+offset_right = 37.5
+offset_bottom = 42.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+
+[node name="GameOver" type="Label" parent="VBoxContainer" unique_id=1053720969]
+layout_mode = 2
+text = "GAME OVER"
+label_settings = SubResource("LabelSettings_4583b")
+
+[node name="Encouragement" type="Label" parent="VBoxContainer" unique_id=1740394734]
+layout_mode = 2
+text = "The tree has perished."
+label_settings = SubResource("LabelSettings_b6337")
+horizontal_alignment = 1
+
+[node name="AchievementsButton" type="Button" parent="VBoxContainer" unique_id=1798027995]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_vfrx6")
+text = "Achievements"
+
+[node name="RestartButton" type="Button" parent="VBoxContainer" unique_id=625341784]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_vfrx6")
+text = "Restart"
+
+[node name="ExitButton" type="Button" parent="VBoxContainer" unique_id=1452227958]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_vfrx6")
+text = "Exit"
+
+[connection signal="pressed" from="VBoxContainer/AchievementsButton" to="." method="_on_achievements_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]

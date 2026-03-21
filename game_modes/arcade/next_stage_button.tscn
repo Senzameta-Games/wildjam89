@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://7m1le3g13pdd"]
+
+[ext_resource type="Script" uid="uid://cmfpy5q4idwj1" path="res://game_modes/arcade/next_stage_button.gd" id="1_v6frd"]
+[ext_resource type="Texture2D" uid="uid://cyc4nlvhuom8d" path="res://assets/sprites/placeholder/enemy-placeholder.png" id="2_bgeoj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q20gr"]
+size = Vector2(16, 16)
+
+[node name="NextStageButton" type="Node2D" unique_id=549184571]
+script = ExtResource("1_v6frd")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1819947202]
+texture = ExtResource("2_bgeoj")
+
+[node name="Area" type="Area2D" parent="." unique_id=903119252]
+collision_layer = 64
+collision_mask = 2
+
+[node name="Collider" type="CollisionShape2D" parent="Area" unique_id=895408052]
+shape = SubResource("RectangleShape2D_q20gr")

@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://bu4t3plgob5v3"]
+
+[ext_resource type="Script" uid="uid://chpwjsr820i3j" path="res://ui/achievements/achievement_item.gd" id="1_item"]
+[ext_resource type="FontFile" uid="uid://bxn105qovmxyq" path="res://assets/fonts/Ruler 9.ttf" id="2_font"]
+[ext_resource type="FontFile" uid="uid://cycbiy0d7iv67" path="res://assets/fonts/Tiny5-Regular.ttf" id="3_smallfont"]
+
+[node name="AchievementItem" type="Control"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_item")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 12
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="NameLabel" type="Label" parent="HBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 16
+text = "Achievement Name"
+vertical_alignment = 1
+
+[node name="DescriptionLabel" type="Label" parent="HBoxContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(140, 27)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_smallfont")
+theme_override_font_sizes/font_size = 10
+text = "Achievement description"
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="StatusLabel" type="Label" parent="HBoxContainer"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 24
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1

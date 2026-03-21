@@ -1,0 +1,46 @@
+[gd_scene format=3 uid="uid://bgfe0hn24uhk1"]
+
+[ext_resource type="Script" uid="uid://dpk5v1yly311f" path="res://entities/goal/goal.gd" id="1_mhrrt"]
+[ext_resource type="Texture2D" uid="uid://gls62utdk8d5" path="res://assets/sprites/placeholder/flower-placeholder.png" id="2_ybxdf"]
+[ext_resource type="AudioStream" uid="uid://c3sfo7nsui7g6" path="res://assets/sounds/ui/GoalGet.wav" id="3_yvh4n"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ruxej"]
+size = Vector2(8, 9)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0jila"]
+radius = 2.0
+height = 18.0
+
+[node name="GoalSpawn" type="Marker2D" unique_id=978378661]
+z_index = 100
+script = ExtResource("1_mhrrt")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1736618196]
+texture = ExtResource("2_ybxdf")
+
+[node name="Area" type="Area2D" parent="." unique_id=907587692]
+collision_layer = 64
+collision_mask = 2
+
+[node name="Collider" type="CollisionShape2D" parent="Area" unique_id=1911760043]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_ruxej")
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=1446969501]
+collision_layer = 64
+collision_mask = 2
+
+[node name="Collider" type="CollisionShape2D" parent="Hitbox" unique_id=1030182813]
+position = Vector2(0, -6)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_0jila")
+
+[node name="SFX" type="Node2D" parent="." unique_id=728564265]
+
+[node name="Idle" type="AudioStreamPlayer2D" parent="SFX" unique_id=73870561]
+
+[node name="Collect" type="AudioStreamPlayer2D" parent="SFX" unique_id=1913864622]
+stream = ExtResource("3_yvh4n")
+volume_db = -12.0
+
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]

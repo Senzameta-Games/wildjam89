@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://cnsuka2v1gfat"]
+
+[ext_resource type="Script" uid="uid://dk8kbt2d0ie61" path="res://entities/tree/acorn_seed.gd" id="1_hjmp2"]
+[ext_resource type="Texture2D" uid="uid://cl7cn87nh7x8w" path="res://assets/sprites/tree/acorn.png" id="2_15w1m"]
+[ext_resource type="AudioStream" uid="uid://bafoqtti38b0" path="res://assets/sounds/placeholder/bop.mp3" id="3_okqih"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b0gws"]
+size = Vector2(20, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_347f1"]
+size = Vector2(20, 13)
+
+[node name="AcornSeed" type="Node2D" unique_id=1078947238]
+script = ExtResource("1_hjmp2")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=118550575]
+position = Vector2(0, 4)
+texture = ExtResource("2_15w1m")
+
+[node name="StaticBody" type="StaticBody2D" parent="." unique_id=939758243]
+position = Vector2(0, 3)
+
+[node name="Collider" type="CollisionShape2D" parent="StaticBody" unique_id=1222050875]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_b0gws")
+
+[node name="StompArea" type="Area2D" parent="." unique_id=93841091]
+position = Vector2(0, 2)
+collision_mask = 2
+
+[node name="Collider" type="CollisionShape2D" parent="StompArea" unique_id=1193314683]
+position = Vector2(0, -3.5)
+shape = SubResource("RectangleShape2D_347f1")
+
+[node name="LandSFX" type="AudioStreamPlayer2D" parent="." unique_id=367978767]
+stream = ExtResource("3_okqih")
+volume_db = -8.0
+pitch_scale = 0.8
+
+[node name="FallSFX" type="AudioStreamPlayer2D" parent="." unique_id=1643808053]
+
+[connection signal="body_entered" from="StompArea" to="." method="_on_stomp_area_body_entered"]

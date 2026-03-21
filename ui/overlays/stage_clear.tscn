@@ -1,0 +1,112 @@
+[gd_scene format=3 uid="uid://bne58sbwdhc4l"]
+
+[ext_resource type="Script" uid="uid://d2sahw4p6ovrj" path="res://ui/overlays/stage_clear.gd" id="1_nyysl"]
+[ext_resource type="Texture2D" uid="uid://b5qkp4ycqnerd" path="res://assets/sprites/items/acorns/acorn.png" id="2_ejbxl"]
+[ext_resource type="Texture2D" uid="uid://2jlluw0iil3t" path="res://assets/sprites/items/aimstomp/stopwatch.png" id="3_e77en"]
+[ext_resource type="Texture2D" uid="uid://d238xmmjguwum" path="res://assets/sprites/items/bigstomps/boot.png" id="4_i5u8f"]
+[ext_resource type="Texture2D" uid="uid://c4m88c6a3ep6t" path="res://assets/sprites/items/doublejump/feather.png" id="5_7b1y5"]
+[ext_resource type="Texture2D" uid="uid://d07t3ds35gotx" path="res://assets/sprites/items/pesticide/pesticide.png" id="6_m7o0a"]
+[ext_resource type="Texture2D" uid="uid://ctrx51g81r1v0" path="res://assets/sprites/placeholder/treebutton_placeholder.png" id="7_aofxq"]
+[ext_resource type="FontFile" uid="uid://bxn105qovmxyq" path="res://assets/fonts/Ruler 9.ttf" id="8_atvg1"]
+[ext_resource type="FontFile" uid="uid://cycbiy0d7iv67" path="res://assets/fonts/Tiny5-Regular.ttf" id="9_bk2b5"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_oh052"]
+font = ExtResource("8_atvg1")
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_7cqm2"]
+font = ExtResource("9_bk2b5")
+
+[sub_resource type="LabelSettings" id="LabelSettings_jwkcq"]
+font = ExtResource("8_atvg1")
+
+[sub_resource type="LabelSettings" id="LabelSettings_bxd5g"]
+font = ExtResource("9_bk2b5")
+
+[node name="StageClear" type="CanvasLayer" unique_id=1150856947]
+script = ExtResource("1_nyysl")
+ability_icons = {
+"acorns": ExtResource("2_ejbxl"),
+"aim_stomp": ExtResource("3_e77en"),
+"big_stomps": ExtResource("4_i5u8f"),
+"double_jump": ExtResource("5_7b1y5"),
+"pesticide": ExtResource("6_m7o0a")
+}
+placeholder_icon = ExtResource("7_aofxq")
+
+[node name="Content" type="Control" parent="." unique_id=1559661667]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Scrim" type="ColorRect" parent="Content" unique_id=2106121809]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.92941177)
+
+[node name="StageClearContainer" type="VBoxContainer" parent="Content" unique_id=1374972149]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -92.0
+offset_top = -49.0
+offset_right = 92.0
+offset_bottom = 49.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 16
+
+[node name="StageClear" type="Label" parent="Content/StageClearContainer" unique_id=482342140]
+layout_mode = 2
+text = "NEW GEAR SCAVENGED"
+label_settings = SubResource("LabelSettings_oh052")
+horizontal_alignment = 1
+
+[node name="YouGotTheThing" type="Label" parent="Content/StageClearContainer" unique_id=656969522]
+layout_mode = 2
+text = "You could use the [reward name] for something..."
+label_settings = SubResource("LabelSettings_7cqm2")
+horizontal_alignment = 1
+
+[node name="Ability" type="HBoxContainer" parent="Content/StageClearContainer" unique_id=876687693]
+layout_mode = 2
+theme_override_constants/separation = 24
+alignment = 1
+
+[node name="Margin" type="MarginContainer" parent="Content/StageClearContainer/Ability" unique_id=2120832602]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="RewardIcon" type="TextureRect" parent="Content/StageClearContainer/Ability/Margin" unique_id=1408098153]
+layout_mode = 2
+texture = ExtResource("7_aofxq")
+stretch_mode = 3
+
+[node name="Labels" type="VBoxContainer" parent="Content/StageClearContainer/Ability" unique_id=342265705]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="ItemName" type="Label" parent="Content/StageClearContainer/Ability/Labels" unique_id=1205256856]
+layout_mode = 2
+text = "Item Name"
+label_settings = SubResource("LabelSettings_jwkcq")
+
+[node name="ItemDesc" type="Label" parent="Content/StageClearContainer/Ability/Labels" unique_id=1061856140]
+layout_mode = 2
+text = "This is what it does and how to use it"
+label_settings = SubResource("LabelSettings_bxd5g")

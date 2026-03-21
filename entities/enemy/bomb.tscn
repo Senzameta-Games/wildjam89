@@ -1,0 +1,104 @@
+[gd_scene format=3 uid="uid://dl4yvcpg0vy7w"]
+
+[ext_resource type="Texture2D" uid="uid://oovfb4ohsw4s" path="res://assets/sprites/beetle/bomb/blowup/bombexplode1.png" id="1_hhm13"]
+[ext_resource type="Script" uid="uid://cadcpe25r7vjm" path="res://entities/enemy/bomb.gd" id="1_phxep"]
+[ext_resource type="Texture2D" uid="uid://bifpbjkb22hj" path="res://assets/sprites/beetle/bomb/blowup/bombexplode2.png" id="2_phxep"]
+[ext_resource type="Texture2D" uid="uid://c24exgng1xy7e" path="res://assets/sprites/beetle/bomb/blowup/bombexplode3.png" id="3_0nvq6"]
+[ext_resource type="Texture2D" uid="uid://bbfsd83ss2h2x" path="res://assets/sprites/beetle/bomb/blowup/bombexplode4.png" id="4_k3hnh"]
+[ext_resource type="Texture2D" uid="uid://5l26y10g83f8" path="res://assets/sprites/beetle/bomb/blowup/bombexplode5.png" id="5_vitwb"]
+[ext_resource type="Texture2D" uid="uid://b4cxueko4e1na" path="res://assets/sprites/beetle/bomb/blowup/bombexplode6.png" id="6_p2cjh"]
+[ext_resource type="Texture2D" uid="uid://do4dnl43bsgtb" path="res://assets/sprites/beetle/bomb/default/bomb1.png" id="7_jefgq"]
+[ext_resource type="Texture2D" uid="uid://gni37lm01bx1" path="res://assets/sprites/beetle/bomb/default/bomb2.png" id="8_f5i2x"]
+[ext_resource type="Texture2D" uid="uid://dqy4tywpiet2x" path="res://assets/sprites/beetle/bomb/default/bomb3.png" id="9_kcf1r"]
+[ext_resource type="Texture2D" uid="uid://c6jadyoejekx6" path="res://assets/sprites/beetle/bomb/default/bomb4.png" id="10_e30ji"]
+[ext_resource type="Texture2D" uid="uid://7kf6ljkqk5cd" path="res://assets/sprites/beetle/bomb/default/bomb5.png" id="11_dn2a5"]
+[ext_resource type="Texture2D" uid="uid://cc65dj7sjmmmx" path="res://assets/sprites/beetle/bomb/default/bomb6.png" id="12_xr6fb"]
+[ext_resource type="AudioStream" uid="uid://ccaik1ahk71f" path="res://assets/sounds/enemy/bomb/boom1.wav" id="14_kcf1r"]
+[ext_resource type="AudioStream" uid="uid://cexsrecsk0xy" path="res://assets/sounds/enemy/bomb/boom2.wav" id="15_e30ji"]
+[ext_resource type="AudioStream" uid="uid://bqcqmrxr3ntq5" path="res://assets/sounds/enemy/bomb/boom3.wav" id="16_dn2a5"]
+[ext_resource type="AudioStream" uid="uid://i80df17odc7n" path="res://assets/sounds/enemy/bomb/boom4.wav" id="17_xr6fb"]
+[ext_resource type="AudioStream" uid="uid://dmadbnw1vgo3m" path="res://assets/sounds/enemy/bomb/boom5.wav" id="18_21k0h"]
+[ext_resource type="AudioStream" uid="uid://jif8qvu2lcfh" path="res://assets/sounds/enemy/bomb/boom6.wav" id="19_bvjtt"]
+[ext_resource type="AudioStream" uid="uid://4cdonms2ht43" path="res://assets/sounds/enemy/bomb/boom7.wav" id="20_loxfx"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_21k0h"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_hhm13")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_phxep")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_0nvq6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_k3hnh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_vitwb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_p2cjh")
+}],
+"loop": true,
+"name": &"blow up",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_jefgq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_f5i2x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_kcf1r")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_e30ji")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_dn2a5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_xr6fb")
+}],
+"loop": true,
+"name": &"default",
+"speed": 15.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bvjtt"]
+size = Vector2(6, 6)
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_uic6i"]
+streams_count = 7
+stream_0/stream = ExtResource("14_kcf1r")
+stream_1/stream = ExtResource("15_e30ji")
+stream_2/stream = ExtResource("16_dn2a5")
+stream_3/stream = ExtResource("17_xr6fb")
+stream_4/stream = ExtResource("18_21k0h")
+stream_5/stream = ExtResource("19_bvjtt")
+stream_6/stream = ExtResource("20_loxfx")
+
+[node name="Bomb" type="Area2D" unique_id=2036506489 node_paths=PackedStringArray("bomb_sprite")]
+collision_layer = 4
+collision_mask = 19
+script = ExtResource("1_phxep")
+speed = 150.0
+bomb_sprite = NodePath("Sprite")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="." unique_id=2086537840]
+sprite_frames = SubResource("SpriteFrames_21k0h")
+animation = &"blow up"
+
+[node name="Collider" type="CollisionShape2D" parent="." unique_id=1155296567]
+shape = SubResource("RectangleShape2D_bvjtt")
+
+[node name="BlowUp" type="AudioStreamPlayer2D" parent="." unique_id=1295692378]
+stream = SubResource("AudioStreamRandomizer_uic6i")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
