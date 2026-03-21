@@ -8,7 +8,7 @@ signal achievement_unlocked(achievement_data: AchievementData)
 var unlocked_achievements: Dictionary = {}  # achievement_id -> AchievementData
 
 # Trackers for different achievement types (reset each run)
-# Note: Was tracking total_seeds, but realized we're doing it already at Game.total_seeds (no need to duplicate)
+# Note: Was tracking total_seeds, but realized we're doing it already at Economy.get_balance() (no need to duplicate)
 var total_enemies_stomped: int = 0
 var total_flowers_planted: int = 0
 var recent_stomps: Array[float] = []  # Timestamps of recent stomps for multi-stomp tracking
@@ -149,7 +149,7 @@ func check_and_unlock_achievement(achievement_id: String) -> void:
 
 # Public methods to track game events
 func on_seed_collected() -> void:
-	# Seeds are tracked in Game.total_seeds, just check achievements
+	# Seeds are tracked in Economy.get_balance(), just check achievements
 	check_all_achievements()
 
 func on_enemy_stomped(enemy_type: String = "enemy") -> void:
@@ -180,7 +180,7 @@ func check_all_achievements() -> void:
 # Reset achievements for a new run
 func reset_achievements() -> void:
 	unlocked_achievements.clear()
-	# Note: Game.total_seeds is reset in Game.reset_game_state()
+	# Note: Economy balance is reset in Economy.reset()
 	total_enemies_stomped = 0
 	total_flowers_planted = 0
 	recent_stomps.clear()
