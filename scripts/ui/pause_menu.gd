@@ -7,7 +7,7 @@ func _ready() -> void:
 	visible = false
 	# Only unpause if game has started (don't interfere with title screen)
 	# The title screen manages pause state on initial load
-	if Game.game_has_started:
+	if Session.game_has_started:
 		get_tree().paused = false
 	# Find AchievementsView from Main scene (sibling node)
 	achievements_view = get_node("../AchievementsView") as CanvasLayer
@@ -30,8 +30,8 @@ func _pause() -> void:
 	visible = true
 	
 	# Fade music to paused pitch BEFORE pausing
-	if MusicManager:
-		MusicManager.fade_to_paused()
+	if MusicPlayer:
+		MusicPlayer.fade_to_paused()
 		# Wait for fade to complete (fade_duration + small buffer)
 		await get_tree().create_timer(0.35).timeout
 	
@@ -41,35 +41,17 @@ func _unpause() -> void:
 	visible = false
 	get_tree().paused = false
 	# Fade music back to normal
-	if MusicManager:
-		MusicManager.fade_to_normal()
+	if MusicPlayer:
+		MusicPlayer.fade_to_normal()
 
 func _on_resume_button_pressed() -> void:
 	_unpause()
 
 func _on_restart_button_pressed() -> void:
-	# Reset the game state, and then reset the Main scene
-	Game.reset_game_state()
-	 
-	var scene = get_tree()	
-	scene.paused = false
-	
-	# Restore music to normal before scene reload
-	if MusicManager:
-		MusicManager.fade_to_normal()
-	
-	scene.reload_current_scene()
+	Main.restart_run()
 
 func _on_exit_button_pressed() -> void:
-	if Game:
-		Game.game_has_started = false
-	get_tree().paused = false
-	
-	# Restore music to normal
-	if MusicManager:
-		MusicManager.fade_to_normal()
-	
-	get_tree().reload_current_scene()
+	Main.return_to_title()
 
 func _on_achievements_button_pressed() -> void:
 	if achievements_view:

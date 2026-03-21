@@ -17,8 +17,7 @@ func game_over() -> void:
 
 
 func _on_restart_button_pressed():
-	get_tree().paused = false
-	get_tree().reload_current_scene()
+	Main.restart_run()
 
 
 func _on_exit_button_pressed():
