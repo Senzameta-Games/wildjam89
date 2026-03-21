@@ -100,6 +100,7 @@ stream_4/stream = ExtResource("13_gih8v")
 stream_5/stream = ExtResource("14_grp04")
 
 [node name="Worm" instance=ExtResource("1_hrymj")]
+enemy_kind = 1
 spawn_cost = 1
 speed = 190.0
 seed_value = 2

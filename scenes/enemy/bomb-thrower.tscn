@@ -133,6 +133,7 @@ stream_5/stream = ExtResource("24_ckrtb")
 [node name="Beetle" instance=ExtResource("1_5kp4x")]
 collision_mask = 217
 script = ExtResource("2_ojv35")
+enemy_kind = 2
 hold_dist = 200.0
 bomb = ExtResource("18_7bnwr")
 buffer = 10.0

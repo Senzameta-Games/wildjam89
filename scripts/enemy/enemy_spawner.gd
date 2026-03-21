@@ -29,14 +29,17 @@ func _categorize_enemies() -> void:
 		if enemy_scene == null:
 			continue
 
-		var path = enemy_scene.resource_path.to_lower()
-		
-		if "bird" in path:
-			bird_enemies.append(enemy_scene)
-		elif "bomb-thrower" in path or "beetle" in path:
-			beetle_enemies.append(enemy_scene)
-		else:
-			basic_enemies.append(enemy_scene)
+		var temp = enemy_scene.instantiate()
+		var kind = temp.get("enemy_kind")
+		temp.free()
+
+		match kind:
+			Enemy.EnemyType.BIRD:
+				bird_enemies.append(enemy_scene)
+			Enemy.EnemyType.BEETLE:
+				beetle_enemies.append(enemy_scene)
+			_:
+				basic_enemies.append(enemy_scene)
 
 func _on_timer_done() -> void:
 	if enemies.is_empty():

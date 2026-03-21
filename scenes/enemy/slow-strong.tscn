@@ -65,6 +65,7 @@ animations = [{
 size = Vector2(7, 4)
 
 [node name="Snail" instance=ExtResource("1_dlq7n")]
+enemy_kind = 0
 spawn_cost = 3
 speed = 60.0
 seed_value = 8
