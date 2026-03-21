@@ -1,6 +1,10 @@
 class_name PlayState
 extends GameState
 
+func physics_update(_delta: float) -> void:
+	if Input.is_action_just_pressed("pause"):
+		transition_requested.emit(self, PausedState)
+
 func enter() -> void:
 	context.stage_won.connect(_on_stage_won)
 	context.game_won.connect(_on_game_won)

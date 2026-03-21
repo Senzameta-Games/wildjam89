@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://bh4ejmp1bgt7e"]
 
-[ext_resource type="Script" uid="uid://ceq0j37ymagqk" path="res://scripts/level/flower.gd" id="1_fpl8p"]
+[ext_resource type="Script" uid="uid://ceq0j37ymagqk" path="res://scripts/arcade/flower.gd" id="1_fpl8p"]
 [ext_resource type="Texture2D" uid="uid://bnrlv6xwr6dd8" path="res://assets/sprites/flower/flowerblue.png" id="2_e21ui"]
 [ext_resource type="Texture2D" uid="uid://b6aq64kifulkl" path="res://assets/sprites/flower/flowergreen.png" id="2_fpl8p"]
 [ext_resource type="Texture2D" uid="uid://gucr12hgnqie" path="res://assets/sprites/flower/flowerred.png" id="4_lbl2d"]

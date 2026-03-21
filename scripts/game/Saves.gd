@@ -33,7 +33,7 @@ func is_restoring_run() -> bool:
 func finish_run_restore() -> void:
 	_restoring_run = false
 
-# ---- Pending run load handshake (used by Level._ready) ----
+# ---- Pending run load handshake (used by Arcade._ready) ----
 
 func has_pending_run_load() -> bool:
 	return not _pending_run_data.is_empty()
@@ -87,7 +87,7 @@ func write_run() -> void:
 		"abilities": Abilities.serialize(),
 		"achievements_run": Achievements.serialize_run(),
 		"flower_manager": FlowerManager.serialize(),
-		"level": _arcade.serialize(),
+		"arcade": _arcade.serialize(),
 		"player": _player.serialize(),
 		"trees": trees_data,
 	}

@@ -6,7 +6,10 @@
       "Bash(find . -name *.tscn)",
       "Bash(xargs grep:*)",
       "Bash(grep -n \"handle_input\\\\|is_action_pressed.*interact\\\\|get_tree\\(\\).set_input_as_handled\" /d/GameDev/Projects/wildjam89/state/player/*.gd)",
-      "Bash(xargs cat:*)"
+      "Bash(xargs cat:*)",
+      "Bash(del \"scenes\\\\level\\\\paused_state.gd\" \"scenes\\\\level\\\\play_state.gd\" \"scenes\\\\level\\\\stage_win_state.gd\" \"scenes\\\\level\\\\tutorial_state.gd\" \"scenes\\\\level\\\\game_win_state.gd\")",
+      "Bash(rm \"D:/GameDev/Projects/wildjam89/scripts/level/\"*.uid)",
+      "Bash(rm \"D:/GameDev/Projects/wildjam89/scenes/level/\"*.uid)"
     ]
   }
 }

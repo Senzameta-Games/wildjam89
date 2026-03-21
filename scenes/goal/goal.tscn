@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://bgfe0hn24uhk1"]
 
-[ext_resource type="Script" uid="uid://bijmufn21tx5t" path="res://scripts/level/goal.gd" id="1_r84s2"]
+[ext_resource type="Script" uid="uid://bijmufn21tx5t" path="res://scripts/arcade/goal.gd" id="1_r84s2"]
 [ext_resource type="Texture2D" uid="uid://gls62utdk8d5" path="res://assets/sprites/placeholder/flower-placeholder.png" id="2_0ivff"]
 [ext_resource type="AudioStream" uid="uid://c3sfo7nsui7g6" path="res://assets/sounds/ui/GoalGet.wav" id="3_0ivff"]
 

@@ -11,7 +11,7 @@ func _ready() -> void:
 func _on_hitbox_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
 		$Hitbox/Collider.set_deferred("disabled", true)
-		
+
 		if goal_sprite:
 			goal_sprite.visible = false
 		goal_reached.emit()

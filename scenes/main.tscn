@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cne6nr2xqlc0h"]
 
-[ext_resource type="PackedScene" uid="uid://cfl62gijxtptm" path="res://scenes/level/level.tscn" id="1_o5qli"]
+[ext_resource type="PackedScene" uid="uid://cfl62gijxtptm" path="res://scenes/arcade/arcade.tscn" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://dpq2tcruw021u" path="res://scenes/ui/game_over.tscn" id="3_sugp2"]
 [ext_resource type="PackedScene" uid="uid://cnedgj3aevipi" path="res://scenes/ui/pause_menu.tscn" id="5_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://c3mhpqsgk2w8x" path="res://scenes/ui/achievements_view.tscn" id="6_achievements"]
@@ -12,7 +12,7 @@
 
 [node name="Main" type="Node2D" unique_id=1557233221]
 
-[node name="Level" parent="." unique_id=2096224606 instance=ExtResource("1_o5qli")]
+[node name="Arcade" parent="." unique_id=2096224606 instance=ExtResource("1_o5qli")]
 
 [node name="TitleScreen" parent="." unique_id=1708133566 instance=ExtResource("7_title")]
 

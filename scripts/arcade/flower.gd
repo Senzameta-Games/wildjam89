@@ -13,13 +13,13 @@ func _ready() -> void:
 	# pick random variant and track its color
 	var color_index = randi() % flower_variants.size()
 	sprite.texture = flower_variants[color_index]
-	
+
 	# store and add color
 	if color_index < COLOR_NAMES.size():
 		flower_color = COLOR_NAMES[color_index]
 	else:
 		flower_color = "green" # fallback
-	
+
 	FlowerManager.add_flower(flower_color)
 
 func reset() -> void:

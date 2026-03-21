@@ -37,7 +37,7 @@ func _on_body_entered(body: Node2D) -> void:
 				if Achievements:
 					Achievements.on_bomb_blocked()
 			
-		elif body.is_in_group("level"):
+		elif body.is_in_group("arcade"):
 			blow_up()
 
 func blow_up() -> void:

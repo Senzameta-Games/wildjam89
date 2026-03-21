@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://cfl62gijxtptm"]
 
 [ext_resource type="PackedScene" uid="uid://ciyc0yamaacqw" path="res://scenes/player/player.tscn" id="1_nbgty"]
-[ext_resource type="Script" uid="uid://f1ao7nyts6na" path="res://scripts/level/level.gd" id="1_wcngd"]
-[ext_resource type="PackedScene" uid="uid://7m1le3g13pdd" path="res://scenes/level/next_level_button.tscn" id="2_ss4b2"]
+[ext_resource type="Script" uid="uid://f1ao7nyts6na" path="res://scripts/arcade/arcade.gd" id="1_wcngd"]
+[ext_resource type="PackedScene" uid="uid://7m1le3g13pdd" path="res://scenes/arcade/next_stage_button.tscn" id="2_ss4b2"]
 [ext_resource type="Texture2D" uid="uid://b8pencausntbo" path="res://assets/sprites/ground/ground9patch.png" id="2_tf2q7"]
 [ext_resource type="Texture2D" uid="uid://d05qhkshp4746" path="res://assets/background/placeholder_bg.png" id="2_wcngd"]
 [ext_resource type="PackedScene" uid="uid://c0xm7i1eahpti" path="res://scenes/enemy/enemy_spawner.tscn" id="5_vpf64"]
@@ -82,19 +82,19 @@ border_color = Color(0.12955844, 0.1295585, 0.12955835, 1)
 corner_detail = 1
 anti_aliasing = false
 
-[node name="Level" type="Node2D" unique_id=191387750]
+[node name="Arcade" type="Node2D" unique_id=191387750]
 script = ExtResource("1_wcngd")
-next_level_btn_scn = ExtResource("2_ss4b2")
+next_stage_btn_scn = ExtResource("2_ss4b2")
 
-[node name="Environment" type="Node2D" parent="." unique_id=637035998 groups=["level"]]
+[node name="Environment" type="Node2D" parent="." unique_id=637035998 groups=["arcade"]]
 top_level = true
 z_index = 10
 
-[node name="GroundPlane" type="StaticBody2D" parent="Environment" unique_id=617442281 groups=["level"]]
+[node name="GroundPlane" type="StaticBody2D" parent="Environment" unique_id=617442281 groups=["arcade"]]
 position = Vector2(320, 320)
 collision_mask = 6
 
-[node name="Collision" type="CollisionShape2D" parent="Environment/GroundPlane" unique_id=820539178 groups=["level"]]
+[node name="Collision" type="CollisionShape2D" parent="Environment/GroundPlane" unique_id=820539178 groups=["arcade"]]
 position = Vector2(0, 45)
 shape = SubResource("RectangleShape2D_hnne4")
 
