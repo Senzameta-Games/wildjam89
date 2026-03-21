@@ -47,10 +47,10 @@ func _on_timer_done() -> void:
 	spawnable.append_array(basic_enemies)
 	
 	# Beetles after 1 tree
-	if Game.trees_grown_count >= 1:
+	if Session.trees_grown_count >= 1:
 		spawnable.append_array(beetle_enemies)
-	
-	if Game.trees_grown_count >= 2:
+
+	if Session.trees_grown_count >= 2:
 		# Count existing birds
 		var current_birds = 0
 		var active_enemies = get_tree().get_nodes_in_group("enemy")

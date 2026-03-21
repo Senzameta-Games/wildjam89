@@ -50,7 +50,7 @@ func setup_deposit(new_target: Node2D) -> void:
 
 func _process(delta: float) -> void:
 	if is_lost:
-		velocity += Vector2(0, Game.gravity) * delta
+		velocity += Vector2(0, ProjectSettings.get_setting("physics/2d/default_gravity")) * delta
 		global_position += velocity * delta
 		rotation += (velocity.x * 0.05) * delta
 		return
@@ -76,7 +76,7 @@ func _collect() -> void:
 	if is_collected: return
 	is_collected = true
 	if not is_depositing:
-		Game.add_seeds(1)
+		Economy.add_seeds(1)
 	if sprite:
 		sprite.play("appear")
 	if not is_depositing and collect_sfx:

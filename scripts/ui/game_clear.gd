@@ -11,14 +11,13 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
 func show_screen(_key: String = "") -> void:
-	if Game:
-		Game.stop_session_timer()
-		var final_time = Game.get_session_time_formatted()
-		
-		# Update the Label Text
-		if header_label:
-			header_label.text = "You Won in " + final_time
-			
+	Session.stop_session_timer()
+	var final_time = Session.get_session_time_formatted()
+
+	# Update the Label Text
+	if header_label:
+		header_label.text = "You Won in " + final_time
+
 	get_tree().paused = true
 	
 	var reward_icon: TextureRect = $Content/StageClearContainer/Ability/Margin/RewardIcon
@@ -42,7 +41,4 @@ func _on_new_game_plus_pressed() -> void:
 	pass
 
 func _on_quit_pressed() -> void:
-	if Game:
-		Game.game_has_started = false
-	get_tree().paused = false
-	get_tree().reload_current_scene()
+	Main.return_to_title()

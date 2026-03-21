@@ -47,11 +47,11 @@ func _reset_deposit_logic() -> void:
 	interaction_locked = false
 
 func _attempt_deposit() -> void:
-	if Game.total_seeds <= 0:
+	if Economy.get_balance() <= 0:
 		_trigger_empty_feedback()
 		return
-	
-	Game.add_seeds(-1)
+
+	Economy.add_seeds(-1)
 	shop_interacted.emit()
 	
 	if seed_scn and current_player_body:
@@ -65,7 +65,7 @@ func _attempt_deposit() -> void:
 	if grow_sfx:
 		grow_sfx.play()
 	
-	if Game.has_ability("pesticide"):
+	if Abilities.has_ability("pesticide"):
 		seed_since_last_zap += 1
 		if seed_since_last_zap >= zap_threshold:
 			_fire_zapper()

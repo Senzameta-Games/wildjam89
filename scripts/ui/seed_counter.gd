@@ -7,8 +7,8 @@ var default_pos: Vector2
 
 func _ready() -> void:
 	default_pos = position
-	seed_count.text = str(Game.total_seeds)
-	Game.seeds_changed.connect(_on_seeds_changed)
+	seed_count.text = str(Economy.get_balance())
+	Economy.seeds_changed.connect(_on_seeds_changed)
 
 func _on_seeds_changed(new_amount: int) -> void:
 	seed_count.text = "%03d" % new_amount

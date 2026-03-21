@@ -126,7 +126,7 @@ func subtract_progress(amount: float):
 			if not sudden_death:
 				sudden_death = true
 			else:
-				Game.game_over_called.emit()
+				Session.game_over_called.emit()
 				tree_died.emit()
 	else: 
 		tree_progress = progress_delta

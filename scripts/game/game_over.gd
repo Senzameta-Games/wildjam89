@@ -5,7 +5,7 @@ var achievements_view: CanvasLayer
 func _ready() -> void:
 	visible = false
 	process_mode = Node.PROCESS_MODE_ALWAYS
-	Game.game_over_called.connect(game_over)
+	Session.game_over_called.connect(game_over)
 	# Find AchievementsView from Main scene (sibling node)
 	achievements_view = get_node("../AchievementsView") as CanvasLayer
 	

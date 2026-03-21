@@ -54,7 +54,7 @@ func physics_update(delta: float) -> void:
 		jump_feedback()
 		return
 	
-	if Input.is_action_pressed("aim") and player.aim_cooldown <= 0 and Game.has_ability("aim_stomp"):
+	if Input.is_action_pressed("aim") and player.aim_cooldown <= 0 and Abilities.has_ability("aim_stomp"):
 		transition_requested.emit(self, AimState)
 		return
 	
@@ -74,7 +74,7 @@ func physics_update(delta: float) -> void:
 func jump_feedback():
 	player.player_sprite.play("jump")
 	player.sfx_jump.play()
-	if Game.has_ability("double_jump") and player.jumps_available == 1:
+	if Abilities.has_ability("double_jump") and player.jumps_available == 1:
 		player.sfx_dash.play()
 	# other jumping feedback here
 

@@ -8,7 +8,7 @@ class_name Player
 @export var spawn_pos: Vector2
 @export var sfx: Node
 @export var seed_scn: PackedScene
-var gravity = Game.gravity # Game.gd is an autoload
+var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 @export_category("Gameplay")
 var can_interact: bool
@@ -190,9 +190,9 @@ func hurt(damage_source_pos: Vector2) -> void:
 		sm_current.transition_requested.emit(sm_current, HurtState)
 
 func lose_seeds(amount: int) -> void:
-	if Game.total_seeds > 0:
-		var actual_loss = min(amount, Game.total_seeds)
-		Game.add_seeds(-actual_loss)
+	if Economy.get_balance() > 0:
+		var actual_loss = min(amount, Economy.get_balance())
+		Economy.add_seeds(-actual_loss)
 		
 		if seed_scn:
 			for i in range(actual_loss):

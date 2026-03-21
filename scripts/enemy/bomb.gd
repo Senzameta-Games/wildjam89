@@ -9,7 +9,7 @@ class_name Bomb
 
 @onready var fuzzy_speed: float = randf_range((speed * 0.9), (speed * 1.2))
 var velocity: Vector2
-var grav: float = (Game.gravity / 2)
+var grav: float = (ProjectSettings.get_setting("physics/2d/default_gravity") / 2)
 
 var exploded: bool = false
 var harmless: bool = false

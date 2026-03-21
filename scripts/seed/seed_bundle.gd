@@ -18,7 +18,7 @@ func _on_area_body_entered(body: Node2D) -> void:
 		_collect()
 
 func _collect() -> void:
-	Game.add_seeds(amount)
+	Economy.add_seeds(amount)
 	$Area/Collider.set_deferred("disabled", true)
 	visible = false
 	

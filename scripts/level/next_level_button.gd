@@ -12,4 +12,4 @@ func _activate() -> void:
 	
 	var tween = create_tween()
 	tween.tween_property(self, "scale", Vector2(1.2, 0.1), 0.1)
-	tween.tween_callback(func(): Game.next_stage())
+	tween.tween_callback(func(): Session.next_stage())

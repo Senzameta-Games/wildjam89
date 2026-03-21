@@ -16,7 +16,11 @@ func start_new_run() -> void:
 		Tutorial.start_tutorial()
 
 func restart_run() -> void:
-	Game.reset_game_state()
+	Economy.reset()
+	Session.reset()
+	FlowerManager.reset_flowers()
+	if Achievements:
+		Achievements.reset_achievements()
 	if MusicPlayer:
 		MusicPlayer.fade_to_normal()
 	get_tree().paused = false

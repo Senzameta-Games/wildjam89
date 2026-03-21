@@ -31,22 +31,22 @@ var most_recent_tree: SeedTree
 func _ready():
 	_init_slots()
 	
-	var params = Game.get_stage_params()
+	var params = Session.get_stage_params()
 	current_reward_key = params["ability_reward"]
 	print("Level Ready. Current Reward Key: ", current_reward_key)
-	
+
 	var spawners = get_tree().get_nodes_in_group("spawner")
 	for spawner in spawners:
 		if spawner is EnemySpawner:
 			spawner.timer_interval = params.spawn_interval
 			if spawner.has_method("set_spawn_interval"):
 				spawner.set_spawn_interval(params.spawn_interval)
-	
+
 	call_deferred("_spawn_new_tree")
-	
+
 	# Start music if game has already started (e.g., from restart)
 	# Otherwise, it will start when title screen start button is pressed
-	if Game.game_has_started and music:
+	if Session.game_has_started and music:
 		music.play()
 
 func _init_slots():
@@ -70,11 +70,11 @@ func _on_tree_slot_freed(slot_index: int) -> void:
 
 func _on_tree_growth_completed(source_tree: SeedTree) -> void:
 	
-	Game.register_tree_grown()
-	if Game.check_win_con():
+	Session.register_tree_grown()
+	if Session.check_win_con():
 		current_reward_key = "golden_leaf"
 	else:
-		var params = Game.get_stage_params()
+		var params = Session.get_stage_params()
 		current_reward_key = params["ability_reward"]
 
 	var goal_scn = null
@@ -145,17 +145,17 @@ func _on_reward_collected() -> void:
 	print("Advancing stage.")
 	
 	if current_reward_key != "":
-		Game.unlock_ability(current_reward_key)
-	
-	if not Game.has_seen_ability(current_reward_key) and current_reward_key != "":
-		Game.mark_ability_seen(current_reward_key)
+		Abilities.unlock_ability(current_reward_key)
+
+	if not Abilities.has_seen_ability(current_reward_key) and current_reward_key != "":
+		Abilities.mark_ability_seen(current_reward_key)
 		if stage_clear_scn:
 			stage_clear_scn.show_screen(current_reward_key)
-	
-	Game.current_stage += 1
-	var params = Game.get_stage_params()
+
+	Session.current_stage += 1
+	var params = Session.get_stage_params()
 	current_reward_key = params["ability_reward"]
-	print("Next Stage: ", Game.current_stage, " | Next Reward: ", current_reward_key)
+	print("Next Stage: ", Session.current_stage, " | Next Reward: ", current_reward_key)
 	
 	var spawners = get_tree().get_nodes_in_group("spawner")
 	for spawner in spawners:
@@ -209,5 +209,5 @@ func _on_acorn_planted(slot_index: int, location: Vector2) -> void:
 	if not new_tree.slot_freed.is_connected(_on_tree_slot_freed):
 		new_tree.slot_freed.connect(_on_tree_slot_freed)
 
-	var params = Game.get_stage_params()
+	var params = Session.get_stage_params()
 	new_tree.damage_per_hit = params["enemy_damage"]

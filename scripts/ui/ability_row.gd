@@ -32,8 +32,7 @@ func _ready() -> void:
 	ability_icon.visible = false
 	
 	# Connect to Game signals
-	if Game:
-		Game.ability_unlocked.connect(_on_ability_collected)
+	Abilities.ability_unlocked.connect(_on_ability_collected)
 
 func _on_ability_collected(ability_key: String) -> void:
 	# Activate the ability with RED FLOWER BONUS duration
@@ -79,6 +78,6 @@ func _process(delta: float) -> void:
 				ability_icon.visible = false
 				ability_icon.modulate = Color.WHITE
 			
-			Game.lock_ability(active_ability)
+			Abilities.lock_ability(active_ability)
 			active_ability = ""
 			ability_timer = 0.0

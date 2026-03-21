@@ -26,8 +26,7 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 			sprite.visible = false
 		
 		# Trigger Win Condition
-		if Game.has_method("win_game"):
-			Game.win_game()
+		Session.win_game()
 		
 		goal_reached.emit()
 		
