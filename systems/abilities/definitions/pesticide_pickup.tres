@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="PickupData" format=3 uid="uid://cpbg58b3ir2hw"]
+
+[ext_resource type="Script" uid="uid://og8jegm16hl0" path="res://entities/pickup/pickup_data.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://d07t3ds35gotx" path="res://assets/sprites/items/pesticide/pesticide.png" id="2"]
+[ext_resource type="PackedScene" uid="uid://dr7xi3sblu53p" path="res://entities/pickup/pickup.tscn" id="2_r24ag"]
+
+[resource]
+script = ExtResource("1")
+pickup_key = "pesticide"
+display_name = "Bug Zapper"
+description = "Lightning strikes 1 enemy per 10 seeds deposited."
+flavor_text = "You could use the Bug Zapper for something..."
+icon = ExtResource("2")
+pickup_scene = ExtResource("2_r24ag")

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="AchievementData" load_steps=2 format=3]
+
+[ext_resource type="Script" uid="uid://crrlokbmyae5f" path="res://systems/achievements/AchievementsData.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+achievement_id = "stomp_master"
+achievement_name = "Stomp Master"
+achievement_description = "Stomp 10 enemies"
+condition_type = 1
+threshold = 10

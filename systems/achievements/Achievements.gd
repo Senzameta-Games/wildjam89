@@ -23,71 +23,23 @@ func _ready() -> void:
 	Economy.seeds_changed.connect(func(_val): on_seed_collected())
 
 func load_achievements() -> void:
-	var achievements = [
-		{
-			"id": "seed_collector_10",
-			"name": "Seed Collector",
-			"description": "Collect 10 seeds",
-			"condition": AchievementData.ConditionType.SEED_COUNT,
-			"threshold": 10
-		},
-		{
-			"id": "seed_collector_50",
-			"name": "Seed Master",
-			"description": "Collect 50 seeds",
-			"condition": AchievementData.ConditionType.SEED_COUNT,
-			"threshold": 50
-		},
-		{
-			"id": "stomp_master",
-			"name": "Stomp Master",
-			"description": "Stomp 10 enemies",
-			"condition": AchievementData.ConditionType.ENEMIES_STOMPED,
-			"threshold": 10
-		},
-		{
-			"id": "multi_stomp",
-			"name": "Combo Stomp!",
-			"description": "Stomp 3 enemies within 2 seconds",
-			"condition": AchievementData.ConditionType.MULTI_STOMP,
-			"threshold": 3,
-			"time_window": 2.0
-		},
-		{
-			"id": "flower_gardener",
-			"name": "Flower Gardener",
-			"description": "Plant 5 flowers",
-			"condition": AchievementData.ConditionType.FLOWERS_PLANTED,
-			"threshold": 5
-		},
-		{
-			"id": "bomb_blocker",
-			"name": "Bomb Blocker",
-			"description": "Block a bomb from hitting the tree",
-			"condition": AchievementData.ConditionType.BOMB_BLOCKED,
-			"threshold": 1
-		},
-		{
-			"id": "equal_opportunity_stomper",
-			"name": "Equal Opportunity Stomper",
-			"description": "Stomp on each type of enemy",
-			"condition": AchievementData.ConditionType.EACH_ENEMY_KILLED,
-			"threshold": 3
-		}
-	]
-	
-	# Create AchievementData resources from the definitions
-	for ach_data in achievements:
-		var achievement = AchievementData.new()
-		achievement.achievement_id = ach_data.id
-		achievement.achievement_name = ach_data.name
-		achievement.achievement_description = ach_data.description
-		achievement.condition_type = ach_data.condition
-		achievement.threshold = ach_data.threshold
-		if ach_data.has("time_window"):
-			achievement.time_window = ach_data.time_window
-		
-		achievement_resources[ach_data.id] = achievement
+	var dir_path := "res://systems/achievements/definitions/"
+	var dir := DirAccess.open(dir_path)
+	if not dir:
+		push_error("Achievements: Could not open definitions directory: " + dir_path)
+		return
+
+	dir.list_dir_begin()
+	var file_name := dir.get_next()
+	while file_name != "":
+		if file_name.ends_with(".tres"):
+			var resource = load(dir_path + file_name)
+			if resource is AchievementData:
+				achievement_resources[resource.achievement_id] = resource
+		file_name = dir.get_next()
+	dir.list_dir_end()
+
+	print("Achievements: Loaded %d achievement definitions" % achievement_resources.size())
 
 func check_achievement(achievement_id: String) -> bool:
 	if achievement_id in unlocked_achievements:

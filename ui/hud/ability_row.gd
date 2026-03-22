@@ -33,9 +33,9 @@ func _on_ability_collected(ability_key: String) -> void:
 	activate_ability(ability_key)
 
 func activate_ability(ability_key: String) -> void:
-	var collectible := Abilities.get_collectible(ability_key)
+	var pickup_data := Abilities.get_pickup(ability_key)
 	var ability := Abilities.get_ability(ability_key)
-	if not collectible:
+	if not pickup_data:
 		return
 
 	active_ability = ability_key
@@ -45,7 +45,7 @@ func activate_ability(ability_key: String) -> void:
 	ability_timer = base_dur + bonus_duration
 
 	if ability_icon:
-		ability_icon.texture = collectible.icon
+		ability_icon.texture = pickup_data.icon
 		ability_icon.visible = true
 		
 		# Pulse animation to show it's active

@@ -3,8 +3,8 @@ extends Node
 signal ability_unlocked(ability_key: String)
 
 # Loaded from .tres definitions
-var _collectibles: Dictionary = {}  # key -> CollectibleData
-var _abilities: Dictionary = {}     # key -> AbilityData
+var _pickups: Dictionary = {}   # key -> PickupData
+var _abilities: Dictionary = {} # key -> AbilityData
 
 # Runtime state
 var unlocked_abilities: Dictionary = {}  # key -> bool
@@ -33,19 +33,19 @@ func _load_definitions() -> void:
 	while file_name != "":
 		if file_name.ends_with(".tres"):
 			var resource = load(dir_path + file_name)
-			if resource is CollectibleData:
-				_collectibles[resource.collectible_key] = resource
+			if resource is PickupData:
+				_pickups[resource.pickup_key] = resource
 			elif resource is AbilityData:
 				_abilities[resource.ability_key] = resource
 		file_name = dir.get_next()
 	dir.list_dir_end()
 
-	print("Abilities: Loaded %d collectibles, %d abilities" % [_collectibles.size(), _abilities.size()])
+	print("Abilities: Loaded %d pickups, %d abilities" % [_pickups.size(), _abilities.size()])
 
 # -- Lookups --
 
-func get_collectible(key: String) -> CollectibleData:
-	return _collectibles.get(key)
+func get_pickup(key: String) -> PickupData:
+	return _pickups.get(key)
 
 func get_ability(key: String) -> AbilityData:
 	return _abilities.get(key)
@@ -55,15 +55,15 @@ func get_all_ability_keys() -> Array[String]:
 	keys.assign(_abilities.keys())
 	return keys
 
-func get_all_collectible_keys() -> Array[String]:
+func get_all_pickup_keys() -> Array[String]:
 	var keys: Array[String] = []
-	keys.assign(_collectibles.keys())
+	keys.assign(_pickups.keys())
 	return keys
 
-func get_ability_collectibles() -> Array[CollectibleData]:
-	var result: Array[CollectibleData] = []
-	for c in _collectibles.values():
-		if c.grant_type == CollectibleData.GrantType.ABILITY:
+func get_ability_pickups() -> Array[PickupData]:
+	var result: Array[PickupData] = []
+	for c in _pickups.values():
+		if c.grant_type == PickupData.GrantType.ABILITY:
 			result.append(c)
 	return result
 

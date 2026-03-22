@@ -3,7 +3,7 @@ extends Node
 const SAVE_DIR := "user://saves/"
 const META_FILE := "user://saves/meta.json"
 const RUN_FILE := "user://saves/run.json"
-const SAVE_VERSION: int = 1
+const SAVE_VERSION: int = 2
 
 # -- Migration functions --
 # Each function transforms a save dict from version N to version N+1.

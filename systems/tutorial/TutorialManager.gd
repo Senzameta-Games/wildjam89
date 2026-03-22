@@ -15,13 +15,16 @@ var _tutorial_enemy: Enemy = null
 var snail_move_timer: float = 0.0
 var snail_stopped: bool = false
 
-const TUTORIAL_ENEMY_SCENE: PackedScene = preload("res://entities/enemy/variants/slow-strong.tscn")
+var tutorial_enemy_scene: PackedScene
 
 # Signals
 signal tutorial_phase_completed(phase: String)
 signal show_tutorial_prompt(target: Node2D, text: String)
 signal hide_tutorial_prompt
 signal show_tips_screen
+
+func _ready() -> void:
+	tutorial_enemy_scene = load("res://entities/enemy/variants/slow-strong.tscn")
 
 func _process(delta: float) -> void:
 	if is_tutorial_active and tutorial_flags["acorn_stomped"] and not tutorial_flags["snail_stomped"]:
@@ -116,8 +119,8 @@ func _start_music() -> void:
 			print("Tutorial: Music started!")
 
 func _spawn_tutorial_snail() -> void:
-	if not TUTORIAL_ENEMY_SCENE:
-		push_error("TutorialManager: TUTORIAL_ENEMY_SCENE could not be loaded")
+	if not tutorial_enemy_scene:
+		push_error("TutorialManager: tutorial_enemy_scene not assigned")
 		return
 
 	var spawners = get_tree().get_nodes_in_group("spawner")
@@ -145,7 +148,7 @@ func _spawn_tutorial_snail() -> void:
 	if not furthest_spawner:
 		return
 
-	var enemy = furthest_spawner.spawn_single(TUTORIAL_ENEMY_SCENE, furthest_spawner.global_position)
+	var enemy = furthest_spawner.spawn_single(tutorial_enemy_scene, furthest_spawner.global_position)
 	if not enemy:
 		return
 

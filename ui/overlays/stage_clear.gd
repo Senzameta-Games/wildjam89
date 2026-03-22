@@ -19,16 +19,16 @@ func _ready() -> void:
 func show_screen(key: String = "") -> void:
 	get_tree().paused = true
 	
-	var collectible := Abilities.get_collectible(key)
+	var pickup_data := Abilities.get_pickup(key)
 	var ability := Abilities.get_ability(key)
 
-	if collectible:
-		reward_icon.texture = collectible.icon if collectible.icon else placeholder_icon
-		item_name_label.text = collectible.display_name
+	if pickup_data:
+		reward_icon.texture = pickup_data.icon if pickup_data.icon else placeholder_icon
+		item_name_label.text = pickup_data.display_name
 		if ability and ability.input_hint != "":
 			item_name_label.text += " (" + ability.input_hint + ")"
-		item_desc_label.text = collectible.description
-		flavor_text_label.text = collectible.flavor_text
+		item_desc_label.text = pickup_data.description
+		flavor_text_label.text = pickup_data.flavor_text
 	else:
 		reward_icon.texture = placeholder_icon
 		item_name_label.text = "Item"

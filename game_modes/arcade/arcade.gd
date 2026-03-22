@@ -90,16 +90,18 @@ func _on_tree_growth_completed(source_tree: SeedTree) -> void:
 	_spawn_pickup_at_tree(source_tree)
 
 func _spawn_pickup_at_tree(source_tree: SeedTree) -> void:
-	var collectible := Abilities.get_collectible(current_reward_key)
-	if not collectible or not collectible.pickup_scene:
-		push_warning("Arcade: No collectible or pickup scene for key: " + current_reward_key)
+	var pickup_data := Abilities.get_pickup(current_reward_key)
+	if not pickup_data or not pickup_data.pickup_scene:
+		push_warning("Arcade: No pickup data or scene for key: " + current_reward_key)
 		return
 
-	var goal = collectible.pickup_scene.instantiate()
-	add_child(goal)
-	goal.visible = true
-	goal.z_index = 100
-	goal.goal_reached.connect(_on_reward_collected)
+	var pickup = pickup_data.pickup_scene.instantiate()
+	add_child(pickup)
+	pickup.visible = true
+	pickup.z_index = 100
+	pickup.collected.connect(_on_reward_collected_from_pickup)
+	if pickup.has_method("setup"):
+		pickup.setup(current_reward_key)
 
 	var target_pos = Vector2.ZERO
 	var found_branch = false
@@ -140,10 +142,10 @@ func _spawn_pickup_at_tree(source_tree: SeedTree) -> void:
 		else:
 			target_pos = source_tree.global_position + Vector2(0, -200)
 
-	goal.global_position = target_pos
-	print("Goal spawned at ", target_pos)
+	pickup.global_position = target_pos
+	print("Pickup spawned at ", target_pos)
 
-func _on_reward_collected() -> void:
+func _on_reward_collected_from_pickup(_pickup_key: String = "") -> void:
 	print("Reward collected. Checking type: ", current_reward_key)
 	if current_reward_key == "golden_leaf":
 		game_won.emit()

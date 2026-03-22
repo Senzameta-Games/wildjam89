@@ -22,16 +22,16 @@ func show_screen(_key: String = "") -> void:
 
 	get_tree().paused = true
 
-	var collectible := Abilities.get_collectible("golden_leaf")
-	if collectible:
+	var pickup_data := Abilities.get_pickup("golden_leaf")
+	if pickup_data:
 		var item_name: Label = $Content/StageClearContainer/Ability/Labels/ItemName
 		var item_desc: Label = $Content/StageClearContainer/Ability/Labels/ItemDesc
 		if item_name:
-			item_name.text = collectible.display_name
+			item_name.text = pickup_data.display_name
 		if item_desc:
-			item_desc.text = collectible.description
-		if reward_icon and collectible.icon:
-			reward_icon.texture = collectible.icon
+			item_desc.text = pickup_data.description
+		if reward_icon and pickup_data.icon:
+			reward_icon.texture = pickup_data.icon
 
 	visible = true
 

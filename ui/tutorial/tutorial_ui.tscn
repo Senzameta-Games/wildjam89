@@ -1,7 +1,11 @@
 [gd_scene format=3 uid="uid://dkxl5p8m2vy4g"]
 
 [ext_resource type="Script" uid="uid://8dlq67625w7j" path="res://ui/tutorial/tutorial_ui.gd" id="1_tutorial_ui"]
+[ext_resource type="PackedScene" uid="uid://c1hxpy8wdec1q" path="res://ui/tutorial/tutorial_prompt.tscn" id="2_62lgl"]
+[ext_resource type="PackedScene" uid="uid://c7r3m25rixk32" path="res://ui/tutorial/tutorial_tips.tscn" id="3_7phkx"]
 
 [node name="TutorialUI" type="CanvasLayer" unique_id=1006755572]
 layer = 999
 script = ExtResource("1_tutorial_ui")
+prompt_scene = ExtResource("2_62lgl")
+tips_scene = ExtResource("3_7phkx")

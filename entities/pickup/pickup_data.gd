@@ -1,5 +1,5 @@
 extends Resource
-class_name CollectibleData
+class_name PickupData
 
 enum GrantType {
 	ABILITY,
@@ -7,7 +7,7 @@ enum GrantType {
 }
 
 @export_category("Identity")
-@export var collectible_key: String
+@export var pickup_key: String
 @export var display_name: String
 @export_multiline var description: String
 @export_multiline var flavor_text: String

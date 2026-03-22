@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="PickupData" format=3 uid="uid://cr15gtvtgr2f2"]
+
+[ext_resource type="Script" uid="uid://og8jegm16hl0" path="res://entities/pickup/pickup_data.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://c4m88c6a3ep6t" path="res://assets/sprites/items/doublejump/feather.png" id="2"]
+[ext_resource type="PackedScene" uid="uid://dr7xi3sblu53p" path="res://entities/pickup/pickup.tscn" id="2_tag8d"]
+
+[resource]
+script = ExtResource("1")
+pickup_key = "double_jump"
+display_name = "Feather"
+description = "Fiora gains a second jump."
+flavor_text = "You could use the Feather for something..."
+icon = ExtResource("2")
+pickup_scene = ExtResource("2_tag8d")

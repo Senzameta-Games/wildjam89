@@ -3,7 +3,8 @@
     "allow": [
       "Bash(grep -n \"@export var speed\\\\|@export var seed_value\\\\|@export var spawn_cost\\\\|@export var enemy_type\" entities/enemy/variants/*.gd)",
       "Bash(grep -rn \"ext_resource.*Script.*path\" entities/enemy/data/*.tres)",
-      "Bash(grep -rn \"ext_resource.*Script.*path\" entities/tree/data/*.tres)"
+      "Bash(grep -rn \"ext_resource.*Script.*path\" entities/tree/data/*.tres)",
+      "Bash(ls systems/achievements/definitions/*.tres)"
     ]
   }
 }
