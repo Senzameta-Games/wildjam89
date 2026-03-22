@@ -34,9 +34,9 @@ func _categorize_enemies() -> void:
 		temp.free()
 
 		match kind:
-			Enemy.EnemyType.BIRD:
+			EnemyData.EnemyType.BIRD:
 				bird_enemies.append(enemy_scene)
-			Enemy.EnemyType.BEETLE:
+			EnemyData.EnemyType.BEETLE:
 				beetle_enemies.append(enemy_scene)
 			_:
 				basic_enemies.append(enemy_scene)
@@ -85,3 +85,34 @@ func _spawn_enemy(scene: PackedScene) -> void:
 func set_spawn_interval(new_interval: float) -> void:
 	timer_interval = new_interval
 	timer.wait_time = new_interval
+
+## Spawn a single enemy of the given scene at the given position.
+## Returns the spawned enemy instance, or null if spawning failed.
+## The caller is responsible for any special configuration (no_aggro, freeze, etc).
+func spawn_single(enemy_scene: PackedScene, spawn_position: Vector2) -> Enemy:
+	if not enemy_scene:
+		push_warning("EnemySpawner.spawn_single: No scene provided")
+		return null
+	var enemy = enemy_scene.instantiate() as Enemy
+	if not enemy:
+		push_warning("EnemySpawner.spawn_single: Scene did not produce an Enemy")
+		return null
+	enemy.global_position = spawn_position
+	get_tree().current_scene.add_child(enemy)
+	return enemy
+
+## Spawn a single enemy by its EnemyData.EnemyType enum value.
+## Uses the spawner's configured scene arrays. Returns null if the type isn't available.
+func spawn_single_by_type(enemy_type: EnemyData.EnemyType, spawn_position: Vector2) -> Enemy:
+	var candidates: Array[PackedScene]
+	match enemy_type:
+		EnemyData.EnemyType.BIRD:
+			candidates = bird_enemies
+		EnemyData.EnemyType.BEETLE:
+			candidates = beetle_enemies
+		_:
+			candidates = basic_enemies
+	if candidates.is_empty():
+		push_warning("EnemySpawner.spawn_single_by_type: No scenes available for type %d" % enemy_type)
+		return null
+	return spawn_single(candidates[0], spawn_position)

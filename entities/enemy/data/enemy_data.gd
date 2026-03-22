@@ -1,12 +1,17 @@
 extends Resource
 class_name EnemyData
 
-@export_category("ID")
-@export var enemy_name: String
-@export var enemy_type: int 
-# ^ need an array for this. 0 = ground 1 = flying
-@export var enemy_unit: int
-# ^ need an array for this. 0 = small 1 = medium 2 = large
+enum EnemyType { SNAIL, WORM, BEETLE, BIRD }
 
-@export_category("Gameplay")
-@export var energy_dropped: int
+@export_category("Identity")
+@export var enemy_name: String
+@export var enemy_kind: EnemyType = EnemyType.SNAIL
+
+@export_category("Spawner")
+@export var spawn_cost: int = 1
+
+@export_category("Movement")
+@export var speed: float = 150.0
+
+@export_category("Drops")
+@export var seed_value: int = 1

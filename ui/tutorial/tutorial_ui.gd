@@ -4,8 +4,8 @@ class_name TutorialUI
 var current_prompt: Control = null
 var tips_screen: CanvasLayer = null
 
-@onready var prompt_scene: PackedScene = preload("res://ui/tutorial/tutorial_prompt.tscn")
-@onready var tips_scene: PackedScene = preload("res://ui/tutorial/tutorial_tips.tscn")
+@export var prompt_scene: PackedScene
+@export var tips_scene: PackedScene
 
 func _ready() -> void:
 	# Connect to Tutorial signals

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="TreeData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://entities/tree/data/tree_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+tree_name = "Default"
+max_sections = 20
+trunk_section_height = 16
+base_passive_growth = 0.08
+max_passive_growth = 2.0
+active_growth_amount = 0.75

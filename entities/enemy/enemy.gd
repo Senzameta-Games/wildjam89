@@ -1,20 +1,21 @@
 extends CharacterBody2D
 class_name Enemy
 
-enum EnemyType { SNAIL, WORM, BEETLE, BIRD }
+# -- Data-driven config --
+# Assign a .tres resource in the editor. All identity/tuning values come from here.
+@export var data: EnemyData
 
-@export_category("Identity")
-@export var enemy_kind: EnemyType = EnemyType.SNAIL
+# -- Convenience accessors (read from resource, fall back to defaults) --
+var enemy_kind: EnemyData.EnemyType:
+	get: return data.enemy_kind if data else EnemyData.EnemyType.SNAIL
+var spawn_cost: int:
+	get: return data.spawn_cost if data else 1
+var speed: float:
+	get: return data.speed if data else 150.0
+var seed_value: int:
+	get: return data.seed_value if data else 1
 
-@export_category("Spawner budget")
-@export var spawn_cost: int
-
-@export_category("Movement")
-@export var speed: float = 150.0
-@export var jump_velocity: float = -400.0
-
-@export_category("Drops")
-@export var seed_value: int = 1
+# -- Scene references (stay on the node, not on the resource) --
 @export var seed_scn: PackedScene
 
 var current_target: Node2D = null
@@ -28,15 +29,14 @@ signal enemy_defeated
 @onready var enemy_sprite: AnimatedSprite2D = $Sprite
 @onready var dropped_seed: Node2D = $Seed
 
-
 var passive_movement: bool = false
 var passive_dir: float = 0.0
 
-# Anti-stuck: track if we've been at same position too long
+# Anti-stuck tracking
 var stuck_check_timer: float = 0.0
 var last_check_pos: Vector2 = Vector2.ZERO
 const STUCK_CHECK_INTERVAL: float = 1.0
-const STUCK_THRESHOLD: float = 5.0  # If moved less than this, we're stuck
+const STUCK_THRESHOLD: float = 5.0
 
 func _ready() -> void:
 	$SFX/Spawned.play()
@@ -48,18 +48,13 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if not is_on_floor():
 		velocity += get_gravity() * delta
-	
-	# Anti-stuck check
 	_check_if_stuck(delta)
-	
 	move_towards_target()
 	move_and_slide()
-
 
 func no_aggro() -> void:
 	passive_movement = true
 	current_target = null
-	
 	if is_inside_tree():
 		passive_dir = 1.0 if global_position.x < 320.0 else -1.0
 
@@ -70,15 +65,11 @@ func aggro_player() -> void:
 
 func aggro_tree() -> void:
 	if passive_movement: return
-	
 	var trees = get_tree().get_nodes_in_group("tree")
 	var valid_trees: Array = []
-	
 	for t in trees:
 		if t is SeedTree:
 			valid_trees.append(t)
-	
-	# Pick a random tree instead of closest - distributes enemies better
 	if valid_trees.size() > 0:
 		current_target = valid_trees.pick_random()
 	else:
@@ -87,37 +78,27 @@ func aggro_tree() -> void:
 func _check_if_stuck(delta: float) -> void:
 	if stomped or is_dying or passive_movement:
 		return
-	
 	stuck_check_timer += delta
 	if stuck_check_timer >= STUCK_CHECK_INTERVAL:
 		stuck_check_timer = 0.0
-		
 		var distance_moved = global_position.distance_to(last_check_pos)
 		if distance_moved < STUCK_THRESHOLD and is_on_floor():
-			# We're stuck! Try to pick a different tree or adjust behavior
 			_handle_stuck_state()
-		
 		last_check_pos = global_position
 
 func _handle_stuck_state() -> void:
-	# If truly stuck (not near any tree), try picking a new tree
 	var trees = get_tree().get_nodes_in_group("tree")
 	var near_any_tree = false
-	
 	for t in trees:
 		if t is SeedTree:
-			var dist = global_position.distance_to(t.global_position)
-			if dist < 80.0:
+			if global_position.distance_to(t.global_position) < 80.0:
 				near_any_tree = true
 				break
-	
-	# If not near any tree and stuck, pick a new target
 	if not near_any_tree:
 		var valid_trees: Array = []
 		for t in trees:
 			if t is SeedTree and t != current_target:
 				valid_trees.append(t)
-		
 		if valid_trees.size() > 0:
 			current_target = valid_trees.pick_random()
 
@@ -129,16 +110,11 @@ func move_towards_target() -> void:
 			if passive_dir != 0:
 				enemy_sprite.flip_h = passive_dir < 0
 		return
-
 	if not is_instance_valid(current_target):
 		aggro_tree()
 		return
-	
-	# Target the base of the tree - walk straight into it to trigger collision
 	var target_x = current_target.global_position.x
 	var dir_x = sign(target_x - global_position.x)
-	
-	# Keep walking toward tree - collision with TreeHitbox will handle damage/death
 	velocity.x = dir_x * (speed / 3)
 	if enemy_sprite:
 		enemy_sprite.play("walk")
@@ -146,37 +122,26 @@ func move_towards_target() -> void:
 			enemy_sprite.flip_h = dir_x < 0
 
 func _on_hitbox_body_entered(body: Node2D) -> void:
-	#print(body.name)
 	if stomped or is_dying:
 		return
-	
 	if (body != self) and body.is_in_group("player"):
 		var is_above = body.global_position.y < (global_position.y - 8.0)
-		
-		# Check if player is in stomp mode OR in the grace period after a stomp
 		var is_stomp_active = body.get("is_stomping") or body.get("stomp_grace_period") > 0
-		
 		if is_stomp_active and is_above:
-			# Player is stomping from above - they win
 			if body.has_method("bounce"):
 				body.bounce()
 			die()
 		elif is_above and body.velocity.y > 0:
-			# Player landed on enemy without stomping - still bounce but no kill
 			if body.has_method("bounce"):
 				body.bounce()
 		else:
-			# Enemy touches player from side/below - player gets hurt
 			body.hurt(global_position)
 
 func die() -> void:
 	if is_dying: return
 	is_dying = true
 	stomped = true
-	
-	# Immediately disable hitbox to prevent hurting player during multi-stomp
 	$Hitbox/CollisionShape2D.set_deferred("disabled", true)
-	
 	remove_from_group("enemy")
 	set_physics_process(false)
 	$Collider.set_deferred("disabled", true)
@@ -192,57 +157,50 @@ func squash_and_hide() -> void:
 	$SFX/Squash.play()
 
 const TYPE_NAMES: Dictionary = {
-	EnemyType.SNAIL: "snail",
-	EnemyType.WORM: "worm",
-	EnemyType.BEETLE: "beetle",
-	EnemyType.BIRD: "bird",
+	EnemyData.EnemyType.SNAIL: "snail",
+	EnemyData.EnemyType.WORM: "worm",
+	EnemyData.EnemyType.BEETLE: "beetle",
+	EnemyData.EnemyType.BIRD: "bird",
 }
 
 func drop_seed() -> void:
-	# hide the source node
 	if dropped_seed: dropped_seed.visible = false
-
-	# emit signals so logic/achievements count right away
 	seed_dropped.emit()
 	enemy_defeated.emit()
 	if Achievements:
 		Achievements.on_enemy_stomped(TYPE_NAMES.get(enemy_kind, "enemy"))
-	
-	# tie interval to seed value (normalizes seed animation duration)
 	var interval = remap(float(seed_value), 1.0, 10.0, 0.2, 0.1)
 	interval = clampf(interval, 0.05, 0.2)
-	
-	# loop through seed value and spawn a sprite
 	for i in range(seed_value):
 		_spawn_visual_seed()
-		
-		# wait a short interval before firing another
 		if i < seed_value - 1:
 			await get_tree().create_timer(interval).timeout
-	
-	# wait for all the animation to end then die
 	await get_tree().create_timer(1.7).timeout
 	queue_free()
 
 func _spawn_visual_seed() -> void:
 	if not seed_scn: return
-	# instantiate a copy of the source node
 	var new_seed = seed_scn.instantiate()
 	get_tree().current_scene.add_child(new_seed)
-
-	# seed -> enemy
 	new_seed.global_position = global_position
 	new_seed.visible = true
-	
-	# find player
 	var player = get_tree().get_first_node_in_group("player")
 	if player:
 		new_seed.setup(player)
-
-	# find and play sound
 	var sfx = new_seed.get_node_or_null("SFX/Appear")
 	if sfx:
 		sfx.play()
+
+func freeze() -> void:
+	set_physics_process(false)
+	velocity = Vector2.ZERO
+	if enemy_sprite:
+		enemy_sprite.pause()
+
+func unfreeze() -> void:
+	set_physics_process(true)
+	if enemy_sprite:
+		enemy_sprite.play()
 
 func sacrifice() -> void:
 	set_physics_process(false)

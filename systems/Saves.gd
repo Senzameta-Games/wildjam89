@@ -3,7 +3,77 @@ extends Node
 const SAVE_DIR := "user://saves/"
 const META_FILE := "user://saves/meta.json"
 const RUN_FILE := "user://saves/run.json"
-const SAVE_VERSION := 1
+const SAVE_VERSION: int = 1
+
+# -- Migration functions --
+# Each function transforms a save dict from version N to version N+1.
+# They run in sequence: if a save is v1 and current is v3, it runs v1->v2 then v2->v3.
+# Migrations operate on the raw Dictionary before it reaches any system's deserialize().
+
+var _migrations: Dictionary = {
+	# Add transforms here when bumping SAVE_VERSION.
+	# Key = version the save is currently at. Value = function that transforms it forward.
+	# Name functions after what they do, not the versions they bridge:
+	# 1: _add_tree_data_fields,
+	# 2: _rename_seed_value_from_energy,
+}
+
+func _migrate_save(save_data: Dictionary) -> Dictionary:
+	var version: int = save_data.get("version", 1)
+
+	if version > SAVE_VERSION:
+		push_warning("[Saves] Save version %d is newer than game version %d. Loading anyway." % [version, SAVE_VERSION])
+		return save_data
+
+	while version < SAVE_VERSION:
+		if _migrations.has(version):
+			print("[Saves] Migrating save from v%d to v%d" % [version, version + 1])
+			save_data = _migrations[version].call(save_data)
+			version += 1
+		else:
+			push_error("[Saves] No migration path from v%d to v%d. Aborting load." % [version, version + 1])
+			return {}
+
+	save_data["version"] = SAVE_VERSION
+	return save_data
+
+# -- Migration utilities --
+
+## Rename a key in a nested dictionary path.
+## Example: _rename_key(save_data, ["abilities"], "old_key", "new_key")
+func _rename_key(dict: Dictionary, path: Array, old_key: String, new_key: String) -> void:
+	var target = dict
+	for p in path:
+		if target.has(p) and target[p] is Dictionary:
+			target = target[p]
+		else:
+			return
+	if target.has(old_key):
+		target[new_key] = target[old_key]
+		target.erase(old_key)
+
+## Remove a key from a nested dictionary path.
+## Example: _remove_key(save_data, ["session"], "deprecated_field")
+func _remove_key(dict: Dictionary, path: Array, key: String) -> void:
+	var target = dict
+	for p in path:
+		if target.has(p) and target[p] is Dictionary:
+			target = target[p]
+		else:
+			return
+	target.erase(key)
+
+## Add a key with a default value if it doesn't exist.
+## Example: _add_default(save_data, ["tree"], "new_field", 0.0)
+func _add_default(dict: Dictionary, path: Array, key: String, default_value: Variant) -> void:
+	var target = dict
+	for p in path:
+		if target.has(p) and target[p] is Dictionary:
+			target = target[p]
+		else:
+			return
+	if not target.has(key):
+		target[key] = default_value
 
 var _player: Player = null
 var _arcade: Arcade = null
@@ -62,6 +132,10 @@ func load_meta() -> void:
 	var data := _read_json(META_FILE)
 	if data.is_empty():
 		return
+	data = _migrate_save(data)
+	if data.is_empty():
+		push_error("[Saves] Meta migration failed, starting fresh")
+		return
 	Achievements.deserialize_meta(data)
 	Tutorial.deserialize_meta(data)
 	print("[Saves] meta loaded")
@@ -100,6 +174,10 @@ func load_run() -> void:
 		return
 	var data := _read_json(RUN_FILE)
 	if data.is_empty():
+		return
+	data = _migrate_save(data)
+	if data.is_empty():
+		push_error("[Saves] Run migration failed, starting fresh")
 		return
 	_pending_run_data = data
 	_restoring_run = true

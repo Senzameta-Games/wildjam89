@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://5u0rjw4fxv62"]
 
 [ext_resource type="Script" uid="uid://ckh42debhjmot" path="res://entities/tree/tree.gd" id="1_afghl"]
+[ext_resource type="Resource" path="res://entities/tree/data/default_tree_data.tres" id="2_bugn8"]
 [ext_resource type="Texture2D" uid="uid://b8ichhlia4jkk" path="res://assets/sprites/tree/Trunk/treetile01.png" id="2_juvck"]
 [ext_resource type="Texture2D" uid="uid://b1emgf33clctd" path="res://assets/sprites/tree/Trunk/treetile02.png" id="3_5hlbj"]
 [ext_resource type="Texture2D" uid="uid://b6cndi4cq2uau" path="res://assets/sprites/tree/Trunk/treetile03.png" id="4_bugn8"]
@@ -24,8 +25,10 @@
 [ext_resource type="Texture2D" uid="uid://bku6pwe05yvrr" path="res://assets/sprites/tree/tempSprite/TreeBranch/tree_branch.png" id="22_ldqvw"]
 [ext_resource type="PackedScene" uid="uid://db1lwwtlllkav" path="res://entities/seed/seed_bundle.tscn" id="23_yv6h6"]
 [ext_resource type="Script" uid="uid://dps82nj04mquw" path="res://entities/tree/shop_button.gd" id="24_1dfxv"]
+[ext_resource type="PackedScene" uid="uid://c0xm7i1eahpti" path="res://entities/enemy/enemy_spawner.tscn" id="25_5hlbj"]
 [ext_resource type="Script" uid="uid://b1pdju5ijjh7w" path="res://entities/player/zapper.gd" id="25_ewc3i"]
 [ext_resource type="PackedScene" uid="uid://3mhjgr2g4y7j" path="res://entities/seed/seed.tscn" id="26_4cpv5"]
+[ext_resource type="Script" uid="uid://d2w3a7l2cvt8s" path="res://entities/tree/tree_presenter.gd" id="27_prsntr"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r4rvj"]
 
@@ -48,8 +51,7 @@ size = Vector2(58, 31)
 [node name="Tree" type="Node2D" unique_id=617120509 groups=["tree"]]
 visibility_layer = 2
 script = ExtResource("1_afghl")
-trunk_textures = Array[Texture2D]([ExtResource("2_juvck"), ExtResource("3_5hlbj"), ExtResource("4_bugn8"), ExtResource("5_dsl2o")])
-leaf_textures = Array[Texture2D]([ExtResource("6_50opu"), ExtResource("7_yynoe"), ExtResource("8_vathx")])
+data = ExtResource("2_bugn8")
 
 [node name="TreeTrunk" type="Node2D" parent="." unique_id=1335066236]
 
@@ -104,12 +106,18 @@ volume_db = -8.0
 pitch_scale = 0.85
 max_polyphony = 3
 
+[node name="Presenter" type="Node2D" parent="." unique_id=1234567890]
+script = ExtResource("27_prsntr")
+trunk_textures = Array[Texture2D]([ExtResource("2_juvck"), ExtResource("3_5hlbj"), ExtResource("4_bugn8"), ExtResource("5_dsl2o")])
+leaf_textures = Array[Texture2D]([ExtResource("6_50opu"), ExtResource("7_yynoe"), ExtResource("8_vathx")])
+
 [node name="BranchManager" type="Node2D" parent="." unique_id=1477874640]
 visibility_layer = 2
 script = ExtResource("21_dxtj1")
 branch_sprite = ExtResource("22_ldqvw")
 leaf_sprites = Array[Texture2D]([ExtResource("6_50opu"), ExtResource("7_yynoe"), ExtResource("8_vathx")])
 seed_bundle_scn = ExtResource("23_yv6h6")
+enemy_spawner_scn = ExtResource("25_5hlbj")
 
 [node name="Shop" type="Node2D" parent="." unique_id=261851250 node_paths=PackedStringArray("empty_sfx", "grow_sfx", "zap_sfx")]
 script = ExtResource("24_1dfxv")

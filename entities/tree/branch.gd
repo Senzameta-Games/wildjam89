@@ -26,12 +26,13 @@ func _ready():
 	if tree_node:
 		# Listen for growth to spawn branches
 		tree_node.growth_completed.connect(_on_growth_completed)
+		tree_node.threshold_crossed.connect(_on_threshold_crossed)
 
 func _process(_delta):
 	if not tree_node:
 		return
 	
-	var current_trunk_height = tree_node.current_sections
+	var current_trunk_height = tree_node.target_sections
 	var current_branch_count = active_branches.size()
 	
 	# tree grew taller
@@ -50,6 +51,15 @@ func _on_growth_completed():
 	# only spawn if we haven't already reached the current height
 	if active_branches.size() < tree_node.current_sections:
 		_spawn_branch_at_next_height()
+
+func _on_threshold_crossed(progress: float, direction: int) -> void:
+	if direction > 0:
+		# Growth crossed a threshold upward - consider spawning a branch
+		if active_branches.size() < tree_node.target_sections:
+			if active_branches.size() % 2 == 0:
+				_spawn_branch_at_next_height()
+			else:
+				active_branches.append(null)
 
 func _spawn_branch_at_next_height():
 	# get floor this branch belongs to
@@ -218,5 +228,6 @@ func _animate_branch_in(branch: Node2D):
 	branch.scale = Vector2.ZERO
 	var tween = create_tween().set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	tween.tween_property(branch, "scale", Vector2.ONE, grow_duration)
-	if owner and owner.impulse_grow_sfx:
-		owner.impulse_grow_sfx.play()
+	var sfx = owner.get_node_or_null("SFX/ImpulseGrow")
+	if sfx:
+		sfx.play()

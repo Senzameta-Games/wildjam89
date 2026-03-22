@@ -133,8 +133,10 @@ func _spawn_pickup_at_tree(source_tree: SeedTree) -> void:
 			found_branch = true
 
 	if not found_branch:
-		if source_tree.tree_top:
-			target_pos = source_tree.tree_top.global_position + Vector2(0, -48)
+		var presenter = source_tree.get_node_or_null("Presenter")
+		var tree_top = presenter._tree_top if presenter else null
+		if tree_top:
+			target_pos = tree_top.global_position + Vector2(0, -48)
 		else:
 			target_pos = source_tree.global_position + Vector2(0, -200)
 

@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://cotswcby4pyh4" path="res://entities/enemy/enemy.tscn" id="1_q2vgp"]
 [ext_resource type="Script" uid="uid://yukirjk3qj38" path="res://entities/enemy/variants/beetle.gd" id="2_03o1s"]
 [ext_resource type="PackedScene" uid="uid://dl4yvcpg0vy7w" path="res://entities/enemy/bomb.tscn" id="3_jm03o"]
+[ext_resource type="Resource" path="res://entities/enemy/data/beetle_data.tres" id="4_03o1s"]
 [ext_resource type="Texture2D" uid="uid://ccwedjpnr15k6" path="res://assets/sprites/beetle/throw/beetlethrow1.png" id="4_pmorp"]
 [ext_resource type="Texture2D" uid="uid://b37eof6vt3spi" path="res://assets/sprites/beetle/throw/beetlethrow2.png" id="5_2p581"]
 [ext_resource type="Texture2D" uid="uid://d2ply122vjvvx" path="res://assets/sprites/beetle/throw/beetlethrow3.png" id="6_h3qko"]
@@ -137,9 +138,7 @@ hold_dist = 200.0
 bomb = ExtResource("3_jm03o")
 buffer = 10.0
 throw_arc = -300.0
-enemy_kind = 2
-speed = 80.0
-seed_value = 5
+data = ExtResource("4_03o1s")
 
 [node name="Sprite" parent="." index="0" unique_id=1350396190]
 position = Vector2(0, 7)
