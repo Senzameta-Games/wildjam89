@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="AbilityData" format=3 uid="uid://j40y1om3nxhi"]
+
+[ext_resource type="Script" uid="uid://bkh7gmk4irj8t" path="res://systems/abilities/ability_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+ability_key = "aim_stomp"
+input_hint = "RMB or LT"

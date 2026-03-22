@@ -142,6 +142,19 @@ func _read_json(path: String) -> Dictionary:
 
 # ---- Debug ----
 
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("debug_clear_saves"):
+		debug_clear_saves()
+
+func debug_clear_saves() -> void:
+	delete_run_save()
+	if FileAccess.file_exists(META_FILE):
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(META_FILE))
+		print("[Saves] meta save deleted")
+	Tutorial.reset_tutorial()
+	print("[Saves] all saves cleared — reloading scene")
+	get_tree().reload_current_scene()
+
 func debug_print_run_save() -> void:
 	if not FileAccess.file_exists(RUN_FILE):
 		print("[Saves] no run save on disk")

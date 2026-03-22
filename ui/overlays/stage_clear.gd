@@ -9,30 +9,7 @@ signal screen_dismissed
 @onready var item_desc_label: Label = $Content/StageClearContainer/Ability/Labels/ItemDesc
 @onready var flavor_text_label: Label = $Content/StageClearContainer/YouGotTheThing
 
-# Icon Map
-@export var ability_icons: Dictionary = {
-	"aim_stomp": preload("res://assets/sprites/items/aimstomp/stopwatch.png"),
-	"double_jump": preload("res://assets/sprites/items/doublejump/feather.png"),
-	"pesticide": preload("res://assets/sprites/items/pesticide/pesticide.png")
-}
-
 @export var placeholder_icon: Texture2D
-
-# Text Map
-var ability_text: Dictionary = {
-	"aim_stomp": {
-		"name": "Stopwatch (RMB or LT)",
-		"desc": "While airborne, Fiora can aim with focus."
-	},
-	"double_jump": {
-		"name": "Feather",
-		"desc": "Fiora gains a second jump."
-	},
-	"pesticide": {
-		"name": "Bug Zapper",
-		"desc": "Lightning strikes 1 enemy / 10 seeds deposited."
-	}
-}
 
 func _ready() -> void:
 	visible = false
@@ -42,26 +19,21 @@ func _ready() -> void:
 func show_screen(key: String = "") -> void:
 	get_tree().paused = true
 	
-	# 1. Update Icon
-	if ability_icons.has(key):
-		reward_icon.texture = ability_icons[key]
+	var collectible := Abilities.get_collectible(key)
+	var ability := Abilities.get_ability(key)
+
+	if collectible:
+		reward_icon.texture = collectible.icon if collectible.icon else placeholder_icon
+		item_name_label.text = collectible.display_name
+		if ability and ability.input_hint != "":
+			item_name_label.text += " (" + ability.input_hint + ")"
+		item_desc_label.text = collectible.description
+		flavor_text_label.text = collectible.flavor_text
 	else:
 		reward_icon.texture = placeholder_icon
-	
-	# 2. Update Text
-	var display_name = "Item"
-	var display_desc = "You found something new!"
-	
-	if ability_text.has(key):
-		var info = ability_text[key]
-		display_name = info["name"]
-		display_desc = info["desc"]
-	
-	# Update the labels
-	item_name_label.text = display_name
-	item_desc_label.text = display_desc
-	
-	flavor_text_label.text = "You could use the " + display_name + " for something..."
+		item_name_label.text = "Item"
+		item_desc_label.text = "You found something new!"
+		flavor_text_label.text = ""
 	
 	visible = true
 	

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="CollectibleData" format=3 uid="uid://dkvvgju5unsmy"]
+
+[ext_resource type="Script" uid="uid://dsis3p1xe6dpj" path="res://systems/abilities/collectible_data.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://d2jlve8yunyeh" path="res://assets/sprites/items/golden_leaf/goalsprite1.png" id="2"]
+[ext_resource type="PackedScene" uid="uid://dcnnp854ry5pc" path="res://entities/goal/goldenleaf.tscn" id="2_jaqpl"]
+
+[resource]
+script = ExtResource("1")
+collectible_key = "golden_leaf"
+display_name = "Golden Leaf"
+description = "Take this gift and cherish it."
+flavor_text = "The trees marvel at the ingenuity of the raccoon."
+icon = ExtResource("2")
+pickup_scene = ExtResource("2_jaqpl")
+grant_type = 1

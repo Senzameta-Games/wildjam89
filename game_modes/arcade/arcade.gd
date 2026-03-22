@@ -9,14 +9,6 @@ class_name Arcade
 @export var next_stage_btn_scn: PackedScene
 @export var tree_scn: PackedScene = preload("res://entities/tree/tree.tscn")
 @export var acorn_scn: PackedScene = preload("res://entities/tree/acorn_seed.tscn")
-@export var golden_leaf_scn: PackedScene = preload("res://entities/goal/goldenleaf.tscn")
-
-var goal_scenes: Dictionary = {
-	"aim_stomp": preload("res://entities/goal/stopwatch.tscn"),
-	"double_jump": preload("res://entities/goal/feather.tscn"),
-	"pesticide": preload("res://entities/goal/pesticide.tscn"),
-	"golden_leaf": preload("res://entities/goal/goldenleaf.tscn")
-}
 
 var current_reward_key: String = ""
 
@@ -89,31 +81,26 @@ func _on_tree_slot_freed(slot_index: int) -> void:
 		call_deferred("_spawn_new_tree")
 
 func _on_tree_growth_completed(source_tree: SeedTree) -> void:
-
 	Session.register_tree_grown()
 	if Session.check_win_con():
 		current_reward_key = "golden_leaf"
 	else:
 		var params = Session.get_stage_params()
 		current_reward_key = params["ability_reward"]
+	_spawn_pickup_at_tree(source_tree)
 
-	var goal_scn = null
+func _spawn_pickup_at_tree(source_tree: SeedTree) -> void:
+	var collectible := Abilities.get_collectible(current_reward_key)
+	if not collectible or not collectible.pickup_scene:
+		push_warning("Arcade: No collectible or pickup scene for key: " + current_reward_key)
+		return
 
-	if current_reward_key == "golden_leaf" and golden_leaf_scn:
-		goal_scn = golden_leaf_scn
-	elif goal_scenes.has(current_reward_key):
-		goal_scn = goal_scenes[current_reward_key]
-	else:
-		goal_scn = goal_scenes.values().pick_random()
-
-	# Instantiate Goal
-	var goal = goal_scn.instantiate()
+	var goal = collectible.pickup_scene.instantiate()
 	add_child(goal)
 	goal.visible = true
 	goal.z_index = 100
 	goal.goal_reached.connect(_on_reward_collected)
 
-	# Try to spawn on a branch first
 	var target_pos = Vector2.ZERO
 	var found_branch = false
 
@@ -146,7 +133,6 @@ func _on_tree_growth_completed(source_tree: SeedTree) -> void:
 			found_branch = true
 
 	if not found_branch:
-		# Use the visual TreeTop node to find the actual height
 		if source_tree.tree_top:
 			target_pos = source_tree.tree_top.global_position + Vector2(0, -48)
 		else:
@@ -263,6 +249,7 @@ func _apply_run_restore(data: Dictionary) -> void:
 			if spawner.has_method("set_spawn_interval"):
 				spawner.set_spawn_interval(params.spawn_interval)
 
+	var respawned_reward := false
 	for tree_data in data.get("trees", []):
 		var new_tree: SeedTree = tree_scn.instantiate()
 		add_child(new_tree)
@@ -274,6 +261,15 @@ func _apply_run_restore(data: Dictionary) -> void:
 			new_tree.growth_completed.connect(_on_tree_growth_completed.bind(new_tree))
 		if not new_tree.slot_freed.is_connected(_on_tree_slot_freed):
 			new_tree.slot_freed.connect(_on_tree_slot_freed)
+
+		# Re-drop a pickup if this tree already yielded its reward but
+		# the player hadn't collected it yet when the game was saved.
+		if not respawned_reward and new_tree.reward_spawned:
+			var reward_uncollected := current_reward_key == "golden_leaf" \
+				or (current_reward_key != "" and not Abilities.has_seen_ability(current_reward_key))
+			if reward_uncollected:
+				_spawn_pickup_at_tree(new_tree)
+				respawned_reward = true
 
 	if music:
 		music.play()

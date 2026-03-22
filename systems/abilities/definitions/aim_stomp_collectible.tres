@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="CollectibleData" format=3 uid="uid://diwm7xknocrij"]
+
+[ext_resource type="Script" uid="uid://dsis3p1xe6dpj" path="res://systems/abilities/collectible_data.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://2jlluw0iil3t" path="res://assets/sprites/items/aimstomp/stopwatch.png" id="2"]
+[ext_resource type="PackedScene" uid="uid://bih1frl4w616l" path="res://entities/goal/stopwatch.tscn" id="2_en087"]
+
+[resource]
+script = ExtResource("1")
+collectible_key = "aim_stomp"
+display_name = "Stopwatch"
+description = "While airborne, Fiora can aim with focus."
+flavor_text = "You could use the Stopwatch for something..."
+icon = ExtResource("2")
+pickup_scene = ExtResource("2_en087")

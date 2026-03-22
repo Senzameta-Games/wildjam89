@@ -2,14 +2,20 @@
 
 [ext_resource type="PackedScene" uid="uid://bne58sbwdhc4l" path="res://ui/overlays/stage_clear.tscn" id="1_fxqpu"]
 [ext_resource type="FontFile" uid="uid://bxn105qovmxyq" path="res://assets/fonts/Ruler 9.ttf" id="2_oaibt"]
+[ext_resource type="Script" uid="uid://d1sl3reli2sg5" path="res://ui/overlays/game_clear.gd" id="3_gcgd"]
+[ext_resource type="Texture2D" uid="uid://d2jlve8yunyeh" path="res://assets/sprites/items/golden_leaf/goalsprite1.png" id="3_gvtxw"]
 
 [node name="GameClear" unique_id=1859752972 instance=ExtResource("1_fxqpu")]
+script = ExtResource("3_gcgd")
 
 [node name="StageClear" parent="Content/StageClearContainer" parent_id_path=PackedInt32Array(1374972149) index="0" unique_id=482342140]
 text = "ALL GEAR SCAVENGED"
 
 [node name="YouGotTheThing" parent="Content/StageClearContainer" parent_id_path=PackedInt32Array(1374972149) index="1" unique_id=656969522]
 text = "The trees marvel at the ingenuity of the raccoon"
+
+[node name="RewardIcon" parent="Content/StageClearContainer/Ability/Margin" parent_id_path=PackedInt32Array(2120832602) index="0" unique_id=1408098153]
+texture = ExtResource("3_gvtxw")
 
 [node name="RestartButton" type="Button" parent="Content/StageClearContainer" parent_id_path=PackedInt32Array(1374972149) index="3" unique_id=617270062]
 layout_mode = 2

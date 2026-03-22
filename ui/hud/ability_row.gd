@@ -3,12 +3,6 @@ class_name AbilityContainer
 
 @onready var ability_icon: TextureRect = $Abilities/AbilityIcon
 
-@export var ability_icons: Dictionary = {
-	"aim_stomp": preload("res://assets/sprites/items/aimstomp/stopwatch.png"),
-	"double_jump": preload("res://assets/sprites/items/doublejump/feather.png"),
-	"pesticide": preload("res://assets/sprites/items/pesticide/pesticide.png")
-}
-
 var active_ability: String = ""
 var ability_timer: float = 0.0
 const BASE_ABILITY_DURATION: float = 15.0
@@ -39,17 +33,19 @@ func _on_ability_collected(ability_key: String) -> void:
 	activate_ability(ability_key)
 
 func activate_ability(ability_key: String) -> void:
-	if not ability_icons.has(ability_key):
+	var collectible := Abilities.get_collectible(ability_key)
+	var ability := Abilities.get_ability(ability_key)
+	if not collectible:
 		return
-	
+
 	active_ability = ability_key
-	
-	# Apply RED FLOWER POWERUP BONUS to duration
+
+	var base_dur := ability.base_duration if ability else BASE_ABILITY_DURATION
 	var bonus_duration = FlowerManager.get_flower_powerup_bonus()
-	ability_timer = BASE_ABILITY_DURATION + bonus_duration
-	
+	ability_timer = base_dur + bonus_duration
+
 	if ability_icon:
-		ability_icon.texture = ability_icons[ability_key]
+		ability_icon.texture = collectible.icon
 		ability_icon.visible = true
 		
 		# Pulse animation to show it's active
