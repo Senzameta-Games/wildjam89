@@ -68,3 +68,5 @@ position = Vector2(640, 284)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/To_Run" unique_id=325928638]
 shape = SubResource("RectangleShape2D_qiewu")
+
+[node name="EnterSpawn" type="Marker2D" parent="Doors/To_Run" unique_id=729753699]
