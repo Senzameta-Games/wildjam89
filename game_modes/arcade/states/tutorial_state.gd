@@ -1,5 +1,5 @@
 class_name TutorialState
-extends GameState
+extends ModeState
 
 func enter() -> void:
 	if Tutorial.tutorial_completed:

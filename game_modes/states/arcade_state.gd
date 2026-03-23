@@ -1,5 +1,5 @@
 class_name ArcadeState
-extends GameState
+extends ModeState
 
 func enter() -> void:
 	if Session.game_has_started:

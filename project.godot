@@ -21,6 +21,7 @@ config/features=PackedStringArray("4.6", "Forward Plus")
 [autoload]
 
 Session="*uid://bf76ck0n0bg0w"
+GameState="*res://systems/GameState.gd"
 Economy="*uid://ded67l5bkxls7"
 Abilities="*uid://orx5ypewgc8m"
 Tutorial="*res://systems/tutorial/TutorialManager.gd"

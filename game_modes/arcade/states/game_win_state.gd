@@ -1,5 +1,5 @@
 class_name GameWinState
-extends GameState
+extends ModeState
 
 func enter() -> void:
 	Saves.delete_run_save()

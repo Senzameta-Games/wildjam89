@@ -1,5 +1,5 @@
 class_name TitleScreenState
-extends GameState
+extends ModeState
 
 func enter() -> void:
 	var ui := context.get_node("TitleScreen") as CanvasLayer

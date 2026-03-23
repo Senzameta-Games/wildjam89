@@ -1,17 +1,17 @@
-class_name GameStateMachine
+class_name ModeStateMachine
 extends Node
 
-@export var initial_state: GameState
+@export var initial_state: ModeState
 @export var debug_transitions: bool = false
 
-var current_state: GameState
+var current_state: ModeState
 var _states: Dictionary = {}
 
 func _ready() -> void:
 	await owner.ready
 
 	for child in get_children():
-		if child is GameState:
+		if child is ModeState:
 			_states[child.get_script()] = child
 			child.context = owner
 			child.transition_requested.connect(_on_transition_requested)
@@ -27,18 +27,18 @@ func _physics_process(delta: float) -> void:
 	if current_state:
 		current_state.physics_update(delta)
 
-func _on_transition_requested(from: GameState, to_state_type: Script) -> void:
+func _on_transition_requested(from: ModeState, to_state_type: Script) -> void:
 	if from != current_state:
 		return
 
-	var new_state: GameState = _states.get(to_state_type)
+	var new_state: ModeState = _states.get(to_state_type)
 	if not new_state:
-		push_warning("GameStateMachine: No state found for %s" % to_state_type)
+		push_warning("ModeStateMachine: No state found for %s" % to_state_type)
 		return
 
 	_transition_to(new_state)
 
-func _transition_to(new_state: GameState) -> void:
+func _transition_to(new_state: ModeState) -> void:
 	if current_state:
 		current_state.exit()
 

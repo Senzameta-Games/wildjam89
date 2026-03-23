@@ -25,7 +25,7 @@
 [ext_resource type="FontFile" uid="uid://cycbiy0d7iv67" path="res://assets/fonts/Tiny5-Regular.ttf" id="25_t51ir"]
 [ext_resource type="Texture2D" uid="uid://bnrlv6xwr6dd8" path="res://assets/sprites/flower/flowerblue.png" id="26_t51ir"]
 [ext_resource type="Script" uid="uid://chy5vii7fk6sl" path="res://systems/MusicPlayer.gd" id="26_u5w0m"]
-[ext_resource type="Script" uid="uid://bg2jld7ixu7xe" path="res://game_modes/states/game_state_machine.gd" id="27_87pmf"]
+[ext_resource type="Script" uid="uid://bg2jld7ixu7xe" path="res://game_modes/states/mode_state_machine.gd" id="27_87pmf"]
 [ext_resource type="Script" uid="uid://ch45bl5xagp3v" path="res://game_modes/arcade/states/tutorial_state.gd" id="28_87pmf"]
 [ext_resource type="AudioStream" uid="uid://ba1w3s3lkrw5e" path="res://assets/sounds/music/StompTreeMaster.wav" id="28_fhw5o"]
 [ext_resource type="Script" uid="uid://cpi5nl1c5sn4i" path="res://game_modes/arcade/states/play_state.gd" id="29_hv3u0"]

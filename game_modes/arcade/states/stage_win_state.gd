@@ -1,5 +1,5 @@
 class_name StageWinState
-extends GameState
+extends ModeState
 
 func enter() -> void:
 	var scn := context.get_node("StageClear")

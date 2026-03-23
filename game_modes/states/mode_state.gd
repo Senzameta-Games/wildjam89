@@ -1,8 +1,8 @@
-class_name GameState
+class_name ModeState
 extends Node
 
 var context: Node
-signal transition_requested(from: GameState, to_state_type: Script)
+signal transition_requested(from: ModeState, to_state_type: Script)
 
 func enter() -> void:
 	pass

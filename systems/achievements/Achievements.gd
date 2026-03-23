@@ -95,8 +95,8 @@ func _check_threshold(achievement: AchievementData) -> bool:
 			return false
 
 func _check_tiers(achievement: AchievementData) -> bool:
-	var current_tier := tier_progress.get(achievement.achievement_id, -1)
-	var current_value := _get_condition_value(achievement)
+	var current_tier = tier_progress.get(achievement.achievement_id, -1)
+	var current_value = _get_condition_value(achievement)
 
 	# Find the highest tier whose threshold we meet
 	var highest_qualifying := -1
@@ -142,7 +142,7 @@ func unlock_achievement(achievement_id: String) -> void:
 		print("Achievement Unlocked: ", achievement.achievement_name)
 	else:
 		# Progressive: emit for each new tier; mark fully unlocked once all tiers done
-		var current_tier := tier_progress.get(achievement_id, -1)
+		var current_tier = tier_progress.get(achievement_id, -1)
 		if current_tier >= achievement.tiers.size() - 1:
 			# All tiers complete — mark as fully unlocked (idempotent)
 			if achievement_id not in unlocked_achievements:

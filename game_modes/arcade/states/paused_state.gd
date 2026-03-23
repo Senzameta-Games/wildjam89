@@ -1,5 +1,5 @@
 class_name PausedState
-extends GameState
+extends ModeState
 
 var _menu: CanvasLayer
 
