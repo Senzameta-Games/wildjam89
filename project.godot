@@ -26,9 +26,11 @@ Abilities="*uid://orx5ypewgc8m"
 Tutorial="*res://systems/tutorial/TutorialManager.gd"
 MusicPlayer="*res://systems/MusicPlayer.gd"
 FlowerManager="*res://systems/FlowerManager.gd"
+Magnetism="*res://systems/Magnetism.gd"
 Achievements="*res://systems/achievements/Achievements.gd"
 Main="*uid://c5iaet4w5e306"
 Saves="*res://systems/Saves.gd"
+TimeScaleManager="*res://systems/TimeScaleManager.gd"
 
 [display]
 

@@ -1,7 +1,6 @@
 extends State
 class_name AimState
 
-var time_slowed: bool = false
 @export var max_aim_dur: float = 0.5
 @export_range(0.0, 1.0) var velocity_preserved: float = 0.4
 @export var tether_radius: float = 40
@@ -14,11 +13,9 @@ func enter() -> void:
 	# store position on entering
 	aim_pos = player.position
 	aim_timer = 0.0
-	player.bounce_recovering = false
 	# hold in air briefly
 	player.velocity *= velocity_preserved
-	player.set_time_scale(0.2)
-	time_slowed = true
+	TimeScaleManager.push(&"aim", 0.2, TimeScaleManager.PRIORITY_AIM)
 	if MusicPlayer:
 		MusicPlayer.fade_to_aim_slowmo()
 	# show visuals
@@ -29,10 +26,7 @@ func enter() -> void:
 func exit() -> void:
 	# enter cooldown
 	player.aim_cooldown = cooldown_dur
-	# sanity check
-	if time_slowed:
-		player.set_time_scale(1.0)
-		time_slowed = false
+	TimeScaleManager.pop(&"aim")
 	if MusicPlayer:
 		MusicPlayer.fade_to_normal()
 	# hide visuals

@@ -106,11 +106,9 @@ func _spawn_pickup_at_tree(source_tree: SeedTree) -> void:
 	var target_pos = Vector2.ZERO
 	var found_branch = false
 
-	var branch_manager = source_tree.get_node_or_null("BranchManager")
+	var branch_manager = source_tree.get_node_or_null("LimbManager")
 	if branch_manager:
-		var valid_branches = []
-		for b in branch_manager.active_branches:
-			if is_instance_valid(b): valid_branches.append(b)
+		var valid_branches = branch_manager.get_limbs_sorted()
 
 		# Need at least 3 branches to exclude top 2 and still have options
 		if valid_branches.size() >= 3:

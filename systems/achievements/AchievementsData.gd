@@ -19,3 +19,8 @@ enum ConditionType {
 
 @export var threshold: int = 1  # For count-based achievements
 @export var time_window: float = 2.0  # For multi-stomp achievements (seconds)
+
+@export_category("Progressive Tiers")
+## If populated, this is a progressive achievement. The top-level threshold is ignored;
+## each tier defines its own threshold. Tiers should be ordered lowest → highest.
+@export var tiers: Array[AchievementTier] = []

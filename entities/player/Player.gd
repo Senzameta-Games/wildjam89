@@ -10,68 +10,49 @@ class_name Player
 @export var seed_scn: PackedScene
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
-@export_category("Gameplay")
-var can_interact: bool
-const DEPOSIT_RANGE: float = 80.0
-@export_group("Health")
+@export_category("Movement")
+@export var move_speed: float
+@export var move_acceleration: float
+@export var move_friction: float
+@export var air_drag: float
+@export var jump_velocity: float
+@export var stomp_velocity: float
+var is_stomping: bool
+var is_in_hit_stop: bool = false
+var aim_cooldown: float
+var jumps_available: int = 0
+
+@export_category("Combat")
+@export var seeds_lost: int = 1
+const HURT_COOLDOWN_DURATION: float = 2.0
+# TODO: Remove — vestigial from jam build; serialized but has no gameplay effect
 var current_health: int
 @export var max_health: int
-var delta_health: int
-var is_alive: bool
-var is_low_health: bool
-var is_dead: bool
-@export var seeds_lost: int = 1
 var last_damage_pos: Vector2 = Vector2.ZERO
 var hurt_cooldown: float = 0.0
-const HURT_COOLDOWN_DURATION: float = 2.0
-@export_category("Aim Visuals")
+
+@export_category("Aim")
 @export var aim_max_height: float = 360.0
 @export var aim_min_width: float = 0.2
 @export var aim_max_width: float = 1.0
 @export var sprite_offset_right: float = -4.0
 @export var sprite_offset_left: float = 0.0
 
-@export_group("Movement")
-@export var move_speed: float
-@export var max_move_speed: float
-@export var move_acceleration: float
-@export var move_friction: float
-@export var air_drag: float
-var is_moving: bool
-var is_midair: bool
-var is_stomping: bool
-var stomp_grace_period: float = 0.0  # Brief window after stomp where multi-stomps work
-const STOMP_GRACE_DURATION: float = 0.15
-var bounce_recovering: bool = false
-var pending_bounce: bool = false
-var is_in_hit_stop: bool = false
-# NEW: Track if we need to skip gravity this frame
-var _skip_gravity_once: bool = false
-
-@export var jump_velocity: float
-@export var stomp_velocity: float
-var aim_cooldown: float
-var can_aim: bool
-var jumps_available: int = 0
-
-@export_group("Abilities")
-@export var slow_aim: bool = false
-@export var double_jump: bool = false
+const DEPOSIT_RANGE: float = 80.0
 
 # Signals
-# General
 signal just_spawned
-signal entered_interact_area
-signal exited_interact_area
 # Combat
 signal just_hurt
 # Movement
 signal just_jumped
 # Action
 signal just_stomped
-signal just_interacted
+# Interaction SM triggers
+signal interact_pressed
+signal interact_released
 
-# making sfx references props of player to be accessed in states
+# SFX node references accessed by states
 @onready var sfx_jump: AudioStreamPlayer2D = $SFX/Jump
 @onready var sfx_step: AudioStreamPlayer2D = $SFX/Step
 @onready var sfx_land: AudioStreamPlayer2D = $SFX/Land
@@ -83,6 +64,18 @@ signal just_interacted
 
 @onready var aim_raycast: RayCast2D = $AimRay
 @onready var aim_visual: ColorRect = $AimVisual
+@onready var interaction_sm: InteractionStateMachine = $InteractionStateMachine
+
+func get_interaction_constraint() -> Dictionary:
+	if interaction_sm:
+		return interaction_sm.get_movement_constraint()
+	return {
+		"allow_movement": true,
+		"speed_multiplier": 1.0,
+		"allow_jump": true,
+		"allow_stomp": true,
+		"allow_aim": true,
+	}
 
 func _ready() -> void:
 	Saves.register_player(self)
@@ -113,42 +106,34 @@ func _physics_process(delta: float) -> void:
 		aim_cooldown -= delta
 	if hurt_cooldown > 0:
 		hurt_cooldown -= delta
-	if stomp_grace_period > 0:
-		stomp_grace_period -= delta
+	if Input.is_action_just_pressed("interact"):
+		interact_pressed.emit()
+	if Input.is_action_just_released("interact"):
+		interact_released.emit()
 
-func apply_gravity(delta) -> void:
-	# Skip gravity for one frame after bounce to preserve bounce velocity
-	if _skip_gravity_once:
-		_skip_gravity_once = false
-		return
-	
+func apply_gravity(delta: float) -> void:
 	if not is_on_floor():
 		velocity.y += gravity * delta
-		
+
 func move(dir: float, delta: float) -> void:
-	# we are passing movement input
 	if dir:
 		velocity.x = move_toward(velocity.x, dir * move_speed, move_acceleration * delta)
-	# we are not passing movement input	
 	else:
-		# we stopped moving on the ground
 		if is_on_floor():
 			velocity.x = move_toward(velocity.x, 0, move_friction * delta)
-		# we stopped moving in the air
 		else:
 			velocity.x = move_toward(velocity.x, 0, air_drag * delta)
 
 func jump(is_double_jump: bool = false) -> void:
 	velocity.y = -jump_velocity
-	
+
 	if is_double_jump:
 		velocity.y *= 1.1
 		var facing = -1.0 if player_sprite.flip_h else 1.0
 		velocity.x += facing * 40.0
-	
+
 	jumps_available -= 1
 	just_jumped.emit()
-
 
 func stomp() -> void:
 	velocity.y = stomp_velocity
@@ -157,48 +142,28 @@ func stomp() -> void:
 	just_stomped.emit()
 
 func bounce() -> void:
-	if pending_bounce: 
-		return
-	pending_bounce = true
-	_perform_bounce()
-
-func _perform_bounce() -> void:
-	
 	sfx_stompimpact.play()
 	aim_cooldown = 0.5
-	
-	if is_stomping:
-		velocity.y = -jump_velocity * 1.1
-		is_stomping = false
-		bounce_recovering = true
-		stomp_grace_period = STOMP_GRACE_DURATION  # Allow multi-stomps briefly
-		
-		get_tree().call_group("camera", "apply_shake", Vector2(1, 32), 1.5)
-		hit_stop(0.1)
-	else:
-		velocity.y = -jump_velocity * 0.7
-	
-	get_tree().create_timer(0.1).timeout.connect(func(): pending_bounce = false)
+	velocity.y = -jump_velocity * 1.1
+	is_stomping = false
+	get_tree().call_group("camera", "apply_shake", Vector2(1, 32), 1.5)
+	hit_stop(0.1)
 
 func hit_stop(duration: float) -> void:
-	if is_in_hit_stop: return
+	if is_in_hit_stop:
+		return
 	is_in_hit_stop = true
-	
-	var old_scale = Engine.time_scale
-	Engine.time_scale = 0.01
 
+	TimeScaleManager.push(&"hit_stop", 0.01, TimeScaleManager.PRIORITY_HIT_STOP)
 	await get_tree().create_timer(duration, true, false, true).timeout
-	
-	Engine.time_scale = old_scale
+	TimeScaleManager.pop(&"hit_stop")
+
 	is_in_hit_stop = false
-	
-func interact() -> void:
-	just_interacted.emit()
 
 func hurt(damage_source_pos: Vector2) -> void:
 	if hurt_cooldown > 0:
 		return
-	
+
 	hurt_cooldown = HURT_COOLDOWN_DURATION
 	last_damage_pos = damage_source_pos
 	just_hurt.emit()
@@ -212,37 +177,30 @@ func lose_seeds(amount: int) -> void:
 	if Economy.get_balance() > 0:
 		var actual_loss = min(amount, Economy.get_balance())
 		Economy.add_seeds(-actual_loss)
-		
+
 		if seed_scn:
+			var spawn_pos_val := global_position
 			for i in range(actual_loss):
-				var lost_seed = seed_scn.instantiate()
-				get_tree().current_scene.add_child(lost_seed)
-				lost_seed.global_position = global_position
-				if lost_seed.has_method("setup_loss"):
-					lost_seed.setup_loss()
+				_deferred_spawn_loss_seed.call_deferred(spawn_pos_val)
 
-func _on_entered_interact_area():
-	entered_interact_area.emit()
-	can_interact = true
-
-func _on_exited_interact_area():
-	exited_interact_area.emit()
-	can_interact = false
+func _deferred_spawn_loss_seed(spawn_pos_val: Vector2) -> void:
+	var lost_seed = seed_scn.instantiate()
+	get_tree().current_scene.add_child(lost_seed)
+	lost_seed.global_position = spawn_pos_val
+	lost_seed.setup_loss()
 
 func update_facing_dir(dir: float) -> void:
 	if dir > 0:
-		# Face Right
 		player_sprite.flip_h = false
 		player_sprite.position.x = sprite_offset_right
 	elif dir < 0:
-		# Face Left
 		player_sprite.flip_h = true
 		player_sprite.position.x = sprite_offset_left
 
 func update_aim_visual() -> void:
 	var target_y: float = 360.0
 	var current_dist: float
-	
+
 	if aim_raycast.is_colliding():
 		var collision = aim_raycast.get_collision_point()
 		target_y = to_local(collision).y
@@ -250,31 +208,24 @@ func update_aim_visual() -> void:
 	else:
 		# Fallback if no collision (aiming at sky/nothing)
 		current_dist = aim_max_height
-	
+
 	aim_visual.size.y = target_y
 	var dist_factor = clampf(current_dist / aim_max_height, 0.0, 1.0)
 	var new_width = lerp(aim_max_width, aim_min_width, dist_factor)
 	(aim_visual.material as ShaderMaterial).set_shader_parameter("width_scale", new_width)
 
-func set_time_scale(target_scale: float) -> void:
-	Engine.time_scale = target_scale
-
 func serialize() -> Dictionary:
 	return {
-		"current_health": current_health,
-		"max_health": max_health,
 		"position_x": global_position.x,
 		"position_y": global_position.y,
-		"slow_aim": slow_aim,
-		"double_jump": double_jump,
 	}
 
 func deserialize(data: Dictionary) -> void:
+	# Health fields not saved — vestigial. Read with defaults for old save compatibility.
 	current_health = data.get("current_health", max_health)
 	max_health = data.get("max_health", max_health)
 	global_position = Vector2(
 		data.get("position_x", spawn_pos.x),
 		data.get("position_y", spawn_pos.y)
 	)
-	slow_aim = data.get("slow_aim", false)
-	double_jump = data.get("double_jump", false)
+	# slow_aim / double_jump — removed; ignored here for old save compatibility.

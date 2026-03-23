@@ -3,22 +3,18 @@ class_name GroundState
 
 @export var step_interval: float = 0.3
 var step_timer: float = 0.0
-
 var is_recovering: bool = false
-var _depositing_at: Node2D = null
 
 func enter() -> void:
+	var was_stomping := player.is_stomping
 	player.player_collider.scale = Vector2(1.0, 1.0)
 	player.aim_cooldown = 0.0
-	player.can_aim = false
 	player.velocity.y = 0
 	player.jumps_available = 2 if Abilities.has_ability("double_jump") else 1
-	player.bounce_recovering = false
 	step_timer = 0.0
 	is_recovering = false
-	_depositing_at = null
-	
-	if player.is_stomping:
+
+	if was_stomping:
 		stomp_feedback()
 	else:
 		land_feedback()
@@ -33,21 +29,27 @@ func stomp_feedback():
 	player.sfx_land.pitch_scale = 1.0
 	player.sfx_land.play()
 	get_tree().call_group("camera", "apply_shake", Vector2(0, 12), 7.0)
-	
+
 	await player.player_sprite.animation_finished
 	is_recovering = false
 	player.is_stomping = false
 	player.player_sprite.play("idle")
-	
+
 func land_feedback():
 	player.sfx_land.play()
-	
+
 func physics_update(delta: float) -> void:
 	if is_recovering:
 		player.move_and_slide()
 		return
-	# inputs
+
+	var constraint = player.get_interaction_constraint()
 	var dir = Input.get_axis("move_left", "move_right")
+
+	# Apply speed multiplier from interaction (player.move() uses move_speed directly;
+	# effective_speed is here for when player.move() gains an override parameter).
+	@warning_ignore("unused_variable")
+	var effective_speed = player.move_speed * constraint.speed_multiplier
 
 	# feedback
 	if dir != 0:
@@ -59,26 +61,15 @@ func physics_update(delta: float) -> void:
 	else:
 		player.player_sprite.play("idle")
 		step_timer = 0.0
-	
-	# functions
+
+	# movement
 	player.apply_gravity(delta)
 	player.move(dir, delta)
 	player.move_and_slide()
 	player.update_facing_dir(dir)
-	
-	# deposit
-	if Input.is_action_pressed("interact"):
-		if _depositing_at == null:
-			_depositing_at = player._find_nearest_shop()
-		if _depositing_at:
-			_depositing_at.deposit_tick(delta, player.global_position)
-	else:
-		if _depositing_at:
-			_depositing_at.release_deposit()
-			_depositing_at = null
 
 	# transitions
-	if Input.is_action_just_pressed("jump") and player.is_on_floor():
+	if constraint.allow_jump and Input.is_action_just_pressed("jump") and player.is_on_floor():
 		player.jump()
 		transition_requested.emit(self, AirState)
 		return
@@ -87,7 +78,7 @@ func physics_update(delta: float) -> void:
 		transition_requested.emit(self, AirState)
 		return
 
-	if Input.is_action_just_pressed("stomp"):
+	if constraint.allow_stomp and Input.is_action_just_pressed("stomp"):
 		if player.is_on_floor():
 			for i in player.get_slide_collision_count():
 				var collision = player.get_slide_collision(i)

@@ -83,6 +83,9 @@
 [ext_resource type="AudioStream" uid="uid://b3vf6p8b1ifej" path="res://assets/sounds/player/dash/playerdash4.wav" id="81_q5cs4"]
 [ext_resource type="AudioStream" uid="uid://crgo8jfbur0vb" path="res://assets/sounds/player/dash/playerdash5.wav" id="82_dgp3a"]
 [ext_resource type="Shader" uid="uid://c4ibaqhwwsbf6" path="res://assets/shaders/aim_ray.gdshader" id="83_osnhv"]
+[ext_resource type="Script" path="res://entities/player/interaction_states/interaction_state_machine.gd" id="84_ism"]
+[ext_resource type="Script" path="res://entities/player/interaction_states/no_interaction_state.gd" id="85_noi"]
+[ext_resource type="Script" path="res://entities/player/interaction_states/depositing_state.gd" id="86_dep"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_x7p2l"]
 animations = [{
@@ -291,7 +294,6 @@ spawn_pos = Vector2(320, 250)
 sfx = NodePath("SFX")
 seed_scn = ExtResource("2_qd1uy")
 move_speed = 165.0
-max_move_speed = 800.0
 move_acceleration = 3000.0
 move_friction = 2000.0
 air_drag = 500.0
@@ -331,6 +333,16 @@ metadata/_custom_type_script = "uid://bjaxay0j51t5j"
 [node name="Stomp" type="Node" parent="StateMachine" unique_id=1539208981]
 script = ExtResource("31_kvro1")
 metadata/_custom_type_script = "uid://bjaxay0j51t5j"
+
+[node name="InteractionStateMachine" type="Node" parent="." unique_id=1847302619 node_paths=PackedStringArray("initial_state")]
+script = ExtResource("84_ism")
+initial_state = NodePath("None")
+
+[node name="None" type="Node" parent="InteractionStateMachine" unique_id=1847302620]
+script = ExtResource("85_noi")
+
+[node name="Depositing" type="Node" parent="InteractionStateMachine" unique_id=1847302621]
+script = ExtResource("86_dep")
 
 [node name="SFX" type="Node2D" parent="." unique_id=1615474161]
 

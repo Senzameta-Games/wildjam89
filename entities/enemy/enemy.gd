@@ -126,7 +126,7 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 		return
 	if (body != self) and body.is_in_group("player"):
 		var is_above = body.global_position.y < (global_position.y - 8.0)
-		var is_stomp_active = body.get("is_stomping") or body.get("stomp_grace_period") > 0
+		var is_stomp_active: bool = body.get("is_stomping")
 		if is_stomp_active and is_above:
 			if body.has_method("bounce"):
 				body.bounce()
@@ -180,16 +180,14 @@ func drop_seed() -> void:
 
 func _spawn_visual_seed() -> void:
 	if not seed_scn: return
+	_deferred_spawn_seed.call_deferred(global_position)
+
+func _deferred_spawn_seed(spawn_pos: Vector2) -> void:
 	var new_seed = seed_scn.instantiate()
 	get_tree().current_scene.add_child(new_seed)
-	new_seed.global_position = global_position
+	new_seed.global_position = spawn_pos
 	new_seed.visible = true
-	var player = get_tree().get_first_node_in_group("player")
-	if player:
-		new_seed.setup(player)
-	var sfx = new_seed.get_node_or_null("SFX/Appear")
-	if sfx:
-		sfx.play()
+	new_seed.setup_drop(spawn_pos)
 
 func freeze() -> void:
 	set_physics_process(false)

@@ -21,12 +21,10 @@
 [ext_resource type="AudioStream" uid="uid://cr2alsb5eqp63" path="res://assets/sounds/tree/treegrowSlap6.wav" id="18_edbb3"]
 [ext_resource type="AudioStream" uid="uid://diyvbqh7jxafu" path="res://assets/sounds/tree/treegrowSlap7.wav" id="19_on8mx"]
 [ext_resource type="AudioStream" uid="uid://nfg76eumuab6" path="res://assets/sounds/tree/zap.tres" id="20_dckfb"]
-[ext_resource type="Script" uid="uid://dqhidt2u20g47" path="res://entities/tree/branch.gd" id="21_dxtj1"]
+[ext_resource type="Script" path="res://entities/tree/tree_limb_manager.gd" id="21_dxtj1"]
 [ext_resource type="Texture2D" uid="uid://bku6pwe05yvrr" path="res://assets/sprites/tree/tempSprite/TreeBranch/tree_branch.png" id="22_ldqvw"]
-[ext_resource type="PackedScene" uid="uid://db1lwwtlllkav" path="res://entities/seed/seed_bundle.tscn" id="23_yv6h6"]
 [ext_resource type="Script" uid="uid://dps82nj04mquw" path="res://entities/tree/shop_button.gd" id="24_1dfxv"]
-[ext_resource type="PackedScene" uid="uid://c0xm7i1eahpti" path="res://entities/enemy/enemy_spawner.tscn" id="25_5hlbj"]
-[ext_resource type="Script" uid="uid://b1pdju5ijjh7w" path="res://entities/player/zapper.gd" id="25_ewc3i"]
+[ext_resource type="Script" uid="uid://b1pdju5ijjh7w" path="res://effects/zapper.gd" id="25_ewc3i"]
 [ext_resource type="PackedScene" uid="uid://3mhjgr2g4y7j" path="res://entities/seed/seed.tscn" id="26_4cpv5"]
 [ext_resource type="Script" uid="uid://d2w3a7l2cvt8s" path="res://entities/tree/tree_presenter.gd" id="27_prsntr"]
 
@@ -111,13 +109,11 @@ script = ExtResource("27_prsntr")
 trunk_textures = Array[Texture2D]([ExtResource("2_juvck"), ExtResource("3_5hlbj"), ExtResource("4_bugn8"), ExtResource("5_dsl2o")])
 leaf_textures = Array[Texture2D]([ExtResource("6_50opu"), ExtResource("7_yynoe"), ExtResource("8_vathx")])
 
-[node name="BranchManager" type="Node2D" parent="." unique_id=1477874640]
+[node name="LimbManager" type="Node2D" parent="." unique_id=1477874640]
 visibility_layer = 2
 script = ExtResource("21_dxtj1")
 branch_sprite = ExtResource("22_ldqvw")
 leaf_sprites = Array[Texture2D]([ExtResource("6_50opu"), ExtResource("7_yynoe"), ExtResource("8_vathx")])
-seed_bundle_scn = ExtResource("23_yv6h6")
-enemy_spawner_scn = ExtResource("25_5hlbj")
 
 [node name="Shop" type="Node2D" parent="." unique_id=261851250 node_paths=PackedStringArray("empty_sfx", "grow_sfx", "zap_sfx")]
 script = ExtResource("24_1dfxv")

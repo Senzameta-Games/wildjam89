@@ -5,6 +5,5 @@
 [resource]
 script = ExtResource("1")
 ability_key = "pesticide"
-base_duration = 15.0
-is_timed = true
+duration = -1.0
 input_hint = ""

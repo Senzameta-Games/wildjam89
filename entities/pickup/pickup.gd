@@ -91,3 +91,7 @@ func _on_collected() -> void:
 			Session.win_game()
 		PickupData.GrantType.ABILITY:
 			pass  # Arcade handles ability unlock via the collected signal
+		PickupData.GrantType.CURRENCY:
+			Economy.add_seeds(_pickup_data.currency_amount)
+		PickupData.GrantType.KEY_ITEM:
+			pass  # TODO: Inventory system not yet implemented

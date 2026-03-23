@@ -8,7 +8,6 @@ func enter():
 	player.player_collider.scale = Vector2(1.8, 1.0)
 	player.sfx_stompfall.play()
 	player.is_stomping = true
-	player.bounce_recovering = false
 	player.set_collision_mask_value(6, false)
 
 func physics_update(delta: float) -> void:

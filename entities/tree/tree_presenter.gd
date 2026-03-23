@@ -23,6 +23,9 @@ var _tree_top: Area2D
 var _tree_collider: CollisionShape2D
 var _impulse_grow_sfx: AudioStreamPlayer2D
 
+# -- Growth model --
+var _growth_model: TreeGrowthModel
+
 # -- Tracked visual state --
 var _trunk_sections: Array[Sprite2D] = []
 var _leaf_sprites: Array[Sprite2D] = []
@@ -54,6 +57,13 @@ func _ready() -> void:
 		_growing_section.texture = trunk_textures.pick_random()
 	_trunk_node.add_child(_growing_section)
 
+	# Share the tree's growth model — SeedTree creates it in _enter_tree(),
+	# which fires before any child _ready(), so it's guaranteed non-null here.
+	_growth_model = _tree._growth_model
+	if not _growth_model:
+		push_error("TreePresenter: SeedTree._growth_model is null — check TreeData is assigned")
+		return
+
 	# Connect to tree signals
 	_tree.growth_changed.connect(_on_growth_changed)
 
@@ -61,22 +71,20 @@ func _ready() -> void:
 	_sync_to_current_progress()
 
 func _process(_delta: float) -> void:
-	if not _tree:
+	if not _tree or not _growth_model:
 		return
 	# Smooth the fractional section (the partial section being "grown")
-	var full_value = (_tree.tree_progress / 100.0) * _tree.max_sections
+	var full_value = (_tree.tree_progress / 100.0) * _growth_model.data.max_sections
 	var fractional = full_value - int(full_value)
 	_growing_section.scale.y = fractional
 	_tree_top.position.y = -trunk_section_height * fractional
 
 func _on_growth_changed(new_progress: float, _old_progress: float) -> void:
-	var target_sections = int((new_progress / 100.0) * _tree.max_sections)
-	var target_leaf_tier = int(new_progress / 10.0)
-
-	_sync_trunk(target_sections)
-	_sync_leaves(target_leaf_tier)
-	_sync_collider(target_sections)
-	_sync_trunk_position(target_sections)
+	var state := _growth_model.compute_state(new_progress)
+	_sync_trunk(state.section_count)
+	_sync_leaves(state.leaf_tier)
+	_sync_collider(state.section_count)
+	_sync_trunk_position(state.section_count)
 
 # -- Incremental trunk management --
 
@@ -141,9 +149,8 @@ func _sync_leaves(target_tier: int) -> void:
 # -- Initial sync (used on ready and after deserialization) --
 
 func _sync_to_current_progress() -> void:
-	var target_sections = int((_tree.tree_progress / 100.0) * _tree.max_sections)
-	var target_leaf_tier = int(_tree.tree_progress / 10.0)
-	_sync_trunk(target_sections)
-	_sync_leaves(target_leaf_tier)
-	_sync_collider(target_sections)
-	_sync_trunk_position(target_sections)
+	var state := _growth_model.compute_state(_tree.tree_progress)
+	_sync_trunk(state.section_count)
+	_sync_leaves(state.leaf_tier)
+	_sync_collider(state.section_count)
+	_sync_trunk_position(state.section_count)

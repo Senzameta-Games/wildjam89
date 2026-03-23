@@ -25,6 +25,7 @@ var max_passive_growth: float:
 var active_growth_amount: float:
 	get: return data.active_growth_amount if data else 0.75
 
+# TODO: Threshold interval should come from TreeGrowthModel or TreeData
 const BRANCH_INTERVAL: float = 10.0  # Branch spawns every 10% growth
 
 # -- Runtime state --
@@ -34,16 +35,28 @@ var sudden_death: bool = false
 var slot_index: int = -1
 var damage_per_hit: float = 2.0
 
-# -- Derived state (read by visual presenter and external systems) --
-var target_sections: int = 0
-var current_sections: int = 0  # Tracks what the presenter has actually built
+# -- Growth model, cached state, and limb manager --
+# _growth_model is created in _enter_tree() so it exists before any child's _ready() fires.
+var _growth_model: TreeGrowthModel
+var _cached_state: Dictionary = {}
+@onready var limb_manager: TreeLimbManager = $LimbManager
+
+# target_sections is derived from the cached growth state; no separate tracking needed.
+var target_sections: int:
+	get: return _cached_state.get("section_count", 0)
+
+func _enter_tree() -> void:
+	if data and not _growth_model:
+		_growth_model = TreeGrowthModel.new(data)
 
 func _ready() -> void:
-	_update_target_sections()
+	_update_state()
 	var shop = find_child("Shop")
 	if shop and shop.has_signal("shop_interacted"):
 		if not shop.shop_interacted.is_connected(_on_shop_interacted):
 			shop.shop_interacted.connect(_on_shop_interacted)
+	if _growth_model:
+		limb_manager.sync_to_state(_cached_state.limb_states)
 
 func _process(delta: float) -> void:
 	if sudden_death or tree_progress >= 100.0:
@@ -63,9 +76,11 @@ func add_progress(amount: float) -> void:
 	tree_progress = clampf(tree_progress + amount, 0.0, 100.0)
 	if sudden_death and tree_progress > 0.0:
 		sudden_death = false
-	_update_target_sections()
+	_update_state()
 	_emit_threshold_signals(old_progress, tree_progress, 1)
 	growth_changed.emit(tree_progress, old_progress)
+	if _growth_model:
+		limb_manager.sync_to_state(_cached_state.limb_states)
 	if tree_progress >= 100.0 and not reward_spawned:
 		reward_spawned = true
 		growth_completed.emit()
@@ -73,9 +88,11 @@ func add_progress(amount: float) -> void:
 func subtract_progress(amount: float) -> void:
 	var old_progress = tree_progress
 	tree_progress = clampf(tree_progress - amount, 0.0, 100.0)
-	_update_target_sections()
+	_update_state()
 	_emit_threshold_signals(old_progress, tree_progress, -1)
 	growth_changed.emit(tree_progress, old_progress)
+	if _growth_model:
+		limb_manager.sync_to_state(_cached_state.limb_states)
 	tree_damaged.emit(amount)
 	if tree_progress <= 0.0:
 		_handle_death()
@@ -101,11 +118,13 @@ func _handle_death() -> void:
 		if not sudden_death:
 			sudden_death = true
 		else:
+			limb_manager.clear_all_limbs()
 			Session.game_over_called.emit()
 			tree_died.emit()
 
 func _die_permanently() -> void:
 	slot_freed.emit(slot_index)
+	limb_manager.clear_all_limbs()
 	tree_died.emit()
 	var tween = create_tween()
 	tween.tween_property(self, "scale", Vector2.ZERO, 0.5).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
@@ -113,8 +132,9 @@ func _die_permanently() -> void:
 
 # -- Internal --
 
-func _update_target_sections() -> void:
-	target_sections = int((tree_progress / 100.0) * max_sections)
+func _update_state() -> void:
+	if _growth_model:
+		_cached_state = _growth_model.compute_state(tree_progress)
 
 func _emit_threshold_signals(old_pct: float, new_pct: float, direction: int) -> void:
 	var old_bucket = int(old_pct / BRANCH_INTERVAL)
@@ -143,6 +163,8 @@ func _on_tree_hitbox_area_entered(area: Area2D) -> void:
 # -- Serialization --
 
 func serialize() -> Dictionary:
+	# Structural state (sections, limbs) is NOT saved — it's derived from
+	# tree_progress via TreeGrowthModel on load.
 	return {
 		"slot_index": slot_index,
 		"position_x": global_position.x,
@@ -161,4 +183,6 @@ func deserialize(data_dict: Dictionary) -> void:
 	tree_progress = data_dict.get("tree_progress", 10.0)
 	reward_spawned = data_dict.get("reward_spawned", false)
 	sudden_death = data_dict.get("sudden_death", false)
-	_update_target_sections()
+	_update_state()
+	if _growth_model:
+		limb_manager.sync_to_state(_cached_state.limb_states)

@@ -5,4 +5,5 @@
 [resource]
 script = ExtResource("1")
 ability_key = "aim_stomp"
+duration = -1.0
 input_hint = "RMB or LT"
