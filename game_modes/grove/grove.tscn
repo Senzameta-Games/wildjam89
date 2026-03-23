@@ -9,6 +9,9 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w1ofc"]
 size = Vector2(640, 120)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qiewu"]
+size = Vector2(30, 40)
+
 [node name="Grove" type="Node2D" unique_id=1417582772]
 script = ExtResource("1_113ig")
 tree_scn = ExtResource("2_qiewu")
@@ -57,3 +60,11 @@ position = Vector2(320, 277)
 
 [node name="Player" parent="." unique_id=2092900557 node_paths=PackedStringArray("spawn") instance=ExtResource("4_qiewu")]
 spawn = NodePath("../Spawns/Player")
+
+[node name="Doors" type="Node2D" parent="." unique_id=1052746099]
+
+[node name="To_Run" type="Area2D" parent="Doors" unique_id=645000502]
+position = Vector2(640, 284)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/To_Run" unique_id=325928638]
+shape = SubResource("RectangleShape2D_qiewu")

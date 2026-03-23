@@ -63,6 +63,6 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("2_font")
 text = "Exit"
 
-[connection signal="pressed" from="Control/VBoxContainer/AdventureButton" to="." method="_on_start_button_pressed"]
-[connection signal="pressed" from="Control/VBoxContainer/ArcadeButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="Control/VBoxContainer/AdventureButton" to="." method="_on_adventure_button_pressed"]
+[connection signal="pressed" from="Control/VBoxContainer/ArcadeButton" to="." method="_on_arcade_button_pressed"]
 [connection signal="pressed" from="Control/VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]
