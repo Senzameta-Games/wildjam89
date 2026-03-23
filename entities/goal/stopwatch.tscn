@@ -1,9 +1,0 @@
-[gd_scene format=3 uid="uid://bih1frl4w616l"]
-
-[ext_resource type="PackedScene" uid="uid://bgfe0hn24uhk1" path="res://entities/goal/goal.tscn" id="1_g4aa2"]
-[ext_resource type="Texture2D" uid="uid://2jlluw0iil3t" path="res://assets/sprites/items/aimstomp/stopwatch.png" id="2_5f8i0"]
-
-[node name="GoalSpawn" instance=ExtResource("1_g4aa2")]
-
-[node name="Sprite" parent="." index="0"]
-texture = ExtResource("2_5f8i0")

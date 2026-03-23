@@ -1,9 +1,0 @@
-[gd_scene format=3 uid="uid://bc6qab3skysjn"]
-
-[ext_resource type="PackedScene" uid="uid://bgfe0hn24uhk1" path="res://entities/goal/goal.tscn" id="1_gdlh7"]
-[ext_resource type="Texture2D" uid="uid://c4m88c6a3ep6t" path="res://assets/sprites/items/doublejump/feather.png" id="2_6oxbv"]
-
-[node name="GoalSpawn" instance=ExtResource("1_gdlh7")]
-
-[node name="Sprite" parent="." index="0"]
-texture = ExtResource("2_6oxbv")

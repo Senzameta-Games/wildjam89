@@ -1,9 +1,0 @@
-[gd_scene format=3 uid="uid://dp7nd2d6gptjl"]
-
-[ext_resource type="PackedScene" uid="uid://bgfe0hn24uhk1" path="res://entities/goal/goal.tscn" id="1_muxc5"]
-[ext_resource type="Texture2D" uid="uid://d07t3ds35gotx" path="res://assets/sprites/items/pesticide/pesticide.png" id="2_nl0ta"]
-
-[node name="GoldenLeaf" instance=ExtResource("1_muxc5")]
-
-[node name="Sprite" parent="." index="0"]
-texture = ExtResource("2_nl0ta")
