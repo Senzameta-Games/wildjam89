@@ -6,10 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://c3mhpqsgk2w8x" path="res://ui/achievements/achievements_view.tscn" id="6_achievements"]
 [ext_resource type="PackedScene" uid="uid://dkxl5p8m2vy4g" path="res://ui/tutorial/tutorial_ui.tscn" id="6_tefeu"]
 [ext_resource type="Script" uid="uid://bg2jld7ixu7xe" path="res://game_modes/states/mode_state_machine.gd" id="7_85g3d"]
-[ext_resource type="PackedScene" uid="uid://c1hxpy8wdec1q" path="res://ui/tutorial/tutorial_prompt.tscn" id="7_efxa6"]
 [ext_resource type="PackedScene" uid="uid://dotas6ahmr6nb" path="res://ui/menus/title_screen.tscn" id="7_title"]
 [ext_resource type="Script" uid="uid://cgy1kdlu8rgnr" path="res://game_modes/states/title_screen_state.gd" id="8_85g3d"]
-[ext_resource type="PackedScene" uid="uid://c7r3m25rixk32" path="res://ui/tutorial/tutorial_tips.tscn" id="8_dg77c"]
 [ext_resource type="Script" uid="uid://6jaj0yjxo5xr" path="res://game_modes/states/arcade_state.gd" id="9_choun"]
 
 [node name="Main" type="Node2D" unique_id=1557233221]
@@ -26,8 +24,6 @@ layer = 99
 [node name="AchievementsView" parent="." unique_id=1766635032 instance=ExtResource("6_achievements")]
 
 [node name="TutorialUI" parent="." unique_id=290329031 instance=ExtResource("6_tefeu")]
-prompt_scene = ExtResource("7_efxa6")
-tips_scene = ExtResource("8_dg77c")
 
 [node name="StateMachine" type="Node" parent="." unique_id=738249351 node_paths=PackedStringArray("initial_state")]
 script = ExtResource("7_85g3d")

@@ -1,3 +1,6 @@
+## Economy — Arcade mode seed counter.
+## Manages the transient seed balance displayed in the arcade HUD.
+## Not used by grove or run systems. New code uses GameState.add_resource() instead.
 extends Node
 
 signal seeds_changed(current_total: int)

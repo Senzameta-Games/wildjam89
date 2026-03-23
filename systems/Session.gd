@@ -1,3 +1,7 @@
+## Session — Arcade mode session state.
+## Tracks stage progression, spawn parameters, cached rewards, and timing
+## for the arcade game mode only.
+## Not used by grove or run systems. For persistent progression, see GameState.gd.
 extends Node
 
 signal game_over_called

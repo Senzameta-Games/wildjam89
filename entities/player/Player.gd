@@ -5,7 +5,7 @@ class_name Player
 @export_category("References")
 @export var player_sprite: AnimatedSprite2D
 @export var player_collider: CollisionShape2D
-@export var spawn_pos: Vector2
+@export var spawn: Marker2D
 @export var sfx: Node
 @export var seed_scn: PackedScene
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -79,9 +79,11 @@ func get_interaction_constraint() -> Dictionary:
 
 func _ready() -> void:
 	Saves.register_player(self)
-	self.position = spawn_pos
-	just_spawned.emit()
-
+	if spawn:
+		self.position = spawn.position
+		just_spawned.emit()
+	else: push_error("Player spawn marker not in the tree at the time of spawning")
+	
 func _exiting_tree() -> void:
 	Saves.unregister_player()
 
@@ -225,7 +227,7 @@ func deserialize(data: Dictionary) -> void:
 	current_health = data.get("current_health", max_health)
 	max_health = data.get("max_health", max_health)
 	global_position = Vector2(
-		data.get("position_x", spawn_pos.x),
-		data.get("position_y", spawn_pos.y)
+		data.get("position_x", spawn.x),
+		data.get("position_y", spawn.y)
 	)
 	# slow_aim / double_jump — removed; ignored here for old save compatibility.

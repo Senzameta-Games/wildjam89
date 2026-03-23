@@ -139,3 +139,12 @@ func deserialize(data: Dictionary) -> void:
 		ability_queue.assign(data["ability_queue"])
 	if data.has("recent_abilities"):
 		recent_abilities.assign(data["recent_abilities"])
+
+## Unlock an ability collected in the world (run rooms, grove rewards).
+## Silently no-ops if already unlocked.
+## Call site should be GameState.unlock_ability_permanent(); this method
+## exists so Abilities remains the runtime authority on unlock flags.
+func unlock_ability_from_world(ability_key: String) -> void:
+	if has_ability(ability_key):
+		return
+	unlock_ability(ability_key)

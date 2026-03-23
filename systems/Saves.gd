@@ -3,6 +3,7 @@ extends Node
 const SAVE_DIR := "user://saves/"
 const META_FILE := "user://saves/meta.json"
 const RUN_FILE := "user://saves/run.json"
+const GAME_FILE := "user://saves/game.json"
 const SAVE_VERSION: int = 2
 
 # -- Migration functions --
@@ -190,6 +191,42 @@ func delete_run_save() -> void:
 	if FileAccess.file_exists(RUN_FILE):
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(RUN_FILE))
 		print("[Saves] run save deleted")
+
+# ---- Game save ----
+
+func write_game() -> void:
+	_ensure_save_dir()
+	var data: Dictionary = {
+		"version": SAVE_VERSION,
+		"timestamp": Time.get_unix_time_from_system(),
+		"game_state": GameState.serialize(),
+		"abilities": Abilities.serialize() if Abilities.has_method("serialize") else {},
+		"flower_manager": FlowerManager.serialize() if FlowerManager.has_method("serialize") else {},
+	}
+	_write_json(GAME_FILE, data)
+	print("[Saves] game save written")
+
+func load_game() -> void:
+	if not FileAccess.file_exists(GAME_FILE):
+		print("[Saves] no game save found, starting fresh")
+		return
+	var data: Dictionary = _read_json(GAME_FILE)
+	if data.is_empty():
+		push_error("[Saves] game save was empty or malformed")
+		return
+	data = _migrate_save(data)
+	if data.is_empty():
+		push_error("[Saves] game save migration failed")
+		return
+	GameState.deserialize(data.get("game_state", {}))
+	if Abilities.has_method("deserialize"):
+		Abilities.deserialize(data.get("abilities", {}))
+	if FlowerManager.has_method("deserialize"):
+		FlowerManager.deserialize(data.get("flower_manager", {}))
+	print("[Saves] game save loaded")
+
+func has_game_save() -> bool:
+	return FileAccess.file_exists(GAME_FILE)
 
 # ---- Internal helpers ----
 

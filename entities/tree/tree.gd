@@ -97,6 +97,12 @@ func subtract_progress(amount: float) -> void:
 	if tree_progress <= 0.0:
 		_handle_death()
 
+func set_progress(value: float) -> void:
+	tree_progress = clampf(value, 0.0, 100.0)
+	_update_state()
+	if _growth_model:
+		limb_manager.sync_to_state(_cached_state.limb_states)
+
 func heal_tree(amount: float) -> void:
 	add_progress(amount)
 

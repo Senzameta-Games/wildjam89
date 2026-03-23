@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://ca6ujpig2jfdn"]
+
+[ext_resource type="Script" uid="uid://c2avkfybypjyt" path="res://game_modes/run/run.gd" id="1_6fh5c"]
+[ext_resource type="PackedScene" uid="uid://dirsjr7q8uv5d" path="res://entities/rooms/TestRoom_A.tscn" id="2_vwxsi"]
+[ext_resource type="PackedScene" uid="uid://dvyaehfonj53g" path="res://entities/rooms/TestRoom_B.tscn" id="3_t84d1"]
+[ext_resource type="PackedScene" uid="uid://ciyc0yamaacqw" path="res://entities/player/player.tscn" id="4_dd47w"]
+
+[node name="Run" type="Node2D" unique_id=1661716505]
+script = ExtResource("1_6fh5c")
+room_sequence = Array[PackedScene]([ExtResource("2_vwxsi"), ExtResource("3_t84d1")])
+
+[node name="RoomContainer" type="Node2D" parent="." unique_id=505492585]
+
+[node name="Player" parent="." unique_id=2092900557 instance=ExtResource("4_dd47w")]

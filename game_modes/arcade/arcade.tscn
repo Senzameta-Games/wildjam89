@@ -32,7 +32,7 @@
 [ext_resource type="Script" uid="uid://c1b5vu1pgf2l8" path="res://game_modes/arcade/states/stage_win_state.gd" id="30_wk61e"]
 [ext_resource type="Script" uid="uid://fhnml50sbx2f" path="res://game_modes/arcade/states/game_win_state.gd" id="31_vrcex"]
 [ext_resource type="Script" uid="uid://qmpllcwffffp" path="res://game_modes/arcade/states/paused_state.gd" id="32_olc17"]
-[ext_resource type="Script" path="res://systems/TreeContentSpawner.gd" id="33_tcs01"]
+[ext_resource type="Script" uid="uid://cnqf4v6wa0j7m" path="res://systems/TreeContentSpawner.gd" id="33_tcs01"]
 [ext_resource type="PackedScene" uid="uid://3mhjgr2g4y7j" path="res://entities/seed/seed.tscn" id="34_seed1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hnne4"]
@@ -152,10 +152,15 @@ enemies = Array[PackedScene]([ExtResource("5_xv074"), ExtResource("6_sytrn"), Ex
 position = Vector2(637, 272)
 enemies = Array[PackedScene]([ExtResource("5_xv074"), ExtResource("6_sytrn"), ExtResource("6_pe1ox"), ExtResource("8_yoh1m")])
 
-[node name="Player" parent="." unique_id=338326015 instance=ExtResource("1_nbgty")]
+[node name="Spawns" type="Node2D" parent="." unique_id=2126930041]
+
+[node name="Player" type="Marker2D" parent="Spawns" unique_id=1078867600]
+position = Vector2(320, 277)
+
+[node name="Player" parent="." unique_id=338326015 node_paths=PackedStringArray("spawn") instance=ExtResource("1_nbgty")]
 z_index = 11
 collision_mask = 57
-spawn_pos = Vector2(260, 285)
+spawn = NodePath("../Spawns/Player")
 
 [node name="Camera" type="Camera2D" parent="." unique_id=1681789707 groups=["camera"]]
 anchor_mode = 0

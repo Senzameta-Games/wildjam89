@@ -1,0 +1,62 @@
+[gd_scene format=3 uid="uid://dvyaehfonj53g"]
+
+[ext_resource type="Script" uid="uid://d4d8heoya5rg5" path="res://game_modes/run/run_room.gd" id="1_xxwc4"]
+[ext_resource type="Texture2D" uid="uid://b8pencausntbo" path="res://assets/sprites/ground/ground9patch.png" id="2_krf34"]
+[ext_resource type="PackedScene" uid="uid://ciyc0yamaacqw" path="res://entities/player/player.tscn" id="3_y7blc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o1ba8"]
+size = Vector2(640, 120)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xxwc4"]
+size = Vector2(30, 40)
+
+[node name="TestRoomB" type="Node2D" unique_id=481336478]
+script = ExtResource("1_xxwc4")
+
+[node name="Environment" type="Node2D" parent="." unique_id=1971146839]
+
+[node name="GroundPlane" type="StaticBody2D" parent="Environment" unique_id=2046840247 groups=["arcade"]]
+position = Vector2(320, 320)
+collision_mask = 6
+
+[node name="Collision" type="CollisionShape2D" parent="Environment/GroundPlane" unique_id=911760640 groups=["arcade"]]
+position = Vector2(0, 45)
+shape = SubResource("RectangleShape2D_o1ba8")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Environment/GroundPlane" unique_id=1385580036]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -360.0
+offset_top = -15.0
+offset_right = 360.0
+offset_bottom = 105.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_krf34")
+region_rect = Rect2(0, 0, 18, 18)
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Spawns" type="Node2D" parent="." unique_id=131322024]
+
+[node name="Player" type="Marker2D" parent="Spawns" unique_id=667230934]
+position = Vector2(320, 277)
+
+[node name="Player" parent="." unique_id=2092900557 node_paths=PackedStringArray("spawn") instance=ExtResource("3_y7blc")]
+spawn = NodePath("../Spawns/Player")
+
+[node name="Doors" type="Node2D" parent="." unique_id=276151282]
+
+[node name="To_TestRoomA" type="Area2D" parent="Doors" unique_id=72174196]
+position = Vector2(0, 284)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/To_TestRoomA" unique_id=1122354077]
+shape = SubResource("RectangleShape2D_xxwc4")

@@ -155,6 +155,24 @@ func deserialize(data: Dictionary) -> void:
 	emit_all_signals()
 	restore_visuals()
 
+## Wipe all flowers and return the total count for currency conversion.
+## Called by grove after a defense phase when the player harvests flowers.
+## Caller converts the returned count to resources via GameState.
+func wipe_flowers() -> int:
+	var total: int = green_flowers + blue_flowers + red_flowers
+	for flower: Node in get_tree().get_nodes_in_group("flower"):
+		if flower.has_method("reset"):
+			flower.reset()
+		else:
+			flower.queue_free()
+	green_flowers = 0
+	blue_flowers = 0
+	red_flowers = 0
+	flower_columns.clear()
+	_flower_positions.clear()
+	emit_all_signals()
+	return total
+
 # Debug helpers
 func get_defense_display_text() -> String:
 	var defense_percent = get_defense_percent() * 100

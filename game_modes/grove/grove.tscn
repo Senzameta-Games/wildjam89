@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://di10gnrnif2lh"]
+
+[ext_resource type="Script" uid="uid://cm2sig62itlv8" path="res://game_modes/grove/grove.gd" id="1_113ig"]
+[ext_resource type="PackedScene" uid="uid://5u0rjw4fxv62" path="res://entities/tree/tree.tscn" id="2_qiewu"]
+[ext_resource type="Script" uid="uid://c02nv81s8wds6" path="res://game_modes/grove/defense_wave_spawner.gd" id="2_xy2kl"]
+[ext_resource type="Texture2D" uid="uid://b8pencausntbo" path="res://assets/sprites/ground/ground9patch.png" id="3_bsfkc"]
+[ext_resource type="PackedScene" uid="uid://ciyc0yamaacqw" path="res://entities/player/player.tscn" id="4_qiewu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w1ofc"]
+size = Vector2(640, 120)
+
+[node name="Grove" type="Node2D" unique_id=1417582772]
+script = ExtResource("1_113ig")
+tree_scn = ExtResource("2_qiewu")
+
+[node name="Trees" type="Node2D" parent="." unique_id=931482614]
+
+[node name="DefenseWaveSpawner" type="Node2D" parent="." unique_id=211566418]
+script = ExtResource("2_xy2kl")
+
+[node name="Environment" type="Node2D" parent="." unique_id=544648430]
+
+[node name="GroundPlane" type="StaticBody2D" parent="Environment" unique_id=642868160 groups=["arcade"]]
+position = Vector2(320, 320)
+collision_mask = 6
+
+[node name="Collision" type="CollisionShape2D" parent="Environment/GroundPlane" unique_id=1255004210 groups=["arcade"]]
+position = Vector2(0, 45)
+shape = SubResource("RectangleShape2D_w1ofc")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Environment/GroundPlane" unique_id=1922238877]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -360.0
+offset_top = -15.0
+offset_right = 360.0
+offset_bottom = 105.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_bsfkc")
+region_rect = Rect2(0, 0, 18, 18)
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Spawns" type="Node2D" parent="." unique_id=331724780]
+
+[node name="Player" type="Marker2D" parent="Spawns" unique_id=1605963321]
+position = Vector2(320, 277)
+
+[node name="Player" parent="." unique_id=2092900557 node_paths=PackedStringArray("spawn") instance=ExtResource("4_qiewu")]
+spawn = NodePath("../Spawns/Player")
