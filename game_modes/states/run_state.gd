@@ -1,17 +1,27 @@
 class_name RunGameMode
 extends ModeState
-## Main state machine entry point for run mode.
-## The actual transition is triggered by grove_state or a GroveManager signal
-## connected in main.tscn. This state exists for symmetry and future use
-## (e.g. run meta UI, difficulty selection before the run loads).
+## Run mode state. Instantiates run.tscn as a child of the main root node.
+## On run_completed, returns to grove by transitioning back to GroveGameMode.
 
 @export var run_scene: PackedScene
+
+var _run_instance: Node = null
 
 func enter() -> void:
 	if run_scene == null:
 		push_error("RunGameMode: run_scene not assigned in inspector")
 		return
-	get_tree().change_scene_to_packed(run_scene)
+	_run_instance = run_scene.instantiate()
+	context.add_child(_run_instance)
+	if _run_instance.has_signal("run_completed"):
+		_run_instance.run_completed.connect(_on_run_completed)
 
 func exit() -> void:
-	pass
+	if _run_instance != null and is_instance_valid(_run_instance):
+		if _run_instance.run_completed.is_connected(_on_run_completed):
+			_run_instance.run_completed.disconnect(_on_run_completed)
+		_run_instance.queue_free()
+	_run_instance = null
+
+func _on_run_completed(_loot: Dictionary) -> void:
+	transition_requested.emit(self, GroveGameMode)

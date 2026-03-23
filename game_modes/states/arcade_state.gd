@@ -1,18 +1,30 @@
 class_name ArcadeState
 extends ModeState
+## Arcade mode state. Instantiates arcade.tscn as a child of the main root node
+## on enter and removes it on exit. Matches the grove/run instantiation pattern
+## so no mode scenes exist in the tree until their state is active.
+
+@export var arcade_scene: PackedScene
+
+var _arcade_instance: Node = null
 
 func enter() -> void:
-	if Session.game_has_started:
-		# Restoring a save — Arcade._ready() already applied all data
-		get_tree().paused = false
+	if arcade_scene == null:
+		push_error("ArcadeState: arcade_scene not assigned in inspector")
 		return
-	# Fresh new run
-	Session.start_new_run()
-	Achievements.reset_achievements()
-	get_tree().paused = false
-	if Tutorial and not Tutorial.tutorial_completed:
-		Tutorial.reset_tutorial()
-		Tutorial.start_tutorial()
+	if Session.game_has_started:
+		get_tree().paused = false
+	else:
+		Session.start_new_run()
+		Achievements.reset_achievements()
+		get_tree().paused = false
+		if Tutorial and not Tutorial.tutorial_completed:
+			Tutorial.reset_tutorial()
+	_arcade_instance = arcade_scene.instantiate()
+	context.add_child(_arcade_instance)
+	if not Session.game_has_started:
+		if Tutorial and not Tutorial.tutorial_completed:
+			Tutorial.start_tutorial()
 
 func exit() -> void:
 	Economy.reset()
@@ -23,4 +35,6 @@ func exit() -> void:
 	if MusicPlayer:
 		MusicPlayer.fade_to_normal()
 	get_tree().paused = false
-	get_tree().reload_current_scene()
+	if _arcade_instance != null and is_instance_valid(_arcade_instance):
+		_arcade_instance.queue_free()
+	_arcade_instance = null

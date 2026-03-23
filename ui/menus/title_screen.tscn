@@ -48,15 +48,21 @@ theme_override_font_sizes/font_size = 32
 text = "Fiora il Procione"
 horizontal_alignment = 1
 
-[node name="StartButton" type="Button" parent="Control/VBoxContainer" unique_id=1046880409]
+[node name="AdventureButton" type="Button" parent="Control/VBoxContainer" unique_id=504164586]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_font")
-text = "Start"
+text = "Adventure"
+
+[node name="ArcadeButton" type="Button" parent="Control/VBoxContainer" unique_id=1046880409]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_font")
+text = "Arcade (Jam version)"
 
 [node name="ExitButton" type="Button" parent="Control/VBoxContainer" unique_id=1477060175]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_font")
 text = "Exit"
 
-[connection signal="pressed" from="Control/VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="Control/VBoxContainer/AdventureButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="Control/VBoxContainer/ArcadeButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="Control/VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]

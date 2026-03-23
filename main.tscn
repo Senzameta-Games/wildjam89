@@ -9,10 +9,12 @@
 [ext_resource type="PackedScene" uid="uid://dotas6ahmr6nb" path="res://ui/menus/title_screen.tscn" id="7_title"]
 [ext_resource type="Script" uid="uid://cgy1kdlu8rgnr" path="res://game_modes/states/title_screen_state.gd" id="8_85g3d"]
 [ext_resource type="Script" uid="uid://6jaj0yjxo5xr" path="res://game_modes/states/arcade_state.gd" id="9_choun"]
+[ext_resource type="Script" uid="uid://g81q2g2t1tyb" path="res://game_modes/states/grove_state.gd" id="10_ycdy4"]
+[ext_resource type="PackedScene" uid="uid://di10gnrnif2lh" path="res://game_modes/grove/grove.tscn" id="11_w48qg"]
+[ext_resource type="Script" uid="uid://0j7vxslu6h71" path="res://game_modes/states/run_state.gd" id="12_vivmo"]
+[ext_resource type="PackedScene" uid="uid://ca6ujpig2jfdn" path="res://game_modes/run/run.tscn" id="13_2cqfq"]
 
 [node name="Main" type="Node2D" unique_id=1557233221]
-
-[node name="Arcade" parent="." unique_id=2096224606 instance=ExtResource("1_o5qli")]
 
 [node name="TitleScreen" parent="." unique_id=1708133566 instance=ExtResource("7_title")]
 
@@ -35,4 +37,13 @@ metadata/_custom_type_script = "uid://cynb7gmuroem5"
 
 [node name="Arcade" type="Node" parent="StateMachine" unique_id=2117708490]
 script = ExtResource("9_choun")
+arcade_scene = ExtResource("1_o5qli")
 metadata/_custom_type_script = "uid://cynb7gmuroem5"
+
+[node name="Grove" type="Node" parent="StateMachine" unique_id=46796052]
+script = ExtResource("10_ycdy4")
+grove_scene = ExtResource("11_w48qg")
+
+[node name="Run" type="Node" parent="StateMachine" unique_id=1416871577]
+script = ExtResource("12_vivmo")
+run_scene = ExtResource("13_2cqfq")
