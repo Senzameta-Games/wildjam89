@@ -1,3 +1,10 @@
+## GameState — Adventure mode persistent progression.
+## Single source of truth for grove state, run loot, food inventory, and the
+## tree registry. Arcade mode does not read or write this autoload; use
+## Economy.gd (transient seed balance) and Session.gd (stage/win state) instead.
+##
+## Accessed by: GroveManager, RunManager, grove_state.gd, run_state.gd,
+##              Saves.write_game(), Saves.write_adventure_run().
 extends Node
 
 # -- Game phase --
@@ -11,6 +18,11 @@ var persistent_seeds: int = 0
 var acorn_fragments: int = 0  # rare currency, 3-4 per run
 
 # -- Run-scoped resources (cleared on run end) --
+# run_currency: intended as a spendable balance within a single run (e.g. a
+# shop between rooms). Distinguished from persistent_seeds, which carries over
+# to the grove on run completion. Currently unused — no in-run shop exists yet.
+# clear_run_currency() is called by RunManager._complete_run() and again by
+# set_phase() when leaving RUN; the double-clear is harmless (idempotent).
 var run_currency: int = 0
 
 # -- Tree registry --
@@ -137,7 +149,7 @@ func set_phase(new_phase: Phase) -> void:
 	current_phase = new_phase
 	phase_changed.emit(new_phase, old)
 	if old == Phase.RUN and new_phase != Phase.RUN:
-		clear_run_currency()
+		clear_run_currency()  # may also have been called by RunManager._complete_run(); idempotent
 
 # -- Food inventory API --
 

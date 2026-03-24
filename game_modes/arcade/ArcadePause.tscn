@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://cnedgj3aevipi"]
+
+[ext_resource type="Script" uid="uid://cs8kl71k81swx" path="res://game_modes/arcade/arcade_pause.gd" id="1_6tw0m"]
+[ext_resource type="FontFile" uid="uid://bxn105qovmxyq" path="res://assets/fonts/Ruler 9.ttf" id="2_0lmf7"]
+
+[node name="ArcadePause" type="CanvasLayer" unique_id=1861427117]
+process_mode = 3
+script = ExtResource("1_6tw0m")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=616935779]
+offset_right = 640.0
+offset_bottom = 360.0
+color = Color(0, 0, 0, 0.49019608)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1169255028]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -55.0
+offset_top = -66.0
+offset_right = 55.0
+offset_bottom = 66.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 12
+
+[node name="ResumeButton" type="Button" parent="VBoxContainer" unique_id=417856886]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0lmf7")
+text = "Resume"
+
+[node name="AchievementsButton" type="Button" parent="VBoxContainer" unique_id=563687254]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0lmf7")
+text = "Achievements"
+
+[node name="OptionsButton" type="Button" parent="VBoxContainer" unique_id=1436941340]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0lmf7")
+text = "Options"
+
+[node name="RestartButton" type="Button" parent="VBoxContainer" unique_id=565408879]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0lmf7")
+text = "Restart"
+
+[node name="ExitButton" type="Button" parent="VBoxContainer" unique_id=1563813631]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_0lmf7")
+text = "Exit to title screen"
+
+[connection signal="pressed" from="VBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/AchievementsButton" to="." method="_on_achievements_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/OptionsButton" to="." method="_on_options_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]

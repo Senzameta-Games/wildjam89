@@ -11,7 +11,6 @@ var is_showing_toast: bool = false
 @onready var toast_container: VBoxContainer = $ToastContainer
 
 func _ready() -> void:
-	# Connect to achievement system
 	if Achievements:
 		Achievements.achievement_unlocked.connect(_on_achievement_unlocked)
 

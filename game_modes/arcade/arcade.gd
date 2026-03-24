@@ -49,13 +49,14 @@ func _ready():
 	if Session.game_has_started and music:
 		music.play()
 
-func _exiting_tree() -> void:
+func _exit_tree() -> void:
 	Saves.unregister_arcade()
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("quick_save"):
 		Saves.write_run()
 		Saves.debug_print_run_save()
+		Saves.save_toast.emit("Saved")
 	elif event.is_action_pressed("quick_load"):
 		Saves.load_run()
 		if Saves.has_pending_run_load():
@@ -273,8 +274,27 @@ func _apply_run_restore(data: Dictionary) -> void:
 				_spawn_pickup_at_tree(new_tree)
 				respawned_reward = true
 
+	# If any slot was occupied at save time by an in-flight acorn (not yet a
+	# planted tree), no tree entry exists for it and the slot sits orphaned.
+	# Reset those slots and spawn a replacement acorn so the world isn't empty.
+	var had_orphaned_acorn_slot := false
+	for i in range(occupied_slots.size()):
+		if not occupied_slots[i]:
+			continue
+		var has_tree := false
+		for child in get_children():
+			if child is SeedTree and child.slot_index == i:
+				has_tree = true
+				break
+		if not has_tree:
+			occupied_slots[i] = false
+			had_orphaned_acorn_slot = true
+	if had_orphaned_acorn_slot:
+		call_deferred("_spawn_new_tree")
+
 	if music:
 		music.play()
 
 	get_tree().paused = false
+	Saves.save_toast.emit("Loaded")
 	print("[Saves] run restore complete (stage %d)" % Session.current_stage)

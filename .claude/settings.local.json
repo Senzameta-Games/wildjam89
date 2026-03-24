@@ -7,7 +7,8 @@
       "Bash(ls systems/achievements/definitions/*.tres)",
       "Bash(del \"D:\\\\GameDev\\\\Projects\\\\wildjam89\\\\entities\\\\tree\\\\branch.gd\" \"D:\\\\GameDev\\\\Projects\\\\wildjam89\\\\entities\\\\tree\\\\branch.gd.uid\")",
       "Bash(find /d/GameDev/Projects/wildjam89 -name *transition* -o -name *scene_manager*)",
-      "Bash(xargs grep:*)"
+      "Bash(xargs grep:*)",
+      "Bash(grep -E \"\\\\.\\(gd|tscn\\)$\")"
     ]
   }
 }

@@ -27,6 +27,7 @@ var _run_abilities: Array[String] = []
 
 @onready var room_container: Node2D = $RoomContainer
 @onready var _player: Player = $Player
+@onready var _pause_menu: CanvasLayer = $RunPause
 
 func _ready() -> void:
 	GameState.set_phase(GameState.Phase.RUN)
@@ -35,6 +36,8 @@ func _ready() -> void:
 	# Write the initial run save after the room and player position are both
 	# settled (both use call_deferred, so this runs after them in queue order).
 	_write_save.call_deferred()
+	_pause_menu.abandon_run_requested.connect(return_to_grove)
+	_pause_menu.return_to_title_requested.connect(_on_exit_to_title)
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("quick_save"):
@@ -43,6 +46,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		var data := Saves.load_adventure_run()
 		if not data.is_empty():
 			_restore_from_save(data)
+			Saves.save_toast.emit("Loaded")
 
 ## -- Room loading --
 
@@ -168,6 +172,11 @@ func _restore_player_position(player_data: Dictionary) -> void:
 	_player.global_position = Vector2(x, y)
 
 ## -- Run end --
+
+## Abandons the run without loot transfer (exit to title from pause menu).
+func _on_exit_to_title() -> void:
+	Saves.delete_adventure_run_save()
+	Main.return_to_title()
 
 ## Called on voluntary return or room sequence completion.
 func return_to_grove() -> void:

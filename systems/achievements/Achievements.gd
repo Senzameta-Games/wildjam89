@@ -1,3 +1,13 @@
+## Achievements — Global achievement tracker (arcade and adventure).
+## All existing condition checks (SEED_COUNT, ENEMIES_STOMPED, etc.) are wired to
+## arcade systems (Economy, Session). In Adventure mode, Economy is never modified
+## so seed-based achievements are dormant there.
+## Definitions are organised by subdirectory under definitions/:
+##   arcade/    — arcade-only achievements (all current definitions)
+##   adventure/ — adventure-only achievements (placeholder, none yet)
+##   shared/    — achievements that can fire in either mode (placeholder, none yet)
+## check_all_achievements() is global — it runs across all modes regardless of the
+## current game mode. Mode filtering is for UI display only.
 extends Node
 
 # Achievement Manager - Autoload Singleton
@@ -23,27 +33,48 @@ var killed_enemy_types: Array[String] = []
 var achievement_resources: Dictionary = {}  # achievement_id -> AchievementData
 
 func _ready() -> void:
-	load_achievements()
+	_load_definitions()
+	# Arcade-only: Economy.seeds_changed never fires in Adventure (Economy stays at 0).
+	# TODO: connect GameState.resource_changed for Adventure seed achievements.
 	Economy.seeds_changed.connect(func(_val): on_seed_collected())
 
-func load_achievements() -> void:
-	var dir_path := "res://systems/achievements/definitions/"
-	var dir := DirAccess.open(dir_path)
-	if not dir:
-		push_error("Achievements: Could not open definitions directory: " + dir_path)
-		return
-
-	dir.list_dir_begin()
-	var file_name := dir.get_next()
-	while file_name != "":
-		if file_name.ends_with(".tres"):
-			var resource = load(dir_path + file_name)
-			if resource is AchievementData:
-				achievement_resources[resource.achievement_id] = resource
-		file_name = dir.get_next()
-	dir.list_dir_end()
-
+## Scan all three mode subdirectories and tag each resource with its mode.
+## Silently skips missing directories (adventure/ and shared/ are placeholders).
+func _load_definitions() -> void:
+	var subdirs: Dictionary = {
+		"arcade": AchievementData.AchievementMode.ARCADE,
+		"adventure": AchievementData.AchievementMode.ADVENTURE,
+		"shared": AchievementData.AchievementMode.SHARED,
+	}
+	var base_path := "res://systems/achievements/definitions/"
+	for subdir: String in subdirs:
+		var dir_path := base_path + subdir + "/"
+		var dir := DirAccess.open(dir_path)
+		if not dir:
+			continue  # placeholder directory with no .tres files yet
+		dir.list_dir_begin()
+		var file_name := dir.get_next()
+		while file_name != "":
+			if file_name.ends_with(".tres"):
+				var resource = load(dir_path + file_name)
+				if resource is AchievementData:
+					resource.mode = subdirs[subdir]
+					achievement_resources[resource.achievement_id] = resource
+			file_name = dir.get_next()
+		dir.list_dir_end()
 	print("Achievements: Loaded %d achievement definitions" % achievement_resources.size())
+
+## Kept for compatibility — internal callers now use _load_definitions().
+func load_achievements() -> void:
+	_load_definitions()
+
+## Returns all achievements for the given mode, in insertion order.
+func get_achievements_for_mode(mode: AchievementData.AchievementMode) -> Array[AchievementData]:
+	var result: Array[AchievementData] = []
+	for achievement: AchievementData in achievement_resources.values():
+		if achievement.mode == mode:
+			result.append(achievement)
+	return result
 
 func check_achievement(achievement_id: String) -> bool:
 	if achievement_id in unlocked_achievements:
@@ -182,8 +213,8 @@ func on_bomb_blocked() -> void:
 	total_bombs_blocked += 1
 	check_all_achievements()
 
+## Checks all achievements regardless of mode. Mode filtering is for UI only.
 func check_all_achievements() -> void:
-	# Check all achievements that aren't already fully unlocked
 	for achievement_id in achievement_resources:
 		if not achievement_id in unlocked_achievements:
 			check_and_unlock_achievement(achievement_id)
@@ -199,6 +230,10 @@ func reset_achievements() -> void:
 	total_bombs_blocked = 0
 	killed_enemy_types.clear()
 
+# -- Serialization --
+
+## Achievement IDs are unique across all modes, so a flat ID list is sufficient.
+## No structural change needed when new modes are added.
 func serialize_meta() -> Dictionary:
 	return {
 		"unlocked_achievements": unlocked_achievements.keys(),
@@ -206,12 +241,13 @@ func serialize_meta() -> Dictionary:
 	}
 
 func deserialize_meta(data: Dictionary) -> void:
-	# load_achievements() has already run in _ready(), so achievement_resources is populated
+	# _load_definitions() has already run in _ready(), so achievement_resources is populated
 	for id in data.get("unlocked_achievements", []):
 		if id in achievement_resources:
 			unlocked_achievements[id] = achievement_resources[id]
 	tier_progress = data.get("tier_progress", {}).duplicate()
 
+## Arcade-only: captures run-scoped counters for mid-run save/restore.
 func serialize_run() -> Dictionary:
 	return {
 		"total_enemies_stomped": total_enemies_stomped,
@@ -221,6 +257,7 @@ func serialize_run() -> Dictionary:
 		"tier_progress": tier_progress.duplicate(),
 	}
 
+## Arcade-only: restores run-scoped counters from a mid-run save.
 func deserialize_run(data: Dictionary) -> void:
 	total_enemies_stomped = data.get("total_enemies_stomped", 0)
 	total_flowers_planted = data.get("total_flowers_planted", 0)
@@ -228,3 +265,15 @@ func deserialize_run(data: Dictionary) -> void:
 	killed_enemy_types.assign(data.get("killed_enemy_types", []))
 	tier_progress = data.get("tier_progress", {}).duplicate()
 	recent_stomps.clear()  # intentionally not restored — stale timestamps break multi-stomp window
+
+## Adventure achievement state that should persist across grove/run sessions.
+## Stub — no adventure achievements exist yet.
+func serialize_adventure() -> Dictionary:
+	# TODO: Adventure achievement state to persist across grove/run sessions
+	return {}
+
+## Restore adventure achievement state from a game save.
+## Stub — no adventure achievements exist yet.
+func deserialize_adventure(_data: Dictionary) -> void:
+	# TODO: restore adventure achievement state
+	pass

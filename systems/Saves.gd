@@ -1,5 +1,7 @@
 extends Node
 
+signal save_toast(message: String)
+
 const SAVE_DIR := "user://saves/"
 const META_FILE := "user://saves/meta.json"
 const RUN_FILE := "user://saves/run.json"               # arcade mode run
@@ -244,6 +246,7 @@ func write_game() -> void:
 		"game_state": GameState.serialize(),
 		"abilities": Abilities.serialize() if Abilities.has_method("serialize") else {},
 		"flower_manager": FlowerManager.serialize() if FlowerManager.has_method("serialize") else {},
+		"achievements_adventure": Achievements.serialize_adventure(),
 	}
 	_write_json(GAME_FILE, data)
 	print("[Saves] game save written")
@@ -265,6 +268,7 @@ func load_game() -> void:
 		Abilities.deserialize(data.get("abilities", {}))
 	if FlowerManager.has_method("deserialize"):
 		FlowerManager.deserialize(data.get("flower_manager", {}))
+	Achievements.deserialize_adventure(data.get("achievements_adventure", {}))
 	print("[Saves] game save loaded")
 
 func has_game_save() -> bool:

@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://b8pencausntbo" path="res://assets/sprites/ground/ground9patch.png" id="3_bsfkc"]
 [ext_resource type="PackedScene" uid="uid://ciyc0yamaacqw" path="res://entities/player/player.tscn" id="4_qiewu"]
 [ext_resource type="Script" uid="uid://c0puvx3uk385q" path="res://entities/rooms/door_trigger.gd" id="6_w1ofc"]
+[ext_resource type="PackedScene" uid="uid://cf7h3fv0l5kc0" path="res://game_modes/grove/GrovePause.tscn" id="7_5rowv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w1ofc"]
 size = Vector2(640, 120)
@@ -73,3 +74,5 @@ script = ExtResource("6_w1ofc")
 shape = SubResource("RectangleShape2D_qiewu")
 
 [node name="EnterSpawn" type="Marker2D" parent="Doors/To_Run" unique_id=729753699]
+
+[node name="GrovePause" parent="." unique_id=1861427117 instance=ExtResource("7_5rowv")]

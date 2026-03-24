@@ -15,6 +15,7 @@ signal defense_phase_ended(flowers_harvested: int)
 
 @onready var tree_container: Node2D = $Trees
 @onready var defense_spawner: Node = $DefenseWaveSpawner
+@onready var _pause_menu: CanvasLayer = $GrovePause
 
 ## tree_id (int) -> SeedTree node
 var _tree_instances: Dictionary = {}
@@ -24,6 +25,7 @@ func _ready() -> void:
 	GameState.tree_removed.connect(_on_tree_removed)
 	_restore_trees()
 	_connect_doors()
+	_pause_menu.return_to_title_requested.connect(func() -> void: Main.return_to_title())
 
 func _connect_doors() -> void:
 	var to_run: Node = get_node_or_null("Doors/To_Run")
@@ -84,6 +86,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		Saves.write_game()
 	elif event.is_action_pressed("quick_load"):
 		_reload_from_save()
+		Saves.save_toast.emit("Loaded")
 
 ## Restore grove state from the last game save.
 ## Reloads GameState then rebuilds all tree instances to match.

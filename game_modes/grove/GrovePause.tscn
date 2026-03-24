@@ -1,11 +1,11 @@
-[gd_scene format=3 uid="uid://cnedgj3aevipi"]
+[gd_scene format=3 uid="uid://cf7h3fv0l5kc0"]
 
-[ext_resource type="Script" uid="uid://cs8kl71k81swx" path="res://ui/menus/pause_menu.gd" id="1_6tw0m"]
-[ext_resource type="FontFile" uid="uid://bxn105qovmxyq" path="res://assets/fonts/Ruler 9.ttf" id="2_0lmf7"]
+[ext_resource type="Script" uid="uid://bkqy0rgsmsqvi" path="res://game_modes/grove/grove_pause.gd" id="1_d55ee"]
+[ext_resource type="FontFile" uid="uid://bxn105qovmxyq" path="res://assets/fonts/Ruler 9.ttf" id="2_3pdcx"]
 
-[node name="PauseMenu" type="CanvasLayer" unique_id=1861427117]
+[node name="GrovePause" type="CanvasLayer" unique_id=1861427117]
 process_mode = 3
-script = ExtResource("1_6tw0m")
+script = ExtResource("1_d55ee")
 
 [node name="ColorRect" type="ColorRect" parent="." unique_id=616935779]
 offset_right = 640.0
@@ -29,25 +29,25 @@ theme_override_constants/separation = 12
 
 [node name="ResumeButton" type="Button" parent="VBoxContainer" unique_id=417856886]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_0lmf7")
+theme_override_fonts/font = ExtResource("2_3pdcx")
 text = "Resume"
 
 [node name="AchievementsButton" type="Button" parent="VBoxContainer" unique_id=563687254]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_0lmf7")
+theme_override_fonts/font = ExtResource("2_3pdcx")
 text = "Achievements"
 
-[node name="RestartButton" type="Button" parent="VBoxContainer" unique_id=565408879]
+[node name="OptionsButton" type="Button" parent="VBoxContainer" unique_id=565408879]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_0lmf7")
-text = "Start Over"
+theme_override_fonts/font = ExtResource("2_3pdcx")
+text = "Options"
 
 [node name="ExitButton" type="Button" parent="VBoxContainer" unique_id=1563813631]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("2_0lmf7")
-text = "Abandon"
+theme_override_fonts/font = ExtResource("2_3pdcx")
+text = "Exit to title screen"
 
 [connection signal="pressed" from="VBoxContainer/ResumeButton" to="." method="_on_resume_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/AchievementsButton" to="." method="_on_achievements_button_pressed"]
-[connection signal="pressed" from="VBoxContainer/RestartButton" to="." method="_on_restart_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/OptionsButton" to="." method="_on_options_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]

@@ -84,7 +84,7 @@ func _ready() -> void:
 		just_spawned.emit()
 	else: push_error("Player spawn marker not in the tree at the time of spawning")
 	
-func _exiting_tree() -> void:
+func _exit_tree() -> void:
 	Saves.unregister_player()
 
 func _find_nearest_shop() -> Node2D:
@@ -176,6 +176,9 @@ func hurt(damage_source_pos: Vector2) -> void:
 		sm_current.transition_requested.emit(sm_current, HurtState)
 
 func lose_seeds(amount: int) -> void:
+	# Arcade-coupled: reads and writes Economy. In Adventure mode, Economy is never
+	# populated (balance stays 0), so actual_loss = min(amount, 0) = 0 — silent no-op.
+	# Future: route to GameState.spend_resource("run_currency", amount) for Adventure.
 	if Economy.get_balance() > 0:
 		var actual_loss = min(amount, Economy.get_balance())
 		Economy.add_seeds(-actual_loss)
@@ -226,8 +229,9 @@ func deserialize(data: Dictionary) -> void:
 	# Health fields not saved — vestigial. Read with defaults for old save compatibility.
 	current_health = data.get("current_health", max_health)
 	max_health = data.get("max_health", max_health)
+	var fallback := spawn.position if spawn else global_position
 	global_position = Vector2(
-		data.get("position_x", spawn.x),
-		data.get("position_y", spawn.y)
+		data.get("position_x", fallback.x),
+		data.get("position_y", fallback.y)
 	)
 	# slow_aim / double_jump — removed; ignored here for old save compatibility.

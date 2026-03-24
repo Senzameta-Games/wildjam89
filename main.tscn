@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://cfl62gijxtptm" path="res://game_modes/arcade/arcade.tscn" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://dpq2tcruw021u" path="res://ui/menus/game_over.tscn" id="3_sugp2"]
-[ext_resource type="PackedScene" uid="uid://cnedgj3aevipi" path="res://ui/menus/pause_menu.tscn" id="5_tbgi4"]
+[ext_resource type="Script" uid="uid://ctvf5382a5sp4" path="res://ui/overlays/notification_manager.gd" id="4_ycdy4"]
 [ext_resource type="PackedScene" uid="uid://c3mhpqsgk2w8x" path="res://ui/achievements/achievements_view.tscn" id="6_achievements"]
 [ext_resource type="PackedScene" uid="uid://dkxl5p8m2vy4g" path="res://ui/tutorial/tutorial_ui.tscn" id="6_tefeu"]
 [ext_resource type="Script" uid="uid://bg2jld7ixu7xe" path="res://game_modes/states/mode_state_machine.gd" id="7_85g3d"]
@@ -18,12 +18,13 @@
 
 [node name="TitleScreen" parent="." unique_id=1708133566 instance=ExtResource("7_title")]
 
-[node name="PauseMenu" parent="." unique_id=1084921516 instance=ExtResource("5_tbgi4")]
-
 [node name="GameOver" parent="." unique_id=1268573568 instance=ExtResource("3_sugp2")]
 layer = 99
 
 [node name="AchievementsView" parent="." unique_id=1766635032 instance=ExtResource("6_achievements")]
+
+[node name="NotificationManager" type="CanvasLayer" parent="." unique_id=1320865379]
+script = ExtResource("4_ycdy4")
 
 [node name="TutorialUI" parent="." unique_id=290329031 instance=ExtResource("6_tefeu")]
 

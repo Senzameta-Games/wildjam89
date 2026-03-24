@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://dirsjr7q8uv5d" path="res://entities/rooms/TestRoom_A.tscn" id="2_vwxsi"]
 [ext_resource type="PackedScene" uid="uid://dvyaehfonj53g" path="res://entities/rooms/TestRoom_B.tscn" id="3_t84d1"]
 [ext_resource type="PackedScene" uid="uid://ciyc0yamaacqw" path="res://entities/player/player.tscn" id="4_dd47w"]
+[ext_resource type="PackedScene" uid="uid://cvi84moguyfh4" path="res://game_modes/run/RunPause.tscn" id="5_vwxsi"]
 
 [node name="Run" type="Node2D" unique_id=1661716505]
 script = ExtResource("1_6fh5c")
@@ -18,3 +19,5 @@ spawn = NodePath("../Spawns/Player")
 
 [node name="Player" type="Marker2D" parent="Spawns" unique_id=1535323769]
 position = Vector2(320, 277)
+
+[node name="RunPause" parent="." unique_id=1861427117 instance=ExtResource("5_vwxsi")]

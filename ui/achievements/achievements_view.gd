@@ -43,60 +43,52 @@ func populate_achievements() -> void:
 	# Clear existing items
 	for child in achievements_container.get_children():
 		child.queue_free()
-	
-	# Check if achievement_item_scene is loaded
+
 	if not achievement_item_scene:
 		push_error("Cannot create achievement items: achievement_item_scene is null")
-		print("ERROR: achievement_item_scene is null - check if achievement_item.tscn exists and is valid")
 		return
-	
-	# Get all achievements and sort: unlocked first, then locked
-	var all_achievements: Array[AchievementData] = []
-	var unlocked_achievement_ids: Array[String] = []
-	
-	# Collect all achievements and track unlocked ones
+
 	if not Achievements:
 		push_error("Achievements singleton is null!")
-		print("ERROR: Achievements singleton not found")
 		return
-	
-	if Achievements.achievement_resources.is_empty():
-		push_error("No achievements found in Achievements.achievement_resources!")
-		print("ERROR: Achievements.achievement_resources is empty")
-		return
-	
-	print("Found ", Achievements.achievement_resources.size(), " achievements to display")
-	
-	for achievement_id in Achievements.achievement_resources:
-		var achievement = Achievements.achievement_resources[achievement_id]
-		all_achievements.append(achievement)
-		if achievement_id in Achievements.unlocked_achievements:
-			unlocked_achievement_ids.append(achievement_id)
-	
-	print("Total achievements: ", all_achievements.size(), ", Unlocked: ", unlocked_achievement_ids.size())
-	
-	# Sort: unlocked first, then locked (maintain original order within each group)
-	all_achievements.sort_custom(func(a: AchievementData, b: AchievementData) -> bool:
-		var a_unlocked = a.achievement_id in unlocked_achievement_ids
-		var b_unlocked = b.achievement_id in unlocked_achievement_ids
-		
-		if a_unlocked != b_unlocked:
-			return a_unlocked  # Unlocked achievements come first
-		return false  # Maintain original order within same group
-	)
-	
-	# Create UI items for each achievement
-	for achievement in all_achievements:
-		var item = achievement_item_scene.instantiate()
-		if not item:
-			push_error("Failed to instantiate achievement item for: " + achievement.achievement_name)
+
+	# Sections in display order; skip any with no achievements
+	var sections: Array = [
+		[AchievementData.AchievementMode.ARCADE,     "Arcade"],
+		[AchievementData.AchievementMode.ADVENTURE,  "Adventure"],
+		[AchievementData.AchievementMode.SHARED,     "Shared"],
+	]
+
+	for section: Array in sections:
+		var mode: AchievementData.AchievementMode = section[0]
+		var label_text: String = section[1]
+		var achievements: Array[AchievementData] = Achievements.get_achievements_for_mode(mode)
+
+		if achievements.is_empty():
 			continue
-		achievements_container.add_child(item)
-		var is_unlocked = achievement.achievement_id in unlocked_achievement_ids
-		item.display_achievement(achievement, is_unlocked)
-		print("Created achievement item for: ", achievement.achievement_name, " (unlocked: ", is_unlocked, ")")
-	
-	print("Finished populating achievements. Total items created: ", achievements_container.get_child_count())
+
+		# Section header
+		var header := Label.new()
+		header.text = label_text
+		achievements_container.add_child(header)
+
+		# Sort: unlocked first, then locked
+		achievements.sort_custom(func(a: AchievementData, b: AchievementData) -> bool:
+			var a_unlocked: bool = a.achievement_id in Achievements.unlocked_achievements
+			var b_unlocked: bool = b.achievement_id in Achievements.unlocked_achievements
+			if a_unlocked != b_unlocked:
+				return a_unlocked
+			return false
+		)
+
+		for achievement: AchievementData in achievements:
+			var item: Node = achievement_item_scene.instantiate()
+			if not item:
+				push_error("Failed to instantiate achievement item for: " + achievement.achievement_name)
+				continue
+			achievements_container.add_child(item)
+			var is_unlocked: bool = achievement.achievement_id in Achievements.unlocked_achievements
+			item.display_achievement(achievement, is_unlocked)
 
 func _on_close_button_pressed() -> void:
 	print("Close button pressed!")

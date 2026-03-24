@@ -1,0 +1,87 @@
+[gd_scene format=3 uid="uid://c08y2lb4dh70q"]
+
+[ext_resource type="Script" uid="uid://bdd3bg6x3im7v" path="res://ui/overlays/toast.gd" id="1_5s7lp"]
+[ext_resource type="FontFile" uid="uid://bxn105qovmxyq" path="res://assets/fonts/Ruler 9.ttf" id="2_462og"]
+[ext_resource type="FontFile" uid="uid://cycbiy0d7iv67" path="res://assets/fonts/Tiny5-Regular.ttf" id="3_0g42s"]
+[ext_resource type="AudioStream" uid="uid://cfg22kkik8aof" path="res://assets/sounds/ui/AchievementGet.wav" id="4_7kim3"]
+[ext_resource type="AudioStream" uid="uid://c54xfxl6qe2kq" path="res://assets/sounds/ui/AchievementGet2.wav" id="5_0n6s7"]
+[ext_resource type="AudioStream" uid="uid://cnmx77it3b7ye" path="res://assets/sounds/ui/AchievementGet3.wav" id="6_3x4dm"]
+[ext_resource type="AudioStream" uid="uid://bhctssa1xstce" path="res://assets/sounds/ui/AchievementGet4.wav" id="7_dcqhw"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bg"]
+bg_color = Color(0, 0, 0, 0.9490196)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+corner_detail = 2
+anti_aliasing = false
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_sir7g"]
+streams_count = 4
+stream_0/stream = ExtResource("4_7kim3")
+stream_1/stream = ExtResource("5_0n6s7")
+stream_2/stream = ExtResource("6_3x4dm")
+stream_3/stream = ExtResource("7_dcqhw")
+
+[node name="Toast" type="Control" unique_id=876572078]
+custom_minimum_size = Vector2(200, 60)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 200.0
+offset_bottom = 60.0
+scale = Vector2(0.75, 0.75)
+script = ExtResource("1_5s7lp")
+metadata/_edit_group_ = true
+
+[node name="Background" type="Panel" parent="." unique_id=597468875]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bg")
+
+[node name="Container" type="HBoxContainer" parent="." unique_id=517041586]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="Text" type="VBoxContainer" parent="Container" unique_id=305118069]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Title" type="Label" parent="Container/Text" unique_id=1272467453]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_462og")
+theme_override_font_sizes/font_size = 16
+text = "Achievement Unlocked!"
+horizontal_alignment = 1
+
+[node name="Description" type="Label" parent="Container/Text" unique_id=2008156278]
+texture_filter = 1
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_0g42s")
+theme_override_font_sizes/font_size = 8
+text = "Description here"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="SFX" type="Node2D" parent="." unique_id=1161390507]
+
+[node name="AchievementGet" type="AudioStreamPlayer2D" parent="SFX" unique_id=278775153]
+stream = SubResource("AudioStreamRandomizer_sir7g")
+volume_db = -12.0

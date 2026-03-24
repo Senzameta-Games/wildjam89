@@ -1,6 +1,13 @@
 extends Resource
 class_name AchievementData
 
+@export_category("Mode")
+## Which game mode this achievement belongs to.
+## Default is ARCADE so existing .tres files require no manual edits —
+## Achievements._load_definitions() sets this from the subdirectory at load time.
+enum AchievementMode { ARCADE, ADVENTURE, SHARED }
+@export var mode: AchievementMode = AchievementMode.ARCADE
+
 @export_category("Identity")
 @export var achievement_id: String
 @export var achievement_name: String
