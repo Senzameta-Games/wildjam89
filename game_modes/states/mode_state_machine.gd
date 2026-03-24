@@ -36,7 +36,9 @@ func _on_transition_requested(from: ModeState, to_state_type: Script) -> void:
 		push_warning("ModeStateMachine: No state found for %s" % to_state_type)
 		return
 
-	_transition_to(new_state)
+	# Defer so transitions triggered during physics (e.g. body_entered) don't
+	# try to add/remove nodes while the physics server is flushing queries.
+	_transition_to.call_deferred(new_state)
 
 func _transition_to(new_state: ModeState) -> void:
 	if current_state:

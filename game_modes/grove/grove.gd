@@ -23,6 +23,18 @@ func _ready() -> void:
 	GameState.set_phase(GameState.Phase.GROVE)
 	GameState.tree_removed.connect(_on_tree_removed)
 	_restore_trees()
+	_connect_doors()
+
+func _connect_doors() -> void:
+	var to_run: Node = get_node_or_null("Doors/To_Run")
+	if to_run == null:
+		push_warning("GroveManager: Doors/To_Run not found")
+		return
+	if to_run.has_signal("door_activated"):
+		to_run.door_activated.connect(_on_run_door_activated)
+
+func _on_run_door_activated(_door: DoorTrigger) -> void:
+	enter_run()
 
 func _restore_trees() -> void:
 	for tree_data: Dictionary in GameState.trees:
@@ -64,6 +76,24 @@ func end_defense_phase() -> void:
 	GameState.set_phase(GameState.Phase.GROVE)
 	Saves.write_game()
 	defense_phase_ended.emit(flowers)
+
+## -- Save / load --
+
+func _unhandled_input(event: InputEvent) -> void:
+	if event.is_action_pressed("quick_save"):
+		Saves.write_game()
+	elif event.is_action_pressed("quick_load"):
+		_reload_from_save()
+
+## Restore grove state from the last game save.
+## Reloads GameState then rebuilds all tree instances to match.
+func _reload_from_save() -> void:
+	Saves.load_game()
+	for tree: Node2D in _tree_instances.values():
+		if is_instance_valid(tree):
+			tree.queue_free()
+	_tree_instances.clear()
+	_restore_trees()
 
 ## -- Run transition --
 

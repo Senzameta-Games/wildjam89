@@ -5,7 +5,9 @@
       "Bash(grep -rn \"ext_resource.*Script.*path\" entities/enemy/data/*.tres)",
       "Bash(grep -rn \"ext_resource.*Script.*path\" entities/tree/data/*.tres)",
       "Bash(ls systems/achievements/definitions/*.tres)",
-      "Bash(del \"D:\\\\GameDev\\\\Projects\\\\wildjam89\\\\entities\\\\tree\\\\branch.gd\" \"D:\\\\GameDev\\\\Projects\\\\wildjam89\\\\entities\\\\tree\\\\branch.gd.uid\")"
+      "Bash(del \"D:\\\\GameDev\\\\Projects\\\\wildjam89\\\\entities\\\\tree\\\\branch.gd\" \"D:\\\\GameDev\\\\Projects\\\\wildjam89\\\\entities\\\\tree\\\\branch.gd.uid\")",
+      "Bash(find /d/GameDev/Projects/wildjam89 -name *transition* -o -name *scene_manager*)",
+      "Bash(xargs grep:*)"
     ]
   }
 }

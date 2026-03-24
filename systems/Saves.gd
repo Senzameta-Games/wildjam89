@@ -2,7 +2,8 @@ extends Node
 
 const SAVE_DIR := "user://saves/"
 const META_FILE := "user://saves/meta.json"
-const RUN_FILE := "user://saves/run.json"
+const RUN_FILE := "user://saves/run.json"               # arcade mode run
+const ADVENTURE_RUN_FILE := "user://saves/adventure_run.json"  # grove/run mode
 const GAME_FILE := "user://saves/game.json"
 const SAVE_VERSION: int = 2
 
@@ -192,6 +193,47 @@ func delete_run_save() -> void:
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(RUN_FILE))
 		print("[Saves] run save deleted")
 
+# ---- Adventure run save ----
+## Separate from the arcade RUN_FILE. Written on run start and on F5.
+## Deleted when the run ends (complete or return-to-grove handoff).
+## grove can check has_adventure_run_save() in a future prompt to offer resume.
+
+func write_adventure_run(run_data: Dictionary, player_data: Dictionary) -> void:
+	_ensure_save_dir()
+	var data := {
+		"version": SAVE_VERSION,
+		"timestamp": Time.get_unix_time_from_system(),
+		"game_state": GameState.serialize(),
+		"abilities": Abilities.serialize() if Abilities.has_method("serialize") else {},
+		"player": player_data,
+		"run": run_data,
+	}
+	_write_json(ADVENTURE_RUN_FILE, data)
+	print("[Saves] adventure run written (room %d)" % run_data.get("room_index", -1))
+
+func load_adventure_run() -> Dictionary:
+	if not FileAccess.file_exists(ADVENTURE_RUN_FILE):
+		print("[Saves] no adventure run save found")
+		return {}
+	var data := _read_json(ADVENTURE_RUN_FILE)
+	if data.is_empty():
+		push_error("[Saves] adventure run save was empty or malformed")
+		return {}
+	data = _migrate_save(data)
+	if data.is_empty():
+		push_error("[Saves] adventure run migration failed")
+		return {}
+	print("[Saves] adventure run loaded (room %d)" % data.get("run", {}).get("room_index", -1))
+	return data
+
+func has_adventure_run_save() -> bool:
+	return FileAccess.file_exists(ADVENTURE_RUN_FILE)
+
+func delete_adventure_run_save() -> void:
+	if FileAccess.file_exists(ADVENTURE_RUN_FILE):
+		DirAccess.remove_absolute(ProjectSettings.globalize_path(ADVENTURE_RUN_FILE))
+		print("[Saves] adventure run save deleted")
+
 # ---- Game save ----
 
 func write_game() -> void:
@@ -263,6 +305,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func debug_clear_saves() -> void:
 	delete_run_save()
+	delete_adventure_run_save()
 	if FileAccess.file_exists(META_FILE):
 		DirAccess.remove_absolute(ProjectSettings.globalize_path(META_FILE))
 		print("[Saves] meta save deleted")

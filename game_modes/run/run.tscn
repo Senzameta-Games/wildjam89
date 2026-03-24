@@ -11,4 +11,10 @@ room_sequence = Array[PackedScene]([ExtResource("2_vwxsi"), ExtResource("3_t84d1
 
 [node name="RoomContainer" type="Node2D" parent="." unique_id=505492585]
 
-[node name="Player" parent="." unique_id=2092900557 instance=ExtResource("4_dd47w")]
+[node name="Player" parent="." unique_id=2092900557 node_paths=PackedStringArray("spawn") instance=ExtResource("4_dd47w")]
+spawn = NodePath("../Spawns/Player")
+
+[node name="Spawns" type="Node2D" parent="." unique_id=613122778]
+
+[node name="Player" type="Marker2D" parent="Spawns" unique_id=1535323769]
+position = Vector2(320, 277)

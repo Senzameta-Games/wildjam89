@@ -12,9 +12,12 @@ func enter() -> void:
 		push_error("RunGameMode: run_scene not assigned in inspector")
 		return
 	_run_instance = run_scene.instantiate()
-	context.add_child(_run_instance)
+	# Connect before add_child so the signal is live when _ready() fires.
 	if _run_instance.has_signal("run_completed"):
 		_run_instance.run_completed.connect(_on_run_completed)
+	# Defer add_child to avoid physics-flush errors when transitioning from a
+	# body_entered callback (grove To_Run door → RunGameMode.enter()).
+	context.call_deferred("add_child", _run_instance)
 
 func exit() -> void:
 	if _run_instance != null and is_instance_valid(_run_instance):

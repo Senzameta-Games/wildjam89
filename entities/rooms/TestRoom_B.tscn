@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://d4d8heoya5rg5" path="res://game_modes/run/run_room.gd" id="1_xxwc4"]
 [ext_resource type="Texture2D" uid="uid://b8pencausntbo" path="res://assets/sprites/ground/ground9patch.png" id="2_krf34"]
-[ext_resource type="PackedScene" uid="uid://ciyc0yamaacqw" path="res://entities/player/player.tscn" id="3_y7blc"]
+[ext_resource type="Script" uid="uid://c0puvx3uk385q" path="res://entities/rooms/door_trigger.gd" id="4_krf34"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o1ba8"]
 size = Vector2(640, 120)
@@ -50,13 +50,13 @@ metadata/_edit_use_anchors_ = true
 [node name="Player" type="Marker2D" parent="Spawns" unique_id=667230934]
 position = Vector2(320, 277)
 
-[node name="Player" parent="." unique_id=2092900557 node_paths=PackedStringArray("spawn") instance=ExtResource("3_y7blc")]
-spawn = NodePath("../Spawns/Player")
-
 [node name="Doors" type="Node2D" parent="." unique_id=276151282]
 
 [node name="To_TestRoomA" type="Area2D" parent="Doors" unique_id=72174196]
 position = Vector2(0, 284)
+collision_mask = 2
+script = ExtResource("4_krf34")
+entry_door_in_destination = "To_TestRoomB"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/To_TestRoomA" unique_id=1122354077]
 shape = SubResource("RectangleShape2D_xxwc4")

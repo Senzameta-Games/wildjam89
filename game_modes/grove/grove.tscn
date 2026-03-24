@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://c02nv81s8wds6" path="res://game_modes/grove/defense_wave_spawner.gd" id="2_xy2kl"]
 [ext_resource type="Texture2D" uid="uid://b8pencausntbo" path="res://assets/sprites/ground/ground9patch.png" id="3_bsfkc"]
 [ext_resource type="PackedScene" uid="uid://ciyc0yamaacqw" path="res://entities/player/player.tscn" id="4_qiewu"]
+[ext_resource type="Script" uid="uid://c0puvx3uk385q" path="res://entities/rooms/door_trigger.gd" id="6_w1ofc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w1ofc"]
 size = Vector2(640, 120)
@@ -65,6 +66,8 @@ spawn = NodePath("../Spawns/Player")
 
 [node name="To_Run" type="Area2D" parent="Doors" unique_id=645000502]
 position = Vector2(640, 284)
+collision_mask = 2
+script = ExtResource("6_w1ofc")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Doors/To_Run" unique_id=325928638]
 shape = SubResource("RectangleShape2D_qiewu")
