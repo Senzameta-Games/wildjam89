@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="RoomData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://entities/rooms/room_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+room_name = &"Tutorial1"
+room_type = 0
+camera_mode = 1
+clear_condition = &"collect_food"
+initial_state = &"locked"

@@ -16,24 +16,33 @@ signal defense_phase_ended(flowers_harvested: int)
 @onready var tree_container: Node2D = $Trees
 @onready var defense_spawner: Node = $DefenseWaveSpawner
 @onready var _pause_menu: CanvasLayer = $GrovePause
+@onready var _camera: GroveCamera = $GroveCamera
 
 ## tree_id (int) -> SeedTree node
 var _tree_instances: Dictionary = {}
+var _current_room: RoomArea = null
 
 func _ready() -> void:
 	GameState.set_phase(GameState.Phase.GROVE)
 	GameState.tree_removed.connect(_on_tree_removed)
 	_restore_trees()
 	_connect_doors()
+	_connect_rooms()
 	_pause_menu.return_to_title_requested.connect(func() -> void: Main.return_to_title())
+	_place_player_at_initial_spawn()
 
 func _connect_doors() -> void:
-	var to_run: Node = get_node_or_null("Doors/To_Run")
-	if to_run == null:
-		push_warning("GroveManager: Doors/To_Run not found")
+	var doors: Array[Node] = get_tree().get_nodes_in_group("door")
+	if doors.is_empty():
+		push_warning("GroveManager: no nodes in group 'door' found")
 		return
-	if to_run.has_signal("door_activated"):
-		to_run.door_activated.connect(_on_run_door_activated)
+	for door: Node in doors:
+		if door.has_signal("door_activated"):
+			door.door_activated.connect(_on_run_door_activated)
+		# Suppress the body_entered that fires if the player spawns inside
+		# this door's area (e.g. both at position 0,0 before layout is finalised).
+		if door.has_method("suppress_next_entry"):
+			door.suppress_next_entry()
 
 func _on_run_door_activated(_door: DoorTrigger) -> void:
 	enter_run()
@@ -105,6 +114,43 @@ func _reload_from_save() -> void:
 func enter_run() -> void:
 	Saves.write_game()
 	run_requested.emit()
+
+## -- Player spawn --
+
+## Positions the Player at the Tutorial0 spawn marker on initial grove entry.
+## When returning from a run, grove_state.gd's _apply_run_door_spawn fires
+## after _ready() (deferred) and overrides this — no conflict.
+func _place_player_at_initial_spawn() -> void:
+	var player := get_node_or_null("Player") as Player
+	if player == null:
+		push_warning("GroveManager: Player node not found — skipping initial spawn placement")
+		return
+	var spawn := get_node_or_null("Rooms/Tutorial0/Spawns/Player") as Marker2D
+	if spawn == null:
+		push_warning("GroveManager: Rooms/Tutorial0/Spawns/Player not found — player stays at default position")
+		return
+	player.global_position = spawn.global_position
+
+## -- Room wiring --
+
+func _connect_rooms() -> void:
+	var rooms_node: Node2D = get_node_or_null("Rooms") as Node2D
+	if rooms_node == null:
+		push_warning("GroveManager: Rooms node not found — skipping room signal connections")
+		return
+	for child: Node in rooms_node.get_children():
+		if child is RoomArea:
+			var room: RoomArea = child as RoomArea
+			room.player_entered.connect(_camera._on_room_entered)
+			room.player_entered.connect(_on_player_entered_room)
+			room.player_exited.connect(_on_player_exited_room)
+
+func _on_player_entered_room(room: RoomArea) -> void:
+	_current_room = room
+
+func _on_player_exited_room(room: RoomArea) -> void:
+	if _current_room == room:
+		_current_room = null
 
 ## -- Signal handlers --
 

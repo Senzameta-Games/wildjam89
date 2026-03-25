@@ -39,7 +39,7 @@ func _apply_run_door_spawn() -> void:
 	if _grove_instance == null or not is_instance_valid(_grove_instance):
 		return
 	var player := _grove_instance.get_node_or_null("Player") as Player
-	var to_run_door: Node = _grove_instance.get_node_or_null("Doors/To_Run")
+	var to_run_door: Node = _grove_instance.get_node_or_null("Rooms/GroveArea/Doors/To_Run")
 	var door_spawn := to_run_door.get_node_or_null("EnterSpawn") as Marker2D if to_run_door else null
 	if player != null and door_spawn != null:
 		if to_run_door.has_method("suppress_next_entry"):

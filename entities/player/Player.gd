@@ -148,7 +148,7 @@ func bounce() -> void:
 	aim_cooldown = 0.5
 	velocity.y = -jump_velocity * 1.1
 	is_stomping = false
-	get_tree().call_group("camera", "apply_shake", Vector2(1, 32), 1.5)
+	get_tree().call_group("camera", "stomp_character")
 	hit_stop(0.1)
 
 func hit_stop(duration: float) -> void:

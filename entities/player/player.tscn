@@ -83,9 +83,9 @@
 [ext_resource type="AudioStream" uid="uid://b3vf6p8b1ifej" path="res://assets/sounds/player/dash/playerdash4.wav" id="81_q5cs4"]
 [ext_resource type="AudioStream" uid="uid://crgo8jfbur0vb" path="res://assets/sounds/player/dash/playerdash5.wav" id="82_dgp3a"]
 [ext_resource type="Shader" uid="uid://c4ibaqhwwsbf6" path="res://assets/shaders/aim_ray.gdshader" id="83_osnhv"]
-[ext_resource type="Script" path="res://entities/player/interaction_states/interaction_state_machine.gd" id="84_ism"]
-[ext_resource type="Script" path="res://entities/player/interaction_states/no_interaction_state.gd" id="85_noi"]
-[ext_resource type="Script" path="res://entities/player/interaction_states/depositing_state.gd" id="86_dep"]
+[ext_resource type="Script" uid="uid://feomg47ua1fp" path="res://entities/player/interaction_states/interaction_state_machine.gd" id="84_ism"]
+[ext_resource type="Script" uid="uid://c0qgw0u84s87g" path="res://entities/player/interaction_states/no_interaction_state.gd" id="85_noi"]
+[ext_resource type="Script" uid="uid://m5n5nketf06c" path="res://entities/player/interaction_states/depositing_state.gd" id="86_dep"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_x7p2l"]
 animations = [{
@@ -290,7 +290,6 @@ collision_mask = 105
 script = ExtResource("1_aerxn")
 player_sprite = NodePath("Sprite")
 player_collider = NodePath("Collider")
-spawn_pos = Vector2(320, 250)
 sfx = NodePath("SFX")
 seed_scn = ExtResource("2_qd1uy")
 move_speed = 165.0
@@ -374,14 +373,6 @@ stream = SubResource("AudioStreamRandomizer_bysbl")
 [node name="Dash" type="AudioStreamPlayer2D" parent="SFX" unique_id=725730773]
 stream = SubResource("AudioStreamRandomizer_7nf13")
 volume_db = -8.0
-
-[node name="VFX" type="Node2D" parent="." unique_id=16929064]
-
-[node name="RunParticles" type="GPUParticles2D" parent="VFX" unique_id=1442364521]
-
-[node name="StompParticles" type="GPUParticles2D" parent="VFX" unique_id=39506498]
-
-[node name="MotionFollowParticles" type="GPUParticles2D" parent="VFX" unique_id=645314303]
 
 [node name="AimRay" type="RayCast2D" parent="." unique_id=2080163080]
 z_index = -1

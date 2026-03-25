@@ -147,6 +147,7 @@ stream = SubResource("AudioStreamRandomizer_wk82e")
 [node name="VFX" type="Node2D" parent="." unique_id=1198207370]
 
 [node name="StompedParticles" type="GPUParticles2D" parent="VFX" unique_id=1735905352]
+emitting = false
 
 [node name="Seed" parent="." unique_id=791949557 instance=ExtResource("2_fktuf")]
 visible = false
