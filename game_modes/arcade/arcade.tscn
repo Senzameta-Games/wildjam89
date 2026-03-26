@@ -27,13 +27,10 @@
 [ext_resource type="Texture2D" uid="uid://bnrlv6xwr6dd8" path="res://assets/sprites/flower/flowerblue.png" id="26_t51ir"]
 [ext_resource type="Script" uid="uid://chy5vii7fk6sl" path="res://systems/MusicPlayer.gd" id="26_u5w0m"]
 [ext_resource type="Script" uid="uid://bg2jld7ixu7xe" path="res://game_modes/states/mode_state_machine.gd" id="27_87pmf"]
-[ext_resource type="Script" uid="uid://ch45bl5xagp3v" path="res://game_modes/arcade/states/tutorial_state.gd" id="28_87pmf"]
 [ext_resource type="AudioStream" uid="uid://ba1w3s3lkrw5e" path="res://assets/sounds/music/StompTreeMaster.wav" id="28_fhw5o"]
 [ext_resource type="Script" uid="uid://cpi5nl1c5sn4i" path="res://game_modes/arcade/states/play_state.gd" id="29_hv3u0"]
 [ext_resource type="Script" uid="uid://c1b5vu1pgf2l8" path="res://game_modes/arcade/states/stage_win_state.gd" id="30_wk61e"]
 [ext_resource type="Script" uid="uid://fhnml50sbx2f" path="res://game_modes/arcade/states/game_win_state.gd" id="31_vrcex"]
-[ext_resource type="Script" uid="uid://cnqf4v6wa0j7m" path="res://systems/TreeContentSpawner.gd" id="33_tcs01"]
-[ext_resource type="PackedScene" uid="uid://3mhjgr2g4y7j" path="res://entities/seed/seed.tscn" id="34_seed1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hnne4"]
 size = Vector2(640, 120)
@@ -329,20 +326,10 @@ stream = ExtResource("28_fhw5o")
 volume_db = -8.0
 script = ExtResource("26_u5w0m")
 
-[node name="TreeContentSpawner" type="Node" parent="." unique_id=1938475621]
-script = ExtResource("33_tcs01")
-seed_scn = ExtResource("34_seed1")
-enemy_spawner_scn = ExtResource("5_vpf64")
-enemy_roster = Array[PackedScene]([ExtResource("5_xv074"), ExtResource("6_sytrn"), ExtResource("6_pe1ox"), ExtResource("8_yoh1m")])
-
 [node name="StateMachine" type="Node" parent="." unique_id=192022773 node_paths=PackedStringArray("initial_state")]
 script = ExtResource("27_87pmf")
-initial_state = NodePath("Tutorial")
+initial_state = NodePath("Play")
 metadata/_custom_type_script = "uid://bg2jld7ixu7xe"
-
-[node name="Tutorial" type="Node" parent="StateMachine" unique_id=1366694364]
-script = ExtResource("28_87pmf")
-metadata/_custom_type_script = "uid://cynb7gmuroem5"
 
 [node name="Play" type="Node" parent="StateMachine" unique_id=1687527904]
 script = ExtResource("29_hv3u0")

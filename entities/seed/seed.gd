@@ -84,20 +84,6 @@ func setup_deposit(target: Node2D) -> void:
 # --- Drop physics (CharacterBody2D) ---
 
 func _physics_process(delta: float) -> void:
-	# Magnetism: pulls resting drop seeds and world seeds toward the player.
-	var magnetizable := (_mode_drop and _merge_checked) or _mode_world
-	if magnetizable and Magnetism.is_active():
-		var player := get_tree().get_first_node_in_group("player") as Node2D
-		if player:
-			var dist := global_position.distance_to(player.global_position)
-			if dist <= Magnetism.range:
-				if dist < 20.0:
-					_collect()
-					return
-				velocity = global_position.direction_to(player.global_position) * Magnetism.pull_speed
-				move_and_slide()
-				return
-
 	if not _mode_drop:
 		return
 

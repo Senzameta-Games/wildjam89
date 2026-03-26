@@ -7,14 +7,11 @@ extends Node2D
 ## state machine; extract to one only if complexity warrants it later.
 
 signal run_requested         ## Emitted when player enters the run portal.
-signal defense_phase_started
-signal defense_phase_ended(flowers_harvested: int)
 
 ## Assign in inspector.
 @export var tree_scn: PackedScene
 
 @onready var tree_container: Node2D = $Trees
-@onready var defense_spawner: Node = $DefenseWaveSpawner
 @onready var _pause_menu: CanvasLayer = $GrovePause
 @onready var _camera: GroveCamera = $GroveCamera
 
@@ -74,21 +71,6 @@ func plant_new_tree(world_position: Vector2) -> void:
 	var id: int = GameState.register_tree(world_position, 10.0)
 	_instantiate_tree(GameState.get_tree_data(id))
 	Saves.write_game()
-
-## -- Defense phase --
-
-func start_defense_phase() -> void:
-	GameState.set_phase(GameState.Phase.DEFENSE)
-	defense_phase_started.emit()
-	if defense_spawner != null and defense_spawner.has_method("spawn_wave"):
-		# Stub: wave data wired up once wave definitions exist.
-		defense_spawner.spawn_wave([], 0)
-
-func end_defense_phase() -> void:
-	var flowers: int = FlowerManager.wipe_flowers()
-	GameState.set_phase(GameState.Phase.GROVE)
-	Saves.write_game()
-	defense_phase_ended.emit(flowers)
 
 ## -- Save / load --
 

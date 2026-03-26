@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://cm2sig62itlv8" path="res://game_modes/grove/grove.gd" id="1_113ig"]
 [ext_resource type="PackedScene" uid="uid://5u0rjw4fxv62" path="res://entities/tree/tree.tscn" id="2_qiewu"]
-[ext_resource type="Script" uid="uid://c02nv81s8wds6" path="res://game_modes/grove/defense_wave_spawner.gd" id="2_xy2kl"]
 [ext_resource type="Texture2D" uid="uid://b8pencausntbo" path="res://assets/sprites/ground/ground9patch.png" id="3_bsfkc"]
 [ext_resource type="PackedScene" uid="uid://ciyc0yamaacqw" path="res://entities/player/player.tscn" id="4_qiewu"]
 [ext_resource type="PackedScene" uid="uid://cf7h3fv0l5kc0" path="res://game_modes/grove/GrovePause.tscn" id="7_5rowv"]
@@ -31,10 +30,6 @@ script = ExtResource("1_113ig")
 tree_scn = ExtResource("2_qiewu")
 
 [node name="Trees" type="Node2D" parent="." unique_id=931482614]
-
-[node name="DefenseWaveSpawner" type="Node2D" parent="." unique_id=211566418]
-script = ExtResource("2_xy2kl")
-default_enemy_scenes = Array[PackedScene]([ExtResource("14_3cbh6"), ExtResource("7_r0i30")])
 
 [node name="Rooms" type="Node2D" parent="." unique_id=2111878928]
 
