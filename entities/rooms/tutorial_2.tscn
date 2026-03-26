@@ -1,0 +1,84 @@
+[gd_scene format=3 uid="uid://dmku32tpvprqd"]
+
+[ext_resource type="Script" path="res://entities/rooms/room_area.gd" id="1_jgocs"]
+[ext_resource type="Resource" path="res://entities/rooms/data/tutorial0_data.tres" id="2_a6xhw"]
+[ext_resource type="Texture2D" uid="uid://b8pencausntbo" path="res://assets/sprites/ground/ground9patch.png" id="3_cxi0u"]
+[ext_resource type="Texture2D" uid="uid://cbnqkbwxab2j8" path="res://assets/sprites/ground/ground2_all_9patch.png" id="4_1gkua"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h57ol"]
+size = Vector2(640, 360)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4qdom"]
+size = Vector2(640, 160)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jgocs"]
+size = Vector2(120, 18)
+
+[node name="Tutorial0" type="Area2D" unique_id=2059647401]
+script = ExtResource("1_jgocs")
+data = ExtResource("2_a6xhw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1431575620]
+position = Vector2(320, 180)
+shape = SubResource("RectangleShape2D_h57ol")
+debug_color = Color(0.7294118, 0.34509805, 0.8235294, 0.17254902)
+
+[node name="Environment" type="Node2D" parent="." unique_id=2114223835]
+
+[node name="GroundPlane" type="StaticBody2D" parent="Environment" unique_id=426065676]
+position = Vector2(320, 360)
+collision_mask = 6
+
+[node name="Collision" type="CollisionShape2D" parent="Environment/GroundPlane" unique_id=1909347510]
+shape = SubResource("RectangleShape2D_4qdom")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Environment/GroundPlane" unique_id=1022457287]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -320.0
+offset_top = -80.0
+offset_right = 320.0
+offset_bottom = 80.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_cxi0u")
+region_rect = Rect2(0, 0, 18, 18)
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Platform5" type="StaticBody2D" parent="Environment/GroundPlane" unique_id=2011507033]
+position = Vector2(0, -154)
+collision_mask = 6
+
+[node name="Collision" type="CollisionShape2D" parent="Environment/GroundPlane/Platform5" unique_id=1681978723]
+shape = SubResource("RectangleShape2D_jgocs")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Environment/GroundPlane/Platform5" unique_id=576686307]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -9.0
+offset_right = 60.0
+offset_bottom = 9.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_1gkua")
+region_rect = Rect2(0, 0, 18, 18)
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+metadata/_edit_use_anchors_ = true

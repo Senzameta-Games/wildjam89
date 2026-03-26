@@ -11,6 +11,7 @@ signal state_changed(room: RoomArea, new_state: StringName)
 var room_state: StringName
 
 var _player_inside: bool = false
+var _exit_pending: bool = false
 
 func _ready() -> void:
 	collision_layer = 0
@@ -51,4 +52,11 @@ func _on_body_exited(body: Node2D) -> void:
 	if not body.is_in_group(&"player"):
 		return
 	_player_inside = false
-	player_exited.emit(self)
+	if not _exit_pending:
+		_exit_pending = true
+		get_tree().create_timer(0.1).timeout.connect(_on_exit_timer_expired)
+
+func _on_exit_timer_expired() -> void:
+	_exit_pending = false
+	if not _player_inside:
+		player_exited.emit(self)

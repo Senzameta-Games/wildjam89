@@ -81,8 +81,9 @@ func _ready() -> void:
 	Saves.register_player(self)
 	if spawn:
 		self.position = spawn.position
-		just_spawned.emit()
-	else: push_error("Player spawn marker not in the tree at the time of spawning")
+	# just_spawned always fires — position is set here when spawn is assigned,
+	# or overridden by the scene manager (e.g. grove.gd) immediately after _ready().
+	just_spawned.emit()
 	
 func _exit_tree() -> void:
 	Saves.unregister_player()
@@ -138,10 +139,11 @@ func jump(is_double_jump: bool = false) -> void:
 	just_jumped.emit()
 
 func stomp() -> void:
-	velocity.y = stomp_velocity
+	velocity.y = max(velocity.y, stomp_velocity)
 	velocity.x = 0.74 * velocity.x
 	is_stomping = true
 	just_stomped.emit()
+	hit_stop(0.04)
 
 func bounce() -> void:
 	sfx_stompimpact.play()
@@ -149,6 +151,9 @@ func bounce() -> void:
 	velocity.y = -jump_velocity * 1.1
 	is_stomping = false
 	get_tree().call_group("camera", "stomp_character")
+	var sm := $StateMachine
+	if sm and sm.current_state:
+		sm.current_state.transition_requested.emit(sm.current_state, AirState)
 	hit_stop(0.1)
 
 func hit_stop(duration: float) -> void:

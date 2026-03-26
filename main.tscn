@@ -10,7 +10,7 @@
 [ext_resource type="Script" uid="uid://cgy1kdlu8rgnr" path="res://game_modes/states/title_screen_state.gd" id="8_85g3d"]
 [ext_resource type="Script" uid="uid://6jaj0yjxo5xr" path="res://game_modes/states/arcade_state.gd" id="9_choun"]
 [ext_resource type="Script" uid="uid://g81q2g2t1tyb" path="res://game_modes/states/grove_state.gd" id="10_ycdy4"]
-[ext_resource type="PackedScene" uid="uid://di10gnrnif2lh" path="res://game_modes/grove/grove.tscn" id="11_w48qg"]
+[ext_resource type="PackedScene" uid="uid://di10gnrnif2lh" path="res://game_modes/grove/Grove.tscn" id="11_w48qg"]
 [ext_resource type="Script" uid="uid://0j7vxslu6h71" path="res://game_modes/states/run_state.gd" id="12_vivmo"]
 [ext_resource type="PackedScene" uid="uid://ca6ujpig2jfdn" path="res://game_modes/run/run.tscn" id="13_2cqfq"]
 

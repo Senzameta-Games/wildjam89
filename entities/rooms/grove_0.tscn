@@ -1,0 +1,324 @@
+[gd_scene format=3 uid="uid://kdtqc1xvwudb"]
+
+[ext_resource type="Script" path="res://entities/rooms/room_area.gd" id="1_ygt7a"]
+[ext_resource type="Resource" path="res://entities/rooms/data/grove_data.tres" id="2_ti7tj"]
+[ext_resource type="Texture2D" uid="uid://b8pencausntbo" path="res://assets/sprites/ground/ground9patch.png" id="3_8hgbs"]
+[ext_resource type="Texture2D" uid="uid://do2lo67fdq2rq" path="res://assets/sprites/ground/ground_all_9patch.png" id="4_ygt7a"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r0i30"]
+size = Vector2(1920, 1080)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1huj6"]
+size = Vector2(1920, 360)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ygt7a"]
+size = Vector2(120, 18)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6m1mv"]
+size = Vector2(64, 18)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ti7tj"]
+size = Vector2(240, 18)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8hgbs"]
+size = Vector2(240, 32)
+
+[node name="Grove" type="Area2D" unique_id=1554179447]
+script = ExtResource("1_ygt7a")
+data = ExtResource("2_ti7tj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=171657517]
+shape = SubResource("RectangleShape2D_r0i30")
+debug_color = Color(0.7294118, 0.34509805, 0.8235294, 0.17254902)
+
+[node name="Environment" type="Node2D" parent="." unique_id=447492398]
+
+[node name="GroundPlane" type="StaticBody2D" parent="Environment" unique_id=276865722]
+position = Vector2(0, 540)
+collision_mask = 6
+
+[node name="Collision" type="CollisionShape2D" parent="Environment/GroundPlane" unique_id=1795347697]
+shape = SubResource("RectangleShape2D_1huj6")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Environment/GroundPlane" unique_id=480351486]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -960.0
+offset_top = -180.0
+offset_right = 960.0
+offset_bottom = 180.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_8hgbs")
+region_rect = Rect2(0, 0, 18, 18)
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Platform" type="StaticBody2D" parent="Environment" unique_id=11143835]
+position = Vector2(-879, 146)
+collision_mask = 6
+
+[node name="Collision" type="CollisionShape2D" parent="Environment/Platform" unique_id=845549970]
+shape = SubResource("RectangleShape2D_ygt7a")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Environment/Platform" unique_id=1000462804]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -9.0
+offset_right = 60.0
+offset_bottom = 9.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_ygt7a")
+region_rect = Rect2(0, 0, 18, 18)
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Platform4" type="StaticBody2D" parent="Environment" unique_id=991306671]
+position = Vector2(-406, 299)
+collision_mask = 6
+
+[node name="Collision" type="CollisionShape2D" parent="Environment/Platform4" unique_id=338033635]
+shape = SubResource("RectangleShape2D_ygt7a")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Environment/Platform4" unique_id=519529323]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -9.0
+offset_right = 60.0
+offset_bottom = 9.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_ygt7a")
+region_rect = Rect2(0, 0, 18, 18)
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Platform5" type="StaticBody2D" parent="Environment" unique_id=1596737499]
+position = Vector2(-285, 259)
+collision_mask = 6
+
+[node name="Collision" type="CollisionShape2D" parent="Environment/Platform5" unique_id=316361069]
+shape = SubResource("RectangleShape2D_ygt7a")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Environment/Platform5" unique_id=1202472070]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -9.0
+offset_right = 60.0
+offset_bottom = 9.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_ygt7a")
+region_rect = Rect2(0, 0, 18, 18)
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Platform6" type="StaticBody2D" parent="Environment" unique_id=1328147646]
+position = Vector2(-197, 162)
+collision_mask = 6
+
+[node name="Collision" type="CollisionShape2D" parent="Environment/Platform6" unique_id=1092828008]
+shape = SubResource("RectangleShape2D_6m1mv")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Environment/Platform6" unique_id=349736086]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -9.0
+offset_right = 32.0
+offset_bottom = 9.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_ygt7a")
+region_rect = Rect2(0, 0, 18, 18)
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Platform10" type="StaticBody2D" parent="Environment" unique_id=1733201548]
+position = Vector2(-382, 107)
+collision_mask = 6
+
+[node name="Collision" type="CollisionShape2D" parent="Environment/Platform10" unique_id=578039776]
+shape = SubResource("RectangleShape2D_6m1mv")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Environment/Platform10" unique_id=1559546517]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -9.0
+offset_right = 32.0
+offset_bottom = 9.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_ygt7a")
+region_rect = Rect2(0, 0, 18, 18)
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Platform11" type="StaticBody2D" parent="Environment" unique_id=1269756995]
+position = Vector2(-276, 19)
+collision_mask = 6
+
+[node name="Collision" type="CollisionShape2D" parent="Environment/Platform11" unique_id=1079649601]
+shape = SubResource("RectangleShape2D_6m1mv")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Environment/Platform11" unique_id=1600304417]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -9.0
+offset_right = 32.0
+offset_bottom = 9.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_ygt7a")
+region_rect = Rect2(0, 0, 18, 18)
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Platform9" type="StaticBody2D" parent="Environment" unique_id=819304881]
+position = Vector2(-213, 0)
+collision_mask = 6
+
+[node name="Collision" type="CollisionShape2D" parent="Environment/Platform9" unique_id=682416520]
+shape = SubResource("RectangleShape2D_ygt7a")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Environment/Platform9" unique_id=2075133122]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -9.0
+offset_right = 60.0
+offset_bottom = 9.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_ygt7a")
+region_rect = Rect2(0, 0, 18, 18)
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Platform2" type="StaticBody2D" parent="Environment" unique_id=1088671318]
+position = Vector2(-525, -42)
+collision_mask = 6
+
+[node name="Collision" type="CollisionShape2D" parent="Environment/Platform2" unique_id=42370186]
+shape = SubResource("RectangleShape2D_ti7tj")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Environment/Platform2" unique_id=2020244960]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -120.0
+offset_top = -9.0
+offset_right = 120.0
+offset_bottom = 9.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_ygt7a")
+region_rect = Rect2(0, 0, 18, 18)
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="Platform3" type="StaticBody2D" parent="Environment" unique_id=217475737]
+position = Vector2(-466, 345)
+collision_mask = 6
+
+[node name="Collision" type="CollisionShape2D" parent="Environment/Platform3" unique_id=159147630]
+shape = SubResource("RectangleShape2D_8hgbs")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Environment/Platform3" unique_id=1517163096]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -120.0
+offset_top = -16.0
+offset_right = 120.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_ygt7a")
+region_rect = Rect2(0, 0, 18, 18)
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+metadata/_edit_use_anchors_ = true

@@ -19,7 +19,9 @@ func exit() -> void:
 	get_tree().paused = false
 
 func _on_arcade_requested() -> void:
+	await ScreenFade.fade_to_black(0.4)
 	transition_requested.emit(self, ArcadeState)
 
 func _on_adventure_requested() -> void:
+	await ScreenFade.fade_to_black(0.4)
 	transition_requested.emit(self, GroveGameMode)

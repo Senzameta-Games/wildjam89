@@ -127,7 +127,11 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 	if (body != self) and body.is_in_group("player"):
 		var is_above = body.global_position.y < (global_position.y - 8.0)
 		var is_stomp_active: bool = body.get("is_stomping")
-		if is_stomp_active and is_above:
+		# Use velocity.y >= 0 (falling/stationary) instead of is_above for stomp kills.
+		# At high fall speeds the physics overlap fires after the player has already
+		# passed the 8-px threshold, making is_above false on a valid stomp → player
+		# would get hurt instead of stomping. Downward velocity is the reliable signal.
+		if is_stomp_active and body.velocity.y >= 0:
 			if body.has_method("bounce"):
 				body.bounce()
 			die()

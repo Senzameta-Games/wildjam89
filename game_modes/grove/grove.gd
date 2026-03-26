@@ -30,6 +30,8 @@ func _ready() -> void:
 	_connect_rooms()
 	_pause_menu.return_to_title_requested.connect(func() -> void: Main.return_to_title())
 	_place_player_at_initial_spawn()
+	var initial_room := get_node_or_null("Rooms/Tutorial0") as RoomArea
+	_camera.initialize(initial_room)
 
 func _connect_doors() -> void:
 	var doors: Array[Node] = get_tree().get_nodes_in_group("door")
@@ -125,9 +127,9 @@ func _place_player_at_initial_spawn() -> void:
 	if player == null:
 		push_warning("GroveManager: Player node not found — skipping initial spawn placement")
 		return
-	var spawn := get_node_or_null("Rooms/Tutorial0/Spawns/Player") as Marker2D
+	var spawn := get_node_or_null("Spawns/Player") as Marker2D
 	if spawn == null:
-		push_warning("GroveManager: Rooms/Tutorial0/Spawns/Player not found — player stays at default position")
+		push_warning("GroveManager: Spawns/Player not found — player stays at default position")
 		return
 	player.global_position = spawn.global_position
 

@@ -1,63 +1,30 @@
-[gd_scene format=3 uid="uid://di10gnrnif2lh"]
+[gd_scene format=3 uid="uid://dbdwiv0j64khx"]
 
 [ext_resource type="Script" uid="uid://cm2sig62itlv8" path="res://game_modes/grove/grove.gd" id="1_113ig"]
 [ext_resource type="PackedScene" uid="uid://5u0rjw4fxv62" path="res://entities/tree/tree.tscn" id="2_qiewu"]
 [ext_resource type="Script" uid="uid://c02nv81s8wds6" path="res://game_modes/grove/defense_wave_spawner.gd" id="2_xy2kl"]
 [ext_resource type="Texture2D" uid="uid://b8pencausntbo" path="res://assets/sprites/ground/ground9patch.png" id="3_bsfkc"]
-[ext_resource type="Script" path="res://entities/rooms/room_area.gd" id="4_ld7j3"]
 [ext_resource type="PackedScene" uid="uid://ciyc0yamaacqw" path="res://entities/player/player.tscn" id="4_qiewu"]
-[ext_resource type="Resource" path="res://entities/rooms/data/grove_data.tres" id="5_36e8q"]
-[ext_resource type="Script" uid="uid://c0puvx3uk385q" path="res://entities/rooms/door_trigger.gd" id="6_w1ofc"]
 [ext_resource type="PackedScene" uid="uid://cf7h3fv0l5kc0" path="res://game_modes/grove/GrovePause.tscn" id="7_5rowv"]
 [ext_resource type="PackedScene" uid="uid://clg6borink2ye" path="res://entities/enemy/variants/slow-strong.tscn" id="7_r0i30"]
+[ext_resource type="PackedScene" uid="uid://kdtqc1xvwudb" path="res://entities/rooms/grove_0.tscn" id="7_xs45p"]
 [ext_resource type="Script" path="res://game_modes/grove/grove_camera.gd" id="8_xjtpt"]
-[ext_resource type="Resource" path="res://entities/rooms/data/tutorial0_data.tres" id="9_4qdom"]
+[ext_resource type="PackedScene" uid="uid://dfm4hct46kgfx" path="res://entities/rooms/tutorial_0.tscn" id="9_4qdom"]
 [ext_resource type="Resource" path="res://entities/rooms/data/tutorial1_data.tres" id="10_1ws5c"]
+[ext_resource type="PackedScene" uid="uid://hnv2gpj85jf7" path="res://entities/rooms/tutorial_1.tscn" id="10_104hk"]
+[ext_resource type="PackedScene" uid="uid://dmku32tpvprqd" path="res://entities/rooms/tutorial_2.tscn" id="10_b2mpm"]
 [ext_resource type="Resource" path="res://entities/rooms/data/tutorial2_data.tres" id="11_ailxs"]
-[ext_resource type="Resource" path="res://entities/rooms/data/run_prep_data.tres" id="12_3cbh6"]
+[ext_resource type="PackedScene" uid="uid://bgafxsvx3fhb2" path="res://entities/rooms/run_prep.tscn" id="11_npgf1"]
 [ext_resource type="PackedScene" uid="uid://c8yn67wshcpor" path="res://entities/enemy/variants/fast-weak.tscn" id="14_3cbh6"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_r0i30"]
-size = Vector2(1920, 1080)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_1huj6"]
-size = Vector2(1920, 360)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3cbh6"]
+size = Vector2(115, 1280)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wi3mb"]
-size = Vector2(80, 960)
+size = Vector2(115, 1160)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_h57ol"]
-size = Vector2(640, 400)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_4qdom"]
-size = Vector2(500, 160)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_f4pe6"]
-size = Vector2(80, 80)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_nqhtn"]
-size = Vector2(640, 360)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_l5rf3"]
-size = Vector2(500, 240)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_sbui0"]
-size = Vector2(640, 320)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_7o3kh"]
-size = Vector2(972, 360)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_owca5"]
-size = Vector2(640, 360)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_1ws5c"]
-size = Vector2(840, 360)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_qiewu"]
-size = Vector2(30, 77)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ailxs"]
-size = Vector2(80, 1080)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_npgf1"]
+size = Vector2(120, 1408)
 
 [node name="Grove" type="Node2D" unique_id=1417582772]
 script = ExtResource("1_113ig")
@@ -67,363 +34,36 @@ tree_scn = ExtResource("2_qiewu")
 
 [node name="DefenseWaveSpawner" type="Node2D" parent="." unique_id=211566418]
 script = ExtResource("2_xy2kl")
-spawn_points = Array[NodePath]([NodePath("../Rooms/Grove/Snail")])
 default_enemy_scenes = Array[PackedScene]([ExtResource("14_3cbh6"), ExtResource("7_r0i30")])
 
 [node name="Rooms" type="Node2D" parent="." unique_id=2111878928]
 
-[node name="Grove" type="Area2D" parent="Rooms" unique_id=471524635]
-script = ExtResource("4_ld7j3")
-data = ExtResource("5_36e8q")
+[node name="Grove" parent="Rooms" unique_id=1554179447 instance=ExtResource("7_xs45p")]
+position = Vector2(-17, -383)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms/Grove" unique_id=253440627]
-position = Vector2(0, -480)
-shape = SubResource("RectangleShape2D_r0i30")
-debug_color = Color(0.7294118, 0.34509805, 0.8235294, 0.17254902)
+[node name="Tutorial0" parent="Rooms" unique_id=2059647401 instance=ExtResource("9_4qdom")]
+position = Vector2(-1617, -1023)
 
-[node name="Environment" type="Node2D" parent="Rooms/Grove" unique_id=544648430]
-
-[node name="GroundPlane" type="StaticBody2D" parent="Rooms/Grove/Environment" unique_id=642868160 groups=["arcade"]]
-collision_mask = 6
-
-[node name="Collision" type="CollisionShape2D" parent="Rooms/Grove/Environment/GroundPlane" unique_id=1255004210 groups=["arcade"]]
-position = Vector2(0, 240)
-shape = SubResource("RectangleShape2D_1huj6")
-
-[node name="NinePatchRect" type="NinePatchRect" parent="Rooms/Grove/Environment/GroundPlane" unique_id=1922238877]
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -960.0
-offset_top = 60.0
-offset_right = 960.0
-offset_bottom = 420.0
-grow_horizontal = 2
-texture = ExtResource("3_bsfkc")
-region_rect = Rect2(0, 0, 18, 18)
-patch_margin_left = 6
-patch_margin_top = 6
-patch_margin_right = 6
-patch_margin_bottom = 6
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
-metadata/_edit_use_anchors_ = true
-
-[node name="WestWall" type="StaticBody2D" parent="Rooms/Grove/Environment" unique_id=786685210 groups=["arcade"]]
-position = Vector2(-920, -540)
-collision_mask = 6
-
-[node name="Collision" type="CollisionShape2D" parent="Rooms/Grove/Environment/WestWall" unique_id=485669623 groups=["arcade"]]
-shape = SubResource("RectangleShape2D_wi3mb")
-
-[node name="NinePatchRect" type="NinePatchRect" parent="Rooms/Grove/Environment/WestWall" unique_id=895771497]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -40.0
-offset_top = -480.0
-offset_right = 40.0
-offset_bottom = 480.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("3_bsfkc")
-region_rect = Rect2(0, 0, 18, 18)
-patch_margin_left = 6
-patch_margin_top = 6
-patch_margin_right = 6
-patch_margin_bottom = 6
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
-metadata/_edit_use_anchors_ = true
-
-[node name="EastWall" type="StaticBody2D" parent="Rooms/Grove/Environment" unique_id=900408608 groups=["arcade"]]
-position = Vector2(920, -540)
-collision_mask = 6
-
-[node name="Collision" type="CollisionShape2D" parent="Rooms/Grove/Environment/EastWall" unique_id=541453476 groups=["arcade"]]
-shape = SubResource("RectangleShape2D_wi3mb")
-
-[node name="NinePatchRect" type="NinePatchRect" parent="Rooms/Grove/Environment/EastWall" unique_id=1167930753]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -40.0
-offset_top = -480.0
-offset_right = 40.0
-offset_bottom = 480.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("3_bsfkc")
-region_rect = Rect2(0, 0, 18, 18)
-patch_margin_left = 6
-patch_margin_top = 6
-patch_margin_right = 6
-patch_margin_bottom = 6
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
-metadata/_edit_use_anchors_ = true
-
-[node name="Snail" parent="Rooms/Grove" unique_id=225033994 instance=ExtResource("7_r0i30")]
-position = Vector2(-200, 52)
-
-[node name="Tutorial0" type="Area2D" parent="Rooms" unique_id=1570047118]
-position = Vector2(-1280, -720)
-script = ExtResource("4_ld7j3")
-data = ExtResource("9_4qdom")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms/Tutorial0" unique_id=1865189556]
-position = Vector2(0, -100.5)
-shape = SubResource("RectangleShape2D_h57ol")
-debug_color = Color(0.7294118, 0.34509805, 0.8235294, 0.17254902)
-
-[node name="Environment" type="Node2D" parent="Rooms/Tutorial0" unique_id=1821966471]
-
-[node name="GroundPlane" type="StaticBody2D" parent="Rooms/Tutorial0/Environment" unique_id=1041138349 groups=["arcade"]]
-position = Vector2(-70, 0)
-collision_mask = 6
-
-[node name="Collision" type="CollisionShape2D" parent="Rooms/Tutorial0/Environment/GroundPlane" unique_id=1354339641 groups=["arcade"]]
-position = Vector2(0, 80)
-shape = SubResource("RectangleShape2D_4qdom")
-
-[node name="NinePatchRect" type="NinePatchRect" parent="Rooms/Tutorial0/Environment/GroundPlane" unique_id=1061856921]
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -250.0
-offset_right = 250.0
-offset_bottom = 160.0
-grow_horizontal = 2
-texture = ExtResource("3_bsfkc")
-region_rect = Rect2(0, 0, 18, 18)
-patch_margin_left = 6
-patch_margin_top = 6
-patch_margin_right = 6
-patch_margin_bottom = 6
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
-metadata/_edit_use_anchors_ = true
-
-[node name="GroundPlane2" type="StaticBody2D" parent="Rooms/Tutorial0/Environment" unique_id=1960071036 groups=["arcade"]]
-position = Vector2(280, 0)
-collision_mask = 6
-
-[node name="Collision" type="CollisionShape2D" parent="Rooms/Tutorial0/Environment/GroundPlane2" unique_id=304935479 groups=["arcade"]]
-position = Vector2(0, 100)
-shape = SubResource("RectangleShape2D_f4pe6")
-
-[node name="NinePatchRect" type="NinePatchRect" parent="Rooms/Tutorial0/Environment/GroundPlane2" unique_id=157789629]
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -40.0
-offset_top = 60.0
-offset_right = 40.0
-offset_bottom = 140.0
-grow_horizontal = 2
-texture = ExtResource("3_bsfkc")
-region_rect = Rect2(0, 0, 18, 18)
-patch_margin_left = 6
-patch_margin_top = 6
-patch_margin_right = 6
-patch_margin_bottom = 6
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
-metadata/_edit_use_anchors_ = true
-
-[node name="Spawns" type="Node2D" parent="Rooms/Tutorial0" unique_id=331724780]
-position = Vector2(-264, -96)
-
-[node name="Player" type="Marker2D" parent="Rooms/Tutorial0/Spawns" unique_id=1605963321]
-
-[node name="Tutorial1" type="Area2D" parent="Rooms" unique_id=1561513100]
-position = Vector2(-1280, -360)
-script = ExtResource("4_ld7j3")
+[node name="Tutorial1" parent="Rooms" unique_id=716737786 instance=ExtResource("10_104hk")]
+position = Vector2(-1617, -663)
 data = ExtResource("10_1ws5c")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms/Tutorial1" unique_id=562778553]
-position = Vector2(0, -80)
-shape = SubResource("RectangleShape2D_nqhtn")
-debug_color = Color(0.7294118, 0.34509805, 0.8235294, 0.17254902)
-
-[node name="Environment2" type="Node2D" parent="Rooms/Tutorial1" unique_id=1917183122]
-
-[node name="GroundPlane2" type="StaticBody2D" parent="Rooms/Tutorial1/Environment2" unique_id=1006303859 groups=["arcade"]]
-position = Vector2(-280, 0)
-collision_mask = 6
-
-[node name="Collision" type="CollisionShape2D" parent="Rooms/Tutorial1/Environment2/GroundPlane2" unique_id=743920437 groups=["arcade"]]
-position = Vector2(0, 100)
-shape = SubResource("RectangleShape2D_f4pe6")
-
-[node name="NinePatchRect" type="NinePatchRect" parent="Rooms/Tutorial1/Environment2/GroundPlane2" unique_id=314580983]
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -40.0
-offset_top = 60.0
-offset_right = 40.0
-offset_bottom = 140.0
-grow_horizontal = 2
-texture = ExtResource("3_bsfkc")
-region_rect = Rect2(0, 0, 18, 18)
-patch_margin_left = 6
-patch_margin_top = 6
-patch_margin_right = 6
-patch_margin_bottom = 6
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
-metadata/_edit_use_anchors_ = true
-
-[node name="GroundPlane" type="StaticBody2D" parent="Rooms/Tutorial1/Environment2" unique_id=1660915699 groups=["arcade"]]
-position = Vector2(70, 0)
-collision_mask = 6
-
-[node name="Collision" type="CollisionShape2D" parent="Rooms/Tutorial1/Environment2/GroundPlane" unique_id=68163957 groups=["arcade"]]
-position = Vector2(0, 100)
-shape = SubResource("RectangleShape2D_l5rf3")
-
-[node name="NinePatchRect" type="NinePatchRect" parent="Rooms/Tutorial1/Environment2/GroundPlane" unique_id=80326108]
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -250.0
-offset_top = -20.0
-offset_right = 250.0
-offset_bottom = 220.0
-grow_horizontal = 2
-texture = ExtResource("3_bsfkc")
-region_rect = Rect2(0, 0, 18, 18)
-patch_margin_left = 6
-patch_margin_top = 6
-patch_margin_right = 6
-patch_margin_bottom = 6
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
-metadata/_edit_use_anchors_ = true
-
-[node name="Tutorial2" type="Area2D" parent="Rooms" unique_id=39493808]
-position = Vector2(-1280, 0)
-script = ExtResource("4_ld7j3")
+[node name="Tutorial2" parent="Rooms" unique_id=504220646 instance=ExtResource("10_b2mpm")]
+position = Vector2(-1617, -303)
 data = ExtResource("11_ailxs")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms/Tutorial2" unique_id=978635360]
-position = Vector2(0, -100)
-shape = SubResource("RectangleShape2D_sbui0")
-debug_color = Color(0.7294118, 0.34509805, 0.8235294, 0.17254902)
-
-[node name="Environment" type="Node2D" parent="Rooms/Tutorial2" unique_id=2012832046]
-
-[node name="GroundPlane" type="StaticBody2D" parent="Rooms/Tutorial2/Environment" unique_id=737851581 groups=["arcade"]]
-collision_mask = 6
-
-[node name="Collision" type="CollisionShape2D" parent="Rooms/Tutorial2/Environment/GroundPlane" unique_id=2030371522 groups=["arcade"]]
-position = Vector2(-166, 240)
-shape = SubResource("RectangleShape2D_7o3kh")
-
-[node name="NinePatchRect" type="NinePatchRect" parent="Rooms/Tutorial2/Environment/GroundPlane" unique_id=753917172]
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -660.0
-offset_top = 60.0
-offset_right = 320.0
-offset_bottom = 420.0
-grow_horizontal = 2
-texture = ExtResource("3_bsfkc")
-region_rect = Rect2(0, 0, 18, 18)
-patch_margin_left = 6
-patch_margin_top = 6
-patch_margin_right = 6
-patch_margin_bottom = 6
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
-metadata/_edit_use_anchors_ = true
-
-[node name="RunPrep" type="Area2D" parent="Rooms" unique_id=371632305]
-position = Vector2(1280, 0)
-script = ExtResource("4_ld7j3")
-data = ExtResource("12_3cbh6")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms/RunPrep" unique_id=2072510164]
-position = Vector2(0, -120)
-shape = SubResource("RectangleShape2D_owca5")
-debug_color = Color(0.7294118, 0.34509805, 0.8235294, 0.17254902)
-
-[node name="Environment" type="Node2D" parent="Rooms/RunPrep" unique_id=1126922134]
-
-[node name="GroundPlane" type="StaticBody2D" parent="Rooms/RunPrep/Environment" unique_id=377385553 groups=["arcade"]]
-collision_mask = 6
-
-[node name="Collision" type="CollisionShape2D" parent="Rooms/RunPrep/Environment/GroundPlane" unique_id=604132176 groups=["arcade"]]
-position = Vector2(99.5, 240)
-shape = SubResource("RectangleShape2D_1ws5c")
-
-[node name="NinePatchRect" type="NinePatchRect" parent="Rooms/RunPrep/Environment/GroundPlane" unique_id=1519189953]
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -320.0
-offset_top = 60.0
-offset_right = 520.0
-offset_bottom = 420.0
-grow_horizontal = 2
-texture = ExtResource("3_bsfkc")
-region_rect = Rect2(0, 0, 18, 18)
-patch_margin_left = 6
-patch_margin_top = 6
-patch_margin_right = 6
-patch_margin_bottom = 6
-axis_stretch_horizontal = 1
-axis_stretch_vertical = 1
-metadata/_edit_use_anchors_ = true
-
-[node name="Doors" type="Node2D" parent="Rooms/RunPrep" unique_id=136813181]
-
-[node name="To_Run" type="Area2D" parent="Rooms/RunPrep/Doors" unique_id=1250284997 groups=["door"]]
-position = Vector2(305, 40)
-collision_mask = 2
-script = ExtResource("6_w1ofc")
-entry_door_in_destination = "Grove"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Rooms/RunPrep/Doors/To_Run" unique_id=1896416947]
-position = Vector2(0, -18.5)
-shape = SubResource("RectangleShape2D_qiewu")
-
-[node name="EnterSpawn" type="Marker2D" parent="Rooms/RunPrep/Doors/To_Run" unique_id=186429611]
-
-[node name="GrovePause" parent="." unique_id=1861427117 instance=ExtResource("7_5rowv")]
-visible = false
-
-[node name="GroveCamera" type="Camera2D" parent="." unique_id=262100608 node_paths=PackedStringArray("room_area") groups=["camera"]]
-offset = Vector2(0, -64)
-position_smoothing_enabled = true
-script = ExtResource("8_xjtpt")
-target_path = NodePath("../Player")
-room_area = NodePath("../Rooms/Tutorial0")
-follow_speed = 10.0
-transition_speed = 8.0
-ground_intensity = 2.0
-ground_down_time = 0.04
-ground_up_time = 0.08
-ground_overshoot = 0.4
-
-[node name="Player" parent="." unique_id=2092900557 node_paths=PackedStringArray("spawn") instance=ExtResource("4_qiewu")]
-spawn = NodePath("../Rooms/Tutorial0/Spawns/Player")
+[node name="RunPrep" parent="Rooms" unique_id=272842399 instance=ExtResource("11_npgf1")]
+position = Vector2(943, -303)
 
 [node name="Environment" type="Node2D" parent="." unique_id=735631011]
 
-[node name="WestBoundary" type="StaticBody2D" parent="Environment" unique_id=486286831 groups=["arcade"]]
-position = Vector2(-1640, -540)
+[node name="WestBoundary" type="StaticBody2D" parent="Environment" unique_id=486286831]
+position = Vector2(-1667, -563)
 collision_mask = 6
 
-[node name="Collision" type="CollisionShape2D" parent="Environment/WestBoundary" unique_id=166701557 groups=["arcade"]]
-position = Vector2(0, 60)
-shape = SubResource("RectangleShape2D_ailxs")
+[node name="Collision" type="CollisionShape2D" parent="Environment/WestBoundary" unique_id=166701557]
+position = Vector2(20, 60)
+shape = SubResource("RectangleShape2D_3cbh6")
 
 [node name="NinePatchRect" type="NinePatchRect" parent="Environment/WestBoundary" unique_id=1417120830]
 anchors_preset = 8
@@ -432,9 +72,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -40.0
-offset_top = -480.0
-offset_right = 40.0
-offset_bottom = 600.0
+offset_top = -580.0
+offset_right = 80.0
+offset_bottom = 700.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_bsfkc")
@@ -447,24 +87,82 @@ axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="EastBoundary" type="StaticBody2D" parent="Environment" unique_id=1275636681 groups=["arcade"]]
-position = Vector2(1640, -540)
+[node name="WestWall" type="StaticBody2D" parent="Environment" unique_id=786685210]
+position = Vector2(-952, -660)
 collision_mask = 6
 
-[node name="Collision" type="CollisionShape2D" parent="Environment/EastBoundary" unique_id=446366133 groups=["arcade"]]
-position = Vector2(0, 60)
-shape = SubResource("RectangleShape2D_ailxs")
+[node name="Collision" type="CollisionShape2D" parent="Environment/WestWall" unique_id=485669623]
+shape = SubResource("RectangleShape2D_wi3mb")
 
-[node name="NinePatchRect" type="NinePatchRect" parent="Environment/EastBoundary" unique_id=902375033]
+[node name="NinePatchRect" type="NinePatchRect" parent="Environment/WestWall" unique_id=895771497]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -580.0
+offset_right = 60.0
+offset_bottom = 580.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_bsfkc")
+region_rect = Rect2(0, 0, 18, 18)
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="EastWall" type="StaticBody2D" parent="Environment" unique_id=900408608]
+position = Vector2(920, -660)
+collision_mask = 6
+
+[node name="Collision" type="CollisionShape2D" parent="Environment/EastWall" unique_id=541453476]
+shape = SubResource("RectangleShape2D_wi3mb")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Environment/EastWall" unique_id=1167930753]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -580.0
+offset_right = 60.0
+offset_bottom = 580.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_bsfkc")
+region_rect = Rect2(0, 0, 18, 18)
+patch_margin_left = 6
+patch_margin_top = 6
+patch_margin_right = 6
+patch_margin_bottom = 6
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+metadata/_edit_use_anchors_ = true
+
+[node name="EastBoundary" type="StaticBody2D" parent="Environment" unique_id=1186026973]
+position = Vector2(1588, -852)
+collision_mask = 6
+
+[node name="Collision" type="CollisionShape2D" parent="Environment/EastBoundary" unique_id=677737144]
+position = Vector2(20, 124)
+shape = SubResource("RectangleShape2D_npgf1")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Environment/EastBoundary" unique_id=111973101]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -40.0
-offset_top = -480.0
-offset_right = 40.0
-offset_bottom = 600.0
+offset_top = -580.0
+offset_right = 80.0
+offset_bottom = 700.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_bsfkc")
@@ -476,3 +174,32 @@ patch_margin_bottom = 6
 axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 metadata/_edit_use_anchors_ = true
+
+[node name="GrovePause" parent="." unique_id=1861427117 instance=ExtResource("7_5rowv")]
+visible = false
+
+[node name="GroveCamera" type="Camera2D" parent="." unique_id=262100608 node_paths=PackedStringArray("room_area") groups=["camera"]]
+position = Vector2(-1297, -843)
+position_smoothing_enabled = true
+script = ExtResource("8_xjtpt")
+target_path = NodePath("../Player")
+room_area = NodePath("../Rooms/Tutorial0")
+dead_zone = Vector2(60, 24)
+follow_delay = 0.16
+follow_speed = 4.0
+follow_rest_speed = 1.0
+transition_speed_clamp_clamp = 8.0
+follow_offset = Vector2(0, -64)
+look_ahead = 120.0
+ground_intensity = 2.0
+ground_down_time = 0.04
+ground_up_time = 0.08
+ground_overshoot = 0.4
+
+[node name="Player" parent="." unique_id=2092900557 node_paths=PackedStringArray("spawn") instance=ExtResource("4_qiewu")]
+spawn = NodePath("../Spawns/Player")
+
+[node name="Spawns" type="Node2D" parent="." unique_id=820224531]
+
+[node name="Player" type="Marker2D" parent="Spawns" unique_id=1500137869]
+position = Vector2(-1421, -843)

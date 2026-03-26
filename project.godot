@@ -32,6 +32,7 @@ Achievements="*res://systems/achievements/Achievements.gd"
 Main="*uid://c5iaet4w5e306"
 Saves="*res://systems/Saves.gd"
 TimeScaleManager="*res://systems/TimeScaleManager.gd"
+ScreenFade="*res://ui/overlays/screen_fade.gd"
 
 [display]
 
@@ -182,3 +183,4 @@ debug_clear_saves={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
+environment/defaults/default_clear_color=Color(0.05197101, 0.051970936, 0.051970974, 1)

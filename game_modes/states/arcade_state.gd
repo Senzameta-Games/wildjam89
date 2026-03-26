@@ -22,9 +22,14 @@ func enter() -> void:
 			Tutorial.reset_tutorial()
 	_arcade_instance = arcade_scene.instantiate()
 	context.add_child(_arcade_instance)
+	_trigger_fade_in.call_deferred()
 	if not Session.game_has_started:
 		if Tutorial and not Tutorial.tutorial_completed:
 			Tutorial.start_tutorial()
+
+func _trigger_fade_in() -> void:
+	await get_tree().process_frame
+	ScreenFade.fade_from_black(0.5)
 
 func exit() -> void:
 	Economy.reset()

@@ -11,7 +11,8 @@
       "Bash(grep -E \"\\\\.\\(gd|tscn\\)$\")",
       "Bash(\"C:/Program Files/Godot/Godot_v4.4-stable_win64.exe\" --headless --quit --check-only)",
       "Bash(\"C:/Program Files/Godot/Godot_v4.2-stable_win64.exe\" --headless --quit --check-only)",
-      "Bash(grep -i \"\\\\.gd$\")"
+      "Bash(grep -i \"\\\\.gd$\")",
+      "Bash(del \"D:\\\\GameDev\\\\Projects\\\\wildjam89\\\\entities\\\\player\\\\stomp_sprite_controller.gd\")"
     ]
   }
 }

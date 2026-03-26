@@ -26,6 +26,10 @@ func enter() -> void:
 		# Override player position after the instance is in the tree.
 		_apply_run_door_spawn.call_deferred()
 		_returning_from_run = false
+	else:
+		# Coming from title: fade in after the instance is added and one frame
+		# has processed so there is no first-frame flash during camera init.
+		_trigger_fade_in.call_deferred()
 
 func exit() -> void:
 	if _grove_instance != null and is_instance_valid(_grove_instance):
@@ -45,6 +49,12 @@ func _apply_run_door_spawn() -> void:
 		if to_run_door.has_method("suppress_next_entry"):
 			to_run_door.suppress_next_entry()
 		player.global_position = door_spawn.global_position
+
+func _trigger_fade_in() -> void:
+	# Wait one full frame so _ready() and the first physics/process tick have
+	# both run before we reveal the scene.
+	await get_tree().process_frame
+	ScreenFade.fade_from_black(0.5)
 
 func _on_run_requested() -> void:
 	_returning_from_run = true

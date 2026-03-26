@@ -20,11 +20,13 @@ func enter() -> void:
 		land_feedback()
 
 func stomp_feedback():
-	is_recovering = true
-	player.velocity = Vector2.ZERO
-	player.player_sprite.stop()
-	player.player_sprite.play("stomp")
 	player.player_sprite.frame = 2
+	player.player_sprite.pause()
+	is_recovering = true
+	player.hit_stop(0.02)
+	player.is_stomping = false
+	player.velocity = Vector2.ZERO
+	player.player_sprite.play()
 	player.sfx_land.volume_db = -2.0
 	player.sfx_land.pitch_scale = 1.0
 	player.sfx_land.play()
@@ -32,7 +34,6 @@ func stomp_feedback():
 
 	await player.player_sprite.animation_finished
 	is_recovering = false
-	player.is_stomping = false
 	player.player_sprite.play("idle")
 
 func land_feedback():
