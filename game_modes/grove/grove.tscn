@@ -5,7 +5,6 @@
 [ext_resource type="Texture2D" uid="uid://b8pencausntbo" path="res://assets/sprites/ground/ground9patch.png" id="3_bsfkc"]
 [ext_resource type="PackedScene" uid="uid://ciyc0yamaacqw" path="res://entities/player/player.tscn" id="4_qiewu"]
 [ext_resource type="PackedScene" uid="uid://cf7h3fv0l5kc0" path="res://game_modes/grove/GrovePause.tscn" id="7_5rowv"]
-[ext_resource type="PackedScene" uid="uid://clg6borink2ye" path="res://entities/enemy/variants/slow-strong.tscn" id="7_r0i30"]
 [ext_resource type="PackedScene" uid="uid://kdtqc1xvwudb" path="res://entities/rooms/grove_0.tscn" id="7_xs45p"]
 [ext_resource type="Script" path="res://game_modes/grove/grove_camera.gd" id="8_xjtpt"]
 [ext_resource type="PackedScene" uid="uid://dfm4hct46kgfx" path="res://entities/rooms/tutorial_0.tscn" id="9_4qdom"]
@@ -14,7 +13,6 @@
 [ext_resource type="PackedScene" uid="uid://dmku32tpvprqd" path="res://entities/rooms/tutorial_2.tscn" id="10_b2mpm"]
 [ext_resource type="Resource" path="res://entities/rooms/data/tutorial2_data.tres" id="11_ailxs"]
 [ext_resource type="PackedScene" uid="uid://bgafxsvx3fhb2" path="res://entities/rooms/run_prep.tscn" id="11_npgf1"]
-[ext_resource type="PackedScene" uid="uid://c8yn67wshcpor" path="res://entities/enemy/variants/fast-weak.tscn" id="14_3cbh6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3cbh6"]
 size = Vector2(115, 1280)
@@ -25,42 +23,42 @@ size = Vector2(115, 1160)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_npgf1"]
 size = Vector2(120, 1408)
 
-[node name="Grove" type="Node2D" unique_id=1417582772]
+[node name="Grove" type="Node2D" unique_id=1241784844]
 script = ExtResource("1_113ig")
 tree_scn = ExtResource("2_qiewu")
 
-[node name="Trees" type="Node2D" parent="." unique_id=931482614]
+[node name="Trees" type="Node2D" parent="." unique_id=122080823]
 
-[node name="Rooms" type="Node2D" parent="." unique_id=2111878928]
+[node name="Rooms" type="Node2D" parent="." unique_id=1932412930]
 
-[node name="Grove" parent="Rooms" unique_id=1554179447 instance=ExtResource("7_xs45p")]
+[node name="Grove" parent="Rooms" unique_id=1570964861 instance=ExtResource("7_xs45p")]
 position = Vector2(-17, -383)
 
-[node name="Tutorial0" parent="Rooms" unique_id=2059647401 instance=ExtResource("9_4qdom")]
+[node name="Tutorial0" parent="Rooms" unique_id=377311769 instance=ExtResource("9_4qdom")]
 position = Vector2(-1617, -1023)
 
-[node name="Tutorial1" parent="Rooms" unique_id=716737786 instance=ExtResource("10_104hk")]
+[node name="Tutorial1" parent="Rooms" unique_id=1788149772 instance=ExtResource("10_104hk")]
 position = Vector2(-1617, -663)
 data = ExtResource("10_1ws5c")
 
-[node name="Tutorial2" parent="Rooms" unique_id=504220646 instance=ExtResource("10_b2mpm")]
+[node name="Tutorial2" parent="Rooms" unique_id=778311829 instance=ExtResource("10_b2mpm")]
 position = Vector2(-1617, -303)
 data = ExtResource("11_ailxs")
 
-[node name="RunPrep" parent="Rooms" unique_id=272842399 instance=ExtResource("11_npgf1")]
+[node name="RunPrep" parent="Rooms" unique_id=1515720377 instance=ExtResource("11_npgf1")]
 position = Vector2(943, -303)
 
-[node name="Environment" type="Node2D" parent="." unique_id=735631011]
+[node name="Environment" type="Node2D" parent="." unique_id=1364766750]
 
-[node name="WestBoundary" type="StaticBody2D" parent="Environment" unique_id=486286831]
+[node name="WestBoundary" type="StaticBody2D" parent="Environment" unique_id=2063537329]
 position = Vector2(-1667, -563)
 collision_mask = 6
 
-[node name="Collision" type="CollisionShape2D" parent="Environment/WestBoundary" unique_id=166701557]
+[node name="Collision" type="CollisionShape2D" parent="Environment/WestBoundary" unique_id=2052150908]
 position = Vector2(20, 60)
 shape = SubResource("RectangleShape2D_3cbh6")
 
-[node name="NinePatchRect" type="NinePatchRect" parent="Environment/WestBoundary" unique_id=1417120830]
+[node name="NinePatchRect" type="NinePatchRect" parent="Environment/WestBoundary" unique_id=286750897]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -82,14 +80,14 @@ axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="WestWall" type="StaticBody2D" parent="Environment" unique_id=786685210]
+[node name="WestWall" type="StaticBody2D" parent="Environment" unique_id=2069625682]
 position = Vector2(-952, -660)
 collision_mask = 6
 
-[node name="Collision" type="CollisionShape2D" parent="Environment/WestWall" unique_id=485669623]
+[node name="Collision" type="CollisionShape2D" parent="Environment/WestWall" unique_id=390249724]
 shape = SubResource("RectangleShape2D_wi3mb")
 
-[node name="NinePatchRect" type="NinePatchRect" parent="Environment/WestWall" unique_id=895771497]
+[node name="NinePatchRect" type="NinePatchRect" parent="Environment/WestWall" unique_id=799773278]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -111,14 +109,14 @@ axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="EastWall" type="StaticBody2D" parent="Environment" unique_id=900408608]
+[node name="EastWall" type="StaticBody2D" parent="Environment" unique_id=1767325037]
 position = Vector2(920, -660)
 collision_mask = 6
 
-[node name="Collision" type="CollisionShape2D" parent="Environment/EastWall" unique_id=541453476]
+[node name="Collision" type="CollisionShape2D" parent="Environment/EastWall" unique_id=392030104]
 shape = SubResource("RectangleShape2D_wi3mb")
 
-[node name="NinePatchRect" type="NinePatchRect" parent="Environment/EastWall" unique_id=1167930753]
+[node name="NinePatchRect" type="NinePatchRect" parent="Environment/EastWall" unique_id=668223711]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -140,15 +138,15 @@ axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="EastBoundary" type="StaticBody2D" parent="Environment" unique_id=1186026973]
+[node name="EastBoundary" type="StaticBody2D" parent="Environment" unique_id=1651574722]
 position = Vector2(1588, -852)
 collision_mask = 6
 
-[node name="Collision" type="CollisionShape2D" parent="Environment/EastBoundary" unique_id=677737144]
+[node name="Collision" type="CollisionShape2D" parent="Environment/EastBoundary" unique_id=121477795]
 position = Vector2(20, 124)
 shape = SubResource("RectangleShape2D_npgf1")
 
-[node name="NinePatchRect" type="NinePatchRect" parent="Environment/EastBoundary" unique_id=111973101]
+[node name="NinePatchRect" type="NinePatchRect" parent="Environment/EastBoundary" unique_id=1140773228]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -170,10 +168,10 @@ axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 metadata/_edit_use_anchors_ = true
 
-[node name="GrovePause" parent="." unique_id=1861427117 instance=ExtResource("7_5rowv")]
+[node name="GrovePause" parent="." unique_id=1624787094 instance=ExtResource("7_5rowv")]
 visible = false
 
-[node name="GroveCamera" type="Camera2D" parent="." unique_id=262100608 node_paths=PackedStringArray("room_area") groups=["camera"]]
+[node name="GroveCamera" type="Camera2D" parent="." unique_id=114304637 node_paths=PackedStringArray("room_area") groups=["camera"]]
 position = Vector2(-1297, -843)
 position_smoothing_enabled = true
 script = ExtResource("8_xjtpt")
@@ -191,10 +189,10 @@ ground_down_time = 0.04
 ground_up_time = 0.08
 ground_overshoot = 0.4
 
-[node name="Player" parent="." unique_id=2092900557 node_paths=PackedStringArray("spawn") instance=ExtResource("4_qiewu")]
+[node name="Player" parent="." unique_id=1352359109 node_paths=PackedStringArray("spawn") instance=ExtResource("4_qiewu")]
 spawn = NodePath("../Spawns/Player")
 
-[node name="Spawns" type="Node2D" parent="." unique_id=820224531]
+[node name="Spawns" type="Node2D" parent="." unique_id=808629812]
 
-[node name="Player" type="Marker2D" parent="Spawns" unique_id=1500137869]
+[node name="Player" type="Marker2D" parent="Spawns" unique_id=1200883213]
 position = Vector2(-1421, -843)
